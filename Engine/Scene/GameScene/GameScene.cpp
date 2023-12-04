@@ -179,8 +179,8 @@ void GameScene::GoToTheTitle()
 void GameScene::ModelCreate()
 {
 
-	colliderSphereModel_.reset(Model::Create("Resources/TD2_November/collider/sphere/", "sphere.obj", dxCommon_));
-	colliderBoxModel_.reset(Model::Create("Resources/TD2_November/collider/box/", "box.obj", dxCommon_));
+	colliderSphereModel_.reset(Model::Create("Resources/collider/sphere/", "sphere.obj", dxCommon_));
+	colliderBoxModel_.reset(Model::Create("Resources/collider/box/", "box.obj", dxCommon_));
 	particleUvcheckerModel_.reset(Model::Create("Resources/default/", "plane.obj", dxCommon_));
 	particleCircleModel_.reset(Model::Create("Resources/Particle/", "plane.obj", dxCommon_));
 
@@ -198,9 +198,9 @@ void GameScene::TextureLoad()
 
 	// ポーズ
 	pauseTextureHandles_ = {
-		TextureManager::Load("Resources/TD2_November/pause/pausing.png", dxCommon_),
-		TextureManager::Load("Resources/TD2_November/pause/goToTitle.png", dxCommon_),
-		TextureManager::Load("Resources/TD2_November/pause/returnToGame.png", dxCommon_),
+		TextureManager::Load("Resources/pause/pausing.png", dxCommon_),
+		TextureManager::Load("Resources/pause/goToTitle.png", dxCommon_),
+		TextureManager::Load("Resources/pause/returnToGame.png", dxCommon_),
 	};
 
 }
