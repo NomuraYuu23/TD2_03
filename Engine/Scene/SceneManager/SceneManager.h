@@ -1,11 +1,9 @@
 #pragma once
 
 #include "../IScene/IScene.h"
-#include "../TitleScene/TitleScene.h"
-#include "../GameScene/GameScene.h"
-#include "../SceneFactory/SceneFactory.h"
+#include "../../../Application/Scene/SceneFactory/SceneFactory.h"
 #include "../../SceneTransition/ISceneTransition/ISceneTransition.h"
-#include "../../SceneTransition/SceneTransitionFactory/SceneTransitionFactory.h"
+#include "../../../Application/SceneTransition/SceneTransitionFactory/SceneTransitionFactory.h"
 
 /// <summary>
 /// シーンマネージャー
@@ -18,7 +16,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(uint32_t earlySceneNo);
 
 	/// <summary>
 	/// 更新

@@ -2,12 +2,13 @@
 #include <cstdint>
 #include "../3D/TransformationMatrix.h"
 #include "../base/BufferResource.h"
-#include "Particle.h"
-#include "Emitter.h"
+#include "IParticle.h"
+#include "IEmitter.h"
 #include <list>
 #include <memory>
 #include <array>
 #include "ParticleForGPU.h"
+#include "../../Application/Particle/ParticleModelIndex.h"
 
 class Model;
 
@@ -15,12 +16,6 @@ class ParticleManager
 {
 
 public: // サブクラス
-
-	enum ParticleModel {
-		kUvChecker,
-		kCircle,
-		kCountofParticleModel
-	};
 
 	struct StartInstanceId {
 		uint32_t num;
@@ -36,7 +31,7 @@ public: // サブクラス
 		//書き込むためのアドレスを取得
 		StartInstanceId* startInstanceIdMap_{};
 		// パーティクルリスト
-		std::list<Particle*> particles_;
+		std::list<IParticle*> particles_;
 		// モデル
 		Model* model_;
 	};
@@ -89,7 +84,7 @@ public: // メンバ関数
 	/// <summary>
 	/// モデル作成
 	/// </summary>
-	void ModelCreate(std::array<Model*, kCountofParticleModel> model);
+	void ModelCreate(std::array<Model*, kCountofParticleModelIndex> model);
 
 	/// <summary>
 	/// ビルボード更新
@@ -102,8 +97,9 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="transform"></param>
 	/// <param name="lifeTime"></param>
-	void EmitterCreate(const TransformStructure& transform, uint32_t instanceCount,
-		float frequency, float lifeTime, uint32_t particleModelNum, uint32_t paeticleName);
+	void MakeEmitter(const TransformStructure& transform, uint32_t instanceCount,
+		float frequency, float lifeTime,
+		uint32_t particleModelNum, uint32_t paeticleName, uint32_t emitterName);
 
 	/// <summary>
 	/// エミッタ更新
@@ -113,7 +109,7 @@ public: // メンバ関数
 	/// <summary>
 	/// パーティクル追加
 	/// </summary>
-	void AddParticles(std::list<Particle*> particles, uint32_t particleModelNum);
+	void AddParticles(std::list<IParticle*> particles, uint32_t particleModelNum);
 
 	/// <summary>
 	/// パーティクル更新
@@ -158,13 +154,13 @@ private: // メンバ変数
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_;
 
 	// パーティクル
-	std::array<ParticleData, kCountofParticleModel> particleDatas_;
+	std::array<ParticleData, kCountofParticleModelIndex> particleDatas_;
 
 	// ビルボード
 	Matrix4x4 billBoardMatrix_;
 
 	// エミッタ
-	std::list<Emitter*> emitters_;
+	std::list<IEmitter*> emitters_;
 
 	// 現在のモデル
 	uint32_t currentModel_ = 0u;

@@ -46,4 +46,6 @@ struct WorldTransform
 
 	void MapSprite();
 
+	Vector3 GetWorldPosition();
+
 };

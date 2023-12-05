@@ -17,6 +17,7 @@ struct  ViewProjection
 
 	Matrix4x4 viewProjectionMatrix_;
 
+	Matrix4x4 transformMatrix_;
 	Matrix4x4 viewMatrix_;
 	Matrix4x4 projectionMatrix_;
 

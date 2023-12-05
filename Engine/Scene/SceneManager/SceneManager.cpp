@@ -1,24 +1,23 @@
 #include "SceneManager.h"
-#include "../../base/TextureManager.h"
 
-void SceneManager::Initialize()
+void SceneManager::Initialize(uint32_t earlySceneNo)
 {
 
 	// シーンファクトリー
 	sceneFacyory_ = SceneFactory::GetInstance();
 
 	// シーン(タイトル)
-	scene_.reset(sceneFacyory_->CreateScene(kTitle));
+	scene_.reset(sceneFacyory_->CreateScene(earlySceneNo));
+	// シーンの静的初期化
+	scene_->StaticInitialize();
+	// シーンの初期化
 	scene_->Initialize();
 
 	// 初期シーン
-	currentSceneNo_ = kTitle;
+	currentSceneNo_ = earlySceneNo;
 
-	requestSeneNo_ = kTitle; // リクエストシーン
-	prevRequestSeneNo_ = kTitle; // 前のリクエストシーン
-
-	// シーンの静的初期化
-	scene_->StaticInitialize();
+	requestSeneNo_ = earlySceneNo; // リクエストシーン
+	prevRequestSeneNo_ = earlySceneNo; // 前のリクエストシーン
 
 	// シーン遷移ファクトリー
 	sceneTransitionFactory_ = SceneTransitionFactory::GetInstance();
@@ -37,13 +36,6 @@ void SceneManager::Update()
 	prevRequestSeneNo_ = requestSeneNo_; // 前のリクエストシーン
 	requestSeneNo_ = scene_->GetRequestSceneNo(); // リクエストシーン
 
-	// シーン変更チェック
-	//if (prevSceneNo_ != currentSceneNo_) {
-	//	TextureManager::GetInstance()->ResetTexture();
-	//	scene_.reset(sceneFacyory_->CreateScene(currentSceneNo_));
-	//	scene_->Initialize();
-	//}
-
 	// リクエストシーンが変わったか
 	if (requestSeneNo_ != prevRequestSeneNo_) {
 		//シーン遷移開始（初期化）
@@ -57,7 +49,6 @@ void SceneManager::Update()
 		sceneTransition_->Update();
 		if (sceneTransition_->GetSwitchScene()) {
 			// シーン切り替え
-			TextureManager::GetInstance()->ResetTexture();
 			currentSceneNo_ = requestSeneNo_;
 			scene_.reset(sceneFacyory_->CreateScene(currentSceneNo_));
 			scene_->Initialize();

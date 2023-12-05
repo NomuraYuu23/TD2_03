@@ -1,9 +1,9 @@
 #include "AABB.h"
 
-void AABB::Initialize(const Vector3& min, const Vector3& max)
+void AABB::Initialize(const Vector3& min, const Vector3& max, void* parentObject)
 {
 
-	Collider::Initialize();
+	Collider::Initialize(parentObject);
 
 	min_ = min;
 	max_ = max;

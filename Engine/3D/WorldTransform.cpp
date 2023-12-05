@@ -79,6 +79,19 @@ void WorldTransform::MapSprite()
 
 }
 
+Vector3 WorldTransform::GetWorldPosition()
+{
+
+	Vector3 position;
+
+	position.x = worldMatrix_.m[3][0];
+	position.y = worldMatrix_.m[3][1];
+	position.z = worldMatrix_.m[3][2];
+
+	return position;
+
+}
+
 void WorldTransform::Map(const ViewProjection& viewProjection)
 {
 

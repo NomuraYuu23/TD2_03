@@ -12,14 +12,7 @@
 #include "../../3D/DirectionalLight.h"
 #include "../../Particle/ParticleManager.h"
 
-// シーン名
-enum SceneName {
-	kTitle, // タイトル
-	kSelect,// セレクト
-	kGame,  // ゲーム
-	kClear, // クリア
-	kCountOfSceneName, // カウント用。使用不可
-};
+#include "../../../Application/Scene/SceneName.h"
 
 /// <summary>
 /// シーンの元になるクラス

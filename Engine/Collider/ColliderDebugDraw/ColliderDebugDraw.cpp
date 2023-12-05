@@ -1,4 +1,4 @@
-﻿#include "ColliderDebugDraw.h"
+#include "ColliderDebugDraw.h"
 #include "../../2D/ImguiManager.h"
 
 void ColliderDebugDraw::Initialize(const std::vector<Model*> models, Material* material)

@@ -3,8 +3,9 @@
 #include "../base/TextureManager.h"
 #include "../3D/Model.h"
 #include "../Math/DeltaTime.h"
+#include "../../Application/Particle/MakeEmitter.h"
 
-uint32_t ParticleManager::kNumInstanceMax_ = 4096;
+uint32_t ParticleManager::kNumInstanceMax_ = 32768;
 
 ParticleManager* ParticleManager::GetInstance()
 {
@@ -77,7 +78,7 @@ void ParticleManager::Update(const Matrix4x4& cameraMatrix4x4)
 void ParticleManager::Draw()
 {
 
-	for (uint32_t i = 0; i < kCountofParticleModel; i++) {
+	for (uint32_t i = 0; i < kCountofParticleModelIndex; i++) {
 		currentModel_ = i;
 		particleDatas_[i].model_->ParticleDraw();
 	}
@@ -89,11 +90,11 @@ void ParticleManager::Map(const ViewProjection& viewProjection)
 
 	uint32_t instanceIndex = 0u;
 
-	for (uint32_t i = 0; i < kCountofParticleModel; i++) {
+	for (uint32_t i = 0; i < kCountofParticleModelIndex; i++) {
 		particleDatas_[i].startInstanceIdMap_->num = instanceIndex;
-		std::list<Particle*>::iterator itr = particleDatas_[i].particles_.begin();
+		std::list<IParticle*>::iterator itr = particleDatas_[i].particles_.begin();
 		for (; itr != particleDatas_[i].particles_.end(); ++itr) {
-			Particle* particle = *itr;
+			IParticle* particle = *itr;
 			particleForGPUMap_[instanceIndex] = particle->Map(viewProjection);
 			instanceIndex++;
 		}
@@ -103,23 +104,23 @@ void ParticleManager::Map(const ViewProjection& viewProjection)
 
 void ParticleManager::Finalize()
 {
-	for (uint32_t i = 0; i < kCountofParticleModel; i++) {
-		particleDatas_[i].particles_.remove_if([](Particle* particle) {
+	for (uint32_t i = 0; i < kCountofParticleModelIndex; i++) {
+		particleDatas_[i].particles_.remove_if([](IParticle* particle) {
 			delete particle;
 			return true;
 			});
 	}
-	emitters_.remove_if([](Emitter* emitter) {
+	emitters_.remove_if([](IEmitter* emitter) {
 		delete emitter;
 		return true;
 	});
 
 }
 
-void ParticleManager::ModelCreate(std::array<Model*, kCountofParticleModel> model)
+void ParticleManager::ModelCreate(std::array<Model*, kCountofParticleModelIndex> model)
 {
 
-	for (uint32_t i = 0; i < kCountofParticleModel; i++) {
+	for (uint32_t i = 0; i < kCountofParticleModelIndex; i++) {
 		particleDatas_[i].model_ = model[i];
 	}
 
@@ -138,21 +139,20 @@ void ParticleManager::BillBoardUpdate(const Matrix4x4& cameraMatrix4x4)
 
 }
 
-void ParticleManager::EmitterCreate(const TransformStructure& transform, uint32_t instanceCount,
-	float frequency, float lifeTime, uint32_t particleModelNum, uint32_t paeticleName)
+void ParticleManager::MakeEmitter(const TransformStructure& transform, uint32_t instanceCount,
+	float frequency, float lifeTime,
+	uint32_t particleModelNum, uint32_t paeticleName, uint32_t emitterName)
 {
-
-	Emitter* emitter = new Emitter();
-	emitter->Initialize(transform, instanceCount, frequency, lifeTime, particleModelNum, paeticleName);
-
-	emitters_.push_back(emitter);
+	emitters_.push_back(MakeEmitter::GetInstance()->Run(transform, instanceCount,
+		frequency, lifeTime,
+		particleModelNum, paeticleName, emitterName));
 
 }
 
 void ParticleManager::EmitterUpdate()
 {
 
-	for (Emitter* emitter : emitters_) {
+	for (IEmitter* emitter : emitters_) {
 		emitter->Update();
 		if (emitter->GetToEmit()) {
 			AddParticles(emitter->Emit(),emitter->GetParticleModelNum());
@@ -162,7 +162,7 @@ void ParticleManager::EmitterUpdate()
 
 }
 
-void ParticleManager::AddParticles(std::list<Particle*> particles, uint32_t particleModelNum)
+void ParticleManager::AddParticles(std::list<IParticle*> particles, uint32_t particleModelNum)
 {
 
 	particleDatas_[particleModelNum].particles_.splice(particleDatas_[particleModelNum].particles_.end(), particles);
@@ -172,8 +172,8 @@ void ParticleManager::AddParticles(std::list<Particle*> particles, uint32_t part
 void ParticleManager::ParticlesUpdate()
 {
 
-	for (uint32_t i = 0; i < kCountofParticleModel; i++) {
-		for (Particle* particle : particleDatas_[i].particles_) {
+	for (uint32_t i = 0; i < kCountofParticleModelIndex; i++) {
+		for (IParticle* particle : particleDatas_[i].particles_) {
 			particle->Update(billBoardMatrix_);
 		}
 	}
@@ -182,8 +182,8 @@ void ParticleManager::ParticlesUpdate()
 void ParticleManager::DeadDelete()
 {
 	
-	for (uint32_t i = 0; i < kCountofParticleModel; i++) {
-		particleDatas_[i].particles_.remove_if([=](Particle* particle) {
+	for (uint32_t i = 0; i < kCountofParticleModelIndex; i++) {
+		particleDatas_[i].particles_.remove_if([=](IParticle* particle) {
 			if (particle->IsDead()) {
 				delete particle;
 				particleDatas_[i].instanceIndex_--;
@@ -193,7 +193,7 @@ void ParticleManager::DeadDelete()
 			});
 	}
 
-	emitters_.remove_if([](Emitter* emitter) {
+	emitters_.remove_if([](IEmitter* emitter) {
 		if (emitter->IsDead()) {
 			delete emitter;
 			return true;
