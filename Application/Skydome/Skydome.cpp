@@ -31,8 +31,8 @@ void Skydome::Update() {
 /// 描画
 /// </summary>
 /// <param name="viewProjection">ビュープロジェクション</param>
-void Skydome::Draw(const ViewProjection& viewProjection) {
+void Skydome::Draw(const Matrix4x4& viewProjectionMatrix) {
 
-	model_->Draw(worldTransform_, viewProjection);
+	model_->Draw(worldTransform_, viewProjectionMatrix);
 
 }

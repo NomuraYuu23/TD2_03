@@ -32,7 +32,7 @@ public:
 	/// 描画
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション(参照渡し)</param>
-	virtual void Draw(const ViewProjection& viewProjection);
+	virtual void Draw(const Matrix4x4& viewProjectionMatrix);
 
 	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 

@@ -1,5 +1,7 @@
 #pragma once
-#include "../3D/ViewProjection.h"
+#include "../3D/TransformStructure.h"
+#include "../Math/Matrix4x4.h"
+
 class BaseCamera
 {
 
@@ -16,21 +18,48 @@ public:
 	virtual void Update();
 
 	/// <summary>
-	/// ビュープロジェクションゲッター
+	/// 
 	/// </summary>
 	/// <returns></returns>
-	ViewProjection GetViewProjection() { return viewProjection_; }
+	Matrix4x4 GetViewProjectionMatrix() { return viewProjectionMatrix_; }
 
 	/// <summary>
-	/// ビュープロジェクションアドレスゲッター
+	/// 
 	/// </summary>
 	/// <returns></returns>
-	ViewProjection* GetViewProjectionAddress() { return &viewProjection_; }
+	Matrix4x4 GetTransformMatrix() { return transformMatrix_; }
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
+	Matrix4x4 GetViewMatrix() { return viewMatrix_; }
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
+	Matrix4x4 GetProjectionMatrix() { return projectionMatrix_; }
+
+	void SetTransform(const TransformStructure& transform) { transform_ = transform; }
 
 protected:
 
-	//ビュープロジェクション
-	ViewProjection viewProjection_;
+	TransformStructure transform_{ { 1.0f, 1.0f, 1.0f},{ 0.0f, 0.0f, 0.0f},{ 0.0f, 0.0f, -10.0f} };
+
+	float fovY_;
+
+	float aspectRatio_;
+
+	float nearClip_;
+
+	float farClip_;
+
+	Matrix4x4 viewProjectionMatrix_;
+
+	Matrix4x4 transformMatrix_;
+	Matrix4x4 viewMatrix_;
+	Matrix4x4 projectionMatrix_;
 
 };
 

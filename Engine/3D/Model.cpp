@@ -64,7 +64,7 @@ void Model::PreDraw(ID3D12GraphicsCommandList* cmdList) {
 
 }
 
-void Model::PreParticleDraw(ID3D12GraphicsCommandList* cmdList, const ViewProjection& viewProjection)
+void Model::PreParticleDraw(ID3D12GraphicsCommandList* cmdList, const Matrix4x4& viewProjectionMatrix)
 {
 
 	assert(sCommandList == nullptr);
@@ -79,7 +79,7 @@ void Model::PreParticleDraw(ID3D12GraphicsCommandList* cmdList, const ViewProjec
 	sCommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	ParticleManager* particleManager = ParticleManager::GetInstance();
-	particleManager->Map(viewProjection);
+	particleManager->Map(viewProjectionMatrix);
 
 }
 
@@ -246,13 +246,13 @@ void Model::Update() {
 /// <summary>
 /// 描画
 /// </summary>
-void Model::Draw(WorldTransform& worldTransform, const ViewProjection& viewProjection) {
+void Model::Draw(WorldTransform& worldTransform, const Matrix4x4& viewProjectionMatrix) {
 
 	// nullptrチェック
 	assert(sDevice);
 	assert(sCommandList);
 
-	worldTransform.Map(viewProjection);
+	worldTransform.Map(viewProjectionMatrix);
 
 	sCommandList->IASetVertexBuffers(0, 1, &vbView_); //VBVを設定
 
@@ -273,13 +273,13 @@ void Model::Draw(WorldTransform& worldTransform, const ViewProjection& viewProje
 /// <summary>
 /// 描画
 /// </summary>
-void Model::Draw(WorldTransform& worldTransform, const ViewProjection& viewProjection, Material* material) {
+void Model::Draw(WorldTransform& worldTransform, const Matrix4x4& viewProjectionMatrix, Material* material) {
 
 	// nullptrチェック
 	assert(sDevice);
 	assert(sCommandList);
 
-	worldTransform.Map(viewProjection);
+	worldTransform.Map(viewProjectionMatrix);
 
 	sCommandList->IASetVertexBuffers(0, 1, &vbView_); //VBVを設定
 

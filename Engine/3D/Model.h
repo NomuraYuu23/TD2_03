@@ -21,7 +21,6 @@
 #include "Material.h"
 
 #include "WorldTransform.h"
-#include "ViewProjection.h"
 
 #include <list>
 
@@ -62,7 +61,7 @@ public:
 	/// 静的前処理
 	/// </summary>
 	/// <param name="cmdList">描画コマンドリスト</param>
-	static void PreParticleDraw(ID3D12GraphicsCommandList* cmdList, const ViewProjection& viewProjection);
+	static void PreParticleDraw(ID3D12GraphicsCommandList* cmdList, const Matrix4x4& viewProjectionMatrix);
 
 	/// <summary>
 	/// 描画後処理
@@ -105,8 +104,8 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(WorldTransform& worldTransform, const ViewProjection& viewProjection);
-	void Draw(WorldTransform& worldTransform, const ViewProjection& viewProjection, Material* material);
+	void Draw(WorldTransform& worldTransform, const Matrix4x4& viewProjectionMatrix);
+	void Draw(WorldTransform& worldTransform, const Matrix4x4& viewProjectionMatrix, Material* material);
 	void ParticleDraw();
 
 	/// <summary>

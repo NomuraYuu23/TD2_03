@@ -23,8 +23,11 @@ void GameScene::Initialize() {
 	pause_->Initialize(pauseTextureHandles_);
 
 	// ビュープロジェクション
-	viewProjection_.transform_.translate = { 0.0f,23.0f,-35.0f };
-	viewProjection_.transform_.rotate = { 0.58f,0.0f,0.0f };
+	TransformStructure baseCameraTransform = {
+		1.0f, 1.0f, 1.0f,
+		0.58f,0.0f,0.0f,
+		0.0f, 23.0f, -35.0f };
+	camera_.SetTransform(baseCameraTransform);
 
 	//パーティクル
 	particleManager_ = ParticleManager::GetInstance();
@@ -53,7 +56,7 @@ void GameScene::Update(){
 	directionalLightData.intencity = 1.0f;
 	directionalLight_->Update(directionalLightData);
 
-	viewProjection_.UpdateMatrix();
+	camera_.Update();
 
 	// デバッグカメラ
 	DebugCameraUpdate();
@@ -62,7 +65,7 @@ void GameScene::Update(){
 	colliderDebugDraw_->Update();
 	
 	//パーティクル
-	particleManager_->Update(debugCamera_->GetViewProjection().transformMatrix_);
+	particleManager_->Update(debugCamera_->GetTransformMatrix());
 
 	// ポーズ機能
 	pause_->Update();
@@ -100,14 +103,14 @@ void GameScene::Draw() {
 #ifdef _DEBUG
 
 	// デバッグ描画
-	colliderDebugDraw_->Draw(viewProjection_);
+	colliderDebugDraw_->Draw(camera_.GetViewProjectionMatrix());
 
 #endif // _DEBUG
 
 	Model::PostDraw();
 
 #pragma region パーティクル描画
-	Model::PreParticleDraw(dxCommon_->GetCommadList(), viewProjection_);
+	Model::PreParticleDraw(dxCommon_->GetCommadList(), camera_.GetViewProjectionMatrix());
 
 	//光源
 	directionalLight_->Draw(dxCommon_->GetCommadList());
@@ -159,9 +162,9 @@ void GameScene::DebugCameraUpdate()
 		// デバッグカメラの更新
 		debugCamera_->Update();
 		// デバッグカメラのビュー行列をコピー
-		viewProjection_ = debugCamera_->GetViewProjection();
+		camera_ = static_cast<BaseCamera>(*debugCamera_.get());
 		// ビュー行列の転送
-		viewProjection_.UpdateMatrix();
+		camera_.Update();
 	}
 #endif
 

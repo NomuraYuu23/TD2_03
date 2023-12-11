@@ -85,7 +85,7 @@ void ParticleManager::Draw()
 
 }
 
-void ParticleManager::Map(const ViewProjection& viewProjection)
+void ParticleManager::Map(const Matrix4x4& viewProjectionMatrix)
 {
 
 	uint32_t instanceIndex = 0u;
@@ -95,7 +95,7 @@ void ParticleManager::Map(const ViewProjection& viewProjection)
 		std::list<IParticle*>::iterator itr = particleDatas_[i].particles_.begin();
 		for (; itr != particleDatas_[i].particles_.end(); ++itr) {
 			IParticle* particle = *itr;
-			particleForGPUMap_[instanceIndex] = particle->Map(viewProjection);
+			particleForGPUMap_[instanceIndex] = particle->Map(viewProjectionMatrix);
 			instanceIndex++;
 		}
 	}

@@ -54,7 +54,7 @@ void ColliderDebugDraw::Update()
 
 }
 
-void ColliderDebugDraw::Draw(const ViewProjection& viewProjection)
+void ColliderDebugDraw::Draw(const Matrix4x4& viewProjectionMatrix)
 {
 
 	if (!isDraw_) {
@@ -65,16 +65,16 @@ void ColliderDebugDraw::Draw(const ViewProjection& viewProjection)
 
 	// 球
 	for (Sphere* sphere : spheres_) {
-		models_[static_cast<size_t>(ModelNo::kSphere)]->Draw(sphere->worldTransform_, viewProjection, material_);
+		models_[static_cast<size_t>(ModelNo::kSphere)]->Draw(sphere->worldTransform_, viewProjectionMatrix, material_);
 	}
 
 	// AABB
 	for (AABB* aabb : aabbs_) {
-		models_[static_cast<size_t>(ModelNo::kAABB)]->Draw(aabb->worldTransform_, viewProjection, material_);
+		models_[static_cast<size_t>(ModelNo::kAABB)]->Draw(aabb->worldTransform_, viewProjectionMatrix, material_);
 	}
 	// OBB
 	for (OBB* obb : obbs_) {
-		models_[static_cast<size_t>(ModelNo::kOBB)]->Draw(obb->worldTransform_, viewProjection, material_);
+		models_[static_cast<size_t>(ModelNo::kOBB)]->Draw(obb->worldTransform_, viewProjectionMatrix, material_);
 	}
 
 }
