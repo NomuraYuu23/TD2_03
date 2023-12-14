@@ -21,6 +21,7 @@ std::unique_ptr<DirectionalLight> IScene::directionalLight_;
 
 void IScene::StaticInitialize()
 {
+
 	//機能
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
@@ -37,10 +38,21 @@ void IScene::StaticInitialize()
 	//光源
 	directionalLight_.reset(DirectionalLight::Create());
 
+}
+
+void IScene::Initialize()
+{
+
+	textureHandleManager_ = std::make_unique<ITextureHandleManager>();
+	textureHandleManager_->Initialize();
 
 }
 
-IScene::~IScene(){}
+IScene::~IScene(){
+
+	textureHandleManager_->ResetTextureHandles();
+
+}
 
 int IScene::GetSceneNo(){ return sceneNo; }
 

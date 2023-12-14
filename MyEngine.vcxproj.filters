@@ -274,6 +274,9 @@
     <ClCompile Include="Engine\Math\ShortestDistance.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\base\ITextureHandleManager.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -509,6 +512,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Camera\CameraForGPU.h">
       <Filter>Engine\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\ITextureHandleManager.h">
+      <Filter>Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

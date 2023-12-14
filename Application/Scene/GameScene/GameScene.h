@@ -4,6 +4,7 @@
 #include "../../../Engine/Collider/ColliderDebugDraw/ColliderDebugDraw.h"// コライダーデバッグ描画
 #include"../../../Engine/Collision/CollisionManager.h"
 #include "../../Pause/Pause.h"
+#include "../../../Engine/base/ITextureHandleManager.h"
 
 class GameScene : public IScene
 {
