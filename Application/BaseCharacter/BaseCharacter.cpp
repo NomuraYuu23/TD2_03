@@ -21,11 +21,11 @@ void BaseCharacter::Update()
 
 }
 
-void BaseCharacter::Draw(const Matrix4x4& viewProjectionMatrix){
+void BaseCharacter::Draw(BaseCamera& camera){
 
 	//モデル描画
 	for (Model* model : models_) {
-		model->Draw(worldTransform_, viewProjectionMatrix);
+		model->Draw(worldTransform_, camera);
 	}
 
 }

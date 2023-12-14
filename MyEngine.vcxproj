@@ -45,12 +45,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IntDir>$(SolutionDir)..\TD2_03Output\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)..\TD2_03Output\Generated\Outputs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\MyEngineOutput\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\MyEngineOutput\Generated\Outputs\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IntDir>$(SolutionDir)..\TD2_03Output\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)..\TD2_03Output\Generated\Outputs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\MyEngineOutput\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\MyEngineOutput\Generated\Outputs\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -167,6 +167,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Scene\SelectScene\SelectScene.h" />
     <ClInclude Include="Application\Scene\TitleScene\TitleScene.h" />
     <ClInclude Include="Engine\2D\ImGuiManager.h" />
+    <ClInclude Include="Engine\Camera\CameraForGPU.h" />
     <ClInclude Include="Engine\Collider\Capsule\Capsule.h" />
     <ClInclude Include="Engine\Line\Line.h" />
     <ClInclude Include="Engine\Line\Segment.h" />

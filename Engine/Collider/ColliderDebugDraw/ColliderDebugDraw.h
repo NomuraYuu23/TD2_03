@@ -45,7 +45,7 @@ public:
 	/// 描画
 	/// </summary>
 	/// <param name="viewProjection"></param>
-	void Draw(const Matrix4x4& viewProjectionMatrix);
+	void Draw(BaseCamera& camera);
 
 	/// <summary>
 	/// コライダー追加

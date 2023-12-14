@@ -36,11 +36,24 @@ void GameScene::Initialize() {
 	particleModel[ParticleModelIndex::kCircle] = particleCircleModel_.get();
 	particleManager_->ModelCreate(particleModel);
 	TransformStructure emitter = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{-3.0f,0.0f,0.0f} };
-	particleManager_->MakeEmitter(emitter, 3, 0.5f, 300.0f, ParticleModelIndex::kUvChecker, 0, 0);
+	particleManager_->MakeEmitter(emitter, 1000, 0.5f, 300.0f, ParticleModelIndex::kUvChecker, 0, 0);
 	emitter.translate.x = 3.0f;
-	particleManager_->MakeEmitter(emitter, 3, 0.5f, 300.0f, ParticleModelIndex::kCircle, 0, 0);
+	particleManager_->MakeEmitter(emitter, 1000, 0.5f, 300.0f, ParticleModelIndex::kCircle, 0, 0);
 
 	isDebugCameraActive_ = true;
+
+	model_.reset(Model::Create("Resources/default/", "Ball.obj", dxCommon_));
+	material_.reset(Material::Create());
+	material_->Initialize();
+	TransformStructure uvTransform = {
+	{1.0f,1.0f,1.0f},
+	{0.0f,0.0f,0.0f},
+	{0.0f,0.0f,0.0f},
+	};
+	Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
+	material_->Update(uvTransform, color, PhongReflection, 100.0f);
+
+	worldTransform_.Initialize();
 
 }
 
@@ -52,8 +65,8 @@ void GameScene::Update(){
 	//光源
 	DirectionalLightData directionalLightData;
 	directionalLightData.color = { 1.0f,1.0f,1.0f,1.0f };
-	directionalLightData.direction = { 0.0f, -1.0f, 0.0f };
-	directionalLightData.intencity = 1.0f;
+	directionalLightData.direction = Vector3Calc::Normalize(direction);
+	directionalLightData.intencity = intencity;
 	directionalLight_->Update(directionalLightData);
 
 	camera_.Update();
@@ -100,10 +113,12 @@ void GameScene::Draw() {
 	directionalLight_->Draw(dxCommon_->GetCommadList());
 	//3Dオブジェクトはここ
 
+	model_->Draw(worldTransform_, camera_, material_.get());
+
 #ifdef _DEBUG
 
 	// デバッグ描画
-	colliderDebugDraw_->Draw(camera_.GetViewProjectionMatrix());
+	colliderDebugDraw_->Draw(camera_);
 
 #endif // _DEBUG
 
@@ -141,7 +156,15 @@ void GameScene::Draw() {
 
 void GameScene::ImguiDraw(){
 #ifdef _DEBUG
+
+	ImGui::Begin("Light");
+	ImGui::DragFloat3("direction", &direction.x, 0.1f);
+	ImGui::DragFloat("i", &intencity, 0.01f);
+	ImGui::Text("Frame rate: %6.2f fps", ImGui::GetIO().Framerate);
+	ImGui::End();
+
 #endif // _DEBUG
+
 }
 
 void GameScene::DebugCameraUpdate()

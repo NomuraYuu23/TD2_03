@@ -27,6 +27,8 @@
 #include "../base/GraphicsPipelineState.h"
 #include "../Particle/ParticleManager.h"
 
+#include "../Camera/BaseCamera.h"
+
 class Model
 {
 
@@ -104,8 +106,8 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(WorldTransform& worldTransform, const Matrix4x4& viewProjectionMatrix);
-	void Draw(WorldTransform& worldTransform, const Matrix4x4& viewProjectionMatrix, Material* material);
+	void Draw(WorldTransform& worldTransform, BaseCamera& camera);
+	void Draw(WorldTransform& worldTransform, BaseCamera& camera, Material* material);
 	void ParticleDraw();
 
 	/// <summary>
