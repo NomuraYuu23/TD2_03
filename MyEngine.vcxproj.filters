@@ -91,6 +91,9 @@
     <Filter Include="Engine\Line">
       <UniqueIdentifier>{6558aabd-3cbd-4ea1-bcdb-5f63ade457ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Block">
+      <UniqueIdentifier>{31fcd1c7-c713-4934-88bd-30233eb12da1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -273,6 +276,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Math\ShortestDistance.cpp">
       <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Block\Block.cpp">
+      <Filter>Application\Block</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -509,6 +515,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Camera\CameraForGPU.h">
       <Filter>Engine\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Block\Block.h">
+      <Filter>Application\Block</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

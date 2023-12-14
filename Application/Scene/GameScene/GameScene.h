@@ -5,6 +5,8 @@
 #include"../../../Engine/Collision/CollisionManager.h"
 #include "../../Pause/Pause.h"
 
+#include "../../Block/Block.h"
+
 class GameScene : public IScene
 {
 
@@ -84,4 +86,7 @@ private:
 	Vector3 direction = { 1.0f, -1.0f, 0.0f};
 	float intencity = 1.0f;
 
+	//ブロックのテスト
+	std::unique_ptr<Model> modelBlock_;
+	std::unique_ptr<Block> block_;
 };

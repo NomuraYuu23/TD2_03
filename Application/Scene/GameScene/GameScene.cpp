@@ -35,11 +35,7 @@ void GameScene::Initialize() {
 	particleModel[ParticleModelIndex::kUvChecker] = particleUvcheckerModel_.get();
 	particleModel[ParticleModelIndex::kCircle] = particleCircleModel_.get();
 	particleManager_->ModelCreate(particleModel);
-	TransformStructure emitter = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{-3.0f,0.0f,0.0f} };
-	particleManager_->MakeEmitter(emitter, 1000, 0.5f, 300.0f, ParticleModelIndex::kUvChecker, 0, 0);
-	emitter.translate.x = 3.0f;
-	particleManager_->MakeEmitter(emitter, 1000, 0.5f, 300.0f, ParticleModelIndex::kCircle, 0, 0);
-
+	
 	isDebugCameraActive_ = true;
 
 	model_.reset(Model::Create("Resources/default/", "Ball.obj", dxCommon_));
@@ -55,6 +51,9 @@ void GameScene::Initialize() {
 
 	worldTransform_.Initialize();
 
+	modelBlock_.reset(Model::Create("Resources/TD2_November/collider/box/", "box.obj", dxCommon_));
+	block_.reset(new Block());
+	block_->Initialize();
 }
 
 /// <summary>
@@ -68,6 +67,8 @@ void GameScene::Update(){
 	directionalLightData.direction = Vector3Calc::Normalize(direction);
 	directionalLightData.intencity = intencity;
 	directionalLight_->Update(directionalLightData);
+
+	block_->Update();
 
 	camera_.Update();
 
@@ -113,7 +114,8 @@ void GameScene::Draw() {
 	directionalLight_->Draw(dxCommon_->GetCommadList());
 	//3Dオブジェクトはここ
 
-	model_->Draw(worldTransform_, camera_, material_.get());
+	//model_->Draw(worldTransform_, camera_, material_.get());
+	block_->Draw(modelBlock_.get(), camera_);
 
 #ifdef _DEBUG
 
