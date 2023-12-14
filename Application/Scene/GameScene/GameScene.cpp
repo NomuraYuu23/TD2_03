@@ -52,7 +52,7 @@ void GameScene::Initialize() {
 	{0.0f,0.0f,0.0f},
 	};
 	Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
-	material_->Update(uvTransform, color, PhongReflection, 100.0f);
+	material_->Update(uvTransform, color, BlinnPhongReflection, 100.0f);
 
 	worldTransform_.Initialize();
 
@@ -71,6 +71,8 @@ void GameScene::Update(){
 	directionalLight_->Update(directionalLightData);
 
 	camera_.Update();
+
+	worldTransform_.UpdateMatrix();
 
 	// デバッグカメラ
 	DebugCameraUpdate();
@@ -160,6 +162,7 @@ void GameScene::ImguiDraw(){
 
 	ImGui::Begin("Light");
 	ImGui::DragFloat3("direction", &direction.x, 0.1f);
+	ImGui::DragFloat3("worldtransform", &worldTransform_.transform_.scale.x, 0.1f);
 	ImGui::DragFloat("i", &intencity, 0.01f);
 	ImGui::Text("Frame rate: %6.2f fps", ImGui::GetIO().Framerate);
 	ImGui::End();
