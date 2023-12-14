@@ -10,8 +10,13 @@ using namespace DirectX;
 /// </summary>
 /// <param name="fileName">ファイル名</param>
 /// <returns>テクスチャハンドル</returns>
-uint32_t TextureManager::Load(const std::string& fileName, DirectXCommon* dxCommon) {
-	return TextureManager::GetInstance()->LoadInternal(fileName, dxCommon);
+uint32_t TextureManager::Load(const std::string& fileName, DirectXCommon* dxCommon, ITextureHandleManager* textureHandleManager) {
+
+	uint32_t textureHandle = TextureManager::GetInstance()->LoadInternal(fileName, dxCommon);
+
+	textureHandleManager->SetTextureHandle(textureHandle);
+
+	return textureHandle;
 }
 
 /// <summary>

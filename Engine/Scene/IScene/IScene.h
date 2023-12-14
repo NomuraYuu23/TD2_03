@@ -25,7 +25,7 @@ protected: // 静的メンバ変数
 
 	// シーン番号
 	static int sceneNo;
-	static int requestSeneNo;
+	static int requestSceneNo;
 
 	// 入力マネージャー
 	static DirectXCommon* dxCommon_;

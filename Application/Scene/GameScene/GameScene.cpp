@@ -43,7 +43,7 @@ void GameScene::Initialize() {
 
 	isDebugCameraActive_ = true;
 
-	model_.reset(Model::Create("Resources/default/", "Ball.obj", dxCommon_));
+	model_.reset(Model::Create("Resources/default/", "Ball.obj", dxCommon_, textureHandleManager_.get()));
 	material_.reset(Material::Create());
 	material_->Initialize();
 	TransformStructure uvTransform = {
@@ -200,7 +200,7 @@ void GameScene::GoToTheTitle()
 {
 
 	if (pause_->GoToTheTitle()) {
-		sceneNo = kTitle;
+		requestSceneNo = kTitle;
 	}
 
 }
@@ -208,10 +208,10 @@ void GameScene::GoToTheTitle()
 void GameScene::ModelCreate()
 {
 
-	colliderSphereModel_.reset(Model::Create("Resources/TD2_November/collider/sphere/", "sphere.obj", dxCommon_));
-	colliderBoxModel_.reset(Model::Create("Resources/TD2_November/collider/box/", "box.obj", dxCommon_));
-	particleUvcheckerModel_.reset(Model::Create("Resources/default/", "plane.obj", dxCommon_));
-	particleCircleModel_.reset(Model::Create("Resources/Particle/", "plane.obj", dxCommon_));
+	colliderSphereModel_.reset(Model::Create("Resources/TD2_November/collider/sphere/", "sphere.obj", dxCommon_, textureHandleManager_.get()));
+	colliderBoxModel_.reset(Model::Create("Resources/TD2_November/collider/box/", "box.obj", dxCommon_, textureHandleManager_.get()));
+	particleUvcheckerModel_.reset(Model::Create("Resources/default/", "plane.obj", dxCommon_, textureHandleManager_.get()));
+	particleCircleModel_.reset(Model::Create("Resources/Particle/", "plane.obj", dxCommon_, textureHandleManager_.get()));
 
 }
 
@@ -227,9 +227,9 @@ void GameScene::TextureLoad()
 
 	// ポーズ
 	pauseTextureHandles_ = {
-		TextureManager::Load("Resources/TD2_November/pause/pausing.png", dxCommon_),
-		TextureManager::Load("Resources/TD2_November/pause/goToTitle.png", dxCommon_),
-		TextureManager::Load("Resources/TD2_November/pause/returnToGame.png", dxCommon_),
+		TextureManager::Load("Resources/TD2_November/pause/pausing.png", dxCommon_, textureHandleManager_.get()),
+		TextureManager::Load("Resources/TD2_November/pause/goToTitle.png", dxCommon_, textureHandleManager_.get()),
+		TextureManager::Load("Resources/TD2_November/pause/returnToGame.png", dxCommon_, textureHandleManager_.get()),
 	};
 
 }

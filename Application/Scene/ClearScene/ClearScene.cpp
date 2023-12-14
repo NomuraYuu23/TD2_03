@@ -16,7 +16,7 @@ void ClearScene::Update()
 
 	if (input_->TriggerKey(DIK_SPACE)) {
 		// 行きたいシーンへ
-		requestSeneNo = kTitle;
+		requestSceneNo = kTitle;
 	}
 
 }
