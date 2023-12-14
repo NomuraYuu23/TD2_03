@@ -9,6 +9,7 @@
 /// </summary>
 void GameScene::Initialize() {
 
+	IScene::Initialize();
 
 	ModelCreate();
 	MaterialCreate();
@@ -164,6 +165,8 @@ void GameScene::ImguiDraw(){
 	ImGui::DragFloat("i", &intencity, 0.01f);
 	ImGui::Text("Frame rate: %6.2f fps", ImGui::GetIO().Framerate);
 	ImGui::End();
+
+	debugCamera_->ImGuiDraw();
 
 #endif // _DEBUG
 

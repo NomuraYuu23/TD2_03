@@ -13,6 +13,7 @@
 #include "../../Particle/ParticleManager.h"
 
 #include "../../../Application/Scene/SceneName.h"
+#include "../../base/ITextureHandleManager.h"
 
 /// <summary>
 /// シーンの元になるクラス
@@ -51,7 +52,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialize() = 0;
+	virtual void Initialize();
 
 	/// <summary>
 	/// 更新
@@ -88,6 +89,11 @@ protected:  // メンバ関数
 	/// テクスチャロード
 	/// </summary>
 	virtual void TextureLoad();
+
+protected: // メンバ変数
+
+	// テクスチャハンドル管理
+	std::unique_ptr<ITextureHandleManager> textureHandleManager_ = nullptr;
 
 };
 

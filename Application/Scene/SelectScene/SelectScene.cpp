@@ -3,6 +3,8 @@
 void SelectScene::Initialize()
 {
 
+	IScene::Initialize();
+
 	ModelCreate();
 	MaterialCreate();
 	TextureLoad();
