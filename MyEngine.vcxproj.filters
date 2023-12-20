@@ -91,6 +91,12 @@
     <Filter Include="Engine\Line">
       <UniqueIdentifier>{6558aabd-3cbd-4ea1-bcdb-5f63ade457ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Animation">
+      <UniqueIdentifier>{43280e91-b268-4c81-aac7-d52c62b831b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\SampleBone">
+      <UniqueIdentifier>{725bd115-0d5f-49d4-b607-cf4602735a78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -276,6 +282,15 @@
     </ClCompile>
     <ClCompile Include="Engine\base\ITextureHandleManager.cpp">
       <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Animation\AnimationFile.cpp">
+      <Filter>Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Animation\IBone.cpp">
+      <Filter>Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\SampleBone\SampleBone.cpp">
+      <Filter>Application\SampleBone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -515,6 +530,18 @@
     </ClInclude>
     <ClInclude Include="Engine\base\ITextureHandleManager.h">
       <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Animation\AnimationFile.h">
+      <Filter>Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Animation\IBone.h">
+      <Filter>Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Animation\BoneData.h">
+      <Filter>Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\SampleBone\SampleBone.h">
+      <Filter>Application\SampleBone</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

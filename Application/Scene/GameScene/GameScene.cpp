@@ -56,6 +56,9 @@ void GameScene::Initialize() {
 
 	worldTransform_.Initialize();
 
+	sampleBone_ = std::make_unique<SampleBone>();
+	sampleBone_->Initialize(model_.get());
+
 }
 
 /// <summary>
@@ -73,6 +76,9 @@ void GameScene::Update(){
 	camera_.Update();
 
 	worldTransform_.UpdateMatrix();
+
+	// デバッグ
+	sampleBone_->Update();
 
 	// デバッグカメラ
 	DebugCameraUpdate();
@@ -117,6 +123,7 @@ void GameScene::Draw() {
 	//3Dオブジェクトはここ
 
 	model_->Draw(worldTransform_, camera_, material_.get());
+	sampleBone_->Draw(camera_);
 
 #ifdef _DEBUG
 
