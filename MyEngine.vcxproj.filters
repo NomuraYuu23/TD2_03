@@ -295,6 +295,9 @@
     <ClCompile Include="Application\Screw.cpp">
       <Filter>Application</Filter>
     </ClCompile>
+    <ClCompile Include="Application\FollowCamera.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -544,6 +547,9 @@
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="Application\Screw.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\FollowCamera.h">
       <Filter>Application</Filter>
     </ClInclude>
   </ItemGroup>

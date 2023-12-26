@@ -3,7 +3,7 @@
 #include "../../../Engine/base/TextureManager.h"
 #include "../../../Engine/2D/ImguiManager.h"
 #include "../../../Engine/base/D3DResourceLeakChecker.h"
-
+#include "../../player.h"
 /// <summary>
 /// 初期化
 /// </summary>
@@ -58,6 +58,27 @@ void GameScene::Initialize() {
 	block->Initialize();
 	blocks_.push_back(std::move(block));
 	//block_->Initialize();
+
+	player_.reset(new Player);
+	player_->Initialize();
+
+	
+	for (int index = 0; index < 4; index++) {
+		std::unique_ptr<Screw> screw;
+		screw.reset(new Screw);
+		screw->Initialize();
+		screw->SetPlayer(player_.get());
+		screws_.push_back(std::move(screw));
+	}
+
+	player_->SetScrew(&screws_);
+	//player_->SetViewProjection(camera_);
+
+	target_.Initialize();
+	followCamera_.reset(new FollowCamera);
+	followCamera_->Initialize();
+	followCamera_->SetTarget(player_->GetWorldTransform());
+	player_->SetViewProjection(*followCamera_.get());
 }
 
 /// <summary>
@@ -75,9 +96,17 @@ void GameScene::Update(){
 	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end();block++) {
 		(*block)->Update();
 	}
-	
+	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+		(*block)->Update();
+	}
+	target_.Update(&blocks_,*followCamera_.get());
+	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
 
 	camera_.Update();
+
+	followCamera_->Update();
+	camera_ = static_cast<BaseCamera>(*followCamera_.get());
+
 
 	// デバッグカメラ
 	DebugCameraUpdate();
@@ -124,8 +153,13 @@ void GameScene::Draw() {
 	//model_->Draw(worldTransform_, camera_, material_.get());
 	
 	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
-		(*block)->Draw(modelBlock_.get(), camera_);
+		//(*block)->Draw(modelBlock_.get(), camera_);
 	}
+
+	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+	//	(*block)->Draw(modelBlock_.get(), camera_);
+	}
+	player_->Draw(modelBlock_.get(), camera_);
 
 #ifdef _DEBUG
 

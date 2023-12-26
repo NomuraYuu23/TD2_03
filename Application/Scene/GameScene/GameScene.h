@@ -5,9 +5,11 @@
 #include"../../../Engine/Collision/CollisionManager.h"
 #include "../../Pause/Pause.h"
 #include "../../../Engine/base/ITextureHandleManager.h"
-
+#include "../../player.h"
 #include "../../Block/Block.h"
-
+#include "../../Screw.h"
+#include "../../Target/Target.h"
+#include "../../FollowCamera.h"
 class GameScene : public IScene
 {
 
@@ -90,4 +92,10 @@ private:
 	//ブロックのテスト
 	std::unique_ptr<Model> modelBlock_;
 	std::vector<std::unique_ptr<Block>> blocks_;
+
+	Target target_;
+	std::unique_ptr<Player> player_;
+	std::vector<std::unique_ptr<Screw>> screws_;
+
+	std::unique_ptr<FollowCamera> followCamera_;
 };
