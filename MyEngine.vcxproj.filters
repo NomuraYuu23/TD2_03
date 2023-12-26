@@ -103,6 +103,12 @@
     <Filter Include="Application\Audio">
       <UniqueIdentifier>{d427ee17-8f5a-4077-9b9a-194749a45066}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\BlockManager">
+      <UniqueIdentifier>{da78cccb-3306-4dbd-819a-e39a1887db49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\BlockManager\IBlockManagerState">
+      <UniqueIdentifier>{3987f064-d821-4216-a104-200eb8416aed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -305,6 +311,30 @@
       <Filter>Application\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Audio\VoiceCallback.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\BlockManager\BlockManager.cpp">
+      <Filter>Application\BlockManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\BlockManager\BlockManagerState\IBlockManagerState.cpp">
+      <Filter>Application\BlockManager\IBlockManagerState</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\BlockManager\BlockManagerState\BlockManagerStateInit\BlockManagerStateInit.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\player.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Screw.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Target\Target.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\BlockManager\BlockManagerState\BlockManagerFactory.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Block\Block.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -571,6 +601,30 @@
       <Filter>Application\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Audio\VoiceCallback.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\BlockManager\BlockManager.h">
+      <Filter>Application\BlockManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\BlockManager\BlockManagerState\IBlockManagerState.h">
+      <Filter>Application\BlockManager\IBlockManagerState</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\BlockManager\BlockManagerState\BlockManagerStateInit\BlockManagerStateInit.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\player.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Screw.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Target\Target.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\BlockManager\BlockManagerState\BlockManagerFactory.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Block\Block.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

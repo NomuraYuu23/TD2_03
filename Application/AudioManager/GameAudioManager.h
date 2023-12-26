@@ -28,7 +28,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="audioIndex">オーディオの名前</param>
 	/// <returns>再生中のサウンドデータの番号</returns>
-	virtual void PlayWave(uint32_t audioIndex);
+	void PlayWave(uint32_t audioIndex) override;
 
 private: // メンバ変数
 

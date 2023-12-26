@@ -47,6 +47,8 @@ public:
 	void SetTransform(const TransformStructure& transform) { transform_ = transform; }
 	TransformStructure GetTransform() { return transform_; }
 
+	Vector3 GetTransform() { return transform_.translate; };
+
 	ID3D12Resource* GetWorldPositionBuff() { return worldPositionBuff_.Get(); }
 
 
