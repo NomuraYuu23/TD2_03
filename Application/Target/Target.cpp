@@ -1,7 +1,8 @@
 #include "Target.h"
+#include "../../Engine/base/TextureManager.h"
+void Target::Initialize(uint32_t textureHandle) {
 
-void Target::Initialize() {
-
+	anchor_.reset(Sprite::Create(textureHandle, { 0,0 }, {1.0f,1.0f,1.0f,1.0f}));
 }
 void Target::Update(std::vector<std::unique_ptr<Block>>* blockList, BaseCamera& camera) {
 	ForchNearAnchor(blockList,camera);
@@ -26,12 +27,14 @@ void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, Bas
 	//対象ブロックが一つだったとき
 	if (blockList->size() == 1) {
 		for (size_t index = 0; index < block->GetAnchorPointArray().size();index++) {
-			Vector3 oldvp = Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, camera.GetViewProjectionMatrix());
-			Vector3 newvp = Matrix4x4Calc::Transform(block->GetAnchorPointArray()[index].position, camera.GetViewProjectionMatrix());
+			Vector3 oldvp = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_),camera.GetViewProjectionMatrix());
+			Vector3 newvp = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform(block->GetAnchorPointArray()[index].position, block->GetWorldTransform()->worldMatrix_),camera.GetViewProjectionMatrix());
 			bool lengthCheck = Vector3Calc::Length(Vector3Calc::Subtract(block->GetAnchorPointArray()[num].position, camera.GetTransform()))
-			> Vector3Calc::Length(Vector3Calc::Subtract(block->GetAnchorPointArray()[index].position, camera.GetTransform()));
+			>= Vector3Calc::Length(Vector3Calc::Subtract(block->GetAnchorPointArray()[index].position,camera.GetTransform()));
 			if ((!IsInnerCamera(oldvp) || lengthCheck) && (IsInnerCamera(newvp))) {
 				num = index;
+				Vector3 pos = Matrix4x4Calc::Transform(newvp, Matrix4x4Calc::MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1));
+				anchor_->SetPosition({ pos.x,pos.y });
 				isTarget_ = true;
 			}
 		}
@@ -49,6 +52,8 @@ void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, Bas
 			if ((!IsInnerCamera(oldvp) || lengthCheck) && (IsInnerCamera(newvp))) {
 				num = index;
 				block = ite->get();
+				Vector3 pos = Matrix4x4Calc::Transform(newvp, Matrix4x4Calc::MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1)); 
+				anchor_->SetPosition({ pos.x,pos.y });
 				isTarget_ = true;
 			}
 		}
@@ -56,4 +61,10 @@ void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, Bas
 	targetBlock_ = block;
 	numTargetAnchor_ = num;
 	return;
+}
+
+void Target::SpriteDraw() {
+	if (isTarget_) {
+		anchor_->Draw();
+	}
 }

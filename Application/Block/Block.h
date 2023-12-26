@@ -20,6 +20,8 @@ public:
 	void Update();
 	void Draw(Model* model,BaseCamera& camera);
 
+	inline WorldTransform* GetWorldTransform() { return &worldTransform_; };
+
 	std::array<AnchorPoint, 4>& GetAnchorPointArray() { return anchorPoints_; };
 	Vector3 GetAnchorPointWorldPosition(size_t num);
 	Screw* GetAnchorPointScrew(size_t num) { return anchorPoints_[num].screw; };

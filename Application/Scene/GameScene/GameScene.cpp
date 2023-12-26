@@ -74,7 +74,7 @@ void GameScene::Initialize() {
 	player_->SetScrew(&screws_);
 	//player_->SetViewProjection(camera_);
 
-	target_.Initialize();
+	target_.Initialize(cursorTextureHandle_);
 	followCamera_.reset(new FollowCamera);
 	followCamera_->Initialize();
 	followCamera_->SetTarget(player_->GetWorldTransform());
@@ -192,6 +192,7 @@ void GameScene::Draw() {
 	//前景スプライト描画
 	pause_->Draw();
 
+	target_.SpriteDraw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
@@ -276,5 +277,5 @@ void GameScene::TextureLoad()
 		TextureManager::Load("Resources/TD2_November/pause/goToTitle.png", dxCommon_),
 		TextureManager::Load("Resources/TD2_November/pause/returnToGame.png", dxCommon_),
 	};
-
+	cursorTextureHandle_ = TextureManager::Load("Resources/ingame_target.png", dxCommon_);
 }
