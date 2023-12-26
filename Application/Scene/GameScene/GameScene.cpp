@@ -153,11 +153,11 @@ void GameScene::Draw() {
 	//model_->Draw(worldTransform_, camera_, material_.get());
 	
 	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
-		//(*block)->Draw(modelBlock_.get(), camera_);
+		(*block)->Draw(modelBlock_.get(), camera_);
 	}
 
 	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
-	//	(*block)->Draw(modelBlock_.get(), camera_);
+		(*block)->Draw(modelBlock_.get(), camera_);
 	}
 	player_->Draw(modelBlock_.get(), camera_);
 

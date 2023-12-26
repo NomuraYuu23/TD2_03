@@ -140,7 +140,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 
 		Vector3 move = {
 			float(input_->GetLeftAnalogstick().x) / (SHRT_MAX), 0,
-			float(input_->GetLeftAnalogstick().y) / (SHRT_MAX) };
+			float(-input_->GetLeftAnalogstick().y) / (SHRT_MAX) };
 		//Matrix4x4 newrotation = DirectionToDIrection({0,0.0f,1.0f}, {0, 0.0f, -1.0f});
 		move = Vector3Calc::Multiply(kCharacterSpeed, Vector3Calc::Normalize(move));;
 		//Vector3 cameraDirectionYcorection = {0.0f, viewProjection_->matView.m[1][0] * viewProjection_->matView.m[1][0]* viewProjection_->matView.m[1][2], 0.0f};

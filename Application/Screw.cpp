@@ -5,13 +5,15 @@
 void(Screw::* Screw::stateTable[])() = {
 	&Screw::None,
 	& Screw::Follow,
+	& Screw::Reverse,
 	& Screw::ToBlock,
 	& Screw::Stuck,
-	& Screw::ToPlayer,
+	& Screw::ToPlayer
 };
 
 void Screw::Initialize() {
 	state_ = State::FOLLOW;
+	//state_ = State(5);
 	worldTransform_.Initialize();
 }
 void Screw::Update() {
@@ -43,7 +45,7 @@ void Screw::Catch() {
 }
 
 void Screw::Follow() {
-	worldTransform_.transform_.translate;
+	worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
 }
 
 void Screw::ToBlock() {
