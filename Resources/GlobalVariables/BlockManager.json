@@ -1,0 +1,30 @@
+{
+    "BlockManager": {
+        "blockSize Big": [
+            5.0,
+            5.0,
+            5.0
+        ],
+        "blockSize Middle": [
+            3.0,
+            3.0,
+            3.0
+        ],
+        "blockSize Small": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "maxBlock": 128,
+        "maxBlockPosition": [
+            100.0,
+            100.0,
+            100.0
+        ],
+        "minBlockPosition": [
+            -100.0,
+            -100.0,
+            -100.0
+        ]
+    }
+}

@@ -9,6 +9,7 @@
 #include "../../AudioManager/GameAudioManager.h"
 
 #include "../../Block/Block.h"
+#include "../../BlockManager/BlockManager.h"
 
 class GameScene : public IScene
 {
@@ -95,4 +96,8 @@ private:
 	//ブロックのテスト
 	std::unique_ptr<Model> modelBlock_;
 	std::vector<std::unique_ptr<Block>> blocks_;
+
+	// ブロックマネージャー
+	std::unique_ptr<BlockManager> blockManager_;
+
 };

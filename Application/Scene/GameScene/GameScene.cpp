@@ -57,12 +57,16 @@ void GameScene::Initialize() {
 	audioManager_->Initialize();
 	audioManager_->PlayWave(GameAudioNameIndex::kSample);
 
-	//modelBlock_.reset(Model::Create("Resources/TD2_November/collider/box/", "box.obj", dxCommon_, textureHandleManager_.get()));
+	modelBlock_.reset(Model::Create("Resources/TD2_November/collider/box/", "box.obj", dxCommon_, textureHandleManager_.get()));
 	//std::unique_ptr<Block> block;
 	//block.reset(new Block);
 	//block->Initialize();
 	//blocks_.push_back(std::move(block));
 	//block_->Initialize();
+
+	blockManager_ = std::make_unique<BlockManager>();
+	blockManager_->Initialize(modelBlock_.get());
+
 }
 
 /// <summary>
@@ -81,6 +85,10 @@ void GameScene::Update(){
 	//	(*block)->Update();
 	//}
 
+	// ブロックマネージャー
+	blockManager_->Update();
+
+	// カメラ
 	camera_.Update();
 
 	worldTransform_.UpdateMatrix();
@@ -128,6 +136,8 @@ void GameScene::Draw() {
 	//3Dオブジェクトはここ
 
 	model_->Draw(worldTransform_, camera_, material_.get());
+	// ブロックマネージャー
+	blockManager_->Draw(camera_);
 
 #ifdef _DEBUG
 
@@ -177,6 +187,9 @@ void GameScene::ImguiDraw(){
 	ImGui::DragFloat("i", &intencity, 0.01f);
 	ImGui::Text("Frame rate: %6.2f fps", ImGui::GetIO().Framerate);
 	ImGui::End();
+
+	// ブロックマネージャー
+	blockManager_->ImGuiDraw();
 
 	debugCamera_->ImGuiDraw();
 
