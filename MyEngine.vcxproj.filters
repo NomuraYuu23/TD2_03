@@ -319,6 +319,24 @@
     <ClCompile Include="Application\BlockManager\BlockManagerState\IBlockManagerState.cpp">
       <Filter>Application\BlockManager\IBlockManagerState</Filter>
     </ClCompile>
+    <ClCompile Include="Application\BlockManager\BlockManagerState\BlockManagerStateInit\BlockManagerStateInit.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\player.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Screw.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Target\Target.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\BlockManager\BlockManagerState\BlockManagerFactory.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Block\Block.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -590,6 +608,24 @@
     </ClInclude>
     <ClInclude Include="Application\BlockManager\BlockManagerState\IBlockManagerState.h">
       <Filter>Application\BlockManager\IBlockManagerState</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\BlockManager\BlockManagerState\BlockManagerStateInit\BlockManagerStateInit.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\player.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Screw.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Target\Target.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\BlockManager\BlockManagerState\BlockManagerFactory.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Block\Block.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

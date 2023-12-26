@@ -8,6 +8,8 @@
 #include "../../SampleBone/SampleBone.h"
 #include "../../AudioManager/GameAudioManager.h"
 
+#include "../../Block/Block.h"
+
 class GameScene : public IScene
 {
 
@@ -87,10 +89,10 @@ private:
 	Vector3 direction = { 1.0f, -1.0f, 0.0f};
 	float intencity = 1.0f;
 
-	// サンプルボーン
-	std::unique_ptr<SampleBone> sampleBone_;
-
 	// オーディオマネージャー
 	std::unique_ptr<GameAudioManager> audioManager_;
 
+	//ブロックのテスト
+	std::unique_ptr<Model> modelBlock_;
+	std::vector<std::unique_ptr<Block>> blocks_;
 };

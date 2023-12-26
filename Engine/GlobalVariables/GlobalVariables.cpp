@@ -58,6 +58,12 @@ void GlobalVariables::SaveFile(const std::string& groupName) {
 			root[groupName][itemName] = std::get<int32_t>(item);
 		}
 
+		// uint32_t型の値を保持していれば
+		if (std::holds_alternative<uint32_t>(item)) {
+			// uint32_t型の値を登録
+			root[groupName][itemName] = std::get<uint32_t>(item);
+		}
+
 		// float型の値を保持していれば
 		else if (std::holds_alternative<float>(item)) {
 			// float型の値を登録
@@ -107,6 +113,18 @@ void GlobalVariables::SaveFile(const std::string& groupName) {
 /// <param name="value">値</param>
 void GlobalVariables::SetValue(
 	const std::string& groupName, const std::string& key, int32_t value) {
+
+	// グループの参照を取得
+	Group& group = datas_[groupName];
+	// 新しい項目のデータを設定
+	Item newItem{};
+	newItem = value;
+	// 設定した項目をstd::mapに追加
+	group[key] = newItem;
+
+}
+
+void GlobalVariables::SetValue(const std::string& groupName, const std::string& key, uint32_t value){
 
 	// グループの参照を取得
 	Group& group = datas_[groupName];
@@ -192,19 +210,25 @@ void GlobalVariables::Update() {
 			// int32_t型の値を保持していれば
 			if (std::holds_alternative<int32_t>(item)) {
 				int32_t* ptr = std::get_if<int32_t>(&item);
-				ImGui::SliderInt(itemName.c_str(), ptr, 0, 100);
+				ImGui::DragInt(itemName.c_str(), ptr);
+			}
+
+			// uint32_t型の値を保持していれば
+			if (std::holds_alternative<uint32_t>(item)) {
+				uint32_t* ptr = std::get_if<uint32_t>(&item);
+				ImGui::DragInt(itemName.c_str(), reinterpret_cast<int32_t*>(ptr),1.0f, 0);
 			}
 
 			// float型の値を保持していれば
 			if (std::holds_alternative<float>(item)) {
 				float* ptr = std::get_if<float>(&item);
-				ImGui::SliderFloat(itemName.c_str(), ptr, -100.0f, 100.0f);
+				ImGui::DragFloat(itemName.c_str(), ptr, 0.01f);
 			}
 
 			// Vector3型の値を保持していれば
 			if (std::holds_alternative<Vector3>(item)) {
 				Vector3* ptr = std::get_if<Vector3>(&item);
-				ImGui::SliderFloat3(itemName.c_str(), reinterpret_cast<float*>(ptr), -10.0f, 10.0f);
+				ImGui::DragFloat3(itemName.c_str(), reinterpret_cast<float*>(ptr), 0.01f);
 			}
 
 		}
@@ -310,10 +334,15 @@ void GlobalVariables::LoadFile(const std::string& groupName) {
 			int32_t value = itItem->get<int32_t>();
 			SetValue(groupName, itemName, value);
 		}
-
-		// float型の値を保持していれば
+		// uint32_t型の値を保持していれば
 		else if (itItem->is_number_float()) {
 			// int型の値を登録
+			uint32_t value = itItem->get<uint32_t>();
+			SetValue(groupName, itemName, value);
+		}
+		// float型の値を保持していれば
+		else if (itItem->is_number_float()) {
+			// float型の値を登録
 			double value = itItem->get<double>();
 			SetValue(groupName, itemName, static_cast<float>(value));
 		}
@@ -332,6 +361,15 @@ void GlobalVariables::LoadFile(const std::string& groupName) {
 
 // 項目の追加(int)
 void GlobalVariables::AddItem(const std::string& groupName, const std::string& key, int32_t value) {
+
+	// 項目が未登録なら
+	if (datas_[groupName].find(key) == datas_[groupName].end()) {
+		SetValue(groupName, key, value);
+	}
+
+}
+
+void GlobalVariables::AddItem(const std::string& groupName, const std::string& key, uint32_t value){
 
 	// 項目が未登録なら
 	if (datas_[groupName].find(key) == datas_[groupName].end()) {
@@ -371,6 +409,17 @@ int32_t GlobalVariables::GetIntValue(const std::string& groupName, const std::st
 	return std::get<0>(group[key]);
 }
 
+uint32_t GlobalVariables::GetUIntValue(const std::string& groupName, const std::string& key){
+
+	assert(datas_.find(groupName) != datas_.end());
+	//グループの参照を取得
+	Group& group = datas_[groupName];
+
+	assert(group.find(key) != group.end());
+
+	return std::get<1>(group[key]);
+}
+
 // 値の取得(float)
 float GlobalVariables::GetFloatValue(const std::string& groupName, const std::string& key) {
 
@@ -380,7 +429,7 @@ float GlobalVariables::GetFloatValue(const std::string& groupName, const std::st
 
 	assert(group.find(key) != group.end());
 
-	return std::get<1>(group[key]);
+	return std::get<2>(group[key]);
 
 }
 
@@ -393,6 +442,6 @@ Vector3 GlobalVariables::GetVector3Value(const std::string& groupName, const std
 
 	assert(group.find(key) != group.end());
 
-	return std::get<2>(group[key]);
+	return std::get<3>(group[key]);
 
 }

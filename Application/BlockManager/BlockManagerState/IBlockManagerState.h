@@ -4,6 +4,7 @@
 class BlockManager;
 
 enum BlockManagerState {
+	kBlockManagerStateInit, // 初期
 	kBlockManagerStateOfCount // 数
 };
 

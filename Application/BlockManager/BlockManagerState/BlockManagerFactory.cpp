@@ -1,5 +1,6 @@
 #include "BlockManagerFactory.h"
 #include <cassert>
+#include "BlockManagerStateInit/BlockManagerStateInit.h"
 
 BlockManagerFactory* BlockManagerFactory::GetInstance()
 {
@@ -14,10 +15,15 @@ IBlockManagerState* BlockManagerFactory::CreateBlockManagerState(uint32_t BlockM
 
 	switch (BlockManagerStateName)
 	{
+	case BlockManagerState::kBlockManagerStateInit:
+		newBlockManagerState = new BlockManagerStateInit();
+		break;
 	case BlockManagerState::kBlockManagerStateOfCount:
 	default:
 		assert(0);
 		break;
 	}
+
+	return newBlockManagerState;
 
 }
