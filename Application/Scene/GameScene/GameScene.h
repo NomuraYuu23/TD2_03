@@ -89,5 +89,5 @@ private:
 
 	//ブロックのテスト
 	std::unique_ptr<Model> modelBlock_;
-	std::unique_ptr<Block> block_;
+	std::vector<std::unique_ptr<Block>> blocks_;
 };

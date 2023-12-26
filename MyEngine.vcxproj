@@ -101,8 +101,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application\Block\Block.cpp" />
+    <ClCompile Include="Application\player.cpp" />
     <ClCompile Include="Application\Scene\SelectScene\SelectScene.cpp" />
     <ClCompile Include="Application\Scene\TitleScene\TitleScene.cpp" />
+    <ClCompile Include="Application\Screw.cpp" />
+    <ClCompile Include="Application\Target\Target.cpp" />
     <ClCompile Include="Engine\2D\ImGuiManager.cpp" />
     <ClCompile Include="Engine\base\ITextureHandleManager.cpp" />
     <ClCompile Include="Engine\Collider\Capsule\Capsule.cpp" />
@@ -166,9 +169,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Block\Block.h" />
+    <ClInclude Include="Application\player.h" />
     <ClInclude Include="Application\Scene\SceneName.h" />
     <ClInclude Include="Application\Scene\SelectScene\SelectScene.h" />
     <ClInclude Include="Application\Scene\TitleScene\TitleScene.h" />
+    <ClInclude Include="Application\Screw.h" />
+    <ClInclude Include="Application\Target\Target.h" />
     <ClInclude Include="Engine\2D\ImGuiManager.h" />
     <ClInclude Include="Engine\base\ITextureHandleManager.h" />
     <ClInclude Include="Engine\Camera\CameraForGPU.h" />

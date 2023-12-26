@@ -53,8 +53,11 @@ void GameScene::Initialize() {
 	worldTransform_.Initialize();
 
 	modelBlock_.reset(Model::Create("Resources/TD2_November/collider/box/", "box.obj", dxCommon_));
-	block_.reset(new Block());
-	block_->Initialize();
+	std::unique_ptr<Block> block;
+	block.reset(new Block);
+	block->Initialize();
+	blocks_.push_back(std::move(block));
+	//block_->Initialize();
 }
 
 /// <summary>
@@ -69,7 +72,10 @@ void GameScene::Update(){
 	directionalLightData.intencity = intencity;
 	directionalLight_->Update(directionalLightData);
 
-	block_->Update();
+	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end();block++) {
+		(*block)->Update();
+	}
+	
 
 	camera_.Update();
 
@@ -116,7 +122,10 @@ void GameScene::Draw() {
 	//3Dオブジェクトはここ
 
 	//model_->Draw(worldTransform_, camera_, material_.get());
-	block_->Draw(modelBlock_.get(), camera_);
+	
+	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+		(*block)->Draw(modelBlock_.get(), camera_);
+	}
 
 #ifdef _DEBUG
 

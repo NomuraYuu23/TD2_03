@@ -94,6 +94,9 @@
     <Filter Include="Application\Block">
       <UniqueIdentifier>{31fcd1c7-c713-4934-88bd-30233eb12da1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Target">
+      <UniqueIdentifier>{541cd86e-25d0-4b0f-b55e-9b91efcb817e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -282,6 +285,15 @@
     </ClCompile>
     <ClCompile Include="Engine\base\ITextureHandleManager.cpp">
       <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Target\Target.cpp">
+      <Filter>Application\Target</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\player.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Screw.cpp">
+      <Filter>Application</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -524,6 +536,15 @@
     </ClInclude>
     <ClInclude Include="Engine\base\ITextureHandleManager.h">
       <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Target\Target.h">
+      <Filter>Application\Target</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\player.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Screw.h">
+      <Filter>Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
