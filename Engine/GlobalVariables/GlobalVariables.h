@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include "../Math/Vector3.h"
+#include "../Math/Vector2.h"
 
 class GlobalVariables {
 
@@ -57,6 +58,14 @@ public:
 	/// <param name="groupName">グループ名</param>
 	/// <param name="key">項目名</param>
 	/// <param name="value">値</param>
+	void SetValue(const std::string& groupName, const std::string& key, const Vector2& value);
+
+	/// <summary>
+	/// 値のセット
+	/// </summary>
+	/// <param name="groupName">グループ名</param>
+	/// <param name="key">項目名</param>
+	/// <param name="value">値</param>
 	void SetValue(const std::string& groupName, const std::string& key, const Vector3& value);
 
 	/// <summary>
@@ -81,6 +90,8 @@ public:
 	void AddItem(const std::string& groupName, const std::string& key, uint32_t value);
 	// 項目の追加(float)
 	void AddItem(const std::string& groupName, const std::string& key, float value);
+	// 項目の追加(Vector2)
+	void AddItem(const std::string& groupName, const std::string& key, const Vector2& value);
 	// 項目の追加(Vector3)
 	void AddItem(const std::string& groupName, const std::string& key, const Vector3& value);
 
@@ -90,6 +101,8 @@ public:
 	uint32_t GetUIntValue(const std::string& groupName, const std::string& key);
 	// 値の取得(float)
 	float GetFloatValue(const std::string& groupName, const std::string& key);
+	// 値の取得(Vector2)
+	Vector2 GetVector2Value(const std::string& groupName, const std::string& key);
 	// 値の取得(Vector3)
 	Vector3 GetVector3Value(const std::string& groupName, const std::string& key);
 
@@ -101,7 +114,7 @@ private:
 
 	//項目
 
-	using Item = std::variant<int32_t, uint32_t, float, Vector3>;
+	using Item = std::variant<int32_t, uint32_t, float, Vector2, Vector3>;
 	using Group = std::map<std::string, Item>;
 
 	// 全データ
