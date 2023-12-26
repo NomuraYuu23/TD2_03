@@ -45,8 +45,11 @@ public:
 	Matrix4x4 GetProjectionMatrix() { return projectionMatrix_; }
 
 	void SetTransform(const TransformStructure& transform) { transform_ = transform; }
+	TransformStructure GetTransform() { return transform_; }
 
 	ID3D12Resource* GetWorldPositionBuff() { return worldPositionBuff_.Get(); }
+
+
 
 protected:
 
