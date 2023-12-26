@@ -12,8 +12,8 @@ void FollowCamera::Initialize() {
 	BaseCamera::Initialize();
 
 	//y固定
-	viewProjection_.transform_.translate.y = 10.0f;
-	viewProjection_.transform_.rotate.x = 0.1f;
+	transform_.translate.y = 10.0f;
+	transform_.rotate.x = 0.1f;
 
 	BaseCamera::Update();
 
@@ -35,7 +35,7 @@ void FollowCamera::Update() {
 	Matrix4x4Calc* m4Calc = Matrix4x4Calc::GetInstance();
 
 #ifdef _DEBUG
-	ApplyGlobalVariables();
+	//ApplyGlobalVariables();
 #endif // _DEBUG
 
 	// スティック入力で角度を変更処理
@@ -57,20 +57,20 @@ void FollowCamera::Update() {
 	if (target_) {
 		// 追従座標の補間
 		Vector3 targetPos = { target_->worldMatrix_.m[3][0], target_->worldMatrix_.m[3][1], target_->worldMatrix_.m[3][2] };
-		interTarget_ = Ease::Easing(Ease::EaseName::Lerp, interTarget_, targetPos, moveRate_);
+		interTarget_ = Ease::Easing(Ease::EaseName::EaseInQuad, interTarget_, targetPos, moveRate_);
 
 		// オフセット
 		Vector3 offset = OffsetCalc();
 
-		viewProjection_.transform_.translate = v3Calc->Add(interTarget_, offset);
+		transform_.translate = v3Calc->Add(interTarget_, offset);
 
 	}
 
 	//y固定
 	//viewProjection_.transform_.translate.y = 10.0f;
 
-	viewProjection_.transform_.rotate.y = Math::LerpShortAngle(viewProjection_.transform_.rotate.y, destinationAngle_.y, rotateRate_);
-	viewProjection_.transform_.rotate.x = Math::LerpShortAngle(viewProjection_.transform_.rotate.x, destinationAngle_.x, rotateRate_);
+	transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngle_.y, rotateRate_);
+	transform_.rotate.x = Math::LerpShortAngle(transform_.rotate.x, destinationAngle_.x, rotateRate_);
 
 	//ビュー更新
 	BaseCamera::Update();
@@ -88,9 +88,9 @@ Vector3 FollowCamera::OffsetCalc() const
 	Matrix4x4 rotateMatrix;
 
 	//カメラの角度から回転行列を計算する
-	Matrix4x4 rotateMatrixX = m4Calc->MakeRotateXMatrix(viewProjection_.transform_.rotate.x);
-	Matrix4x4 rotateMatrixY = m4Calc->MakeRotateYMatrix(viewProjection_.transform_.rotate.y);
-	Matrix4x4 rotateMatrixZ = m4Calc->MakeRotateZMatrix(viewProjection_.transform_.rotate.z);
+	Matrix4x4 rotateMatrixX = m4Calc->MakeRotateXMatrix(transform_.rotate.x);
+	Matrix4x4 rotateMatrixY = m4Calc->MakeRotateYMatrix(transform_.rotate.y);
+	Matrix4x4 rotateMatrixZ = m4Calc->MakeRotateZMatrix(transform_.rotate.z);
 
 	rotateMatrix = m4Calc->Multiply(
 	rotateMatrixX, m4Calc->Multiply(rotateMatrixY, rotateMatrixZ));

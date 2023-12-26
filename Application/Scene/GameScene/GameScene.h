@@ -9,7 +9,7 @@
 #include "../../Block/Block.h"
 #include "../../Screw.h"
 #include "../../Target/Target.h"
-#include "../../FollowCamera.h"
+#include "../../Camera/FollowCamera/FollowCamera.h"
 class GameScene : public IScene
 {
 
