@@ -45,7 +45,7 @@ public:
 	Matrix4x4 GetProjectionMatrix() { return projectionMatrix_; }
 
 	void SetTransform(const TransformStructure& transform) { transform_ = transform; }
-	TransformStructure GetTransform() { return transform_; }
+	//TransformStructure GetTransform() { return transform_; }
 
 	Vector3 GetTransform() { return transform_.translate; };
 

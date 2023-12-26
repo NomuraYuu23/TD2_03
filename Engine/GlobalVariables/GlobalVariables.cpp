@@ -417,7 +417,7 @@ uint32_t GlobalVariables::GetUIntValue(const std::string& groupName, const std::
 
 	assert(group.find(key) != group.end());
 
-	return std::get<1>(group[key]);
+	return static_cast<uint32_t>(std::get<0>(group[key]));
 }
 
 // 値の取得(float)
