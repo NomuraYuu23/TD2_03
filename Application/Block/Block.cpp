@@ -11,6 +11,9 @@ void Block::Initialize() {
 	}
 	worldTransform_.Initialize();
 	worldTransform_.transform_.scale = {3.0f,0.5f,3.0f};
+
+	collider_.reset(new OBB);
+	collider_->Initialize(worldTransform_.transform_.translate,worldTransform_.rotateMatrix_,worldTransform_.transform_.scale,this);
 }
 void Block::Update() {
 

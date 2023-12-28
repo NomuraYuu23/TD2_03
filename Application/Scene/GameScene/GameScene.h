@@ -10,6 +10,7 @@
 #include "../../Screw.h"
 #include "../../Target/Target.h"
 #include "../../Camera/FollowCamera/FollowCamera.h"
+#include "../../../Engine/Collision/CollisionManager.h"
 class GameScene : public IScene
 {
 
@@ -99,4 +100,6 @@ private:
 
 	std::unique_ptr<FollowCamera> followCamera_;
 	uint32_t cursorTextureHandle_;
+
+	std::unique_ptr<CollisionManager> collisionManager_;
 };

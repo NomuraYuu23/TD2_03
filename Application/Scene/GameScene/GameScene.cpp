@@ -39,6 +39,9 @@ void GameScene::Initialize() {
 	
 	isDebugCameraActive_ = true;
 
+	collisionManager_.reset(new CollisionManager);
+	collisionManager_->Initialize();
+
 	model_.reset(Model::Create("Resources/default/", "Ball.obj", dxCommon_));
 	material_.reset(Material::Create());
 	material_->Initialize();
@@ -56,6 +59,7 @@ void GameScene::Initialize() {
 	std::unique_ptr<Block> block;
 	block.reset(new Block);
 	block->Initialize();
+	collisionManager_->ListRegister(block->GetCollider());
 	blocks_.push_back(std::move(block));
 	//block_->Initialize();
 
