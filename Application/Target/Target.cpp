@@ -45,10 +45,10 @@ void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, Bas
 	}
 	for (ite; ite != blockList->end();ite++) {
 		for (size_t index = 0; index < block->GetAnchorPointArray().size(); index++) {
-			Vector3 oldvp = Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, camera.GetViewProjectionMatrix());
-			Vector3 newvp = Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, camera.GetViewProjectionMatrix());
+			Vector3 oldvp = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_), camera.GetViewProjectionMatrix());
+			Vector3 newvp = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_), camera.GetViewProjectionMatrix());
 			bool lengthCheck = Vector3Calc::Length(Vector3Calc::Subtract(block->GetAnchorPointArray()[num].position, camera.GetTransform()))
-			> Vector3Calc::Length(Vector3Calc::Subtract((*ite)->GetAnchorPointArray()[index].position, camera.GetTransform()));
+			>= Vector3Calc::Length(Vector3Calc::Subtract((*ite)->GetAnchorPointArray()[index].position, camera.GetTransform()));
 			if ((!IsInnerCamera(oldvp) || lengthCheck) && (IsInnerCamera(newvp))) {
 				num = index;
 				block = ite->get();

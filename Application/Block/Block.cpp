@@ -15,6 +15,7 @@ void Block::Initialize() {
 	collider_.reset(new OBB);
 	collider_->Initialize(worldTransform_.transform_.translate,worldTransform_.rotateMatrix_,worldTransform_.transform_.scale,this);
 	isConnect_ = false;
+	isCenter_ = false;
 }
 void Block::Update() {
 
@@ -33,10 +34,37 @@ Vector3 Block::GetAnchorPointWorldPosition(size_t num) {
 
 void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {
 	if (!isConnect_ && std::holds_alternative<Player*>(pairObject)) {
-		Vector3 toPlayer = Vector3Calc::Subtract(std::get<Player*>(pairObject)->GetWorldTransform()->GetWorldPosition(), worldTransform_.GetWorldPosition());
-		toPlayer.y = 0;
-		toPlayer = Vector3Calc::Normalize(toPlayer);
-		toPlayer = Vector3Calc::Multiply(1.0f,toPlayer);
-		worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate,toPlayer);
+		bool isStack = false;
+		for (int index = 0; index < 4; index++) {
+			if (anchorPoints_[index].screw != nullptr) {
+				isStack = true;
+				break;
+			}
+		}
+		if (isStack) {
+			Vector3 toPlayer = Vector3Calc::Subtract(std::get<Player*>(pairObject)->GetWorldTransform()->GetWorldPosition(), worldTransform_.GetWorldPosition());
+			toPlayer.y = 0;
+			toPlayer = Vector3Calc::Normalize(toPlayer);
+			toPlayer = Vector3Calc::Multiply(1.0f, toPlayer);
+			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, toPlayer);
+		}
+	}
+
+	if (!isCenter_ && !isConnect_ && std::holds_alternative<Block*>(pairObject)) {
+		bool isStack = false;
+		for (int index = 0; index < 4; index++) {
+			if (anchorPoints_[index].screw != nullptr) {
+				isStack = true;
+				break;
+			}
+		}
+		if (isStack && std::get<Block*>(pairObject)->GetIsConnect()) {
+			/*Matrix4x4 rocal = Matrix4x4Calc::Multiply(worldTransform_.worldMatrix_, (Matrix4x4Calc::Inverse(std::get<Block*>(pairObject)->GetWorldTransform()->worldMatrix_)));
+			worldTransform_.transform_.translate.x = rocal.m[3][0];
+			worldTransform_.transform_.translate.y = rocal.m[3][1];
+			worldTransform_.transform_.translate.z = rocal.m[3][2];
+			worldTransform_.p*/
+			isConnect_ = true;
+		}
 	}
 }

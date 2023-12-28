@@ -58,6 +58,12 @@ void Screw::ToBlock() {
 	}
 }
 
+void Screw::Stuck(){
+	Vector3 endPoint = static_cast<Block*>(target_)->GetAnchorPointWorldPosition(targetNum_);
+	worldTransform_.transform_.translate = endPoint;
+}
+
+
 void Screw::ToPlayer() {
 	float t = float(frameCount_) / 30.0f;
 	Vector3 endPoint = static_cast<Player*>(target_)->GetWorldTransform()->GetWorldPosition();

@@ -31,7 +31,7 @@ public:
 	void Follow();
 	void Reverse() {};
 	void ToBlock();
-	void Stuck() {};
+	void Stuck();
 	void ToPlayer();
 
 	State GetState() { return state_; };

@@ -59,10 +59,23 @@ void GameScene::Initialize() {
 	std::unique_ptr<Block> block;
 	block.reset(new Block);
 	block->Initialize();
-	//collisionManager_->ListRegister(block->GetCollider());
+	block->SetIsCenter(true);
+	block->SetIsConnect(true);
 	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
-	//block_->Initialize();
+
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({2.0f,0.0f,30.0f});
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ 30.0f,0.0f,-2.0f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
 
 	player_.reset(new Player);
 	player_->Initialize();
@@ -110,6 +123,8 @@ void GameScene::Update(){
 	collisionManager_->ListClear();
 	collisionManager_->ListRegister(player_->GetCollider());
 	collisionManager_->ListRegister(blocks_[0]->GetCollider());
+	collisionManager_->ListRegister(blocks_[1]->GetCollider());
+	collisionManager_->ListRegister(blocks_[2]->GetCollider());
 	collisionManager_->CheakAllCollision();
 	camera_.Update();
 
