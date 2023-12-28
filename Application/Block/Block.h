@@ -30,10 +30,11 @@ public:
 	Screw* GetAnchorPointScrew(size_t num) { return anchorPoints_[num].screw; };
 	Screw* SetAnchorPointScrew(size_t num,Screw* screw) { return anchorPoints_[num].screw = screw; };
 	OBB* GetCollider() { return collider_.get(); };
-	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {};
+	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData);
 private:
 
 	std::array<AnchorPoint,4> anchorPoints_;
 	WorldTransform worldTransform_;
 	std::unique_ptr<OBB> collider_;
+	bool isConnect_;//中心の足場とくっついている(もしくは中心の足場)かどうか
 };

@@ -64,9 +64,9 @@ void CollisionManager::CheckCollisionPair(ColliderShape colliderA, ColliderShape
 		if (Collision::IsCollision(*a, *b, p1, p2, t1, t2, pushBackDist)) {
 			// 衝突処理
 			std::visit([=](const auto& x, const auto& y) {
-				CollisionData collisionData = { p1, t1, pushBackDist };
+				CollisionData collisionData = { p1, t1, pushBackDist ,p2};
 				x->OnCollision(y, collisionData);
-				collisionData = { p2, t2, pushBackDist };
+				collisionData = { p2, t2, pushBackDist ,p1};
 				y->OnCollision(x, collisionData);
 				}, a->GetParentObject(), b->GetParentObject());
 		}

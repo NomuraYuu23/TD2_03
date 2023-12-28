@@ -7,6 +7,7 @@
 #include "../Engine/Camera/BaseCamera.h"
 #include "../Engine/Collision/CollisionData.h"
 #include "Collider/ColliderParentObject.h"
+#include "../Engine/Collider/Sphere/Sphere.h"
 #include <vector>
 #include <optional>
 
@@ -60,6 +61,8 @@ public:
 	//void SetParticle(Particle* particle) { particle_ = particle; };
 
 	void SetScrew(std::vector<std::unique_ptr<Screw>>* s) { screws_ = s; };
+
+	Sphere* GetCollider() { return collider_.get(); };
 private:
 	WorldTransform worldTransform_;
 	std::vector<HierarchicalAnimation> models_;
@@ -94,4 +97,6 @@ private:
 	Vector3 kJumpVelocity;
 
 	std::vector<std::unique_ptr<Screw>>* screws_;
+	std::unique_ptr<Sphere> collider_;
+	float magnetRadius_ = 10;
 };

@@ -29,6 +29,9 @@ void Player::Initialize() {
 	input_ = Input::GetInstance();
 	direction_ = { 0,0,1.0f };
 	directionMatrix_ = Matrix4x4Calc::MakeIdentity4x4();
+
+	collider_.reset(new Sphere);
+	collider_->Initialize(worldTransform_.transform_.translate,magnetRadius_ , this);
 }
 
 
@@ -102,7 +105,7 @@ void Player::Update(Block* block, size_t blockNum) {
 #endif // _DEBUG
 */
 
-	
+	collider_->center_ = worldTransform_.GetWorldPosition();
 	//preJoyState_ = joyState_;
 }
 

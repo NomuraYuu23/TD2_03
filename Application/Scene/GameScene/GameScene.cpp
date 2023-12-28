@@ -59,7 +59,7 @@ void GameScene::Initialize() {
 	std::unique_ptr<Block> block;
 	block.reset(new Block);
 	block->Initialize();
-	collisionManager_->ListRegister(block->GetCollider());
+	//collisionManager_->ListRegister(block->GetCollider());
 	blocks_.push_back(std::move(block));
 	//block_->Initialize();
 
@@ -106,6 +106,10 @@ void GameScene::Update(){
 	target_.Update(&blocks_,*followCamera_.get());
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
 
+	collisionManager_->ListClear();
+	collisionManager_->ListRegister(player_->GetCollider());
+	collisionManager_->ListRegister(blocks_[0]->GetCollider());
+	collisionManager_->CheakAllCollision();
 	camera_.Update();
 
 	followCamera_->Update();
