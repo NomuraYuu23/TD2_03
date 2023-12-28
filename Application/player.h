@@ -5,6 +5,8 @@
 #include "../Engine/3D/WorldTransform.h"
 #include "../Engine/Input/input.h"
 #include "../Engine/Camera/BaseCamera.h"
+#include "../Engine/Collision/CollisionData.h"
+#include "Collider/ColliderParentObject.h"
 #include <vector>
 #include <optional>
 
@@ -51,8 +53,8 @@ public:
 	};
 	
 
-	void OnCollision(WorldTransform& parent);
-
+	//void OnCollision(WorldTransform& parent);
+	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {};
 	
 	void SetTarget(WorldTransform* target) { target_ = target; };
 	//void SetParticle(Particle* particle) { particle_ = particle; };

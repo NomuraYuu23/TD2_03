@@ -206,7 +206,7 @@ void Player::InitializeFloatingGimmick() {
 }
 
 
-
+/*
 void Player::OnCollision(WorldTransform& parent)
 {
 	if (worldTransform_.parent_ != &parent) {
@@ -221,3 +221,4 @@ void Player::OnCollision(WorldTransform& parent)
 	}
 }
 
+*/

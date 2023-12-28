@@ -2,6 +2,9 @@
 #include "Collision.h"
 #include "CollisionData.h"
 
+#include "../../Application/player.h"
+#include "../../Application/Block/Block.h"
+
 void CollisionManager::Initialize()
 {
 
@@ -61,9 +64,9 @@ void CollisionManager::CheckCollisionPair(ColliderShape colliderA, ColliderShape
 		if (Collision::IsCollision(*a, *b, p1, p2, t1, t2, pushBackDist)) {
 			// 衝突処理
 			CollisionData collisionData = {p1, t1, pushBackDist };
-			//a->GetParentObject().OnCollision(b, collisionData);
+			a->GetParentObject().OnCollision(b, collisionData);
 			collisionData = { p2, t2, pushBackDist };
-			//b->GetParentObject().OnCollision(a, collisionData);
+			b->GetParentObject().OnCollision(a, collisionData);
 		}
 		}, colliderA, colliderB);
 
