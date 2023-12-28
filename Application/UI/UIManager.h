@@ -14,13 +14,13 @@ enum UITextureHandleIndex {
 enum UIIndex {
 	
 	kUIIndexRemainingScrewsIcon, // 残りねじアイコン
-	//kUIIndexRemainingScrewsCross, // 残りねじのx
-	//kUIIndexRemainingScrewsTensPlace, // 残りねじの数字10の位
-	//kUIIndexRemainingScrewsOnesPlace, // 残りねじの数字1の位
-	//kUIIndexTimerMinutes, // タイマー分
-	//kUIIndexTimerSecondsTensPlace, // タイマー秒10の位
-	//kUIIndexTimerSecondsOnesPlace, // タイマー秒1の位
-	//kUIIndexTimerColon, // タイマーコロン
+	kUIIndexRemainingScrewsCross, // 残りねじのx
+	kUIIndexRemainingScrewsTensPlace, // 残りねじの数字10の位
+	kUIIndexRemainingScrewsOnesPlace, // 残りねじの数字1の位
+	kUIIndexTimerMinutes, // タイマー分
+	kUIIndexTimerSecondsTensPlace, // タイマー秒10の位
+	kUIIndexTimerSecondsOnesPlace, // タイマー秒1の位
+	kUIIndexTimerColon, // タイマーコロン
 	kUIIndexOfCount
 };
 

@@ -10,7 +10,11 @@ public: // メンバ関数
 
 	virtual void Initialize(uint32_t textureHandle, const std::string& groupName);
 
+	virtual void Initialize(uint32_t textureHandle, const std::string& groupName, const Vector2& size, const Vector2& leftTop);
+
 	virtual void Update();
+
+	virtual void Update(const Vector2& leftTop);
 
 	void Draw();
 

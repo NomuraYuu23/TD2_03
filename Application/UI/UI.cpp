@@ -24,12 +24,31 @@ void UI::Initialize(uint32_t textureHandle, const std::string& groupName)
 
 }
 
+void UI::Initialize(uint32_t textureHandle, const std::string& groupName, const Vector2& size, const Vector2& leftTop)
+{
+
+	UI::Initialize(textureHandle, groupName);
+
+	sprite_->SetTextureSize(size);
+	sprite_->SetTextureLeftTop(leftTop);
+
+}
+
 void UI::Update()
 {
 
 #ifdef _DEBUG
 	ApplyGlobalVariables();
 #endif // _DEBUG
+
+}
+
+void UI::Update(const Vector2& leftTop)
+{
+
+	UI::Update();
+
+	sprite_->SetTextureLeftTop(leftTop);
 
 }
 
