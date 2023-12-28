@@ -60,12 +60,13 @@ void GameScene::Initialize() {
 	block.reset(new Block);
 	block->Initialize();
 	//collisionManager_->ListRegister(block->GetCollider());
+	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
 	//block_->Initialize();
 
 	player_.reset(new Player);
 	player_->Initialize();
-
+	colliderDebugDraw_->AddCollider(player_->GetCollider());
 	
 	for (int index = 0; index < 4; index++) {
 		std::unique_ptr<Screw> screw;

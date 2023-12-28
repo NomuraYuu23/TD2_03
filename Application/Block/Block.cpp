@@ -1,5 +1,5 @@
 #include "Block.h"
-
+#include "../player.h"
 void Block::Initialize() {
 	anchorPoints_[0].position = {  0.8f, 1.0f, 0.8f };
 	anchorPoints_[1].position = { -0.8f, 1.0f, 0.8f };
@@ -21,6 +21,7 @@ void Block::Update() {
 	worldTransform_.UpdateMatrix();
 	collider_->center_ = worldTransform_.GetWorldPosition();
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
+	collider_->worldTransformUpdate();
 }
 void Block::Draw(Model* model, BaseCamera& camera) {
 	model->Draw(worldTransform_,camera);
@@ -32,7 +33,7 @@ Vector3 Block::GetAnchorPointWorldPosition(size_t num) {
 
 void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {
 	if (!isConnect_ && std::holds_alternative<Player*>(pairObject)) {
-		Vector3 toPlayer = Vector3Calc::Subtract( collidionData.p2 , worldTransform_.GetWorldPosition());
+		Vector3 toPlayer = Vector3Calc::Subtract(std::get<Player*>(pairObject)->GetWorldTransform()->GetWorldPosition(), worldTransform_.GetWorldPosition());
 		toPlayer.y = 0;
 		toPlayer = Vector3Calc::Normalize(toPlayer);
 		toPlayer = Vector3Calc::Multiply(1.0f,toPlayer);

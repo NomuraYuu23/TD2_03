@@ -98,5 +98,5 @@ private:
 
 	std::vector<std::unique_ptr<Screw>>* screws_;
 	std::unique_ptr<Sphere> collider_;
-	float magnetRadius_ = 10;
+	float magnetRadius_ = 30.0f;
 };

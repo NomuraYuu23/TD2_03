@@ -106,6 +106,7 @@ void Player::Update(Block* block, size_t blockNum) {
 */
 
 	collider_->center_ = worldTransform_.GetWorldPosition();
+	collider_->worldTransformUpdate();
 	//preJoyState_ = joyState_;
 }
 
