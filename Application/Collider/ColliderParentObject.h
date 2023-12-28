@@ -2,5 +2,5 @@
 #include <variant>
 
 class Player;
-
-using ColliderParentObject = std::variant<Player*>;
+class Block;
+using ColliderParentObject = std::variant<Player*,Block*>;

@@ -5,12 +5,12 @@
 #include"../../../Engine/Collision/CollisionManager.h"
 #include "../../Pause/Pause.h"
 #include "../../../Engine/base/ITextureHandleManager.h"
-#include "../../SampleBone/SampleBone.h"
-#include "../../AudioManager/GameAudioManager.h"
-
+#include "../../player.h"
 #include "../../Block/Block.h"
-#include "../../BlockManager/BlockManager.h"
-
+#include "../../Screw.h"
+#include "../../Target/Target.h"
+#include "../../Camera/FollowCamera/FollowCamera.h"
+#include "../../../Engine/Collision/CollisionManager.h"
 class GameScene : public IScene
 {
 
@@ -90,14 +90,16 @@ private:
 	Vector3 direction = { 1.0f, -1.0f, 0.0f};
 	float intencity = 1.0f;
 
-	// オーディオマネージャー
-	std::unique_ptr<GameAudioManager> audioManager_;
-
 	//ブロックのテスト
 	std::unique_ptr<Model> modelBlock_;
 	std::vector<std::unique_ptr<Block>> blocks_;
 
-	// ブロックマネージャー
-	std::unique_ptr<BlockManager> blockManager_;
+	Target target_;
+	std::unique_ptr<Player> player_;
+	std::vector<std::unique_ptr<Screw>> screws_;
 
+	std::unique_ptr<FollowCamera> followCamera_;
+	uint32_t cursorTextureHandle_;
+
+	std::unique_ptr<CollisionManager> collisionManager_;
 };

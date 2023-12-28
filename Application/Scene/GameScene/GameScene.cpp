@@ -3,7 +3,7 @@
 #include "../../../Engine/base/TextureManager.h"
 #include "../../../Engine/2D/ImguiManager.h"
 #include "../../../Engine/base/D3DResourceLeakChecker.h"
-
+#include "../../player.h"
 /// <summary>
 /// 初期化
 /// </summary>
@@ -39,6 +39,9 @@ void GameScene::Initialize() {
 	
 	isDebugCameraActive_ = true;
 
+	collisionManager_.reset(new CollisionManager);
+	collisionManager_->Initialize();
+
 	model_.reset(Model::Create("Resources/default/", "Ball.obj", dxCommon_, textureHandleManager_.get()));
 	material_.reset(Material::Create());
 	material_->Initialize();
@@ -48,25 +51,38 @@ void GameScene::Initialize() {
 	{0.0f,0.0f,0.0f},
 	};
 	Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
-	material_->Update(uvTransform, color, EnableLighting::BlinnPhongReflection, 100.0f);
+	material_->Update(uvTransform, color, PhongReflection, 100.0f);
 
 	worldTransform_.Initialize();
 
-	audioManager_ = std::make_unique<GameAudioManager>();
-	audioManager_->StaticInitialize();
-	audioManager_->Initialize();
-	audioManager_->PlayWave(GameAudioNameIndex::kSample);
-
 	modelBlock_.reset(Model::Create("Resources/TD2_November/collider/box/", "box.obj", dxCommon_, textureHandleManager_.get()));
-	//std::unique_ptr<Block> block;
-	//block.reset(new Block);
-	//block->Initialize();
-	//blocks_.push_back(std::move(block));
+	std::unique_ptr<Block> block;
+	block.reset(new Block);
+	block->Initialize();
+	collisionManager_->ListRegister(block->GetCollider());
+	blocks_.push_back(std::move(block));
 	//block_->Initialize();
 
-	blockManager_ = std::make_unique<BlockManager>();
-	blockManager_->Initialize(modelBlock_.get());
+	player_.reset(new Player);
+	player_->Initialize();
 
+	
+	for (int index = 0; index < 4; index++) {
+		std::unique_ptr<Screw> screw;
+		screw.reset(new Screw);
+		screw->Initialize();
+		screw->SetPlayer(player_.get());
+		screws_.push_back(std::move(screw));
+	}
+
+	player_->SetScrew(&screws_);
+	//player_->SetViewProjection(camera_);
+
+	target_.Initialize(cursorTextureHandle_);
+	followCamera_.reset(new FollowCamera);
+	followCamera_->Initialize();
+	followCamera_->SetTarget(player_->GetWorldTransform());
+	player_->SetViewProjection(*followCamera_.get());
 }
 
 /// <summary>
@@ -81,17 +97,20 @@ void GameScene::Update(){
 	directionalLightData.intencity = intencity;
 	directionalLight_->Update(directionalLightData);
 
-	//for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end();block++) {
-	//	(*block)->Update();
-	//}
+	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end();block++) {
+		(*block)->Update();
+	}
+	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+		(*block)->Update();
+	}
+	target_.Update(&blocks_,*followCamera_.get());
+	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
 
-	// ブロックマネージャー
-	blockManager_->Update();
-
-	// カメラ
 	camera_.Update();
 
-	worldTransform_.UpdateMatrix();
+	followCamera_->Update();
+	camera_ = static_cast<BaseCamera>(*followCamera_.get());
+
 
 	// デバッグカメラ
 	DebugCameraUpdate();
@@ -135,9 +154,16 @@ void GameScene::Draw() {
 	directionalLight_->Draw(dxCommon_->GetCommadList());
 	//3Dオブジェクトはここ
 
-	model_->Draw(worldTransform_, camera_, material_.get());
-	// ブロックマネージャー
-	blockManager_->Draw(camera_);
+	//model_->Draw(worldTransform_, camera_, material_.get());
+	
+	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+		(*block)->Draw(modelBlock_.get(), camera_);
+	}
+
+	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+		(*block)->Draw(modelBlock_.get(), camera_);
+	}
+	player_->Draw(modelBlock_.get(), camera_);
 
 #ifdef _DEBUG
 
@@ -170,6 +196,7 @@ void GameScene::Draw() {
 	//前景スプライト描画
 	pause_->Draw();
 
+	target_.SpriteDraw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
@@ -183,13 +210,9 @@ void GameScene::ImguiDraw(){
 
 	ImGui::Begin("Light");
 	ImGui::DragFloat3("direction", &direction.x, 0.1f);
-	ImGui::DragFloat3("worldtransform", &worldTransform_.transform_.scale.x, 0.1f);
 	ImGui::DragFloat("i", &intencity, 0.01f);
 	ImGui::Text("Frame rate: %6.2f fps", ImGui::GetIO().Framerate);
 	ImGui::End();
-
-	// ブロックマネージャー
-	blockManager_->ImGuiDraw();
 
 	debugCamera_->ImGuiDraw();
 
@@ -227,7 +250,7 @@ void GameScene::GoToTheTitle()
 {
 
 	if (pause_->GoToTheTitle()) {
-		requestSceneNo = kTitle;
+		sceneNo = kTitle;
 	}
 
 }
@@ -235,7 +258,7 @@ void GameScene::GoToTheTitle()
 void GameScene::ModelCreate()
 {
 
-	colliderSphereModel_.reset(Model::Create("Resources/TD2_November/collider/sphere/", "sphere.obj", dxCommon_, textureHandleManager_.get()));
+	colliderSphereModel_.reset(Model::Create("Resources/TD2_November/collider/sphere/", "sphere.obj", dxCommon_,textureHandleManager_.get()));
 	colliderBoxModel_.reset(Model::Create("Resources/TD2_November/collider/box/", "box.obj", dxCommon_, textureHandleManager_.get()));
 	particleUvcheckerModel_.reset(Model::Create("Resources/default/", "plane.obj", dxCommon_, textureHandleManager_.get()));
 	particleCircleModel_.reset(Model::Create("Resources/Particle/", "plane.obj", dxCommon_, textureHandleManager_.get()));
@@ -254,9 +277,9 @@ void GameScene::TextureLoad()
 
 	// ポーズ
 	pauseTextureHandles_ = {
-		TextureManager::Load("Resources/TD2_November/pause/pausing.png", dxCommon_, textureHandleManager_.get()),
-		TextureManager::Load("Resources/TD2_November/pause/goToTitle.png", dxCommon_, textureHandleManager_.get()),
-		TextureManager::Load("Resources/TD2_November/pause/returnToGame.png", dxCommon_, textureHandleManager_.get()),
+		TextureManager::Load("Resources/TD2_November/pause/pausing.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/TD2_November/pause/goToTitle.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/TD2_November/pause/returnToGame.png", dxCommon_,textureHandleManager_.get()),
 	};
-
+	cursorTextureHandle_ = TextureManager::Load("Resources/ingame_target.png", dxCommon_, textureHandleManager_.get());
 }
