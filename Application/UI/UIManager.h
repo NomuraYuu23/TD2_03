@@ -5,17 +5,22 @@
 #include "UI.h"
 
 enum UITextureHandleIndex {
-
+	kUITextureHandleIndexScrews, // ねじ
+	kUITextureHandleIndexNumber, // 数字
+	UITextureHandleIndexSymbol, // 記号
 	kUITextureHandleIndexOfCount
 };
 
 enum UIIndex {
 	
-	kRemainingScrewsIcon, // 残りねじアイコン
-	kRemainingScrewsCross, // 残りねじのx
-	kRemainingScrewsTensPlace, // 残りねじの数字10の位
-	kRemainingScrewsOnesPlace, // 残りねじの数字1の位
-	kTimerMinutes, // タイマー分
+	kUIIndexRemainingScrewsIcon, // 残りねじアイコン
+	//kUIIndexRemainingScrewsCross, // 残りねじのx
+	//kUIIndexRemainingScrewsTensPlace, // 残りねじの数字10の位
+	//kUIIndexRemainingScrewsOnesPlace, // 残りねじの数字1の位
+	//kUIIndexTimerMinutes, // タイマー分
+	//kUIIndexTimerSecondsTensPlace, // タイマー秒10の位
+	//kUIIndexTimerSecondsOnesPlace, // タイマー秒1の位
+	//kUIIndexTimerColon, // タイマーコロン
 	kUIIndexOfCount
 };
 

@@ -1,4 +1,5 @@
 #include "UIManager.h"
+#include "UIScrew/UIScrew.h"
 
 void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUITextureHandleIndexOfCount>& textureHandles)
 {
@@ -12,7 +13,7 @@ void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUIT
 void UIManager::Update()
 {
 
-	for (uint32_t i = 0; i < i < UIIndex::kUIIndexOfCount; ++i) {
+	for (uint32_t i = 0;i < UIIndex::kUIIndexOfCount; ++i) {
 		UIs_[i]->Update();
 	}
 
@@ -21,7 +22,7 @@ void UIManager::Update()
 void UIManager::Draw()
 {
 
-	for (uint32_t i = 0; i < i < UIIndex::kUIIndexOfCount; ++i) {
+	for (uint32_t i = 0;i < UIIndex::kUIIndexOfCount; ++i) {
 		UIs_[i]->Draw();
 	}
 
@@ -29,4 +30,9 @@ void UIManager::Draw()
 
 void UIManager::UIInitialize()
 {
+
+	UIs_[kUIIndexRemainingScrewsIcon] = std::make_unique<UIScrew>();
+	UIs_[kUIIndexRemainingScrewsIcon]->Initialize(textureHandles_[kUITextureHandleIndexScrews], "UIScrewsIcon");
+
+
 }

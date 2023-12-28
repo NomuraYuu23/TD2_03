@@ -83,6 +83,10 @@ void GameScene::Initialize() {
 	followCamera_->Initialize();
 	followCamera_->SetTarget(player_->GetWorldTransform());
 	player_->SetViewProjection(*followCamera_.get());
+
+	uiManager_ = std::make_unique<UIManager>();
+	uiManager_->Initialize(uiTextureHandles_);
+
 }
 
 /// <summary>
@@ -111,6 +115,8 @@ void GameScene::Update(){
 	followCamera_->Update();
 	camera_ = static_cast<BaseCamera>(*followCamera_.get());
 
+	// UIマネージャー
+	uiManager_->Update();
 
 	// デバッグカメラ
 	DebugCameraUpdate();
@@ -195,6 +201,9 @@ void GameScene::Draw() {
 	//背景
 	//前景スプライト描画
 	pause_->Draw();
+
+	// UIマネージャー
+	uiManager_->Draw();
 
 	target_.SpriteDraw();
 
@@ -282,4 +291,11 @@ void GameScene::TextureLoad()
 		TextureManager::Load("Resources/TD2_November/pause/returnToGame.png", dxCommon_,textureHandleManager_.get()),
 	};
 	cursorTextureHandle_ = TextureManager::Load("Resources/ingame_target.png", dxCommon_, textureHandleManager_.get());
+
+	uiTextureHandles_ = {
+		TextureManager::Load("Resources/UI/kugimi.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/UI/number.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/UI/ingame_ui_symbol.png", dxCommon_,textureHandleManager_.get()),
+	};
+
 }

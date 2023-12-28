@@ -11,6 +11,8 @@
 #include "../../Target/Target.h"
 #include "../../Camera/FollowCamera/FollowCamera.h"
 #include "../../../Engine/Collision/CollisionManager.h"
+#include "../../UI/UIManager.h"
+
 class GameScene : public IScene
 {
 
@@ -102,4 +104,9 @@ private:
 	uint32_t cursorTextureHandle_;
 
 	std::unique_ptr<CollisionManager> collisionManager_;
+
+	// UIマネージャー
+	std::unique_ptr<UIManager> uiManager_;
+	std::array<uint32_t, UITextureHandleIndex::kUITextureHandleIndexOfCount> uiTextureHandles_;
+
 };

@@ -8,9 +8,9 @@ class UI
 
 public: // メンバ関数
 
-	virtual void Initialize(uint32_t textureHandle);
+	virtual void Initialize(uint32_t textureHandle, const std::string& groupName);
 
-	virtual void Update() = 0;
+	virtual void Update();
 
 	void Draw();
 
@@ -19,12 +19,12 @@ private: // メンバ関数
 	/// <summary>
 	/// 外部変数登録
 	/// </summary>
-	virtual void RegisteringGlobalVariables() = 0;
+	virtual void RegisteringGlobalVariables();
 
 	/// <summary>
 	/// 外部変数適用
 	/// </summary>
-	virtual void ApplyGlobalVariables() = 0;
+	virtual void ApplyGlobalVariables();
 
 
 private: // メンバ変数
@@ -36,6 +36,8 @@ private: // メンバ変数
 	float rotate_;
 
 	Vector2 size_;
+
+	std::string groupName_;
 
 };
 
