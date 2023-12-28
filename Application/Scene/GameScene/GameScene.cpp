@@ -117,7 +117,7 @@ void GameScene::Update(){
 	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Update();
 	}
-	target_.Update(&blocks_,*followCamera_.get());
+	target_.Update(&blocks_,*followCamera_.get(),player_.get());
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
 
 	collisionManager_->ListClear();

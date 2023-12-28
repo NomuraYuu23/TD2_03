@@ -2,15 +2,16 @@
 #include "../Block/Block.h"
 #include "../../Engine/Camera/BaseCamera.h"
 #include "../../Engine/2D/Sprite.h"
+#include "../player.h"
 #include <vector>
 class Target
 {
 public:
 	void Initialize(uint32_t textureHandle);
-	void Update(std::vector<std::unique_ptr<Block>>* blockList, BaseCamera& camera);
+	void Update(std::vector<std::unique_ptr<Block>>* blockList, BaseCamera& camera,Player* player);
 	void SpriteDraw();
 	
-	void ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, BaseCamera& camera);
+	void ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, BaseCamera& camera,Player* player);
 
 	bool IsTarget() { return isTarget_; };
 	Block* GetTargetBlock() { return targetBlock_; };

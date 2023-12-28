@@ -63,6 +63,7 @@ public:
 	void SetScrew(std::vector<std::unique_ptr<Screw>>* s) { screws_ = s; };
 
 	Sphere* GetCollider() { return collider_.get(); };
+	Matrix4x4 GetDirection() { return directionMatrix_; };
 private:
 	WorldTransform worldTransform_;
 	std::vector<HierarchicalAnimation> models_;

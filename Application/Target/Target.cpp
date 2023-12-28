@@ -4,8 +4,11 @@ void Target::Initialize(uint32_t textureHandle) {
 
 	anchor_.reset(Sprite::Create(textureHandle, { 0,0 }, {1.0f,1.0f,1.0f,1.0f}));
 }
-void Target::Update(std::vector<std::unique_ptr<Block>>* blockList, BaseCamera& camera) {
-	ForchNearAnchor(blockList,camera);
+void Target::Update(std::vector<std::unique_ptr<Block>>* blockList, BaseCamera& camera, Player* player) {
+	ForchNearAnchor(blockList,camera,player);
+	if (!isTarget_) {
+		targetBlock_ = nullptr;
+	}
 }
 
 bool IsInnerCamera(const Vector3& vector) {
@@ -15,7 +18,7 @@ bool IsInnerCamera(const Vector3& vector) {
 	return false;
 }
 
-void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, BaseCamera& camera) {
+void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, BaseCamera& camera, Player* player) {
 	isTarget_ = false;
 	if (blockList->empty()) {
 		isTarget_ = false;
@@ -45,11 +48,20 @@ void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, Bas
 	}
 	for (ite; ite != blockList->end();ite++) {
 		for (size_t index = 0; index < block->GetAnchorPointArray().size(); index++) {
+			Matrix4x4 view = Matrix4x4Calc::Inverse( player->GetWorldTransform()->worldMatrix_);
+			float fovY_ = 0.45f;
+			float aspectRatio_ = float(WinApp::kWindowWidth) / float(WinApp::kWindowHeight);
+			float nearClip_ = 0.1f;
+			float farClip_ = 32.0f;
+			Matrix4x4 proj = Matrix4x4Calc::MakePerspectiveFovMatrix(fovY_,aspectRatio_,nearClip_,farClip_);
+			Matrix4x4 vp = Matrix4x4Calc::Multiply(view,proj);
 			Vector3 oldvp = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_), camera.GetViewProjectionMatrix());
 			Vector3 newvp = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_), camera.GetViewProjectionMatrix());
-			bool lengthCheck = Vector3Calc::Length(Vector3Calc::Subtract(block->GetAnchorPointArray()[num].position, camera.GetTransform()))
-			>= Vector3Calc::Length(Vector3Calc::Subtract((*ite)->GetAnchorPointArray()[index].position, camera.GetTransform()));
-			if ((!IsInnerCamera(oldvp) || lengthCheck) && (IsInnerCamera(newvp))) {
+			Vector3 oldpl = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_), vp);
+			Vector3 newpl = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_), vp);
+			bool lengthCheck = newpl.x <= oldpl.x && newpl.z > 0.0f;
+			//>= Vector3Calc::Length(Vector3Calc::Subtract((*ite)->GetAnchorPointArray()[index].position, camera.GetTransform()));
+			if ((!IsInnerCamera(oldpl) || lengthCheck) && (IsInnerCamera(newpl))) {
 				num = index;
 				block = ite->get();
 				Vector3 pos = Matrix4x4Calc::Transform(newvp, Matrix4x4Calc::MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1)); 
