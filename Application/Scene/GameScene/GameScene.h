@@ -102,4 +102,5 @@ private:
 	uint32_t cursorTextureHandle_;
 
 	std::unique_ptr<CollisionManager> collisionManager_;
+	uint32_t shotUITextureHandle_[2];
 };

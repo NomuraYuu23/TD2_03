@@ -1,8 +1,12 @@
 #include "Target.h"
 #include "../../Engine/base/TextureManager.h"
-void Target::Initialize(uint32_t textureHandle) {
+void Target::Initialize(uint32_t textureHandle, uint32_t textureHandle2[2]) {
 
 	anchor_.reset(Sprite::Create(textureHandle, { 0,0 }, {1.0f,1.0f,1.0f,1.0f}));
+	ui_.reset(Sprite::Create(textureHandle2[0], {0,0}, {1.0f,1.0f,1.0f,1.0f}));
+	textureHandle_[0] = textureHandle2[0];
+	textureHandle_[1] = textureHandle2[1];
+
 }
 void Target::Update(std::vector<std::unique_ptr<Block>>* blockList, BaseCamera& camera, Player* player) {
 	ForchNearAnchor(blockList,camera,player);
@@ -28,7 +32,7 @@ void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, Bas
 	Block* block = ite->get();
 	size_t num = 0;
 	//対象ブロックが一つだったとき
-	if (blockList->size() == 1) {
+	/*if (blockList->size() == 1) {
 		for (size_t index = 0; index < block->GetAnchorPointArray().size();index++) {
 			Vector3 oldvp = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_),camera.GetViewProjectionMatrix());
 			Vector3 newvp = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform(block->GetAnchorPointArray()[index].position, block->GetWorldTransform()->worldMatrix_),camera.GetViewProjectionMatrix());
@@ -38,6 +42,9 @@ void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, Bas
 				num = index;
 				Vector3 pos = Matrix4x4Calc::Transform(newvp, Matrix4x4Calc::MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1));
 				anchor_->SetPosition({ pos.x,pos.y });
+				anchor_->SetSize({0.5f,0.5f});
+				ui_->SetPosition({ pos.x,pos.y-32.0f });
+				ui_->SetSize({ 0.5f,0.5f });
 				isTarget_ = true;
 			}
 		}
@@ -45,27 +52,35 @@ void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, Bas
 		numTargetAnchor_ = num;
 		return;
 		//現在の情報をいれてリターン
-	}
+	}*/
 	for (ite; ite != blockList->end();ite++) {
 		for (size_t index = 0; index < block->GetAnchorPointArray().size(); index++) {
 			Matrix4x4 view = Matrix4x4Calc::Inverse( player->GetWorldTransform()->worldMatrix_);
-			float fovY_ = 0.45f;
-			float aspectRatio_ = float(WinApp::kWindowWidth) / float(WinApp::kWindowHeight);
-			float nearClip_ = 0.1f;
-			float farClip_ = 32.0f;
+			float fovY_ = 0.5f;
+			float aspectRatio_ = 1.0f;
+			float nearClip_ = 0.01f;
+			float farClip_ = 100.0f;
 			Matrix4x4 proj = Matrix4x4Calc::MakePerspectiveFovMatrix(fovY_,aspectRatio_,nearClip_,farClip_);
 			Matrix4x4 vp = Matrix4x4Calc::Multiply(view,proj);
 			Vector3 oldvp = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_), camera.GetViewProjectionMatrix());
 			Vector3 newvp = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_), camera.GetViewProjectionMatrix());
 			Vector3 oldpl = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_), vp);
 			Vector3 newpl = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_), vp);
-			bool lengthCheck = newpl.x <= oldpl.x && newpl.z > 0.0f;
+			bool lengthCheck = std::abs(newpl.x) <= std::abs(oldpl.x) && newpl.z > 0.0f;
 			//>= Vector3Calc::Length(Vector3Calc::Subtract((*ite)->GetAnchorPointArray()[index].position, camera.GetTransform()));
 			if ((!IsInnerCamera(oldpl) || lengthCheck) && (IsInnerCamera(newpl))) {
 				num = index;
 				block = ite->get();
 				Vector3 pos = Matrix4x4Calc::Transform(newvp, Matrix4x4Calc::MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1)); 
+				uiNum_ = 0;
+				if (block->GetAnchorPointScrew(num)) {
+					uiNum_ = 1;
+				}
+				ui_->SetTextureHandle(textureHandle_[uiNum_]);
 				anchor_->SetPosition({ pos.x,pos.y });
+				anchor_->SetSize({ 256.0f/4.0f,256.0f/4.0f });
+				ui_->SetPosition({ pos.x,pos.y - 64.0f });
+				ui_->SetSize({ 135.0f,48.0f });
 				isTarget_ = true;
 			}
 		}
@@ -78,5 +93,6 @@ void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, Bas
 void Target::SpriteDraw() {
 	if (isTarget_) {
 		anchor_->Draw();
+		ui_->Draw();
 	}
 }

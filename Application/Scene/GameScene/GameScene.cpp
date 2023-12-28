@@ -63,19 +63,19 @@ void GameScene::Initialize() {
 	block->SetIsConnect(true);
 	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
-
+	/*
 	block.reset(new Block);
 	block->Initialize();
-	block->SetWorldPosition({2.0f,0.0f,30.0f});
+	block->SetWorldPosition({2.0f,0.0f,60.0f});
 	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
 
 	block.reset(new Block);
 	block->Initialize();
-	block->SetWorldPosition({ 30.0f,0.0f,-2.0f });
+	block->SetWorldPosition({ 60.0f,0.0f,-2.0f });
 	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
-
+	*/
 
 	player_.reset(new Player);
 	player_->Initialize();
@@ -92,7 +92,7 @@ void GameScene::Initialize() {
 	player_->SetScrew(&screws_);
 	//player_->SetViewProjection(camera_);
 
-	target_.Initialize(cursorTextureHandle_);
+	target_.Initialize(cursorTextureHandle_,shotUITextureHandle_);
 	followCamera_.reset(new FollowCamera);
 	followCamera_->Initialize();
 	followCamera_->SetTarget(player_->GetWorldTransform());
@@ -123,8 +123,8 @@ void GameScene::Update(){
 	collisionManager_->ListClear();
 	collisionManager_->ListRegister(player_->GetCollider());
 	collisionManager_->ListRegister(blocks_[0]->GetCollider());
-	collisionManager_->ListRegister(blocks_[1]->GetCollider());
-	collisionManager_->ListRegister(blocks_[2]->GetCollider());
+	//collisionManager_->ListRegister(blocks_[1]->GetCollider());
+	//collisionManager_->ListRegister(blocks_[2]->GetCollider());
 	collisionManager_->CheakAllCollision();
 	camera_.Update();
 
@@ -183,7 +183,7 @@ void GameScene::Draw() {
 	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Draw(modelBlock_.get(), camera_);
 	}
-	player_->Draw(modelBlock_.get(), camera_);
+	player_->Draw(model_.get(), camera_);
 
 #ifdef _DEBUG
 
@@ -302,4 +302,6 @@ void GameScene::TextureLoad()
 		TextureManager::Load("Resources/TD2_November/pause/returnToGame.png", dxCommon_,textureHandleManager_.get()),
 	};
 	cursorTextureHandle_ = TextureManager::Load("Resources/ingame_target.png", dxCommon_, textureHandleManager_.get());
+	shotUITextureHandle_[0] = TextureManager::Load("Resources/ingame_ui_RB.png", dxCommon_, textureHandleManager_.get());
+	shotUITextureHandle_[1] = TextureManager::Load("Resources/ingame_ui_RB_remove.png", dxCommon_, textureHandleManager_.get());
 }

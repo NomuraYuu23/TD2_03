@@ -10,7 +10,7 @@ void Block::Initialize() {
 		anchorPoints_[index].screw = nullptr;
 	}
 	worldTransform_.Initialize();
-	worldTransform_.transform_.scale = {3.0f,0.5f,3.0f};
+	worldTransform_.transform_.scale = {6.0f,0.5f,6.0f};
 
 	collider_.reset(new OBB);
 	collider_->Initialize(worldTransform_.transform_.translate,worldTransform_.rotateMatrix_,worldTransform_.transform_.scale,this);
@@ -45,7 +45,7 @@ void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidion
 			Vector3 toPlayer = Vector3Calc::Subtract(std::get<Player*>(pairObject)->GetWorldTransform()->GetWorldPosition(), worldTransform_.GetWorldPosition());
 			toPlayer.y = 0;
 			toPlayer = Vector3Calc::Normalize(toPlayer);
-			toPlayer = Vector3Calc::Multiply(1.0f, toPlayer);
+			toPlayer = Vector3Calc::Multiply(0.5f, toPlayer);
 			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, toPlayer);
 		}
 	}
