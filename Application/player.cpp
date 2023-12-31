@@ -75,8 +75,10 @@ void Player::Update(Block* block, size_t blockNum) {
 		}
 
 	}*/
-	worldTransform_.transform_.translate.y -= 0.1f;
-
+	worldTransform_.transform_.translate.y -= 0.3f;
+	if (worldTransform_.transform_.translate.y <= -20.0f) {
+		worldTransform_.transform_.translate = {0.0f,4.0f,0.0f};
+	}
 	switch (behavior_) {
 	case Player::Behavior::kRoot:
 		BehaviorRootUpdate(block,blockNum);

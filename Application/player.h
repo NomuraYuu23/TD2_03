@@ -66,7 +66,7 @@ public:
 
 	OBB* GetCollider() { return collider_.get(); };
 	Magnet* GetMagnet() { return magnet_.get(); };
-	Matrix4x4 GetDirection() { return directionMatrix_; };
+	Vector3 GetDirection() { return direction_; };
 private:
 	WorldTransform worldTransform_;
 	std::vector<HierarchicalAnimation> models_;

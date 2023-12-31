@@ -55,6 +55,9 @@ void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, Bas
 	}*/
 	for (ite; ite != blockList->end();ite++) {
 		for (size_t index = 0; index < block->GetAnchorPointArray().size(); index++) {
+			if ((*ite)->GetIsCenter()) {
+				continue;
+			}
 			Matrix4x4 view = Matrix4x4Calc::Inverse( player->GetWorldTransform()->worldMatrix_);
 			float fovY_ = 0.5f;
 			float aspectRatio_ = 1.0f;
@@ -67,8 +70,10 @@ void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, Bas
 			Vector3 oldpl = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_), vp);
 			Vector3 newpl = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_), vp);
 			bool lengthCheck = std::abs(newpl.x) <= std::abs(oldpl.x) && newpl.z > 0.0f;
+			lengthCheck = true;
 			//>= Vector3Calc::Length(Vector3Calc::Subtract((*ite)->GetAnchorPointArray()[index].position, camera.GetTransform()));
-			if ((!IsInnerCamera(oldpl) || lengthCheck) && (IsInnerCamera(newpl))) {
+			float dot = Vector3Calc::Dot(Vector3Calc::Normalize(Vector3Calc::Subtract(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_),player->GetWorldTransform()->GetWorldPosition())),Vector3Calc::Normalize(player->GetDirection()));
+			if ((!IsInnerCamera(oldpl) || lengthCheck) && dot>0.5f && IsInnerCamera(newvp)) {
 				num = index;
 				block = ite->get();
 				Vector3 pos = Matrix4x4Calc::Transform(newvp, Matrix4x4Calc::MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1)); 

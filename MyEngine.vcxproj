@@ -114,6 +114,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Scene\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Application\Screw.cpp" />
     <ClCompile Include="Application\Target\Target.cpp" />
+    <ClCompile Include="Application\UI\UI.cpp" />
+    <ClCompile Include="Application\UI\UIManager.cpp" />
+    <ClCompile Include="Application\UI\UINumber\UINumber.cpp" />
+    <ClCompile Include="Application\UI\UIScrew\UIScrew.cpp" />
+    <ClCompile Include="Application\UI\UISymbol\UISymbol.cpp" />
     <ClCompile Include="Engine\2D\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Animation\AnimationFile.cpp" />
     <ClCompile Include="Engine\Animation\IBone.cpp" />
@@ -196,6 +201,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Scene\TitleScene\TitleScene.h" />
     <ClInclude Include="Application\Screw.h" />
     <ClInclude Include="Application\Target\Target.h" />
+    <ClInclude Include="Application\UI\UI.h" />
+    <ClInclude Include="Application\UI\UIManager.h" />
+    <ClInclude Include="Application\UI\UINumber\UINumber.h" />
+    <ClInclude Include="Application\UI\UIScrew\UIScrew.h" />
+    <ClInclude Include="Application\UI\UISymbol\UISymbol.h" />
     <ClInclude Include="Engine\2D\ImGuiManager.h" />
     <ClInclude Include="Engine\Animation\AnimationFile.h" />
     <ClInclude Include="Engine\Animation\BoneData.h" />

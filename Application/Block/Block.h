@@ -33,6 +33,7 @@ public:
 	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData);
 	bool GetIsConnect() { return isConnect_; };
 	void SetIsConnect(bool is) { isConnect_ = is; };
+	bool GetIsCenter() { return isCenter_; };
 	void SetIsCenter(bool is) { isCenter_ = is; };
 	void SetWorldPosition(const Vector3& pos) { worldTransform_.transform_.translate = pos; };
 private:
