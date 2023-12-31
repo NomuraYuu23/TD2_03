@@ -46,4 +46,6 @@ private:
 	State state_;
 	static void(Screw::* stateTable[])();
 	Player* player_;
+
+	std::unique_ptr <Material> mat_;
 };

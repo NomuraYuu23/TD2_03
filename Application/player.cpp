@@ -35,6 +35,10 @@ void Player::Initialize() {
 
 	magnet_.reset(new Magnet);
 	magnet_->Initialize();
+	mat_.reset(Material::Create());
+	TransformStructure t{0};
+	t.scale = {1.0f,1.0f,1.0f};
+	mat_->Update(t, {0.8f,0.0f,0.0f,1.0f},0,200);
 }
 
 
@@ -210,7 +214,7 @@ void Player::BehaviorAttackUpdate()
 }
 
 void Player::Draw(Model* model, BaseCamera& camera) {
-	model->Draw(worldTransform_, camera);
+	model->Draw(worldTransform_, camera,mat_.get());
 }
 
 void Player::InitializeFloatingGimmick() {

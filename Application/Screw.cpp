@@ -15,13 +15,19 @@ void Screw::Initialize() {
 	state_ = State::FOLLOW;
 	//state_ = State(5);
 	worldTransform_.Initialize();
+	worldTransform_.transform_.scale = {0.8f,0.8f,0.8f};
+
+	mat_.reset(Material::Create());
+	TransformStructure t{ 0 };
+	t.scale = { 1.0f,1.0f,1.0f };
+	mat_->Update(t, { 0.0f,0.0f,0.8f,1.0f }, 0, 200);
 }
 void Screw::Update() {
 	(this->*stateTable[static_cast<size_t>(state_)])();
 	worldTransform_.UpdateMatrix();
 }
 void Screw::Draw(Model* model, BaseCamera& camera) {
-	model->Draw(worldTransform_, camera);
+	model->Draw(worldTransform_, camera,mat_.get());
 }
 
 void Screw::Throw(const Vector3 position, void* block, size_t num) {

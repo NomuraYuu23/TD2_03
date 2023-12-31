@@ -191,7 +191,7 @@ void GameScene::Draw() {
 	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Draw(modelBlock_.get(), camera_);
 	}
-	player_->Draw(model_.get(), camera_);
+	player_->Draw(modelBlock_.get(), camera_);
 
 #ifdef _DEBUG
 

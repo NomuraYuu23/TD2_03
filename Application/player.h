@@ -103,5 +103,6 @@ private:
 	std::vector<std::unique_ptr<Screw>>* screws_;
 	std::unique_ptr<OBB> collider_;
 	std::unique_ptr<Magnet> magnet_;
+	std::unique_ptr <Material> mat_;
 	//float magnetRadius_ = 12.0f;
 };
