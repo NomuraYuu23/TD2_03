@@ -37,5 +37,13 @@ private: // メンバ関数
 	/// </summary>
 	void TextureLoad() override;
 
+private: // メンバ変数
+
+	// スプライト
+	std::unique_ptr<Sprite> titleSprite_ = nullptr;
+	// テクスチャハンドル
+	uint32_t titleTextureHandle_ = 0u;
+
+
 };
 

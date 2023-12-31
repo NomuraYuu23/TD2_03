@@ -1,4 +1,5 @@
 #include "TitleScene.h"
+#include "../../../Engine/base/TextureManager.h"
 
 void TitleScene::Initialize()
 {
@@ -8,6 +9,9 @@ void TitleScene::Initialize()
 	ModelCreate();
 	MaterialCreate();
 	TextureLoad();
+
+	titleTextureHandle_ = TextureManager::Load("Resources/Title/title.png", dxCommon_, textureHandleManager_.get()),
+	titleSprite_.reset(Sprite::Create(titleTextureHandle_, Vector2{ 640.0f, 360.0f }, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 
 }
 
@@ -49,6 +53,7 @@ void TitleScene::Draw()
 
 	//背景
 	//前景スプライト描画
+	titleSprite_->Draw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
