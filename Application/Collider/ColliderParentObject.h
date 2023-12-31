@@ -3,4 +3,5 @@
 
 class Player;
 class Block;
-using ColliderParentObject = std::variant<Player*,Block*>;
+class Magnet;
+using ColliderParentObject = std::variant<Player*,Block*,Magnet*>;

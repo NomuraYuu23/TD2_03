@@ -63,7 +63,7 @@ void GameScene::Initialize() {
 	block->SetIsConnect(true);
 	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
-	/*
+	
 	block.reset(new Block);
 	block->Initialize();
 	block->SetWorldPosition({2.0f,0.0f,60.0f});
@@ -75,11 +75,12 @@ void GameScene::Initialize() {
 	block->SetWorldPosition({ 60.0f,0.0f,-2.0f });
 	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
-	*/
+	
 
 	player_.reset(new Player);
 	player_->Initialize();
 	colliderDebugDraw_->AddCollider(player_->GetCollider());
+	colliderDebugDraw_->AddCollider(player_->GetMagnet()->GetCollider());
 	
 	for (int index = 0; index < 4; index++) {
 		std::unique_ptr<Screw> screw;
@@ -122,9 +123,10 @@ void GameScene::Update(){
 
 	collisionManager_->ListClear();
 	collisionManager_->ListRegister(player_->GetCollider());
+	collisionManager_->ListRegister(player_->GetMagnet()->GetCollider());
 	collisionManager_->ListRegister(blocks_[0]->GetCollider());
-	//collisionManager_->ListRegister(blocks_[1]->GetCollider());
-	//collisionManager_->ListRegister(blocks_[2]->GetCollider());
+	collisionManager_->ListRegister(blocks_[1]->GetCollider());
+	collisionManager_->ListRegister(blocks_[2]->GetCollider());
 	collisionManager_->CheakAllCollision();
 	camera_.Update();
 

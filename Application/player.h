@@ -7,7 +7,9 @@
 #include "../Engine/Camera/BaseCamera.h"
 #include "../Engine/Collision/CollisionData.h"
 #include "Collider/ColliderParentObject.h"
-#include "../Engine/Collider/Sphere/Sphere.h"
+#include "../Engine/Collider/OBB/OBB.h"
+#include "Magnet.h"
+
 #include <vector>
 #include <optional>
 
@@ -55,14 +57,15 @@ public:
 	
 
 	//void OnCollision(WorldTransform& parent);
-	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {};
+	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData) ;
 	
 	void SetTarget(WorldTransform* target) { target_ = target; };
 	//void SetParticle(Particle* particle) { particle_ = particle; };
 
 	void SetScrew(std::vector<std::unique_ptr<Screw>>* s) { screws_ = s; };
 
-	Sphere* GetCollider() { return collider_.get(); };
+	OBB* GetCollider() { return collider_.get(); };
+	Magnet* GetMagnet() { return magnet_.get(); };
 	Matrix4x4 GetDirection() { return directionMatrix_; };
 private:
 	WorldTransform worldTransform_;
@@ -98,6 +101,7 @@ private:
 	Vector3 kJumpVelocity;
 
 	std::vector<std::unique_ptr<Screw>>* screws_;
-	std::unique_ptr<Sphere> collider_;
-	float magnetRadius_ = 12.0f;
+	std::unique_ptr<OBB> collider_;
+	std::unique_ptr<Magnet> magnet_;
+	//float magnetRadius_ = 12.0f;
 };

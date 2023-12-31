@@ -33,7 +33,7 @@ Vector3 Block::GetAnchorPointWorldPosition(size_t num) {
 }
 
 void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {
-	if (!isConnect_ && std::holds_alternative<Player*>(pairObject)) {
+	if (!isConnect_ && std::holds_alternative<Magnet*>(pairObject)) {
 		bool isStack = false;
 		for (int index = 0; index < 4; index++) {
 			if (anchorPoints_[index].screw != nullptr) {
@@ -42,7 +42,7 @@ void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidion
 			}
 		}
 		if (isStack) {
-			Vector3 toPlayer = Vector3Calc::Subtract(std::get<Player*>(pairObject)->GetWorldTransform()->GetWorldPosition(), worldTransform_.GetWorldPosition());
+			Vector3 toPlayer = Vector3Calc::Subtract(std::get<Magnet*>(pairObject)->GetCenter(), worldTransform_.GetWorldPosition());
 			toPlayer.y = 0;
 			toPlayer = Vector3Calc::Normalize(toPlayer);
 			toPlayer = Vector3Calc::Multiply(0.5f, toPlayer);

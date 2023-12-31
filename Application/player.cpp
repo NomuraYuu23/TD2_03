@@ -30,8 +30,11 @@ void Player::Initialize() {
 	direction_ = { 0,0,1.0f };
 	directionMatrix_ = Matrix4x4Calc::MakeIdentity4x4();
 
-	collider_.reset(new Sphere);
-	collider_->Initialize(worldTransform_.transform_.translate,magnetRadius_ , this);
+	collider_.reset(new OBB);
+	collider_->Initialize(worldTransform_.transform_.translate, worldTransform_.rotateMatrix_, worldTransform_.transform_.scale, this);
+
+	magnet_.reset(new Magnet);
+	magnet_->Initialize();
 }
 
 
@@ -66,13 +69,13 @@ void Player::Update(Block* block, size_t blockNum) {
 	}
 	//BehaviorRootUpdate();
 	//BehaviorAttackUpdate();
-	if (worldTransform_.parent_) {
+	/*if (worldTransform_.parent_) {
 		if (worldTransform_.transform_.translate.y < 0.0f) {
 			worldTransform_.transform_.translate.y = 0.0f;
 		}
 
-	}
-
+	}*/
+	worldTransform_.transform_.translate.y -= 0.1f;
 
 	switch (behavior_) {
 	case Player::Behavior::kRoot:
@@ -106,7 +109,11 @@ void Player::Update(Block* block, size_t blockNum) {
 */
 
 	collider_->center_ = worldTransform_.GetWorldPosition();
+	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
 	collider_->worldTransformUpdate();
+	magnet_->SetCenter(worldTransform_.GetWorldPosition());
+	magnet_->Update();
+
 	//preJoyState_ = joyState_;
 }
 
@@ -210,19 +217,32 @@ void Player::InitializeFloatingGimmick() {
 }
 
 
-/*
-void Player::OnCollision(WorldTransform& parent)
-{
-	if (worldTransform_.parent_ != &parent) {
-		Matrix4x4 rocal = Matrix4x4Calc::Multiply(worldTransform_.worldMatrix_ , (Matrix4x4Calc::Inverse(parent.worldMatrix_)));
-		worldTransform_.transform_.translate.x = rocal.m[3][0];
-		worldTransform_.transform_.translate.y = rocal.m[3][1];
-		worldTransform_.transform_.translate.z = rocal.m[3][2];
 
-		worldTransform_.parent_ = &parent;
-		velocity_ = { 0,0,0 };
-		isFlooar_ = true;
+void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidionData)
+{
+	if (std::holds_alternative<Block*>(pairObject)) {
+		/*if (worldTransform_.parent_ != std::get<Block*>(pairObject)->GetWorldTransform()) {
+			Matrix4x4 rocal = Matrix4x4Calc::Multiply(worldTransform_.worldMatrix_, (Matrix4x4Calc::Inverse(std::get<Block*>(pairObject)->GetWorldTransform()->worldMatrix_)));
+			worldTransform_.transform_.translate.x = rocal.m[3][0];
+			worldTransform_.transform_.translate.y = rocal.m[3][1];
+			worldTransform_.transform_.translate.z = rocal.m[3][2];
+
+
+			Vector3 axis;
+			axis = { rocal.m[0][0],rocal.m[0][1],rocal.m[0][2] };
+			float length = Vector3Calc::Length(axis);
+			worldTransform_.transform_.scale.x = length;
+			axis = { rocal.m[1][0],rocal.m[1][1],rocal.m[1][2] };
+			worldTransform_.transform_.scale.y = length;
+			axis = { rocal.m[2][0],rocal.m[2][1],rocal.m[2][2] };
+			worldTransform_.transform_.scale.z = length;
+
+			worldTransform_.parent_ = std::get<Block*>(pairObject)->GetWorldTransform();
+			velocity_ = { 0,0,0 };
+			isFlooar_ = true;
+		}*/
+		worldTransform_.transform_.translate.y = std::get<Block*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + std::get<Block*>(pairObject)->GetWorldTransform()->transform_.scale.y + worldTransform_.transform_.scale.y;
+		worldTransform_.UpdateMatrix();
 	}
 }
 
-*/

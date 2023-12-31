@@ -107,6 +107,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\BlockManager\BlockManagerState\IBlockManagerState.cpp" />
     <ClCompile Include="Application\Block\Block.cpp" />
     <ClCompile Include="Application\Camera\FollowCamera\FollowCamera.cpp" />
+    <ClCompile Include="Application\Magnet.cpp" />
     <ClCompile Include="Application\player.cpp" />
     <ClCompile Include="Application\SampleBone\SampleBone.cpp" />
     <ClCompile Include="Application\Scene\SelectScene\SelectScene.cpp" />
@@ -187,6 +188,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Block\Block.h" />
     <ClInclude Include="Application\Camera\FollowCamera\FollowCamera.h" />
     <ClInclude Include="Application\Collider\ColliderParentObject.h" />
+    <ClInclude Include="Application\Magnet.h" />
     <ClInclude Include="Application\player.h" />
     <ClInclude Include="Application\SampleBone\SampleBone.h" />
     <ClInclude Include="Application\Scene\SceneName.h" />
