@@ -53,6 +53,7 @@ void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, Bas
 		return;
 		//現在の情報をいれてリターン
 	}*/
+	float oldDot=0;
 	for (ite; ite != blockList->end();ite++) {
 		for (size_t index = 0; index < block->GetAnchorPointArray().size(); index++) {
 			if ((*ite)->GetIsCenter()) {
@@ -73,9 +74,10 @@ void Target::ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, Bas
 			lengthCheck = true;
 			//>= Vector3Calc::Length(Vector3Calc::Subtract((*ite)->GetAnchorPointArray()[index].position, camera.GetTransform()));
 			float dot = Vector3Calc::Dot(Vector3Calc::Normalize(Vector3Calc::Subtract(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_),player->GetWorldTransform()->GetWorldPosition())),Vector3Calc::Normalize(player->GetDirection()));
-			if ((!IsInnerCamera(oldpl) || lengthCheck) && dot>0.5f && IsInnerCamera(newvp)) {
+			if ((!IsInnerCamera(oldpl) || lengthCheck) && dot>0.5f && IsInnerCamera(newvp) && (!isTarget_ || std::cos(dot) < std::cos(oldDot))) {
 				num = index;
 				block = ite->get();
+				oldDot = dot;
 				Vector3 pos = Matrix4x4Calc::Transform(newvp, Matrix4x4Calc::MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1)); 
 				uiNum_ = 0;
 				if (block->GetAnchorPointScrew(num)) {
