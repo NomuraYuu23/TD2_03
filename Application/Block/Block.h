@@ -36,6 +36,7 @@ public:
 	bool GetIsCenter() { return isCenter_; };
 	void SetIsCenter(bool is) { isCenter_ = is; };
 	void SetWorldPosition(const Vector3& pos) { worldTransform_.transform_.translate = pos; };
+	void SetVelocity(const Vector3& v) { velocity_ = v; };
 private:
 
 	std::array<AnchorPoint,4> anchorPoints_;
@@ -43,4 +44,6 @@ private:
 	std::unique_ptr<OBB> collider_;
 	bool isConnect_;//中心の足場とくっついている(もしくは中心の足場)かどうか
 	bool isCenter_;//中心となる足場か
+
+	Vector3 velocity_;
 };

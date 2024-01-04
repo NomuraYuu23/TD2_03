@@ -16,8 +16,13 @@ void Block::Initialize() {
 	collider_->Initialize(worldTransform_.transform_.translate,worldTransform_.rotateMatrix_,worldTransform_.transform_.scale,this);
 	isConnect_ = false;
 	isCenter_ = false;
+	velocity_ = { 0,0,0};
 }
 void Block::Update() {
+
+	if (!isConnect_) {
+		worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate,velocity_);
+	}
 
 	worldTransform_.UpdateMatrix();
 	collider_->center_ = worldTransform_.GetWorldPosition();

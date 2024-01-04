@@ -67,12 +67,14 @@ void GameScene::Initialize() {
 	block.reset(new Block);
 	block->Initialize();
 	block->SetWorldPosition({2.0f,0.0f,60.0f});
+	block->SetVelocity({0.0f,0.0f,-0.1f});
 	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
 
 	block.reset(new Block);
 	block->Initialize();
-	block->SetWorldPosition({ 60.0f,0.0f,-2.0f });
+	block->SetWorldPosition({ 60.0f,0.0f,20.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
 	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
 	
