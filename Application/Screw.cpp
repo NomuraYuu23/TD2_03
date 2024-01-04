@@ -94,6 +94,13 @@ void Screw::Reverse() {
 	worldTransform_.transform_.rotate.z = reverseT_ * 3.14f;
 	reverseT_ = float(frameCount_) / float(kReverseSpeed_);
 	reverseT_ = std::clamp(reverseT_, 0.0f, 1.0f);
+	
+	if (frameCount_ >= kReverseTime) {
+		state_ = NONE;
+		reverseT_ = 1.0f;
+		frameCount_ = kReverseSpeed_;
+	}
+	
 	frameCount_++;
 
 	worldTransform_.transform_.translate.y -= 0.3f;

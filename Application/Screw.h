@@ -43,6 +43,7 @@ public:
 
 	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData);
 	OBB* GetCollider() { return collider_.get(); };
+	void SetReverseTime(int t) { kReverseTime = t; };
 private:
 	WorldTransform worldTransform_;
 	Vector3 startPosition_; //補間アニメーションの開始位置
@@ -61,4 +62,6 @@ private:
 	float kFollowSpeed = 0.2f;//追従速度(仮)
 
 	std::unique_ptr<OBB> collider_;
+
+	int kReverseTime = 300;//反転してから戻るまでの長さ
 };
