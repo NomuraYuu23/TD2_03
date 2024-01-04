@@ -39,6 +39,11 @@ void Player::Initialize() {
 	TransformStructure t{0};
 	t.scale = {1.0f,1.0f,1.0f};
 	mat_->Update(t, {0.8f,0.0f,0.0f,1.0f},0,200);
+	materialCircle_.reset(Material::Create());
+	//t.scale = {magnet_->GetRadius(),1.0f,magnet_->GetRadius() };
+	materialCircle_->Update(t, { 0.8f,0.8f,0.8f,0.5f }, 0, 200);
+	worldTransformCircle_.Initialize();
+	worldTransformCircle_.transform_.scale = { magnet_->GetRadius(),0.5f,magnet_->GetRadius() };
 }
 
 
@@ -132,6 +137,9 @@ void Player::Update(Block* block, size_t blockNum) {
 	collider_->worldTransformUpdate();
 	magnet_->SetCenter(worldTransform_.GetWorldPosition());
 	magnet_->Update();
+
+	worldTransformCircle_.transform_.translate = worldTransform_.GetWorldPosition();
+	worldTransformCircle_.UpdateMatrix();
 
 	isFlooar_ = false;
 	//preJoyState_ = joyState_;
@@ -250,6 +258,7 @@ void Player::BehaviorDropUpdate()
 
 void Player::Draw(Model* model, BaseCamera& camera) {
 	model->Draw(worldTransform_, camera,mat_.get());
+	modelCircle_->Draw(worldTransformCircle_, camera, materialCircle_.get());
 }
 
 void Player::InitializeFloatingGimmick() {

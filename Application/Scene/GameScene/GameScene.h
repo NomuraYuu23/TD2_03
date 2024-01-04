@@ -110,4 +110,6 @@ private:
 	std::array<uint32_t, UITextureHandleIndex::kUITextureHandleIndexOfCount> uiTextureHandles_;
 
 	uint32_t shotUITextureHandle_[2];
+
+	std::unique_ptr<Model> modelCircle_ = nullptr;
 };

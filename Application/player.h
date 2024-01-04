@@ -68,6 +68,7 @@ public:
 	OBB* GetCollider() { return collider_.get(); };
 	Magnet* GetMagnet() { return magnet_.get(); };
 	Vector3 GetDirection() { return direction_; };
+	void SetCircle(Model* m) { modelCircle_ = m; };
 private:
 	WorldTransform worldTransform_;
 	std::vector<HierarchicalAnimation> models_;
@@ -106,4 +107,8 @@ private:
 	std::unique_ptr<Magnet> magnet_;
 	std::unique_ptr <Material> mat_;
 	//float magnetRadius_ = 12.0f;
+
+	Model* modelCircle_;
+	std::unique_ptr <Material> materialCircle_;
+	WorldTransform worldTransformCircle_;
 };

@@ -109,6 +109,9 @@ void GameScene::Initialize() {
 	followCamera_->SetTarget(player_->GetWorldTransform());
 	player_->SetViewProjection(*followCamera_.get());
 
+	modelCircle_.reset(Model::Create("Resources/Circle/", "Circle.obj", dxCommon_, textureHandleManager_.get()));
+	player_->SetCircle(modelCircle_.get());
+
 	uiManager_ = std::make_unique<UIManager>();
 	uiManager_->Initialize(uiTextureHandles_);
 
