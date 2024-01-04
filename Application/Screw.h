@@ -3,7 +3,9 @@
 #include "../Engine/3D/Model.h"
 #include "../Engine/Camera/BaseCamera.h"
 #include "../Engine/Math/Vector3.h"
-
+#include "../Engine/Collision/CollisionData.h"
+#include "Collider/ColliderParentObject.h"
+#include "../Engine/Collider/OBB/OBB.h"
 class Player;
 class Block;
 
@@ -26,16 +28,21 @@ public:
 
 	void Throw(const Vector3 position, void* block , size_t num);
 	void Catch();
+	void TurnOver();//ひっくり返す
 
-	void None() {};
+	void None();
 	void Follow();
-	void Reverse() {};
+	void Reverse();
 	void ToBlock();
 	void Stuck();
 	void ToPlayer();
 
 	State GetState() { return state_; };
 	void SetPlayer(Player* p) { player_ = p; };
+	WorldTransform* GetWorldTransform() { return &worldTransform_; };
+
+	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData);
+	OBB* GetCollider() { return collider_.get(); };
 private:
 	WorldTransform worldTransform_;
 	Vector3 startPosition_; //補間アニメーションの開始位置
@@ -48,4 +55,10 @@ private:
 	Player* player_;
 
 	std::unique_ptr <Material> mat_;
+
+	float reverseT_;
+	int kReverseSpeed_ = 8;//反転の早さ(仮)
+	float kFollowSpeed = 0.2f;//追従速度(仮)
+
+	std::unique_ptr<OBB> collider_;
 };

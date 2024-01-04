@@ -14,6 +14,7 @@ public:
 	void Update() { collider_->worldTransformUpdate(); };//描画用
 	Sphere* GetCollider() { return collider_.get(); };
 	Vector3 GetCenter() { return collider_->center_; };
+	float GetRadius() { return radius_; };
 private:
 	std::unique_ptr<Sphere> collider_;
 	float radius_ = 12.0f;

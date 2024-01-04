@@ -54,6 +54,13 @@ void Player::BehaviorAttackInitialize() {
 	
 }
 
+void Player::BehaviorDropInitialize() {
+
+	velocity_ = { 0,2.0f,0 };
+	acceleration_ = {0,-0.15f,0};
+	isFlooar_ = false;
+}
+
 void Player::Update(Block* block, size_t blockNum) {
 	//ApplyGlobalVariables();
 	if (behaviorRequest_) {
@@ -67,7 +74,9 @@ void Player::Update(Block* block, size_t blockNum) {
 		case Player::Behavior::kAttack:
 			BehaviorAttackInitialize();
 			break;
-		
+		case Player::Behavior::kDrop:
+			BehaviorDropInitialize();
+			break;
 		}
 		behaviorRequest_ = std::nullopt;
 	}
@@ -81,6 +90,7 @@ void Player::Update(Block* block, size_t blockNum) {
 	}*/
 	worldTransform_.transform_.translate.y -= 0.3f;
 	if (worldTransform_.transform_.translate.y <= -20.0f) {
+		behaviorRequest_ = Behavior::kRoot;
 		worldTransform_.transform_.translate = {0.0f,4.0f,0.0f};
 	}
 	switch (behavior_) {
@@ -89,6 +99,9 @@ void Player::Update(Block* block, size_t blockNum) {
 		break;
 	case Player::Behavior::kAttack:
 		BehaviorAttackUpdate();
+		break;
+	case Player::Behavior::kDrop:
+		BehaviorDropUpdate();
 		break;
 	}
 	/*
@@ -120,6 +133,7 @@ void Player::Update(Block* block, size_t blockNum) {
 	magnet_->SetCenter(worldTransform_.GetWorldPosition());
 	magnet_->Update();
 
+	isFlooar_ = false;
 	//preJoyState_ = joyState_;
 }
 
@@ -150,6 +164,10 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 		}
 	}
 
+	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA) && isFlooar_)
+	{
+		behaviorRequest_ = Behavior::kDrop;
+	}
 
 	if (1) {
 
@@ -213,6 +231,23 @@ void Player::BehaviorAttackUpdate()
 	frameCount_++;
 }
 
+void Player::BehaviorDropUpdate()
+{
+	velocity_ = Vector3Calc::Add(velocity_, acceleration_);
+	worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity_);
+	if (isFlooar_) {
+		//反転処理
+		for (std::vector<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end(); ite++) {
+			float distance = Vector3Calc::Length(Vector3Calc::Subtract(worldTransform_.GetWorldPosition(),(*ite)->GetWorldTransform()->GetWorldPosition()));
+			if (distance <= magnet_->GetRadius()) {
+				(*ite)->TurnOver();
+			}
+		}
+
+		behaviorRequest_ = Behavior::kRoot;
+	}
+}
+
 void Player::Draw(Model* model, BaseCamera& camera) {
 	model->Draw(worldTransform_, camera,mat_.get());
 }
@@ -247,6 +282,7 @@ void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidio
 			velocity_ = { 0,0,0 };
 			isFlooar_ = true;
 		}*/
+		isFlooar_ = true;
 		worldTransform_.transform_.translate.y = std::get<Block*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + std::get<Block*>(pairObject)->GetWorldTransform()->transform_.scale.y + worldTransform_.transform_.scale.y;
 		worldTransform_.UpdateMatrix();
 	}

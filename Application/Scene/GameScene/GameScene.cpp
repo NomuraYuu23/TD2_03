@@ -73,6 +73,13 @@ void GameScene::Initialize() {
 
 	block.reset(new Block);
 	block->Initialize();
+	block->SetWorldPosition({ 2.0f,0.0f,90.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+	block.reset(new Block);
+	block->Initialize();
 	block->SetWorldPosition({ 60.0f,0.0f,20.0f });
 	block->SetVelocity({ 0.0f,0.0f,-0.1f });
 	colliderDebugDraw_->AddCollider(block->GetCollider());
@@ -130,9 +137,15 @@ void GameScene::Update(){
 	collisionManager_->ListClear();
 	collisionManager_->ListRegister(player_->GetCollider());
 	collisionManager_->ListRegister(player_->GetMagnet()->GetCollider());
-	collisionManager_->ListRegister(blocks_[0]->GetCollider());
-	collisionManager_->ListRegister(blocks_[1]->GetCollider());
-	collisionManager_->ListRegister(blocks_[2]->GetCollider());
+	//collisionManager_->ListRegister(blocks_[0]->GetCollider());
+	//collisionManager_->ListRegister(blocks_[1]->GetCollider());
+	//collisionManager_->ListRegister(blocks_[2]->GetCollider());
+	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+		collisionManager_->ListRegister((*block)->GetCollider());
+	}
+	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+		collisionManager_->ListRegister((*block)->GetCollider());
+	}
 	collisionManager_->CheakAllCollision();
 	camera_.Update();
 

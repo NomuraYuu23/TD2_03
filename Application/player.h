@@ -26,7 +26,7 @@ public:
 	enum class Behavior {
 		kRoot,
 		kAttack,
-	
+		kDrop,
 	};
 
 
@@ -36,13 +36,14 @@ public:
 	void Initialize();
 	void BehaviorRootInitialize();
 	void BehaviorAttackInitialize();
+	void BehaviorDropInitialize();
 	/// <summary>
 	/// 更新
 	/// </summary>
 	void Update(Block* block,size_t blockNum);
 	void BehaviorRootUpdate(Block* block, size_t blockNum);
 	void BehaviorAttackUpdate();
-	
+	void BehaviorDropUpdate();
 	/// <summary>
 	/// 描画
 	/// </summary>

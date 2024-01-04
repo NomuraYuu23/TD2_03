@@ -41,7 +41,7 @@ void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidion
 	if (!isConnect_ && std::holds_alternative<Magnet*>(pairObject)) {
 		bool isStack = false;
 		for (int index = 0; index < 4; index++) {
-			if (anchorPoints_[index].screw != nullptr) {
+			if (anchorPoints_[index].screw != nullptr && anchorPoints_[index].screw->GetState() == Screw::STUCK) {
 				isStack = true;
 				break;
 			}
@@ -58,7 +58,7 @@ void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidion
 	if (!isCenter_ && !isConnect_ && std::holds_alternative<Block*>(pairObject)) {
 		bool isStack = false;
 		for (int index = 0; index < 4; index++) {
-			if (anchorPoints_[index].screw != nullptr) {
+			if (anchorPoints_[index].screw != nullptr && anchorPoints_[index].screw->GetState() == Screw::STUCK) {
 				isStack = true;
 				break;
 			}
