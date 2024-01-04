@@ -1,9 +1,14 @@
 #pragma once
 #include "../../../Engine/Scene/IScene/IScene.h"
+
+#include "../../AudioManager/TitleAudioManager.h"
+
 class TitleScene : public IScene
 {
 
 public: // メンバ関数
+
+	~TitleScene();
 
 	/// <summary>
 	/// 初期化
@@ -37,6 +42,10 @@ private: // メンバ関数
 	/// </summary>
 	void TextureLoad() override;
 
+private:
+
+	void LowerVolumeBGM();
+
 private: // メンバ変数
 
 	// スプライト
@@ -44,6 +53,11 @@ private: // メンバ変数
 	// テクスチャハンドル
 	uint32_t titleTextureHandle_ = 0u;
 
+	// オーディオマネージャー
+	std::unique_ptr<TitleAudioManager> audioManager_;
+
+
+	bool isDecreasingVolume = true;
 
 };
 

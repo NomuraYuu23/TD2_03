@@ -32,6 +32,7 @@ void AudioManager::Initialize()
 	for (uint32_t i = 0; i < kMaxPlayingSoundData; ++i) {
 		playingSoundDatas_[i].handle_ = audio_->kMaxSoundData;
 		playingSoundDatas_[i].pSourceVoice_ = nullptr;
+		playingSoundDatas_[i].volume_ = 0.0f;
 	}
 
 }

@@ -213,8 +213,9 @@ void GlobalVariables::Update() {
 		// グループの参照を取得
 		Group& group = itGroup->second;
 
-		if (!ImGui::BeginMenu(groupName.c_str()))
+		if (!ImGui::BeginMenu(groupName.c_str())) {
 			continue;
+		}
 
 		//各項目について
 		for (std::map<std::string, Item>::iterator itItem = group.begin();
@@ -261,11 +262,15 @@ void GlobalVariables::Update() {
 		ImGui::Text("\n");
 
 		if (ImGui::Button("Save")) {
-			SaveFile(groupName);
-			std::string message = std::format("{}.json saved.", groupName);
-			MessageBoxA(nullptr, message.c_str(), "GlobalVariables", 0);
+			std::string message = std::format("Do you want to save the {} GlobalVariables file?", groupName);
+			int ans = MessageBoxA(nullptr, message.c_str(), "Save confirmation",
+				MB_ICONQUESTION | MB_OKCANCEL);
+			if (ans == 1) {
+				SaveFile(groupName);
+				message = std::format("{}.json saved.", groupName);
+				MessageBoxA(nullptr, message.c_str(), "GlobalVariables", 0);
+			}
 		}
-
 
 		ImGui::EndMenu();
 

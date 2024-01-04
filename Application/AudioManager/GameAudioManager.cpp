@@ -46,11 +46,13 @@ void GameAudioManager::PlayWave(uint32_t audioIndex)
 				playingSoundDatas_[i].pSourceVoice_->DestroyVoice();
 			}
 			playingSoundDatas_[i].pSourceVoice_ = pSourceVoice;
+			playingSoundDatas_[i].volume_ = volume;
 			return;
 		}
 		if (playingSoundDatas_[i].handle_ == audio_->kMaxSoundData) {
 			playingSoundDatas_[i].handle_ = audioDatas_[audioIndex].handle_;
 			playingSoundDatas_[i].pSourceVoice_ = pSourceVoice;
+			playingSoundDatas_[i].volume_ = volume;
 			return;
 		}
 	}

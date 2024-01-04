@@ -12,6 +12,9 @@
 #include "../../Camera/FollowCamera/FollowCamera.h"
 #include "../../../Engine/Collision/CollisionManager.h"
 #include "../../UI/UIManager.h"
+#include "../../AudioManager/GameAudioManager.h"
+#include "../../Skydome/Skydome.h"
+#include "../../Planet/Planet.h"
 
 class GameScene : public IScene
 {
@@ -112,4 +115,15 @@ private:
 	uint32_t shotUITextureHandle_[2];
 
 	std::unique_ptr<Model> modelCircle_ = nullptr;
+	// オーディオマネージャー
+	std::unique_ptr<GameAudioManager> audioManager_;
+
+	// スカイドーム
+	std::unique_ptr<Skydome> skydome_;
+	std::unique_ptr<Model> skydomeModel_;
+
+	// 惑星
+	std::unique_ptr<Planet> planet_;
+	std::unique_ptr<Model> planetModel_;
+
 };

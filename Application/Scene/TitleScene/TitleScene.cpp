@@ -1,6 +1,10 @@
 #include "TitleScene.h"
 #include "../../../Engine/base/TextureManager.h"
 
+TitleScene::~TitleScene()
+{
+}
+
 void TitleScene::Initialize()
 {
 
@@ -13,16 +17,27 @@ void TitleScene::Initialize()
 	titleTextureHandle_ = TextureManager::Load("Resources/Title/title.png", dxCommon_, textureHandleManager_.get()),
 	titleSprite_.reset(Sprite::Create(titleTextureHandle_, Vector2{ 640.0f, 360.0f }, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 
+	audioManager_ = std::make_unique<TitleAudioManager>();
+	audioManager_->StaticInitialize();
+	audioManager_->Initialize();
+	audioManager_->PlayWave(kTitleAudioNameIndexBGM);
+
 }
 
 void TitleScene::Update()
 {
 
-	if (input_->TriggerKey(DIK_SPACE)) {
+	if ((input_->TriggerKey(DIK_SPACE) || input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) &&
+		requestSceneNo == kTitle) {
 		// 行きたいシーンへ
 		requestSceneNo = kGame;
+		audioManager_->PlayWave(kTitleAudioNameIndexDecision);
 	}
 
+	// BGM音量下げる
+	if (requestSceneNo == kGame && isDecreasingVolume) {
+		LowerVolumeBGM();
+	}
 }
 
 void TitleScene::Draw()
@@ -72,4 +87,25 @@ void TitleScene::MaterialCreate()
 
 void TitleScene::TextureLoad()
 {
+}
+
+void TitleScene::LowerVolumeBGM()
+{
+
+	for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
+		if (audioManager_->GetPlayingSoundDatas()[i].handle_ == kTitleAudioNameIndexBGM) {
+			float decreasingVolume = 1.0f / 60.0f;
+			float volume = audioManager_->GetPlayingSoundDatas()[i].volume_ - decreasingVolume;
+			if (volume < 0.0f) {
+				volume = 0.0f;
+				audioManager_->StopWave(i);
+				isDecreasingVolume = false;
+			}
+			else {
+				audioManager_->SetPlayingSoundDataVolume(i, volume);
+				audioManager_->SetVolume(i, audioManager_->GetPlayingSoundDatas()[i].volume_);
+			}
+		}
+	}
+
 }

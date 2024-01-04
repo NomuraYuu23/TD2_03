@@ -37,7 +37,7 @@ void GameScene::Initialize() {
 	particleModel[ParticleModelIndex::kCircle] = particleCircleModel_.get();
 	particleManager_->ModelCreate(particleModel);
 	
-	isDebugCameraActive_ = true;
+	isDebugCameraActive_ = false;
 
 	collisionManager_.reset(new CollisionManager);
 	collisionManager_->Initialize();
@@ -112,8 +112,21 @@ void GameScene::Initialize() {
 	modelCircle_.reset(Model::Create("Resources/Circle/", "Circle.obj", dxCommon_, textureHandleManager_.get()));
 	player_->SetCircle(modelCircle_.get());
 
+	//UIマネージャー
 	uiManager_ = std::make_unique<UIManager>();
 	uiManager_->Initialize(uiTextureHandles_);
+
+	// オーディオマネージャー
+	audioManager_ = std::make_unique<GameAudioManager>();
+	audioManager_->Initialize();
+
+	// スカイドーム
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Initialize(skydomeModel_.get());
+
+	// 惑星
+	planet_ = std::make_unique<Planet>();
+	planet_->Initialize(planetModel_.get());
 
 }
 
@@ -196,6 +209,12 @@ void GameScene::Update() {
 			}
 		}
 }
+	// スカイドーム
+	skydome_->Update();
+
+	// 惑星
+	planet_->Update();
+
 	camera_.Update();
 
 	followCamera_->Update();
@@ -257,6 +276,12 @@ void GameScene::Draw() {
 	}
 	player_->Draw(modelBlock_.get(), camera_);
 
+	// スカイドーム
+	skydome_->Draw(camera_);
+
+	// 惑星
+	planet_->Draw(camera_);
+
 #ifdef _DEBUG
 
 	// デバッグ描画
@@ -309,6 +334,12 @@ void GameScene::ImguiDraw(){
 	ImGui::Text("Frame rate: %6.2f fps", ImGui::GetIO().Framerate);
 	ImGui::End();
 
+	// スカイドーム
+	skydome_->ImGuiDraw();
+
+	// 惑星
+	//planet_->ImGuiDraw();
+
 	debugCamera_->ImGuiDraw();
 
 #endif // _DEBUG
@@ -357,6 +388,12 @@ void GameScene::ModelCreate()
 	colliderBoxModel_.reset(Model::Create("Resources/TD2_November/collider/box/", "box.obj", dxCommon_, textureHandleManager_.get()));
 	particleUvcheckerModel_.reset(Model::Create("Resources/default/", "plane.obj", dxCommon_, textureHandleManager_.get()));
 	particleCircleModel_.reset(Model::Create("Resources/Particle/", "plane.obj", dxCommon_, textureHandleManager_.get()));
+
+	// スカイドーム
+	skydomeModel_.reset(Model::Create("Resources/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
+
+	// 惑星
+	planetModel_.reset(Model::Create("Resources/Planet/", "planet.obj", dxCommon_, textureHandleManager_.get()));
 
 }
 

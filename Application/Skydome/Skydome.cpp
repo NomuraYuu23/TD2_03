@@ -1,18 +1,19 @@
 #include "Skydome.h"
 #include <cassert>
+#include "../../Engine/2D/ImguiManager.h"
 
 /// <summary>
 /// 初期化
 /// </summary>
 /// <param name="model">モデル</param>
-void Skydome::Initialize(Model* model, Material* material) {
+void Skydome::Initialize(Model* model) {
 
 	// nullポインタチェック
 	assert(model);
 
 	model_ = model;
 
-	material_ = material;
+	material_.reset(Material::Create());
 
 	// ワールド変換データの初期化
 	worldTransform_.Initialize();
@@ -22,6 +23,8 @@ void Skydome::Initialize(Model* model, Material* material) {
 /// 更新
 /// </summary>
 void Skydome::Update() {
+
+	worldTransform_.transform_.rotate.y = fmodf(worldTransform_.transform_.rotate.y + rotateSpeed_, 6.24f);
 
 	worldTransform_.UpdateMatrix();
 
@@ -33,6 +36,15 @@ void Skydome::Update() {
 /// <param name="viewProjection">ビュープロジェクション</param>
 void Skydome::Draw(BaseCamera& camera) {
 
-	model_->Draw(worldTransform_, camera);
+	model_->Draw(worldTransform_, camera, material_.get());
+
+}
+
+void Skydome::ImGuiDraw()
+{
+
+	ImGui::Begin("Skydome");
+	ImGui::DragFloat("rotateSpeed", &rotateSpeed_, 0.001f);
+	ImGui::End();
 
 }
