@@ -109,6 +109,30 @@
     <Filter Include="Application\BlockManager\IBlockManagerState">
       <UniqueIdentifier>{3987f064-d821-4216-a104-200eb8416aed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Block">
+      <UniqueIdentifier>{bb8dfdb4-541a-49c9-80e7-1475d25bb9fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\FollowCamera">
+      <UniqueIdentifier>{3ad98989-b0b2-461b-bd74-7fda84f7692f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\UI">
+      <UniqueIdentifier>{0b3658e1-3d24-45eb-85b9-841a9f303cf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Player">
+      <UniqueIdentifier>{7068ee74-4fcf-4ad4-a5f2-478215c3afc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Magnet">
+      <UniqueIdentifier>{cb3c8149-7203-4f73-86d5-bb68f2195e7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Planet">
+      <UniqueIdentifier>{ec2a6f29-ee69-4419-a155-36e8f6b72a06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Screw">
+      <UniqueIdentifier>{bf40b5de-2d51-456f-800a-29a038828d36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Target">
+      <UniqueIdentifier>{c00dc553-3111-4c19-bb85-a4548881e799}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -319,50 +343,50 @@
     <ClCompile Include="Application\BlockManager\BlockManagerState\IBlockManagerState.cpp">
       <Filter>Application\BlockManager\IBlockManagerState</Filter>
     </ClCompile>
-    <ClCompile Include="Application\BlockManager\BlockManagerState\BlockManagerStateInit\BlockManagerStateInit.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Screw.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Target\Target.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\BlockManager\BlockManagerState\BlockManagerFactory.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp">
+      <Filter>Application\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Application\Block\Block.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\BlockManager\BlockManagerState\BlockManagerFactory.cpp">
+      <Filter>Application\BlockManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\BlockManager\BlockManagerState\BlockManagerStateInit\BlockManagerStateInit.cpp">
+      <Filter>Application\BlockManager\IBlockManagerState</Filter>
     </ClCompile>
     <ClCompile Include="Application\Camera\FollowCamera\FollowCamera.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\FollowCamera</Filter>
     </ClCompile>
     <ClCompile Include="Application\UI\UI.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\UI</Filter>
     </ClCompile>
     <ClCompile Include="Application\UI\UIManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\UI\UIScrew\UIScrew.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\UI</Filter>
     </ClCompile>
     <ClCompile Include="Application\UI\UINumber\UINumber.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\UI\UIScrew\UIScrew.cpp">
+      <Filter>Application\UI</Filter>
     </ClCompile>
     <ClCompile Include="Application\UI\UISymbol\UISymbol.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\player.cpp">
+      <Filter>Application\Player</Filter>
     </ClCompile>
     <ClCompile Include="Application\Magnet.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Magnet</Filter>
     </ClCompile>
     <ClCompile Include="Application\Planet\Planet.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Planet</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Screw.cpp">
+      <Filter>Application\Screw</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Target\Target.cpp">
+      <Filter>Application\Target</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -636,53 +660,53 @@
     <ClInclude Include="Application\BlockManager\BlockManagerState\IBlockManagerState.h">
       <Filter>Application\BlockManager\IBlockManagerState</Filter>
     </ClInclude>
-    <ClInclude Include="Application\BlockManager\BlockManagerState\BlockManagerStateInit\BlockManagerStateInit.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Screw.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Target\Target.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\AudioManager\TitleAudioManager.h">
+      <Filter>Application\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Application\BlockManager\BlockManagerState\BlockManagerFactory.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\BlockManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\BlockManager\BlockManagerState\BlockManagerStateInit\BlockManagerStateInit.h">
+      <Filter>Application\BlockManager\IBlockManagerState</Filter>
     </ClInclude>
     <ClInclude Include="Application\Block\Block.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Block</Filter>
     </ClInclude>
     <ClInclude Include="Application\Camera\FollowCamera\FollowCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\UI\UI.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\FollowCamera</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Collision\CollisionData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\UI\UIManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\UI\UIScrew\UIScrew.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\UI\UINumber\UINumber.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Engine\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Application\UI\UISymbol\UISymbol.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\UI.h">
+      <Filter>Application\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\UIManager.h">
+      <Filter>Application\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\UINumber\UINumber.h">
+      <Filter>Application\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UI\UIScrew\UIScrew.h">
+      <Filter>Application\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\player.h">
+      <Filter>Application\Player</Filter>
     </ClInclude>
     <ClInclude Include="Application\Magnet.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\AudioManager\TitleAudioManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Magnet</Filter>
     </ClInclude>
     <ClInclude Include="Application\Planet\Planet.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Screw.h">
+      <Filter>Application\Screw</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Target\Target.h">
+      <Filter>Application\Target</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
