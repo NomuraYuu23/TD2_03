@@ -37,6 +37,7 @@ public:
 	void SetIsCenter(bool is) { isCenter_ = is; };
 	void SetWorldPosition(const Vector3& pos) { worldTransform_.transform_.translate = pos; };
 	void SetVelocity(const Vector3& v) { velocity_ = v; };
+	bool GetIsRelese() { return isRelese_; };
 private:
 
 	std::array<AnchorPoint,4> anchorPoints_;
@@ -46,4 +47,5 @@ private:
 	bool isCenter_;//中心となる足場か
 
 	Vector3 velocity_;
+	bool isRelese_;//ネジが外されたフレームだけtrueになる
 };

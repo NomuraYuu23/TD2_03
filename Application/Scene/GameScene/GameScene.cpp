@@ -129,9 +129,36 @@ void GameScene::Update(){
 	directionalLightData.intencity = intencity;
 	directionalLight_->Update(directionalLightData);
 
+	bool isRelese = false;
 	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end();block++) {
 		(*block)->Update();
+		isRelese = isRelese || (*block)->GetIsRelese();
 	}
+
+	if (isRelese) {
+		for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+			if (!(*block)->GetIsCenter()) {
+				(*block)->SetIsConnect(false);
+			}
+		}
+		collisionManager_->ListClear();
+		int oldCount=0;
+		int newCount=0;
+		for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+			collisionManager_->ListRegister((*block)->GetCollider());
+		}
+		do {
+			oldCount = newCount;
+			newCount = 0;
+			collisionManager_->CheakAllCollision();
+			for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+				if ((*block)->GetIsConnect()) {
+					newCount++;
+				}
+			}
+		} while (oldCount != newCount);
+	}
+
 	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Update();
 	}

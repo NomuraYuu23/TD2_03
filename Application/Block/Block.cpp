@@ -17,9 +17,10 @@ void Block::Initialize() {
 	isConnect_ = false;
 	isCenter_ = false;
 	velocity_ = { 0,0,0};
+	isRelese_ = false;
 }
 void Block::Update() {
-
+	isRelese_ = true;
 	if (!isConnect_) {
 		worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate,velocity_);
 	}
@@ -34,6 +35,7 @@ void Block::Update() {
 
 		if (!isStack && !isCenter_) {
 			isConnect_ = false;
+			isRelese_ = true;
 		}
 	}
 	worldTransform_.UpdateMatrix();
