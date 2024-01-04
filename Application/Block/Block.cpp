@@ -23,11 +23,25 @@ void Block::Update() {
 	if (!isConnect_) {
 		worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate,velocity_);
 	}
+	if (isConnect_) {
+		bool isStack = false;
+		for (int index = 0; index < 4; index++) {
+			if (anchorPoints_[index].screw != nullptr) {
+				isStack = true;
+				break;
+			}
+		}
 
+		if (!isStack && !isCenter_) {
+			isConnect_ = false;
+		}
+	}
 	worldTransform_.UpdateMatrix();
 	collider_->center_ = worldTransform_.GetWorldPosition();
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
 	collider_->worldTransformUpdate();
+
+	//isCenter_ = false;
 }
 void Block::Draw(Model* model, BaseCamera& camera) {
 	model->Draw(worldTransform_,camera);

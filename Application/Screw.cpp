@@ -70,7 +70,8 @@ void Screw::None() {
 
 	worldTransform_.transform_.translate.y -= 0.3f;
 	if (worldTransform_.transform_.translate.y <= -20.0f) {
-		worldTransform_.transform_.translate = { 0.0f,4.0f,0.0f };
+		worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
+		worldTransform_.transform_.translate.y = 4.0f;
 	}
 }
 
@@ -84,7 +85,8 @@ void Screw::Follow() {
 	//worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
 	worldTransform_.transform_.translate.y -= 0.3f;
 	if (worldTransform_.transform_.translate.y <= -20.0f) {
-		worldTransform_.transform_.translate = { 0.0f,4.0f,0.0f };
+		worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
+		worldTransform_.transform_.translate.y = 4.0f;
 	}
 }
 
@@ -96,7 +98,8 @@ void Screw::Reverse() {
 
 	worldTransform_.transform_.translate.y -= 0.3f;
 	if (worldTransform_.transform_.translate.y <= -20.0f) {
-		worldTransform_.transform_.translate = { 0.0f,4.0f,0.0f };
+		worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
+		worldTransform_.transform_.translate.y = 4.0f;
 	}
 }
 

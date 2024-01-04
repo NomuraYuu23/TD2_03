@@ -61,6 +61,7 @@ void GameScene::Initialize() {
 	block->Initialize();
 	block->SetIsCenter(true);
 	block->SetIsConnect(true);
+	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
 	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
 	
@@ -133,6 +134,11 @@ void GameScene::Update(){
 	}
 	target_.Update(&blocks_,*followCamera_.get(),player_.get());
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
+
+	//中心となるブロックをリセット
+	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+		(*block)->SetIsCenter(false);
+	}
 
 	collisionManager_->ListClear();
 	collisionManager_->ListRegister(player_->GetCollider());
