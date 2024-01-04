@@ -120,7 +120,7 @@ void GameScene::Initialize() {
 /// <summary>
 /// 更新処理
 /// </summary>
-void GameScene::Update(){
+void GameScene::Update() {
 	ImguiDraw();
 	//光源
 	DirectionalLightData directionalLightData;
@@ -130,7 +130,7 @@ void GameScene::Update(){
 	directionalLight_->Update(directionalLightData);
 
 	bool isRelese = false;
-	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end();block++) {
+	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
 		(*block)->Update();
 		isRelese = isRelese || (*block)->GetIsRelese();
 	}
@@ -142,8 +142,8 @@ void GameScene::Update(){
 			}
 		}
 		collisionManager_->ListClear();
-		int oldCount=0;
-		int newCount=0;
+		int oldCount = 0;
+		int newCount = 0;
 		for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
 			collisionManager_->ListRegister((*block)->GetCollider());
 		}
@@ -162,12 +162,15 @@ void GameScene::Update(){
 	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Update();
 	}
-	target_.Update(&blocks_,*followCamera_.get(),player_.get());
+	target_.Update(&blocks_, *followCamera_.get(), player_.get());
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
 
+	Block* center = nullptr;
 	//中心となるブロックをリセット
 	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
-		(*block)->SetIsCenter(false);
+		if ((*block)->GetIsCenter()) {
+			center = (*block).get();
+		}
 	}
 
 	collisionManager_->ListClear();
@@ -183,6 +186,16 @@ void GameScene::Update(){
 		collisionManager_->ListRegister((*block)->GetCollider());
 	}
 	collisionManager_->CheakAllCollision();
+
+	if (center) {
+		for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+			if ((*block)->GetIsCenter()) {
+				if (center != (*block).get()) {
+					center->SetIsCenter(false);
+				}
+			}
+		}
+}
 	camera_.Update();
 
 	followCamera_->Update();
