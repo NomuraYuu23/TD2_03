@@ -5,7 +5,7 @@ void Block::Initialize() {
 	anchorPoints_[1].position = { -0.8f, 1.0f, 0.8f };
 	anchorPoints_[2].position = {  0.8f, 1.0f,-0.8f };
 	anchorPoints_[3].position = { -0.8f, 1.0f,-0.8f };
-	for (int index = 0; index < 4; index++) {
+	for (int index = 0; index < anchorNum; index++) {
 		//anchorPoints_[index].isSting = false;
 		anchorPoints_[index].screw = nullptr;
 	}
@@ -26,7 +26,7 @@ void Block::Update() {
 	}
 	if (isConnect_) {
 		bool isStack = false;
-		for (int index = 0; index < 4; index++) {
+		for (int index = 0; index < anchorNum; index++) {
 			if (anchorPoints_[index].screw != nullptr) {
 				isStack = true;
 				break;
@@ -56,7 +56,7 @@ Vector3 Block::GetAnchorPointWorldPosition(size_t num) {
 void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {
 	if (!isConnect_ && std::holds_alternative<Magnet*>(pairObject)) {
 		bool isStack = false;
-		for (int index = 0; index < 4; index++) {
+		for (int index = 0; index < anchorNum; index++) {
 			if (anchorPoints_[index].screw != nullptr && anchorPoints_[index].screw->GetState() == Screw::STUCK) {
 				isStack = true;
 				break;
@@ -73,7 +73,7 @@ void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidion
 
 	if (!isCenter_ && !isConnect_ && std::holds_alternative<Block*>(pairObject)) {
 		bool isStack = false;
-		for (int index = 0; index < 4; index++) {
+		for (int index = 0; index < anchorNum; index++) {
 			if (anchorPoints_[index].screw != nullptr && anchorPoints_[index].screw->GetState() == Screw::STUCK) {
 				isStack = true;
 				break;
