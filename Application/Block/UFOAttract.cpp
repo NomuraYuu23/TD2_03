@@ -3,5 +3,6 @@
 void UFOAttract::Initialize() {
 	collider_.reset(new Sphere);
 	collider_->Initialize({ 0,0,0 }, radius_, this);
+	screwCount_ = 0;
 }
 

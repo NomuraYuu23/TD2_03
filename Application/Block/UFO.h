@@ -26,4 +26,6 @@ private:
 	Model* modelCircle_;
 	std::unique_ptr <Material> materialCircle_;
 	WorldTransform worldTransformCircle_;
+	float theta_;
+	int screwCount_;//範囲内にネジが何体いるか
 };

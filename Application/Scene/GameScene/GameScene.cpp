@@ -61,7 +61,7 @@ void GameScene::Initialize() {
 	block->Initialize();
 	block->SetIsCenter(true);
 	block->SetIsConnect(true);
-	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
 	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
 	
@@ -86,6 +86,20 @@ void GameScene::Initialize() {
 	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
 	
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ -10.0f,0.0f,150.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ -30.0f,0.0f,200.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
 
 	player_.reset(new Player);
 	player_->Initialize();

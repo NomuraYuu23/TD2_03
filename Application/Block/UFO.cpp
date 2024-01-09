@@ -20,23 +20,34 @@ void UFO::Initialize() {
 	materialCircle_->Update(t, { 0.8f,0.8f,0.0f,0.5f }, 0, 200);
 	worldTransformCircle_.Initialize();
 	worldTransformCircle_.transform_.scale = { attract_->GetRadius(),0.5f,attract_->GetRadius() };
+	theta_ = -3.14f/2.0f;
+	screwCount_ = 0;
 }
 
 void UFO::Update() {
 	if (!isDead_) {
+		worldTransform_.transform_.translate.x = std::sinf(theta_) * 20.0f;
 		worldTransform_.UpdateMatrix();
+		colliderUFO_->center_ = worldTransform_.GetWorldPosition();
+		colliderUFO_->SetOtientatuons(worldTransform_.rotateMatrix_);
 		Vector3 attractPos = worldTransform_.GetWorldPosition();
 		attractPos.y -= attract_->GetRadius();
 		attract_->SetCenter(attractPos);
 		worldTransformCircle_.transform_.translate = attractPos;
 		worldTransformCircle_.UpdateMatrix();
+		if (attract_->GetScrewCount() < 2) {
+			theta_ += 0.01f;
+		}
+		attract_->SetScrewCount(0);
 	}
 	else if (isDead_) {
 		materialCircle_->SetColor({ 0.8f,0.8f,0.8f,0.5f });
 		Block::Update();
 		worldTransformCircle_.transform_.translate = worldTransform_.GetWorldPosition();
 		worldTransformCircle_.UpdateMatrix();
+		magnet_->SetCenter(worldTransformCircle_.GetWorldPosition());
 	}
+	screwCount_ = 0;
 }
 
 void UFO::Draw(Model* model, BaseCamera& camera) {
