@@ -317,15 +317,15 @@ void GameScene::Draw() {
 	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
 		(*block)->Draw(modelBlock_.get(), camera_);
 	}
-
+	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
+		(*block)->Draw(modelBlock_.get(), camera_);
+	}
 	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Draw(modelBlock_.get(), camera_);
 	}
 	player_->Draw(modelBlock_.get(), camera_);
 	//ufo_->Draw(modelBlock_.get(), camera_);
-	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
-		(*block)->Draw(modelBlock_.get(), camera_);
-	}
+	
 
 	// スカイドーム
 	skydome_->Draw(camera_);
