@@ -16,6 +16,7 @@
 #include "../../Skydome/Skydome.h"
 #include "../../Planet/Planet.h"
 
+#include "../../Block/UFO.h"
 class GameScene : public IScene
 {
 
@@ -126,4 +127,6 @@ private:
 	std::unique_ptr<Planet> planet_;
 	std::unique_ptr<Model> planetModel_;
 
+
+	std::unique_ptr<UFO> ufo_;
 };

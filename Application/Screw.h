@@ -44,6 +44,7 @@ public:
 	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData);
 	OBB* GetCollider() { return collider_.get(); };
 	void SetReverseTime(int t) { kReverseTime = t; };
+	void SetIsDead(bool is) { isDead_ = is; };
 private:
 	WorldTransform worldTransform_;
 	Vector3 startPosition_; //補間アニメーションの開始位置
@@ -64,4 +65,8 @@ private:
 	std::unique_ptr<OBB> collider_;
 
 	int kReverseTime = 300;//反転してから戻るまでの長さ
+
+	bool isDead_;
+
+	bool isAttract_;//ufoに吸引されているか
 };

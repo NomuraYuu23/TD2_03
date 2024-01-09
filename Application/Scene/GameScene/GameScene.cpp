@@ -128,6 +128,9 @@ void GameScene::Initialize() {
 	planet_ = std::make_unique<Planet>();
 	planet_->Initialize(planetModel_.get());
 
+	ufo_.reset(new UFO);
+	ufo_->Initialize();
+	ufo_->SetCircle(modelCircle_.get());
 }
 
 /// <summary>
@@ -177,7 +180,7 @@ void GameScene::Update() {
 	}
 	target_.Update(&blocks_, *followCamera_.get(), player_.get());
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
-
+	ufo_->Update();
 	Block* center = nullptr;
 	//中心となるブロックをリセット
 	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
@@ -186,9 +189,20 @@ void GameScene::Update() {
 		}
 	}
 
+
 	collisionManager_->ListClear();
 	collisionManager_->ListRegister(player_->GetCollider());
 	collisionManager_->ListRegister(player_->GetMagnet()->GetCollider());
+	if (!ufo_->GetIsDead()) {
+		collisionManager_->ListRegister(ufo_->GetCollider());
+		collisionManager_->ListRegister(ufo_->GetAttract()->GetCollider());
+	}
+	else {
+		Block* castBlock = ufo_.get();
+		collisionManager_->ListRegister(castBlock->GetCollider());
+		collisionManager_->ListRegister(ufo_->GetMagnet()->GetCollider());
+	}
+
 	//collisionManager_->ListRegister(blocks_[0]->GetCollider());
 	//collisionManager_->ListRegister(blocks_[1]->GetCollider());
 	//collisionManager_->ListRegister(blocks_[2]->GetCollider());
@@ -275,6 +289,7 @@ void GameScene::Draw() {
 		(*block)->Draw(modelBlock_.get(), camera_);
 	}
 	player_->Draw(modelBlock_.get(), camera_);
+	ufo_->Draw(modelBlock_.get(), camera_);
 
 	// スカイドーム
 	skydome_->Draw(camera_);
