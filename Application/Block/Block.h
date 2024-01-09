@@ -19,7 +19,7 @@ public:
 		Screw* screw;//ネジのポインタ
 	};
 
-	static const size_t anchorNum = 4;
+	static const size_t anchorNum = 1;
 
 	virtual void Initialize();
 	virtual void Update();

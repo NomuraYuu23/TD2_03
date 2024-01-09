@@ -1,10 +1,10 @@
 #include "Block.h"
 #include "../player.h"
 void Block::Initialize() {
-	anchorPoints_[0].position = {  0.8f, 1.0f, 0.8f };
-	anchorPoints_[1].position = { -0.8f, 1.0f, 0.8f };
-	anchorPoints_[2].position = {  0.8f, 1.0f,-0.8f };
-	anchorPoints_[3].position = { -0.8f, 1.0f,-0.8f };
+	anchorPoints_[0].position = {  0.0f, 1.0f, 0.0f };
+	//anchorPoints_[1].position = { -0.8f, 1.0f, 0.8f };
+	//anchorPoints_[2].position = {  0.8f, 1.0f,-0.8f };
+	//anchorPoints_[3].position = { -0.8f, 1.0f,-0.8f };
 	for (int index = 0; index < anchorNum; index++) {
 		//anchorPoints_[index].isSting = false;
 		anchorPoints_[index].screw = nullptr;
