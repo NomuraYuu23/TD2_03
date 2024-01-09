@@ -68,13 +68,13 @@ void Target::ForchNearAnchor(std::vector<Block*>* blockList, BaseCamera& camera,
 			Matrix4x4 vp = Matrix4x4Calc::Multiply(view,proj);
 			Vector3 oldvp = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_), camera.GetViewProjectionMatrix());
 			Vector3 newvp = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_), camera.GetViewProjectionMatrix());
-			Vector3 oldpl = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_), vp);
-			Vector3 newpl = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_), vp);
-			bool lengthCheck = std::abs(newpl.x) <= std::abs(oldpl.x) && newpl.z > 0.0f;
+			//Vector3 oldpl = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_), vp);
+			//Vector3 newpl = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_), vp);
+			bool lengthCheck/* = std::abs(newpl.x) <= std::abs(oldpl.x) && newpl.z > 0.0f*/;
 			lengthCheck = true;
 			//>= Vector3Calc::Length(Vector3Calc::Subtract((*ite)->GetAnchorPointArray()[index].position, camera.GetTransform()));
 			float dot = Vector3Calc::Dot(Vector3Calc::Normalize(Vector3Calc::Subtract(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_),player->GetWorldTransform()->GetWorldPosition())),Vector3Calc::Normalize(player->GetDirection()));
-			if ((!IsInnerCamera(oldpl) || lengthCheck) && dot>0.5f && IsInnerCamera(newvp) && (!isTarget_ || std::cos(dot) < std::cos(oldDot))) {
+			if ((lengthCheck) && dot>0.5f && IsInnerCamera(newvp) && (!isTarget_ || std::cos(dot) < std::cos(oldDot))) {
 				num = index;
 				block = *ite;
 				oldDot = dot;
