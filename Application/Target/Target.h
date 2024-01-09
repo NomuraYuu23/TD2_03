@@ -8,10 +8,10 @@ class Target
 {
 public:
 	void Initialize(uint32_t textureHandle,uint32_t textureHandle2[2]);
-	void Update(std::vector<std::unique_ptr<Block>>* blockList, BaseCamera& camera,Player* player);
+	void Update(std::vector<Block*>* blockList, BaseCamera& camera,Player* player);
 	void SpriteDraw();
 	
-	void ForchNearAnchor(std::vector<std::unique_ptr<Block>>* blockList, BaseCamera& camera,Player* player);
+	void ForchNearAnchor(std::vector<Block*>* blockList, BaseCamera& camera,Player* player);
 
 	bool IsTarget() { return isTarget_; };
 	Block* GetTargetBlock() { return targetBlock_; };

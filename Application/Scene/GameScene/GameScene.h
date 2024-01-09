@@ -128,5 +128,6 @@ private:
 	std::unique_ptr<Model> planetModel_;
 
 
-	std::unique_ptr<UFO> ufo_;
+	//std::unique_ptr<UFO> ufo_;
+	std::vector<std::unique_ptr<UFO>> ufos_;
 };
