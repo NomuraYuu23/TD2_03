@@ -19,9 +19,9 @@ public:
 		Screw* screw;//ネジのポインタ
 	};
 
-	void Initialize();
-	void Update();
-	void Draw(Model* model,BaseCamera& camera);
+	virtual void Initialize();
+	virtual void Update();
+	virtual void Draw(Model* model,BaseCamera& camera);
 
 	inline WorldTransform* GetWorldTransform() { return &worldTransform_; };
 
@@ -38,7 +38,7 @@ public:
 	void SetWorldPosition(const Vector3& pos) { worldTransform_.transform_.translate = pos; };
 	void SetVelocity(const Vector3& v) { velocity_ = v; };
 	bool GetIsRelese() { return isRelese_; };
-private:
+protected:
 
 	std::array<AnchorPoint,4> anchorPoints_;
 	WorldTransform worldTransform_;

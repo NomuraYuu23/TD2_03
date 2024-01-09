@@ -12,7 +12,7 @@
 #include "../../Camera/FollowCamera/FollowCamera.h"
 #include "../../../Engine/Collision/CollisionManager.h"
 #include "../../UI/UIManager.h"
-
+#include "../../Block/UFO.h"
 class GameScene : public IScene
 {
 
@@ -112,4 +112,6 @@ private:
 	uint32_t shotUITextureHandle_[2];
 
 	std::unique_ptr<Model> modelCircle_ = nullptr;
+
+	std::unique_ptr<UFO> ufo_;
 };
