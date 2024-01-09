@@ -106,7 +106,7 @@ void GameScene::Initialize() {
 	colliderDebugDraw_->AddCollider(player_->GetCollider());
 	colliderDebugDraw_->AddCollider(player_->GetMagnet()->GetCollider());
 	
-	for (int index = 0; index < 4; index++) {
+	for (int index = 0; index < 6; index++) {
 		std::unique_ptr<Screw> screw;
 		screw.reset(new Screw);
 		screw->Initialize();
