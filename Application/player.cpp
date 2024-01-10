@@ -294,8 +294,8 @@ void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidio
 		isFlooar_ = true;
 		worldTransform_.transform_.translate.y = std::get<Block*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + std::get<Block*>(pairObject)->GetWorldTransform()->transform_.scale.y + worldTransform_.transform_.scale.y;
 		worldTransform_.UpdateMatrix();
-		std::get<Block*>(pairObject)->SetIsCenter(true);
-		std::get<Block*>(pairObject)->SetIsConnect(true);
+		//std::get<Block*>(pairObject)->SetIsCenter(true);
+		//std::get<Block*>(pairObject)->SetIsConnect(true);
 	}
 }
 

@@ -220,13 +220,13 @@ void GameScene::Update() {
 	target_.Update(&blockUFO, *followCamera_.get(), player_.get());
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
 	//ufo_->Update();
-	Block* center = nullptr;
+	/*Block* center = nullptr;
 	//中心となるブロックをリセット
 	for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
 		if ((*block)->GetIsCenter()) {
 			center = (*block);
 		}
-	}
+	}*/
 
 
 	collisionManager_->ListClear();
@@ -255,7 +255,7 @@ void GameScene::Update() {
 		collisionManager_->ListRegister((*block)->GetCollider());
 	}
 	collisionManager_->CheakAllCollision();
-
+	/*
 	if (center) {
 		for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
 			if ((*block)->GetIsCenter()) {
@@ -264,7 +264,7 @@ void GameScene::Update() {
 				}
 			}
 		}
-}
+}*/
 	// スカイドーム
 	skydome_->Update();
 
