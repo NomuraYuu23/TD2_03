@@ -17,6 +17,7 @@ public:
 
 	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData);
 	bool GetIsDead() { return isDead_; };
+	bool GetIsAttract() { return isAttract_; };
 private:
 	bool isDead_;
 	std::unique_ptr<OBB> colliderUFO_;
@@ -28,4 +29,5 @@ private:
 	WorldTransform worldTransformCircle_;
 	float theta_;
 	int screwCount_;//範囲内にネジが何体いるか
+	bool isAttract_;
 };

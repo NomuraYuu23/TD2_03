@@ -25,10 +25,13 @@ public:
 	UFO* GetParent() { return parent_; };
 	void SetScrewCount(int c) { screwCount_ = c; };
 	int GetScrewCount() {return screwCount_ ; };
+	void SetIsAttract(bool is) { isAttract_ = is; };
+	bool GetIsAttract() {return isAttract_; };
 private:
 	std::unique_ptr<Sphere> collider_;
 	float radius_ = 12.0f;
 	UFO* parent_;
 	int screwCount_;
 	//WorldTransform* worldTransform_ = nullptr;
+	bool isAttract_;
 };

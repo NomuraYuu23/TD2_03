@@ -156,7 +156,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 		Screw* anchorScrew = block->GetAnchorPointScrew(blockNum);
 		//刺す
 		if (!anchorScrew ) {
-			for (std::vector<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end();ite++) {
+			for (std::list<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end();ite++) {
 				if ((*ite)->GetState() == Screw::FOLLOW) {
 					(*ite)->Throw(worldTransform_.GetWorldPosition(),block,blockNum);
 					behaviorRequest_ = Behavior::kAttack;
@@ -245,7 +245,7 @@ void Player::BehaviorDropUpdate()
 	worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity_);
 	if (isFlooar_) {
 		//反転処理
-		for (std::vector<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end(); ite++) {
+		for (std::list<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end(); ite++) {
 			float distance = Vector3Calc::Length(Vector3Calc::Subtract(worldTransform_.GetWorldPosition(),(*ite)->GetWorldTransform()->GetWorldPosition()));
 			if (distance <= magnet_->GetRadius()) {
 				(*ite)->TurnOver();

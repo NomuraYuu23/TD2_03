@@ -45,6 +45,7 @@ public:
 	OBB* GetCollider() { return collider_.get(); };
 	void SetReverseTime(int t) { kReverseTime = t; };
 	void SetIsDead(bool is) { isDead_ = is; };
+	bool GetIsDead() { return isDead_; };
 private:
 	WorldTransform worldTransform_;
 	Vector3 startPosition_; //補間アニメーションの開始位置

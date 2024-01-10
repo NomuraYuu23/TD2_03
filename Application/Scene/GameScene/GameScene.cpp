@@ -146,6 +146,8 @@ void GameScene::Initialize() {
 	ufo_.reset(new UFO);
 	ufo_->Initialize();
 	ufo_->SetCircle(modelCircle_.get());
+	ufo_->SetWorldPosition({ -10.0f,12.0f,150.0f });
+	ufo_->SetVelocity({ 0.0f,0.0f,-0.1f });
 	ufos_.push_back(std::move(ufo_));
 }
 
@@ -161,6 +163,13 @@ void GameScene::Update() {
 	directionalLightData.intencity = intencity;
 	directionalLight_->Update(directionalLightData);
 
+	//screws_.
+	screws_.remove_if([](std::unique_ptr<Screw>& bullet) {
+		if (bullet->GetIsDead()) {
+			return true;
+		}
+		return false;
+		});
 	bool isRelese = false;
 	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
 		(*block)->Update();
@@ -194,7 +203,7 @@ void GameScene::Update() {
 		(*block)->Update();
 	}
 
-	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Update();
 	}
 	std::vector<Block*> blockUFO;
@@ -242,7 +251,7 @@ void GameScene::Update() {
 	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
 		collisionManager_->ListRegister((*block)->GetCollider());
 	}
-	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		collisionManager_->ListRegister((*block)->GetCollider());
 	}
 	collisionManager_->CheakAllCollision();
@@ -320,7 +329,7 @@ void GameScene::Draw() {
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		(*block)->Draw(modelBlock_.get(), camera_);
 	}
-	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Draw(modelBlock_.get(), camera_);
 	}
 	player_->Draw(modelBlock_.get(), camera_);

@@ -89,10 +89,12 @@ void Screw::Follow() {
 		worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity);
 	}
 	//worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
-	worldTransform_.transform_.translate.y -= 0.3f;
-	if (worldTransform_.transform_.translate.y <= -20.0f) {
-		worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
-		worldTransform_.transform_.translate.y = 4.0f;
+	if (!isAttract_) {
+		worldTransform_.transform_.translate.y -= 0.3f;
+		if (worldTransform_.transform_.translate.y <= -20.0f) {
+			worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
+			worldTransform_.transform_.translate.y = 4.0f;
+		}
 	}
 }
 
@@ -158,15 +160,23 @@ void Screw::TurnOver() {
 
 void Screw::OnCollision(ColliderParentObject pairObject, CollisionData collidionData)
 {
-	if (state_ == REVERSE || state_ == NONE) {
-		if (std::holds_alternative<UFOAttract*>(pairObject)) {
+	//吸われる
+	if (state_ == REVERSE || state_ == NONE || state_ == FOLLOW) {
+		if (std::holds_alternative<UFOAttract*>(pairObject) && std::get<UFOAttract*>(pairObject)->GetIsAttract()) {
 			UFO* ufo = std::get<UFOAttract*>(pairObject)->GetParent();
 			Vector3 velocity = Vector3Calc::Multiply(0.1f, Vector3Calc::Normalize(Vector3Calc::Subtract(ufo->GetWorldTransform()->GetWorldPosition(), worldTransform_.transform_.translate)));
 			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity);
 			isAttract_ = true;
 		}
 	}
+	//UFOにぶつかったとき
+	if (state_ != REVERSE) {
+		if (std::holds_alternative<UFO*>(pairObject)) {
+			isDead_ = true;
+		}
+	}
 
+	//ブロックの上に押し出す
 	if (state_ == FOLLOW || state_ == NONE || state_ == REVERSE) {
 		if (!std::holds_alternative<UFO*>(pairObject) && std::holds_alternative<Block*>(pairObject) && !isAttract_) {
 			worldTransform_.transform_.translate.y = std::get<Block*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + std::get<Block*>(pairObject)->GetWorldTransform()->transform_.scale.y + worldTransform_.transform_.scale.y;

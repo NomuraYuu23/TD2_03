@@ -25,9 +25,15 @@ void UFO::Initialize() {
 }
 
 void UFO::Update() {
+	isAttract_ = false;
 	if (!isDead_) {
-		worldTransform_.transform_.translate.x = std::sinf(theta_) * 20.0f;
-		worldTransform_.UpdateMatrix();
+		isAttract_ = true;
+		if (attract_->GetScrewCount() < 2) {
+			worldTransform_.transform_.translate.x = std::sinf(theta_) * 20.0f;
+			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity_);
+			theta_ += 0.01f;
+			isAttract_ = false;
+		}worldTransform_.UpdateMatrix();
 		colliderUFO_->center_ = worldTransform_.GetWorldPosition();
 		colliderUFO_->SetOtientatuons(worldTransform_.rotateMatrix_);
 		Vector3 attractPos = worldTransform_.GetWorldPosition();
@@ -35,10 +41,9 @@ void UFO::Update() {
 		attract_->SetCenter(attractPos);
 		worldTransformCircle_.transform_.translate = attractPos;
 		worldTransformCircle_.UpdateMatrix();
-		if (attract_->GetScrewCount() < 2) {
-			theta_ += 0.01f;
-		}
+		
 		attract_->SetScrewCount(0);
+		attract_->SetIsAttract(isAttract_);
 	}
 	else if (isDead_) {
 		materialCircle_->SetColor({ 0.8f,0.8f,0.8f,0.5f });
