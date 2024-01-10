@@ -1,4 +1,5 @@
 #include "Block.h"
+#include "UFO.h"
 #include "../player.h"
 void Block::Initialize() {
 	anchorPoints_[0].position = {  0.0f, 1.0f, 0.0f };
@@ -71,7 +72,7 @@ void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidion
 		}
 	}
 
-	if (!isCenter_ && !isConnect_ && std::holds_alternative<Block*>(pairObject)) {
+	if (!isCenter_ && !isConnect_ && (std::holds_alternative<Block*>(pairObject) || (std::holds_alternative<UFO*>(pairObject)))) {
 		bool isStack = false;
 		for (int index = 0; index < anchorNum; index++) {
 			if (anchorPoints_[index].screw != nullptr && anchorPoints_[index].screw->GetState() == Screw::STUCK) {

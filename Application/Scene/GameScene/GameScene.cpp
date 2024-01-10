@@ -100,6 +100,43 @@ void GameScene::Initialize() {
 	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
 
+	//01/10仮追加分
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ 2.0f,0.0f,250.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ 2.0f,0.0f,300.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ -20.0f,0.0f,310.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ -10.0f,0.0f,350.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ -30.0f,0.0f,450.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+
 
 	player_.reset(new Player);
 	player_->Initialize();
@@ -175,39 +212,15 @@ void GameScene::Update() {
 		(*block)->Update();
 		isRelese = isRelese || (*block)->GetIsRelese();
 	}
-
-	if (isRelese) {
-		for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
-			if (!(*block)->GetIsCenter()) {
-				(*block)->SetIsConnect(false);
-			}
-		}
-		collisionManager_->ListClear();
-		int oldCount = 0;
-		int newCount = 0;
-		for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
-			collisionManager_->ListRegister((*block)->GetCollider());
-		}
-		do {
-			oldCount = newCount;
-			newCount = 0;
-			collisionManager_->CheakAllCollision();
-			for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
-				if ((*block)->GetIsConnect()) {
-					newCount++;
-				}
-			}
-		} while (oldCount != newCount);
-	}
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		(*block)->Update();
+		if ((*block)->GetIsDead()) {
+			isRelese = isRelese || (*block)->GetIsRelese();
+		}
 	}
 
-	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
-		(*block)->Update();
-	}
+	//ブロックと死んだUFOを一つの一時リストにまとめる
 	std::vector<Block*> blockUFO;
-	
 	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
 		blockUFO.push_back((*block).get());
 	}
@@ -216,6 +229,35 @@ void GameScene::Update() {
 			blockUFO.push_back((*block).get());
 		}
 	}
+
+	if (isRelese) {
+		for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
+			if (!(*block)->GetIsCenter()) {
+				(*block)->SetIsConnect(false);
+			}
+		}
+		collisionManager_->ListClear();
+		int oldCount = 0;
+		int newCount = 0;
+		for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
+			collisionManager_->ListRegister((*block)->GetCollider());
+		}
+		do {
+			oldCount = newCount;
+			newCount = 0;
+			collisionManager_->CheakAllCollision();
+			for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
+				if ((*block)->GetIsConnect()) {
+					newCount++;
+				}
+			}
+		} while (oldCount != newCount);
+	}
+
+	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+		(*block)->Update();
+	}
+	
 
 	target_.Update(&blockUFO, *followCamera_.get(), player_.get());
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
