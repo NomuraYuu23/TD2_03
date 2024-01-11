@@ -132,4 +132,5 @@ private:
 	std::vector<std::unique_ptr<UFO>> ufos_;
 
 	std::unique_ptr<Model> modelScrew_;
+	int firstScrewNum_ = 6;//最初に生成するネジの本数
 };

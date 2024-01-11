@@ -4,13 +4,18 @@
 #include "../../../Engine/2D/ImguiManager.h"
 #include "../../../Engine/base/D3DResourceLeakChecker.h"
 #include "../../player.h"
+#include "../../../Engine/GlobalVariables/GlobalVariables.h"
 /// <summary>
 /// 初期化
 /// </summary>
 void GameScene::Initialize() {
 
 	IScene::Initialize();
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const std::string groupName = "Screw";
 
+	globalVariables->AddItem(groupName, "FirstScrewNum", firstScrewNum_);
+	firstScrewNum_ = globalVariables->GetIntValue(groupName, "FirstScrewNum");
 	ModelCreate();
 	MaterialCreate();
 	TextureLoad();
@@ -144,7 +149,7 @@ void GameScene::Initialize() {
 	colliderDebugDraw_->AddCollider(player_->GetMagnet()->GetCollider());
 	
 	modelScrew_.reset(Model::Create("Resources/screw_model", "screw.obj", dxCommon_, textureHandleManager_.get()));
-	for (int index = 0; index < 6; index++) {
+	for (int index = 0; index < firstScrewNum_; index++) {
 		std::unique_ptr<Screw> screw;
 		screw.reset(new Screw);
 		screw->Initialize();
@@ -194,6 +199,7 @@ void GameScene::Initialize() {
 /// </summary>
 void GameScene::Update() {
 	ImguiDraw();
+
 	//光源
 	DirectionalLightData directionalLightData;
 	directionalLightData.color = { 1.0f,1.0f,1.0f,1.0f };
