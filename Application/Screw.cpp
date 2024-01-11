@@ -100,14 +100,14 @@ void Screw::None() {
 }
 
 void Screw::Follow() {
-	float distance = Vector3Calc::Length(Vector3Calc::Subtract(worldTransform_.GetWorldPosition(), player_->GetWorldTransform()->GetWorldPosition()));
-	if (distance >= 2.0f) {
-		Vector3 velocity =  Vector3Calc::Multiply(kFollowSpeed, Vector3Calc::Normalize(Vector3Calc::Subtract(player_->GetWorldTransform()->GetWorldPosition(), worldTransform_.GetWorldPosition())));
-		velocity.y = 0;
-		worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity);
-	}
 	//worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
 	if (!isAttract_) {
+		float distance = Vector3Calc::Length(Vector3Calc::Subtract(worldTransform_.GetWorldPosition(), player_->GetWorldTransform()->GetWorldPosition()));
+		if (distance >= 2.0f) {
+			Vector3 velocity = Vector3Calc::Multiply(kFollowSpeed, Vector3Calc::Normalize(Vector3Calc::Subtract(player_->GetWorldTransform()->GetWorldPosition(), worldTransform_.GetWorldPosition())));
+			velocity.y = 0;
+			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity);
+		}
 		worldTransform_.transform_.translate.y -= 0.3f;
 		if (worldTransform_.transform_.translate.y <= -20.0f) {
 			worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
