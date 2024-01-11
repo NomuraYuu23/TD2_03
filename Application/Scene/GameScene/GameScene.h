@@ -130,4 +130,6 @@ private:
 
 	//std::unique_ptr<UFO> ufo_;
 	std::vector<std::unique_ptr<UFO>> ufos_;
+
+	std::unique_ptr<Model> modelScrew_;
 };

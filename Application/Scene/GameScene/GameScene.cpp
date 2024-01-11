@@ -143,6 +143,7 @@ void GameScene::Initialize() {
 	colliderDebugDraw_->AddCollider(player_->GetCollider());
 	colliderDebugDraw_->AddCollider(player_->GetMagnet()->GetCollider());
 	
+	modelScrew_.reset(Model::Create("Resources/screw_model", "screw.obj", dxCommon_, textureHandleManager_.get()));
 	for (int index = 0; index < 6; index++) {
 		std::unique_ptr<Screw> screw;
 		screw.reset(new Screw);
@@ -372,7 +373,7 @@ void GameScene::Draw() {
 		(*block)->Draw(modelBlock_.get(), camera_);
 	}
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
-		(*block)->Draw(modelBlock_.get(), camera_);
+		(*block)->Draw(modelScrew_.get(), camera_);
 	}
 	player_->Draw(modelBlock_.get(), camera_);
 	//ufo_->Draw(modelBlock_.get(), camera_);
