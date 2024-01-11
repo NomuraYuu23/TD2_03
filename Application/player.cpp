@@ -293,7 +293,11 @@ void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidio
 		}*/
 		isFlooar_ = true;
 		worldTransform_.transform_.translate.y = std::get<Block*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + std::get<Block*>(pairObject)->GetWorldTransform()->transform_.scale.y + worldTransform_.transform_.scale.y;
-		worldTransform_.UpdateMatrix();
+		//worldTransform_.UpdateMatrix();
+		// worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(Matrix4x4Calc::MakeScaleMatrix(worldTransform_.transform_.scale) , Matrix4x4Calc::Multiply( directionMatrix_ , Matrix4x4Calc::MakeTranslateMatrix(worldTransform_.transform_.translate)));
+		if (worldTransform_.parent_) {
+			worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(worldTransform_.worldMatrix_, worldTransform_.parent_->worldMatrix_);
+		}
 		//std::get<Block*>(pairObject)->SetIsCenter(true);
 		//std::get<Block*>(pairObject)->SetIsConnect(true);
 	}
