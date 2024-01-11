@@ -4,6 +4,7 @@
 #include "../Engine/Math/Ease.h"
 #include "Block/UFO.h"
 #include "Block/UFOAttract.h"
+#include "../Engine/GlobalVariables/GlobalVariables.h"
 void(Screw::* Screw::stateTable[])() = {
 	&Screw::None,
 	& Screw::Follow,
@@ -14,6 +15,11 @@ void(Screw::* Screw::stateTable[])() = {
 };
 
 void Screw::Initialize() {
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const std::string groupName = "Screw";
+
+	globalVariables->AddItem(groupName, "StuckMax", kStuckMax);
+
 	state_ = State::FOLLOW;
 	//state_ = State(5);
 	worldTransform_.Initialize();
@@ -31,6 +37,11 @@ void Screw::Initialize() {
 	isRideBlock_ = false;
 }
 void Screw::Update() {
+	if (state_ != STUCK) {
+		GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+		const std::string groupName = "Screw";
+		kStuckMax = globalVariables->GetIntValue(groupName, "StuckMax");
+	}
 	(this->*stateTable[static_cast<size_t>(state_)])();
 	worldTransform_.UpdateMatrix();
 	collider_->center_ = worldTransform_.GetWorldPosition();
