@@ -74,7 +74,9 @@ void Target::ForchNearAnchor(std::vector<Block*>* blockList, BaseCamera& camera,
 			lengthCheck = true;
 			//>= Vector3Calc::Length(Vector3Calc::Subtract((*ite)->GetAnchorPointArray()[index].position, camera.GetTransform()));
 			float dot = Vector3Calc::Dot(Vector3Calc::Normalize(Vector3Calc::Subtract(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_),player->GetWorldTransform()->GetWorldPosition())),Vector3Calc::Normalize(player->GetDirection()));
-			if ((lengthCheck) && dot>0.5f && IsInnerCamera(newvp) && (!isTarget_ || std::cos(dot) < std::cos(oldDot))) {
+			float oldlength = Vector3Calc::Length(Vector3Calc::Subtract(player->GetWorldTransform()->GetWorldPosition(), Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_)));
+			float newlength = Vector3Calc::Length(Vector3Calc::Subtract(player->GetWorldTransform()->GetWorldPosition(), Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_)));
+			if ((lengthCheck) && dot>0.99f  && IsInnerCamera(newvp) && (!isTarget_ || /*std::cos(dot) < std::cos(oldDot)*/ newlength <= oldlength)) {
 				num = index;
 				block = *ite;
 				oldDot = dot;
