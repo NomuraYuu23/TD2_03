@@ -265,13 +265,11 @@ void GameScene::Update() {
 		} while (oldCount != newCount);
 	}
 
+	target_.Update(&blockUFO, *followCamera_.get(), player_.get());
+	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Update();
 	}
-	
-
-	target_.Update(&blockUFO, *followCamera_.get(), player_.get());
-	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
 	//ufo_->Update();
 	/*Block* center = nullptr;
 	//中心となるブロックをリセット

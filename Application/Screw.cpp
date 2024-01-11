@@ -182,14 +182,18 @@ void Screw::ToPlayer() {
 
 void Screw::TurnOver() {
 	if (state_ == FOLLOW || state_ == NONE) {
-		state_ = REVERSE;
-		reverseT_ = 0;
-		frameCount_ = 0;
+		if (isRideBlock_ == true) {
+			state_ = REVERSE;
+			reverseT_ = 0;
+			frameCount_ = 0;
+		}
 	}
 	else if (state_ == REVERSE) {
-		state_ = NONE;
-		reverseT_ = 1.0f;
-		frameCount_ = kReverseSpeed_;
+		if (isRideBlock_ == true) {
+			state_ = NONE;
+			reverseT_ = 1.0f;
+			frameCount_ = kReverseSpeed_;
+		}
 	}
 	else if (state_ == STUCK) {
 		stuckTime_ = kStuckMax;
