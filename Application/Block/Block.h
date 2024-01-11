@@ -19,13 +19,15 @@ public:
 		Screw* screw;//ネジのポインタ
 	};
 
-	void Initialize();
-	void Update();
-	void Draw(Model* model,BaseCamera& camera);
+	static const size_t anchorNum = 1;
+
+	virtual void Initialize();
+	virtual void Update();
+	virtual void Draw(Model* model,BaseCamera& camera);
 
 	inline WorldTransform* GetWorldTransform() { return &worldTransform_; };
 
-	std::array<AnchorPoint, 4>& GetAnchorPointArray() { return anchorPoints_; };
+	std::array<AnchorPoint, anchorNum>& GetAnchorPointArray() { return anchorPoints_; };
 	Vector3 GetAnchorPointWorldPosition(size_t num);
 	Screw* GetAnchorPointScrew(size_t num) { return anchorPoints_[num].screw; };
 	Screw* SetAnchorPointScrew(size_t num,Screw* screw) { return anchorPoints_[num].screw = screw; };
@@ -38,9 +40,9 @@ public:
 	void SetWorldPosition(const Vector3& pos) { worldTransform_.transform_.translate = pos; };
 	void SetVelocity(const Vector3& v) { velocity_ = v; };
 	bool GetIsRelese() { return isRelese_; };
-private:
+protected:
 
-	std::array<AnchorPoint,4> anchorPoints_;
+	std::array<AnchorPoint, anchorNum> anchorPoints_;
 	WorldTransform worldTransform_;
 	std::unique_ptr<OBB> collider_;
 	bool isConnect_;//中心の足場とくっついている(もしくは中心の足場)かどうか

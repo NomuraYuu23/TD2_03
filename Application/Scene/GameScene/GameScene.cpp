@@ -4,13 +4,18 @@
 #include "../../../Engine/2D/ImguiManager.h"
 #include "../../../Engine/base/D3DResourceLeakChecker.h"
 #include "../../player.h"
+#include "../../../Engine/GlobalVariables/GlobalVariables.h"
 /// <summary>
 /// 初期化
 /// </summary>
 void GameScene::Initialize() {
 
 	IScene::Initialize();
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const std::string groupName = "Screw";
 
+	globalVariables->AddItem(groupName, "FirstScrewNum", firstScrewNum_);
+	firstScrewNum_ = globalVariables->GetIntValue(groupName, "FirstScrewNum");
 	ModelCreate();
 	MaterialCreate();
 	TextureLoad();
@@ -61,7 +66,7 @@ void GameScene::Initialize() {
 	block->Initialize();
 	block->SetIsCenter(true);
 	block->SetIsConnect(true);
-	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
 	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
 	
@@ -86,13 +91,65 @@ void GameScene::Initialize() {
 	colliderDebugDraw_->AddCollider(block->GetCollider());
 	blocks_.push_back(std::move(block));
 	
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ -10.0f,0.0f,150.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ -30.0f,0.0f,200.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+	//01/10仮追加分
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ 2.0f,0.0f,250.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ 2.0f,0.0f,300.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ -20.0f,0.0f,310.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ -10.0f,0.0f,350.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ -30.0f,0.0f,450.0f });
+	block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	colliderDebugDraw_->AddCollider(block->GetCollider());
+	blocks_.push_back(std::move(block));
+
+
 
 	player_.reset(new Player);
 	player_->Initialize();
 	colliderDebugDraw_->AddCollider(player_->GetCollider());
 	colliderDebugDraw_->AddCollider(player_->GetMagnet()->GetCollider());
 	
-	for (int index = 0; index < 4; index++) {
+	modelScrew_.reset(Model::Create("Resources/screw_model", "screw.obj", dxCommon_, textureHandleManager_.get()));
+	for (int index = 0; index < firstScrewNum_; index++) {
 		std::unique_ptr<Screw> screw;
 		screw.reset(new Screw);
 		screw->Initialize();
@@ -128,6 +185,13 @@ void GameScene::Initialize() {
 	planet_ = std::make_unique<Planet>();
 	planet_->Initialize(planetModel_.get());
 
+	std::unique_ptr<UFO> ufo_;
+	ufo_.reset(new UFO);
+	ufo_->Initialize();
+	ufo_->SetCircle(modelCircle_.get());
+	ufo_->SetWorldPosition({ -10.0f,12.0f,150.0f });
+	ufo_->SetVelocity({ 0.0f,0.0f,-0.1f });
+	ufos_.push_back(std::move(ufo_));
 }
 
 /// <summary>
@@ -135,6 +199,7 @@ void GameScene::Initialize() {
 /// </summary>
 void GameScene::Update() {
 	ImguiDraw();
+
 	//光源
 	DirectionalLightData directionalLightData;
 	directionalLightData.color = { 1.0f,1.0f,1.0f,1.0f };
@@ -142,14 +207,38 @@ void GameScene::Update() {
 	directionalLightData.intencity = intencity;
 	directionalLight_->Update(directionalLightData);
 
+	//screws_.
+	screws_.remove_if([](std::unique_ptr<Screw>& bullet) {
+		if (bullet->GetIsDead()) {
+			return true;
+		}
+		return false;
+		});
 	bool isRelese = false;
 	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
 		(*block)->Update();
 		isRelese = isRelese || (*block)->GetIsRelese();
 	}
+	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
+		(*block)->Update();
+		if ((*block)->GetIsDead()) {
+			isRelese = isRelese || (*block)->GetIsRelese();
+		}
+	}
+
+	//ブロックと死んだUFOを一つの一時リストにまとめる
+	std::vector<Block*> blockUFO;
+	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+		blockUFO.push_back((*block).get());
+	}
+	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
+		if ((*block)->GetIsDead()) {
+			blockUFO.push_back((*block).get());
+		}
+	}
 
 	if (isRelese) {
-		for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+		for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
 			if (!(*block)->GetIsCenter()) {
 				(*block)->SetIsConnect(false);
 			}
@@ -157,14 +246,14 @@ void GameScene::Update() {
 		collisionManager_->ListClear();
 		int oldCount = 0;
 		int newCount = 0;
-		for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+		for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
 			collisionManager_->ListRegister((*block)->GetCollider());
 		}
 		do {
 			oldCount = newCount;
 			newCount = 0;
 			collisionManager_->CheakAllCollision();
-			for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+			for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
 				if ((*block)->GetIsConnect()) {
 					newCount++;
 				}
@@ -172,34 +261,50 @@ void GameScene::Update() {
 		} while (oldCount != newCount);
 	}
 
-	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Update();
 	}
-	target_.Update(&blocks_, *followCamera_.get(), player_.get());
-	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
+	
 
-	Block* center = nullptr;
+	target_.Update(&blockUFO, *followCamera_.get(), player_.get());
+	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
+	//ufo_->Update();
+	/*Block* center = nullptr;
 	//中心となるブロックをリセット
-	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+	for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
 		if ((*block)->GetIsCenter()) {
-			center = (*block).get();
+			center = (*block);
 		}
-	}
+	}*/
+
 
 	collisionManager_->ListClear();
 	collisionManager_->ListRegister(player_->GetCollider());
 	collisionManager_->ListRegister(player_->GetMagnet()->GetCollider());
+	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
+		if (!(*block)->GetIsDead()) {
+			collisionManager_->ListRegister((*block)->GetCollider());
+			collisionManager_->ListRegister((*block)->GetAttract()->GetCollider());
+		}
+		else {
+			Block* castBlock = (*block).get();
+			collisionManager_->ListRegister(castBlock->GetCollider());
+			collisionManager_->ListRegister((*block)->GetMagnet()->GetCollider());
+		}
+	}
+	
+
 	//collisionManager_->ListRegister(blocks_[0]->GetCollider());
 	//collisionManager_->ListRegister(blocks_[1]->GetCollider());
 	//collisionManager_->ListRegister(blocks_[2]->GetCollider());
 	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
 		collisionManager_->ListRegister((*block)->GetCollider());
 	}
-	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		collisionManager_->ListRegister((*block)->GetCollider());
 	}
 	collisionManager_->CheakAllCollision();
-
+	/*
 	if (center) {
 		for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
 			if ((*block)->GetIsCenter()) {
@@ -208,7 +313,7 @@ void GameScene::Update() {
 				}
 			}
 		}
-}
+}*/
 	// スカイドーム
 	skydome_->Update();
 
@@ -270,11 +375,15 @@ void GameScene::Draw() {
 	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
 		(*block)->Draw(modelBlock_.get(), camera_);
 	}
-
-	for (std::vector<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		(*block)->Draw(modelBlock_.get(), camera_);
 	}
+	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+		(*block)->Draw(modelScrew_.get(), camera_);
+	}
 	player_->Draw(modelBlock_.get(), camera_);
+	//ufo_->Draw(modelBlock_.get(), camera_);
+	
 
 	// スカイドーム
 	skydome_->Draw(camera_);

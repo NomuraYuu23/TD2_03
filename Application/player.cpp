@@ -156,7 +156,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 		Screw* anchorScrew = block->GetAnchorPointScrew(blockNum);
 		//刺す
 		if (!anchorScrew ) {
-			for (std::vector<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end();ite++) {
+			for (std::list<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end();ite++) {
 				if ((*ite)->GetState() == Screw::FOLLOW) {
 					(*ite)->Throw(worldTransform_.GetWorldPosition(),block,blockNum);
 					behaviorRequest_ = Behavior::kAttack;
@@ -245,7 +245,7 @@ void Player::BehaviorDropUpdate()
 	worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity_);
 	if (isFlooar_) {
 		//反転処理
-		for (std::vector<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end(); ite++) {
+		for (std::list<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end(); ite++) {
 			float distance = Vector3Calc::Length(Vector3Calc::Subtract(worldTransform_.GetWorldPosition(),(*ite)->GetWorldTransform()->GetWorldPosition()));
 			if (distance <= magnet_->GetRadius()) {
 				(*ite)->TurnOver();
@@ -293,9 +293,13 @@ void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidio
 		}*/
 		isFlooar_ = true;
 		worldTransform_.transform_.translate.y = std::get<Block*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + std::get<Block*>(pairObject)->GetWorldTransform()->transform_.scale.y + worldTransform_.transform_.scale.y;
-		worldTransform_.UpdateMatrix();
-		std::get<Block*>(pairObject)->SetIsCenter(true);
-		std::get<Block*>(pairObject)->SetIsConnect(true);
+		//worldTransform_.UpdateMatrix();
+		// worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(Matrix4x4Calc::MakeScaleMatrix(worldTransform_.transform_.scale) , Matrix4x4Calc::Multiply( directionMatrix_ , Matrix4x4Calc::MakeTranslateMatrix(worldTransform_.transform_.translate)));
+		if (worldTransform_.parent_) {
+			worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(worldTransform_.worldMatrix_, worldTransform_.parent_->worldMatrix_);
+		}
+		//std::get<Block*>(pairObject)->SetIsCenter(true);
+		//std::get<Block*>(pairObject)->SetIsConnect(true);
 	}
 }
 

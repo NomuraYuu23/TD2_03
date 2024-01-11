@@ -16,6 +16,7 @@
 #include "../../Skydome/Skydome.h"
 #include "../../Planet/Planet.h"
 
+#include "../../Block/UFO.h"
 class GameScene : public IScene
 {
 
@@ -101,7 +102,7 @@ private:
 
 	Target target_;
 	std::unique_ptr<Player> player_;
-	std::vector<std::unique_ptr<Screw>> screws_;
+	std::list<std::unique_ptr<Screw>> screws_;
 
 	std::unique_ptr<FollowCamera> followCamera_;
 	uint32_t cursorTextureHandle_;
@@ -126,4 +127,10 @@ private:
 	std::unique_ptr<Planet> planet_;
 	std::unique_ptr<Model> planetModel_;
 
+
+	//std::unique_ptr<UFO> ufo_;
+	std::vector<std::unique_ptr<UFO>> ufos_;
+
+	std::unique_ptr<Model> modelScrew_;
+	int firstScrewNum_ = 6;//最初に生成するネジの本数
 };

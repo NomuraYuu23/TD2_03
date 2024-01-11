@@ -4,7 +4,8 @@
 
 #include "../../Application/player.h"
 #include "../../Application/Block/Block.h"
-
+#include "../../Application/Block/UFO.h"
+#include "../../Application/Block/UFOAttract.h"
 void CollisionManager::Initialize()
 {
 

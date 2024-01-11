@@ -63,7 +63,7 @@ public:
 	void SetTarget(WorldTransform* target) { target_ = target; };
 	//void SetParticle(Particle* particle) { particle_ = particle; };
 
-	void SetScrew(std::vector<std::unique_ptr<Screw>>* s) { screws_ = s; };
+	void SetScrew(std::list<std::unique_ptr<Screw>>* s) { screws_ = s; };
 
 	OBB* GetCollider() { return collider_.get(); };
 	Magnet* GetMagnet() { return magnet_.get(); };
@@ -102,7 +102,7 @@ private:
 	Vector3 kGravity;
 	Vector3 kJumpVelocity;
 
-	std::vector<std::unique_ptr<Screw>>* screws_;
+	std::list<std::unique_ptr<Screw>>* screws_;
 	std::unique_ptr<OBB> collider_;
 	std::unique_ptr<Magnet> magnet_;
 	std::unique_ptr <Material> mat_;
