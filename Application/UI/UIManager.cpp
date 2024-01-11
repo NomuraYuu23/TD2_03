@@ -12,7 +12,7 @@ void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUIT
 
 }
 
-void UIManager::Update()
+void UIManager::Update(uint32_t screwCount)
 {
 
 	Vector2 leftTop = { 0.0f, 0.0f };
@@ -24,10 +24,13 @@ void UIManager::Update()
 	// 残りねじのx
 	UIs_[kUIIndexRemainingScrewsCross]->Update();
 	// 残りねじの数字10の位
+	leftTop.x = 128.0f * static_cast<float>(screwCount / 10);
 	UIs_[kUIIndexRemainingScrewsTensPlace]->Update(leftTop);
 	// 残りねじの数字1の位
+	leftTop.x = 128.0f * static_cast<float>(screwCount % 10);
 	UIs_[kUIIndexRemainingScrewsOnesPlace]->Update(leftTop);
 	// タイマー分
+	leftTop = { 0.0f, 0.0f };
 	UIs_[kUIIndexTimerMinutes]->Update(leftTop);
 	// タイマー秒10の位
 	UIs_[kUIIndexTimerSecondsTensPlace]->Update(leftTop);

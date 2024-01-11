@@ -38,7 +38,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update(uint32_t screwCount);
 
 	/// <summary>
 	/// 描画

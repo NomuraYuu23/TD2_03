@@ -329,7 +329,13 @@ void GameScene::Update() {
 	camera_ = static_cast<BaseCamera>(*followCamera_.get());
 
 	// UIマネージャー
-	uiManager_->Update();
+	uint32_t screwCount = 0u;
+	for (std::list<std::unique_ptr<Screw>>::iterator screw = screws_.begin(); screw != screws_.end(); screw++) {
+		if (screw->get()->GetState() == Screw::FOLLOW) {
+			screwCount++;
+		}
+	}
+	uiManager_->Update(screwCount);
 
 	// デバッグカメラ
 	DebugCameraUpdate();
