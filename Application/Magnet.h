@@ -11,7 +11,7 @@ public:
 	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {};
 	void SetCenter(const Vector3& center) { collider_->center_ = center; };
 	void SetRadius(float r) { radius_ = r; };
-	void Update() { collider_->worldTransformUpdate(); };//描画用
+	void Update() { collider_->radius_ = radius_; collider_->worldTransformUpdate(); };//描画用
 	Sphere* GetCollider() { return collider_.get(); };
 	Vector3 GetCenter() { return collider_->center_; };
 	float GetRadius() { return radius_; };
