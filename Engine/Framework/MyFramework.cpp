@@ -88,7 +88,7 @@ void MyFramework::Update()
 
 	//入力デバイス
 	input->Update();
-	if (input->PushKey(DIK_SPACE)) {
+	if (!input->GetJoystickConnected()) {
 		input->JoystickConnected(win->GetHwnd());
 	}
 
