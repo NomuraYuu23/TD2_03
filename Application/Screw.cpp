@@ -126,12 +126,21 @@ void Screw::ToBlock() {
 	frameCount_++;
 	if (frameCount_>30) {
 		state_ = STUCK;
+		stuckTime_ = kStuckMax;
 	}
 }
 
 void Screw::Stuck(){
 	Vector3 endPoint = static_cast<Block*>(target_)->GetAnchorPointWorldPosition(targetNum_);
 	worldTransform_.transform_.translate = endPoint;
+	float t = float(kStuckMax - stuckTime_) / float(kStuckMax);
+	worldTransform_.transform_.translate.y += t*(static_cast<Block*>(target_)->GetWorldTransform()->transform_.scale.y/2.0f + worldTransform_.transform_.scale.y/2.0f);
+	if (stuckTime_<=0) {
+		static_cast<Block*>(target_)->SetAnchorPointScrew(targetNum_, nullptr);
+		frameCount_ = 0;
+		state_ = NONE;
+	}
+	stuckTime_--;
 }
 
 

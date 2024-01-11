@@ -70,4 +70,7 @@ private:
 	bool isDead_;
 
 	bool isAttract_;//ufoに吸引されているか
+
+	static const int32_t kStuckMax = 300;
+	int32_t stuckTime_=0;//刺さっている残り時間
 };
