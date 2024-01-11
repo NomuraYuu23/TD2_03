@@ -61,85 +61,88 @@ void GameScene::Initialize() {
 	worldTransform_.Initialize();
 
 	modelBlock_.reset(Model::Create("Resources/TD2_November/collider/box/", "box.obj", dxCommon_, textureHandleManager_.get()));
-	std::unique_ptr<Block> block;
-	block.reset(new Block);
-	block->Initialize();
-	block->SetIsCenter(true);
-	block->SetIsConnect(true);
-	block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	colliderDebugDraw_->AddCollider(block->GetCollider());
-	blocks_.push_back(std::move(block));
-	
-	block.reset(new Block);
-	block->Initialize();
-	block->SetWorldPosition({2.0f,0.0f,60.0f});
-	block->SetVelocity({0.0f,0.0f,-0.1f});
-	colliderDebugDraw_->AddCollider(block->GetCollider());
-	blocks_.push_back(std::move(block));
+	blockManager_ = std::make_unique<BlockManager>();
+	blockManager_->Initialize(modelBlock_.get());
 
-	block.reset(new Block);
-	block->Initialize();
-	block->SetWorldPosition({ 2.0f,0.0f,90.0f });
-	block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	colliderDebugDraw_->AddCollider(block->GetCollider());
-	blocks_.push_back(std::move(block));
+	//std::unique_ptr<Block> block;
+	//block.reset(new Block);
+	//block->Initialize();
+	//block->SetIsCenter(true);
+	//block->SetIsConnect(true);
+	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	//colliderDebugDraw_->AddCollider(block->GetCollider());
+	//blocks_.push_back(std::move(block));
+	//
+	//block.reset(new Block);
+	//block->Initialize();
+	//block->SetWorldPosition({2.0f,0.0f,60.0f});
+	//block->SetVelocity({0.0f,0.0f,-0.1f});
+	//colliderDebugDraw_->AddCollider(block->GetCollider());
+	//blocks_.push_back(std::move(block));
 
-	block.reset(new Block);
-	block->Initialize();
-	block->SetWorldPosition({ 60.0f,0.0f,20.0f });
-	block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	colliderDebugDraw_->AddCollider(block->GetCollider());
-	blocks_.push_back(std::move(block));
-	
-	block.reset(new Block);
-	block->Initialize();
-	block->SetWorldPosition({ -10.0f,0.0f,150.0f });
-	block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	colliderDebugDraw_->AddCollider(block->GetCollider());
-	blocks_.push_back(std::move(block));
+	//block.reset(new Block);
+	//block->Initialize();
+	//block->SetWorldPosition({ 2.0f,0.0f,90.0f });
+	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	//colliderDebugDraw_->AddCollider(block->GetCollider());
+	//blocks_.push_back(std::move(block));
 
-	block.reset(new Block);
-	block->Initialize();
-	block->SetWorldPosition({ -30.0f,0.0f,200.0f });
-	block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	colliderDebugDraw_->AddCollider(block->GetCollider());
-	blocks_.push_back(std::move(block));
+	//block.reset(new Block);
+	//block->Initialize();
+	//block->SetWorldPosition({ 60.0f,0.0f,20.0f });
+	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	//colliderDebugDraw_->AddCollider(block->GetCollider());
+	//blocks_.push_back(std::move(block));
+	//
+	//block.reset(new Block);
+	//block->Initialize();
+	//block->SetWorldPosition({ -10.0f,0.0f,150.0f });
+	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	//colliderDebugDraw_->AddCollider(block->GetCollider());
+	//blocks_.push_back(std::move(block));
 
-	//01/10仮追加分
-	block.reset(new Block);
-	block->Initialize();
-	block->SetWorldPosition({ 2.0f,0.0f,250.0f });
-	block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	colliderDebugDraw_->AddCollider(block->GetCollider());
-	blocks_.push_back(std::move(block));
+	//block.reset(new Block);
+	//block->Initialize();
+	//block->SetWorldPosition({ -30.0f,0.0f,200.0f });
+	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	//colliderDebugDraw_->AddCollider(block->GetCollider());
+	//blocks_.push_back(std::move(block));
 
-	block.reset(new Block);
-	block->Initialize();
-	block->SetWorldPosition({ 2.0f,0.0f,300.0f });
-	block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	colliderDebugDraw_->AddCollider(block->GetCollider());
-	blocks_.push_back(std::move(block));
+	////01/10仮追加分
+	//block.reset(new Block);
+	//block->Initialize();
+	//block->SetWorldPosition({ 2.0f,0.0f,250.0f });
+	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	//colliderDebugDraw_->AddCollider(block->GetCollider());
+	//blocks_.push_back(std::move(block));
 
-	block.reset(new Block);
-	block->Initialize();
-	block->SetWorldPosition({ -20.0f,0.0f,310.0f });
-	block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	colliderDebugDraw_->AddCollider(block->GetCollider());
-	blocks_.push_back(std::move(block));
+	//block.reset(new Block);
+	//block->Initialize();
+	//block->SetWorldPosition({ 2.0f,0.0f,300.0f });
+	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	//colliderDebugDraw_->AddCollider(block->GetCollider());
+	//blocks_.push_back(std::move(block));
 
-	block.reset(new Block);
-	block->Initialize();
-	block->SetWorldPosition({ -10.0f,0.0f,350.0f });
-	block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	colliderDebugDraw_->AddCollider(block->GetCollider());
-	blocks_.push_back(std::move(block));
+	//block.reset(new Block);
+	//block->Initialize();
+	//block->SetWorldPosition({ -20.0f,0.0f,310.0f });
+	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	//colliderDebugDraw_->AddCollider(block->GetCollider());
+	//blocks_.push_back(std::move(block));
 
-	block.reset(new Block);
-	block->Initialize();
-	block->SetWorldPosition({ -30.0f,0.0f,450.0f });
-	block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	colliderDebugDraw_->AddCollider(block->GetCollider());
-	blocks_.push_back(std::move(block));
+	//block.reset(new Block);
+	//block->Initialize();
+	//block->SetWorldPosition({ -10.0f,0.0f,350.0f });
+	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	//colliderDebugDraw_->AddCollider(block->GetCollider());
+	//blocks_.push_back(std::move(block));
+
+	//block.reset(new Block);
+	//block->Initialize();
+	//block->SetWorldPosition({ -30.0f,0.0f,450.0f });
+	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
+	//colliderDebugDraw_->AddCollider(block->GetCollider());
+	//blocks_.push_back(std::move(block));
 
 
 
@@ -215,7 +218,7 @@ void GameScene::Update() {
 		return false;
 		});
 	bool isRelese = false;
-	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+	for (std::list<Block*>::iterator block = blockManager_->GetBlocks().begin(); block != blockManager_->GetBlocks().end(); block++) {
 		(*block)->Update();
 		isRelese = isRelese || (*block)->GetIsRelese();
 	}
@@ -228,8 +231,8 @@ void GameScene::Update() {
 
 	//ブロックと死んだUFOを一つの一時リストにまとめる
 	std::vector<Block*> blockUFO;
-	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
-		blockUFO.push_back((*block).get());
+	for (std::list<Block*>::iterator block = blockManager_->GetBlocks().begin(); block != blockManager_->GetBlocks().end(); block++) {
+		blockUFO.push_back(*block);
 	}
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		if ((*block)->GetIsDead()) {
@@ -297,7 +300,7 @@ void GameScene::Update() {
 	//collisionManager_->ListRegister(blocks_[0]->GetCollider());
 	//collisionManager_->ListRegister(blocks_[1]->GetCollider());
 	//collisionManager_->ListRegister(blocks_[2]->GetCollider());
-	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+	for (std::list<Block*>::iterator block = blockManager_->GetBlocks().begin(); block != blockManager_->GetBlocks().end(); block++) {
 		collisionManager_->ListRegister((*block)->GetCollider());
 	}
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
@@ -372,7 +375,7 @@ void GameScene::Draw() {
 
 	//model_->Draw(worldTransform_, camera_, material_.get());
 	
-	for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+	for (std::list<Block*>::iterator block = blockManager_->GetBlocks().begin(); block != blockManager_->GetBlocks().end(); block++) {
 		(*block)->Draw(modelBlock_.get(), camera_);
 	}
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {

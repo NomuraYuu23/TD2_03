@@ -61,6 +61,16 @@ public:
 	/// </summary>
 	void ImGuiDraw();
 
+	/// <summary>
+	/// ブロック生成
+	/// </summary>
+	void GenerationBlock(const Vector3& position, const Vector3& velocity);
+
+	/// <summary>
+	/// 中心ブロック生成
+	/// </summary>
+	void GenerationCenterBlock();
+
 private: // メンバ関数
 
 	/// <summary>
@@ -78,11 +88,6 @@ private: // メンバ関数
 	///	状態切り替え
 	/// </summary>
 	void StateChange();
-
-	/// <summary>
-	/// ブロック生成
-	/// </summary>
-	void GenerationBlock();
 
 	/// <summary>
 	/// マテリアル初期化
@@ -111,7 +116,7 @@ public: // アクセッサ
 	/// ブロックゲット
 	/// </summary>
 	/// <returns>ブロック</returns>
-	std::list<Block*> GetBlocks() { return blocks_; }
+	std::list<Block*>& GetBlocks() { return blocks_; }
 
 private: // メンバ変数
 

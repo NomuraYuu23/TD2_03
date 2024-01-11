@@ -124,14 +124,14 @@
     <Filter Include="Application\Magnet">
       <UniqueIdentifier>{cb3c8149-7203-4f73-86d5-bb68f2195e7e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Planet">
-      <UniqueIdentifier>{ec2a6f29-ee69-4419-a155-36e8f6b72a06}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Screw">
       <UniqueIdentifier>{bf40b5de-2d51-456f-800a-29a038828d36}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\Target">
       <UniqueIdentifier>{c00dc553-3111-4c19-bb85-a4548881e799}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Scene\Planet">
+      <UniqueIdentifier>{ec2a6f29-ee69-4419-a155-36e8f6b72a06}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -390,6 +390,12 @@
     </ClCompile>
     <ClCompile Include="Application\Target\Target.cpp">
       <Filter>Application\Target</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Planet\Planet.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Screw.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -703,7 +709,7 @@
       <Filter>Application\Magnet</Filter>
     </ClInclude>
     <ClInclude Include="Application\Planet\Planet.h">
-      <Filter>Application\Planet</Filter>
+      <Filter>Application\Scene\Planet</Filter>
     </ClInclude>
     <ClInclude Include="Application\Block\UFO.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -716,6 +722,9 @@
     </ClInclude>
     <ClInclude Include="Application\Target\Target.h">
       <Filter>Application\Target</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Screw.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

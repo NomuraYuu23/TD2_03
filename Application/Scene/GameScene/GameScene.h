@@ -17,6 +17,9 @@
 #include "../../Planet/Planet.h"
 
 #include "../../Block/UFO.h"
+
+#include "../../BlockManager/BlockManager.h"
+
 class GameScene : public IScene
 {
 
@@ -98,7 +101,8 @@ private:
 
 	//ブロックのテスト
 	std::unique_ptr<Model> modelBlock_;
-	std::vector<std::unique_ptr<Block>> blocks_;
+	//std::vector<std::unique_ptr<Block>> blocks_;
+	std::unique_ptr<BlockManager> blockManager_;
 
 	Target target_;
 	std::unique_ptr<Player> player_;
@@ -126,7 +130,6 @@ private:
 	// 惑星
 	std::unique_ptr<Planet> planet_;
 	std::unique_ptr<Model> planetModel_;
-
 
 	//std::unique_ptr<UFO> ufo_;
 	std::vector<std::unique_ptr<UFO>> ufos_;

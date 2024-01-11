@@ -1,6 +1,7 @@
 #include "BlockManager.h"
 #include "../Block/Block.h"
 #include "../../Engine/GlobalVariables/GlobalVariables.h"
+#include "BlockManagerState/BlockManagerStateInit/BlockManagerStateInit.h"
 
 BlockManager::~BlockManager()
 {
@@ -17,6 +18,9 @@ void BlockManager::Initialize(Model* model)
 {
 	
 	assert(model);
+
+	// ブロック
+	blocks_.clear();
 
 	// ブロックの最大位置
 	maxBlockPosition_ = {100.0f, 100.0f, 100.0f};
@@ -37,16 +41,13 @@ void BlockManager::Initialize(Model* model)
 
 	// ステート(ブロックの生成パターン)
 	blockManagerState_.reset(blockManagerFactory_->CreateBlockManagerState(kBlockManagerStateInit));
-	blockManagerState_->Initialize();
+	static_cast<BlockManagerStateInit*>(blockManagerState_.get())->Initialize(this);
 
 	// 現在のステート番号
 	currentStateNo_ = kBlockManagerStateInit;
 
 	// 前のステート番号
 	prevStateNo_ = kBlockManagerStateInit;
-
-	// ブロック
-	blocks_.clear();
 
 	// モデル
 	model_ = model;
@@ -166,11 +167,25 @@ void BlockManager::StateChange()
 
 }
 
-void BlockManager::GenerationBlock()
+void BlockManager::GenerationBlock(const Vector3& position, const Vector3& velocity)
 {
 
 	Block* newBlock = new Block();
 	newBlock->Initialize();
+	newBlock->SetWorldPosition(position);
+	newBlock->SetVelocity(velocity);
+	blocks_.push_back(newBlock);
+
+}
+
+void BlockManager::GenerationCenterBlock()
+{
+
+	Block* newBlock = new Block();
+	newBlock->Initialize();
+	newBlock->SetIsCenter(true);
+	newBlock->SetIsConnect(true);
+	newBlock->SetVelocity({ 0.0f,0.0f,-0.1f });
 	blocks_.push_back(newBlock);
 
 }
