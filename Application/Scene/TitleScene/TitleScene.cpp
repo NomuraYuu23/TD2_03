@@ -17,6 +17,12 @@ void TitleScene::Initialize()
 	titleTextureHandle_ = TextureManager::Load("Resources/Title/title.png", dxCommon_, textureHandleManager_.get()),
 	titleSprite_.reset(Sprite::Create(titleTextureHandle_, Vector2{ 640.0f, 360.0f }, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 
+	buttonTextureHandle_ = TextureManager::Load("Resources/Title/controler_UI_A.png", dxCommon_, textureHandleManager_.get()),
+	buttonSprite_.reset(Sprite::Create(buttonTextureHandle_, Vector2{ 640.0f, 560.0f }, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	buttonSprite_->SetTextureSize(Vector2{ 384.0f, 384.0f });
+	buttonSprite_->SetSize(Vector2{ 128.0f, 128.0f });
+	buttonSprite_->SetTextureLeftTop(Vector2{0.0f, 0.0f});
+
 	audioManager_ = std::make_unique<TitleAudioManager>();
 	audioManager_->StaticInitialize();
 	audioManager_->Initialize();
@@ -69,6 +75,7 @@ void TitleScene::Draw()
 	//背景
 	//前景スプライト描画
 	titleSprite_->Draw();
+	buttonSprite_->Draw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();

@@ -53,6 +53,11 @@ private: // メンバ変数
 	// テクスチャハンドル
 	uint32_t titleTextureHandle_ = 0u;
 
+	// スプライト
+	std::unique_ptr<Sprite> buttonSprite_ = nullptr;
+	// テクスチャハンドル
+	uint32_t buttonTextureHandle_ = 0u;
+
 	// オーディオマネージャー
 	std::unique_ptr<TitleAudioManager> audioManager_;
 
