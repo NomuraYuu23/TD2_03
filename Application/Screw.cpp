@@ -48,6 +48,7 @@ void Screw::Throw(const Vector3 position, void* block, size_t num) {
 	startPosition_ = position;
 	target_ = block;
 	static_cast<Block*>(target_)->SetAnchorPointScrew(num,this);
+	worldTransform_.parent_ = nullptr;
 	targetNum_ = num;
 	frameCount_ = 0;
 }
@@ -178,6 +179,9 @@ void Screw::TurnOver() {
 		state_ = NONE;
 		reverseT_ = 1.0f;
 		frameCount_ = kReverseSpeed_;
+	}
+	else if (state_ == STUCK) {
+		stuckTime_ = kStuckMax;
 	}
 }
 
