@@ -199,7 +199,11 @@ void GameScene::Initialize() {
 /// </summary>
 void GameScene::Update() {
 	ImguiDraw();
-
+#ifdef _DEBUG
+	if (Input::GetInstance()->TriggerJoystick(JoystickButton::kJoystickButtonSTART)) {
+		requestSceneNo = kTitle;
+	}
+#endif
 	//光源
 	DirectionalLightData directionalLightData;
 	directionalLightData.color = { 1.0f,1.0f,1.0f,1.0f };
