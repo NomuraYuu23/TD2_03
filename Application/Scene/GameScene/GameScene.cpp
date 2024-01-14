@@ -221,6 +221,8 @@ void GameScene::Update() {
 	directionalLightData.intencity = intencity;
 	directionalLight_->Update(directionalLightData);
 
+	blockManager_->Update();
+
 	//screws_.
 	screws_.remove_if([](std::unique_ptr<Screw>& bullet) {
 		if (bullet->GetIsDead()) {

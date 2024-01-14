@@ -1,6 +1,7 @@
 #include "BlockManagerFactory.h"
 #include <cassert>
 #include "BlockManagerStateInit/BlockManagerStateInit.h"
+#include "BlockManagerStatePattern1/BlockManagerStatePattern1.h"
 
 BlockManagerFactory* BlockManagerFactory::GetInstance()
 {
@@ -17,6 +18,9 @@ IBlockManagerState* BlockManagerFactory::CreateBlockManagerState(uint32_t BlockM
 	{
 	case BlockManagerState::kBlockManagerStateInit:
 		newBlockManagerState = new BlockManagerStateInit();
+		break;
+	case BlockManagerState::kBlockManagerState1:
+		newBlockManagerState = new BlockManagerStatePattern1();
 		break;
 	case BlockManagerState::kBlockManagerStateOfCount:
 	default:

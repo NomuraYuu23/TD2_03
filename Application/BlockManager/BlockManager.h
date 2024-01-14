@@ -5,6 +5,7 @@
 #include "../../Engine/3D/Model.h"
 #include "BlockManagerState/IBlockManagerState.h"
 #include "BlockManagerState/BlockManagerFactory.h"
+#include "BlockGenerationPattern/BlockGenerationPatternFile.h"
 
 // ブロック
 class Block;
@@ -24,6 +25,13 @@ enum BlockSizeIndex {
 enum BlockMaterialIndex {
 	kBlockMaterialIndexWhite, // 白
 	kBlockMaterialIndexOfCount,
+};
+
+// ブロック生成パターン名
+// ここに追加したらBlockManagerのblockGenerationPatternNames_も増やす
+enum BlockGenerationPatternName {
+	kBlockGenerationPatternNameSample,
+	kBlockGenerationPatternNameOfCount,
 };
 
 /// <summary>
@@ -60,6 +68,11 @@ public:
 	/// ImGui描画
 	/// </summary>
 	void ImGuiDraw();
+
+	/// <summary>
+	/// ブロック生成
+	/// </summary>
+	void GenerationBlocks(uint32_t patternName);
 
 	/// <summary>
 	/// ブロック生成
@@ -138,6 +151,12 @@ private: // メンバ変数
 	// プレイヤー
 	Player* player_;
 
+	// ブロック生成のクールタイムカウント(フレーム)
+	uint32_t generationBlockFrameCount_;
+
+	// ブロック生成のクールタイム(フレーム)
+	uint32_t generationBlockFrame_;
+
 private: // ステート
 
 	// ステート(ブロックの生成パターン)
@@ -157,6 +176,24 @@ private: // モデルなど描画系
 	Model* model_ = nullptr;
 
 	std::array<std::unique_ptr<Material>, kBlockMaterialIndexOfCount> materials_;
+
+private: // パターン名
+
+	// ブロックパターンファイル
+	BlockGenerationPatternFile* blockPatternFile_;
+
+	//項目
+	using Item = std::vector<BlockGenerationPatternData>;
+	using Group = std::map<std::string, Item>; // パターン名
+
+	// データ
+	std::map<std::string, Group> blockPatternDatas_;
+
+	// パターン名
+	std::array<std::string, BlockGenerationPatternName::kBlockGenerationPatternNameOfCount> blockGenerationPatternNames_ =
+	{
+		"Sample",
+	};
 
 };
 
