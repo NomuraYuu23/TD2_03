@@ -61,6 +61,10 @@ void BlockManager::Initialize(Model* model)
 	// 外部変数適用
 	ApplyGlobalVariables();
 
+	// ブロックパターンファイル
+	blockPatternFile_ = BlockPatternFile::GetInstance();
+	blockPatternFile_->LoadFiles();
+
 }
 
 void BlockManager::Update()
@@ -90,10 +94,13 @@ void BlockManager::Update()
 	blockManagerState_->GenerationBlock(maxGenerationBlock);
 
 	// ブロックの更新
-	for (Block* block : blocks_) {
-		// ブロックの更新
-		block->Update();
-	}
+	//for (Block* block : blocks_) {
+	//	// ブロックの更新
+	//	block->Update();
+	//}
+
+	// ブロックパターンファイル
+	blockPatternFile_->Update();
 
 }
 

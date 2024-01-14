@@ -5,6 +5,7 @@
 #include "../../Engine/3D/Model.h"
 #include "BlockManagerState/IBlockManagerState.h"
 #include "BlockManagerState/BlockManagerFactory.h"
+#include "BlockPattern/BlockPatternFile.h"
 
 // ブロック
 class Block;
@@ -24,6 +25,12 @@ enum BlockSizeIndex {
 enum BlockMaterialIndex {
 	kBlockMaterialIndexWhite, // 白
 	kBlockMaterialIndexOfCount,
+};
+
+// ブロック生成パターン名
+enum BlockGenerationPatternName {
+
+	kBlockGenerationPatternNameOfCount,
 };
 
 /// <summary>
@@ -60,6 +67,11 @@ public:
 	/// ImGui描画
 	/// </summary>
 	void ImGuiDraw();
+
+	/// <summary>
+	/// ブロック生成
+	/// </summary>
+	void GenerationBlocks(uint32_t patternName);
 
 	/// <summary>
 	/// ブロック生成
@@ -157,6 +169,23 @@ private: // モデルなど描画系
 	Model* model_ = nullptr;
 
 	std::array<std::unique_ptr<Material>, kBlockMaterialIndexOfCount> materials_;
+
+private: // パターン名
+
+	// ブロックパターンファイル
+	BlockPatternFile* blockPatternFile_;
+
+	//項目
+	using Item = std::vector<BlockPatternData>;
+	using Group = std::map<std::string, Item>; // パターン名
+
+	// データ
+	std::map<std::string, Group> datas_;
+
+	// パターン名
+	std::array<std::string, BlockGenerationPatternName::kBlockGenerationPatternNameOfCount> blockGenerationPatternNames_ =
+	{
+	};
 
 };
 

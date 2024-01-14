@@ -105,7 +105,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\BlockManager\BlockManager.cpp" />
     <ClCompile Include="Application\BlockManager\BlockManagerState\BlockManagerFactory.cpp" />
     <ClCompile Include="Application\BlockManager\BlockManagerState\BlockManagerStateInit\BlockManagerStateInit.cpp" />
+    <ClCompile Include="Application\BlockManager\BlockManagerState\BlockManagerStatePattern1\BlockManagerStatePattern1.cpp" />
     <ClCompile Include="Application\BlockManager\BlockManagerState\IBlockManagerState.cpp" />
+    <ClCompile Include="Application\BlockManager\BlockPattern\BlockPatternFile.cpp" />
     <ClCompile Include="Application\Block\Block.cpp" />
     <ClCompile Include="Application\Block\UFO.cpp" />
     <ClCompile Include="Application\Block\UFOAttract.cpp" />
@@ -194,7 +196,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\BlockManager\BlockManager.h" />
     <ClInclude Include="Application\BlockManager\BlockManagerState\BlockManagerFactory.h" />
     <ClInclude Include="Application\BlockManager\BlockManagerState\BlockManagerStateInit\BlockManagerStateInit.h" />
+    <ClInclude Include="Application\BlockManager\BlockManagerState\BlockManagerStatePattern1\BlockManagerStatePattern1.h" />
     <ClInclude Include="Application\BlockManager\BlockManagerState\IBlockManagerState.h" />
+    <ClInclude Include="Application\BlockManager\BlockPattern\BlockPatternData.h" />
+    <ClInclude Include="Application\BlockManager\BlockPattern\BlockPatternFile.h" />
     <ClInclude Include="Application\Block\Block.h" />
     <ClInclude Include="Application\Block\UFO.h" />
     <ClInclude Include="Application\Block\UFOAttract.h" />
