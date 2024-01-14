@@ -125,7 +125,7 @@ void Screw::Reverse() {
 	reverseT_ = float(frameCount_) / float(kReverseSpeed_);
 	reverseT_ = std::clamp(reverseT_, 0.0f, 1.0f);
 	
-	if (frameCount_ >= kReverseTime) {
+	if (frameCount_ >= kReverseTime && !isAttract_) {
 		state_ = NONE;
 		reverseT_ = 1.0f;
 		frameCount_ = kReverseSpeed_;
