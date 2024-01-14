@@ -16,7 +16,7 @@ BlockManager::~BlockManager()
 
 void BlockManager::Initialize(Model* model)
 {
-	
+
 	assert(model);
 
 	// ブロック
@@ -30,6 +30,12 @@ void BlockManager::Initialize(Model* model)
 
 	// ブロックの最大数
 	maxBlock_ = 128;
+
+	// ブロック生成のクールタイムカウント(フレーム)
+	generationBlockFrameCount_ = 0u;
+
+	// ブロック生成のクールタイム(フレーム)
+	generationBlockFrame_ = 128;
 
 	// ブロックのサイズ
 	blockSize_[kBlockSizeIndexSmall] = { 1.0f, 1.0f, 1.0f };
@@ -70,13 +76,14 @@ void BlockManager::Initialize(Model* model)
 	std::vector<BlockGenerationPatternData> blockGenerationPatternDataInit;
 	blockGenerationPatternDataInit.push_back(BlockGenerationPatternData
 		{ 0.0f,0.0f,0.0f,0.0f,0.0f });
-	blockGenerationPatternDataInit.push_back(BlockGenerationPatternData
-		{ 0.0f,0.0f,0.0f,0.0f,0.0f });
 
 	for (uint32_t i = 0; i < BlockGenerationPatternName::kBlockGenerationPatternNameOfCount; i++) {
 		blockPatternFile_->AddItem("blockGenerationPattern", blockGenerationPatternNames_[i], blockGenerationPatternDataInit);
 	}
-
+	
+	for (uint32_t i = 0; i < BlockGenerationPatternName::kBlockGenerationPatternNameOfCount; i++) {
+		blockPatternDatas_["blockGenerationPattern"][blockGenerationPatternNames_[i]] = blockPatternFile_->GetValue("blockGenerationPattern", blockGenerationPatternNames_[i]);
+	}
 }
 
 void BlockManager::Update()
@@ -86,6 +93,10 @@ void BlockManager::Update()
 
 	// 外部変数適用
 	ApplyGlobalVariables();
+
+	for (uint32_t i = 0; i < BlockGenerationPatternName::kBlockGenerationPatternNameOfCount; i++) {
+		blockPatternDatas_["blockGenerationPattern"][blockGenerationPatternNames_[i]] = blockPatternFile_->GetValue("blockGenerationPattern", blockGenerationPatternNames_[i]);
+	}
 
 #endif // _DEBUG
 
@@ -100,10 +111,12 @@ void BlockManager::Update()
 	RangeControl();
 
 	// ブロックの数制御
-	uint32_t maxGenerationBlock = NumberControl();
-
 	// ブロックの生成
-	blockManagerState_->GenerationBlock(maxGenerationBlock);
+	if (generationBlockFrame_ <= ++generationBlockFrameCount_) {
+		uint32_t maxGenerationBlock = NumberControl();
+		blockManagerState_->GenerationBlock(maxGenerationBlock);
+		generationBlockFrameCount_ = 0u;
+	}
 
 	// ブロックの更新
 	//for (Block* block : blocks_) {
@@ -267,6 +280,8 @@ void BlockManager::RegisteringGlobalVariables()
 	globalVariables->AddItem(groupName, "blockSize Middle", blockSize_[kBlockSizeIndexMiddle]);
 	globalVariables->AddItem(groupName, "blockSize Big", blockSize_[kBlockSizeIndexBig]);
 
+	globalVariables->AddItem(groupName, "generationBlockFrame", generationBlockFrame_);
+
 }
 
 void BlockManager::ApplyGlobalVariables()
@@ -282,5 +297,7 @@ void BlockManager::ApplyGlobalVariables()
 	blockSize_[kBlockSizeIndexSmall] = globalVariables->GetVector3Value(groupName, "blockSize Small");
 	blockSize_[kBlockSizeIndexMiddle] = globalVariables->GetVector3Value(groupName, "blockSize Middle");
 	blockSize_[kBlockSizeIndexBig] = globalVariables->GetVector3Value(groupName, "blockSize Big");
+
+	generationBlockFrame_ = globalVariables->GetUIntValue(groupName, "generationBlockFrame");
 
 }

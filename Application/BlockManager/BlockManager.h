@@ -31,7 +31,6 @@ enum BlockMaterialIndex {
 // ここに追加したらBlockManagerのblockGenerationPatternNames_も増やす
 enum BlockGenerationPatternName {
 	kBlockGenerationPatternNameSample,
-	kBlockGenerationPatternNameSample2,
 	kBlockGenerationPatternNameOfCount,
 };
 
@@ -152,6 +151,12 @@ private: // メンバ変数
 	// プレイヤー
 	Player* player_;
 
+	// ブロック生成のクールタイムカウント(フレーム)
+	uint32_t generationBlockFrameCount_;
+
+	// ブロック生成のクールタイム(フレーム)
+	uint32_t generationBlockFrame_;
+
 private: // ステート
 
 	// ステート(ブロックの生成パターン)
@@ -188,7 +193,6 @@ private: // パターン名
 	std::array<std::string, BlockGenerationPatternName::kBlockGenerationPatternNameOfCount> blockGenerationPatternNames_ =
 	{
 		"Sample",
-		"Sample2"
 	};
 
 };

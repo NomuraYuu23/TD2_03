@@ -42,6 +42,8 @@ void BlockManagerStateInit::Initialize(BlockManager* blockManager)
 	position = { -30.0f,0.0f,450.0f };
 	blockManager_->GenerationBlock(position, velocity);
 
+	blockManagerStateNo_ = kBlockManagerState1;
+
 }
 
 void BlockManagerStateInit::Update()

@@ -50,8 +50,8 @@ void BlockGenerationPatternFile::Update()
 					value != item.end(); ++value) {
 					if (ImGui::TreeNode(std::to_string(count).c_str())) {
 
-						ImGui::DragFloat3("position", &value->position_.x);
-						ImGui::DragFloat3("velocity", &value->velocity_.x);
+						ImGui::DragFloat3("position", &value->position_.x, 0.1f);
+						ImGui::DragFloat3("velocity", &value->velocity_.x, 0.1f);
 
 						ImGui::TreePop();
 
