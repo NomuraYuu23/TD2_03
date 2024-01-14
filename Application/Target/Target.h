@@ -24,4 +24,5 @@ private:
 	std::unique_ptr<Sprite> ui_;
 	int uiNum_=0;
 	uint32_t textureHandle_[2];
+	float targetRange_ = 100.0f;
 };

@@ -394,6 +394,9 @@
     <ClCompile Include="Application\Planet\Planet.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Application\UFOManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="Application\Screw.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -724,6 +727,9 @@
       <Filter>Application\Target</Filter>
     </ClInclude>
     <ClInclude Include="Application\Screw.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\UFOManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

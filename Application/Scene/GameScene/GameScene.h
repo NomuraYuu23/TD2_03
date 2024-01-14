@@ -20,6 +20,7 @@
 
 #include "../../BlockManager/BlockManager.h"
 
+#include "../../UFOManager.h"
 class GameScene : public IScene
 {
 
@@ -133,6 +134,7 @@ private:
 
 	//std::unique_ptr<UFO> ufo_;
 	std::vector<std::unique_ptr<UFO>> ufos_;
+	std::unique_ptr<UFOManager> ufoManager_;
 
 	std::unique_ptr<Model> modelScrew_;
 	int firstScrewNum_ = 6;//最初に生成するネジの本数

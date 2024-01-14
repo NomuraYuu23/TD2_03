@@ -111,4 +111,5 @@ private:
 	Model* modelCircle_;
 	std::unique_ptr <Material> materialCircle_;
 	WorldTransform worldTransformCircle_;
+	float magnetRadius_ = 12.0f;
 };

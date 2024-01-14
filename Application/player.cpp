@@ -9,6 +9,7 @@
 #include "../Engine/Math/Matrix4x4.h"
 #include "Block/Block.h"
 #include "Screw.h"
+#include "../Engine/GlobalVariables/GlobalVariables.h"
 //#include "GlobalVariables.h"
 
 //#include "CollisionManager.h"
@@ -21,7 +22,10 @@ static int attackFrame = 15;
 
 
 void Player::Initialize() {
-	
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const std::string groupName = "Player";
+
+	globalVariables->AddItem(groupName, "MagnetRadius", magnetRadius_);
 	
 	worldTransform_.Initialize();
 	worldTransform_.transform_.translate.y += 4.0f;
@@ -68,6 +72,9 @@ void Player::BehaviorDropInitialize() {
 
 void Player::Update(Block* block, size_t blockNum) {
 	//ApplyGlobalVariables();
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const std::string groupName = "Player";
+	magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetRadius");
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
 		frameCount_ = 0;
@@ -136,8 +143,9 @@ void Player::Update(Block* block, size_t blockNum) {
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
 	collider_->worldTransformUpdate();
 	magnet_->SetCenter(worldTransform_.GetWorldPosition());
+	magnet_->SetRadius(magnetRadius_);
 	magnet_->Update();
-
+	worldTransformCircle_.transform_.scale = { magnet_->GetRadius(),0.5f,magnet_->GetRadius() };
 	worldTransformCircle_.transform_.translate = worldTransform_.GetWorldPosition();
 	worldTransformCircle_.UpdateMatrix();
 

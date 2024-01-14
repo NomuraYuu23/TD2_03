@@ -70,4 +70,8 @@ private:
 	bool isDead_;
 
 	bool isAttract_;//ufoに吸引されているか
+
+	int32_t kStuckMax = 600;
+	int32_t stuckTime_=0;//刺さっている残り時間
+	bool isRideBlock_;
 };

@@ -10,11 +10,7 @@ class UFOAttract
 {
 public:
 	void Initialize();
-	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {
-		if (std::holds_alternative<Screw*>(pairObject)) {
-			screwCount_++;
-		}
-	};
+	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData);
 	void SetCenter(const Vector3& center) { collider_->center_ = center; };
 	void SetRadius(float r) { radius_ = r; };
 	void Update() { collider_->worldTransformUpdate(); };//描画用

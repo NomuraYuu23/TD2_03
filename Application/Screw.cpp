@@ -4,6 +4,7 @@
 #include "../Engine/Math/Ease.h"
 #include "Block/UFO.h"
 #include "Block/UFOAttract.h"
+#include "../Engine/GlobalVariables/GlobalVariables.h"
 void(Screw::* Screw::stateTable[])() = {
 	&Screw::None,
 	& Screw::Follow,
@@ -14,6 +15,11 @@ void(Screw::* Screw::stateTable[])() = {
 };
 
 void Screw::Initialize() {
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const std::string groupName = "Screw";
+
+	globalVariables->AddItem(groupName, "StuckMax", kStuckMax);
+
 	state_ = State::FOLLOW;
 	//state_ = State(5);
 	worldTransform_.Initialize();
@@ -28,14 +34,21 @@ void Screw::Initialize() {
 	collider_->Initialize(worldTransform_.transform_.translate, worldTransform_.rotateMatrix_, worldTransform_.transform_.scale, this);
 	isDead_ = false;
 	isAttract_ = false;
+	isRideBlock_ = false;
 }
 void Screw::Update() {
+	if (state_ != STUCK) {
+		GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+		const std::string groupName = "Screw";
+		kStuckMax = globalVariables->GetIntValue(groupName, "StuckMax");
+	}
 	(this->*stateTable[static_cast<size_t>(state_)])();
 	worldTransform_.UpdateMatrix();
 	collider_->center_ = worldTransform_.GetWorldPosition();
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
 	collider_->worldTransformUpdate();
 	isAttract_ = false;
+	isRideBlock_ = false;
 }
 void Screw::Draw(Model* model, BaseCamera& camera) {
 	model->Draw(worldTransform_, camera,mat_.get());
@@ -46,6 +59,7 @@ void Screw::Throw(const Vector3 position, void* block, size_t num) {
 	startPosition_ = position;
 	target_ = block;
 	static_cast<Block*>(target_)->SetAnchorPointScrew(num,this);
+	worldTransform_.parent_ = nullptr;
 	targetNum_ = num;
 	frameCount_ = 0;
 }
@@ -79,22 +93,30 @@ void Screw::None() {
 			worldTransform_.transform_.translate.y = 4.0f;
 		}
 	}
+	if (!isRideBlock_ && worldTransform_.parent_) {
+		worldTransform_.transform_.translate = worldTransform_.GetWorldPosition();
+		worldTransform_.parent_ = nullptr;
+	}
 }
 
 void Screw::Follow() {
-	float distance = Vector3Calc::Length(Vector3Calc::Subtract(worldTransform_.GetWorldPosition(), player_->GetWorldTransform()->GetWorldPosition()));
-	if (distance >= 2.0f) {
-		Vector3 velocity =  Vector3Calc::Multiply(kFollowSpeed, Vector3Calc::Normalize(Vector3Calc::Subtract(player_->GetWorldTransform()->GetWorldPosition(), worldTransform_.transform_.translate)));
-		velocity.y = 0;
-		worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity);
-	}
 	//worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
 	if (!isAttract_) {
+		float distance = Vector3Calc::Length(Vector3Calc::Subtract(worldTransform_.GetWorldPosition(), player_->GetWorldTransform()->GetWorldPosition()));
+		if (distance >= 2.0f) {
+			Vector3 velocity = Vector3Calc::Multiply(kFollowSpeed, Vector3Calc::Normalize(Vector3Calc::Subtract(player_->GetWorldTransform()->GetWorldPosition(), worldTransform_.GetWorldPosition())));
+			velocity.y = 0;
+			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity);
+		}
 		worldTransform_.transform_.translate.y -= 0.3f;
 		if (worldTransform_.transform_.translate.y <= -20.0f) {
 			worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
 			worldTransform_.transform_.translate.y = 4.0f;
 		}
+	}
+	if (!isRideBlock_ && worldTransform_.parent_) {
+		worldTransform_.transform_.translate = worldTransform_.GetWorldPosition();
+		worldTransform_.parent_ = nullptr;
 	}
 }
 
@@ -103,7 +125,7 @@ void Screw::Reverse() {
 	reverseT_ = float(frameCount_) / float(kReverseSpeed_);
 	reverseT_ = std::clamp(reverseT_, 0.0f, 1.0f);
 	
-	if (frameCount_ >= kReverseTime) {
+	if (frameCount_ >= kReverseTime && !isAttract_) {
 		state_ = NONE;
 		reverseT_ = 1.0f;
 		frameCount_ = kReverseSpeed_;
@@ -117,6 +139,10 @@ void Screw::Reverse() {
 			worldTransform_.transform_.translate.y = 4.0f;
 		}
 	}
+	if (!isRideBlock_ && worldTransform_.parent_) {
+		worldTransform_.transform_.translate = worldTransform_.GetWorldPosition();
+		worldTransform_.parent_ = nullptr;
+	}
 }
 
 void Screw::ToBlock() {
@@ -126,12 +152,21 @@ void Screw::ToBlock() {
 	frameCount_++;
 	if (frameCount_>30) {
 		state_ = STUCK;
+		stuckTime_ = kStuckMax;
 	}
 }
 
 void Screw::Stuck(){
 	Vector3 endPoint = static_cast<Block*>(target_)->GetAnchorPointWorldPosition(targetNum_);
 	worldTransform_.transform_.translate = endPoint;
+	float t = float(kStuckMax - stuckTime_) / float(kStuckMax);
+	worldTransform_.transform_.translate.y +=(1.0f-t)* -(static_cast<Block*>(target_)->GetWorldTransform()->transform_.scale.y / 2.0f + worldTransform_.transform_.scale.y / 2.0f) + t * (static_cast<Block*>(target_)->GetWorldTransform()->transform_.scale.y / 2.0f + worldTransform_.transform_.scale.y / 2.0f);
+	if (stuckTime_<=0) {
+		static_cast<Block*>(target_)->SetAnchorPointScrew(targetNum_, nullptr);
+		frameCount_ = 0;
+		state_ = NONE;
+	}
+	stuckTime_--;
 }
 
 
@@ -147,14 +182,21 @@ void Screw::ToPlayer() {
 
 void Screw::TurnOver() {
 	if (state_ == FOLLOW || state_ == NONE) {
-		state_ = REVERSE;
-		reverseT_ = 0;
-		frameCount_ = 0;
+		if (isRideBlock_ == true) {
+			state_ = REVERSE;
+			reverseT_ = 0;
+			frameCount_ = 0;
+		}
 	}
 	else if (state_ == REVERSE) {
-		state_ = NONE;
-		reverseT_ = 1.0f;
-		frameCount_ = kReverseSpeed_;
+		if (isRideBlock_ == true) {
+			state_ = NONE;
+			reverseT_ = 1.0f;
+			frameCount_ = kReverseSpeed_;
+		}
+	}
+	else if (state_ == STUCK) {
+		stuckTime_ = kStuckMax;
 	}
 }
 
@@ -181,6 +223,12 @@ void Screw::OnCollision(ColliderParentObject pairObject, CollisionData collidion
 		if (!std::holds_alternative<UFO*>(pairObject) && std::holds_alternative<Block*>(pairObject) && !isAttract_) {
 			worldTransform_.transform_.translate.y = std::get<Block*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + std::get<Block*>(pairObject)->GetWorldTransform()->transform_.scale.y + worldTransform_.transform_.scale.y;
 			worldTransform_.UpdateMatrix();
+			if (worldTransform_.parent_ != std::get<Block*>(pairObject)->GetWorldTransform()) {
+				worldTransform_.transform_.translate = Matrix4x4Calc::Transform(worldTransform_.GetWorldPosition(), Matrix4x4Calc::Inverse(std::get<Block*>(pairObject)->GetWorldTransform()->parentMatrix_));
+				worldTransform_.parent_ = std::get<Block*>(pairObject)->GetWorldTransform();
+			}
+			worldTransform_.UpdateMatrix();
+			isRideBlock_=true;
 		}
 	}
 }
