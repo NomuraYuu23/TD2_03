@@ -56,7 +56,27 @@ void BlockGenerationPatternFile::Update()
 						ImGui::TreePop();
 
 					}
+
 					count++;
+				}
+
+				//改行
+				ImGui::Text("\n");
+
+				// フレームを増やす
+				if (ImGui::Button("AddBlock")) {
+					BlockGenerationPatternData newBlockGenerationPatternData = {
+						0.0f, 0.0f, 0.0f,
+						0.0f, 0.0f, 0.0f,
+					};
+					item.push_back(newBlockGenerationPatternData);
+				}
+				// 最後のフレームを消す
+				if (ImGui::Button("DeleteBlock")) {
+					if (item.size() != 0) {
+						item.pop_back();
+						item.shrink_to_fit();
+					}
 				}
 
 				ImGui::TreePop();

@@ -28,8 +28,10 @@ enum BlockMaterialIndex {
 };
 
 // ブロック生成パターン名
+// ここに追加したらBlockManagerのblockGenerationPatternNames_も増やす
 enum BlockGenerationPatternName {
 	kBlockGenerationPatternNameSample,
+	kBlockGenerationPatternNameSample2,
 	kBlockGenerationPatternNameOfCount,
 };
 
@@ -185,7 +187,8 @@ private: // パターン名
 	// パターン名
 	std::array<std::string, BlockGenerationPatternName::kBlockGenerationPatternNameOfCount> blockGenerationPatternNames_ =
 	{
-		"Sample"
+		"Sample",
+		"Sample2"
 	};
 
 };
