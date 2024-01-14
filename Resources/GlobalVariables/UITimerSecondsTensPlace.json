@@ -1,13 +1,13 @@
 {
     "UITimerSecondsTensPlace": {
         "position": [
-            736.0,
+            690.0,
             80.0
         ],
         "rotate": 0.0,
         "size": [
-            96.0,
-            96.0
+            48.0,
+            48.0
         ]
     }
 }
