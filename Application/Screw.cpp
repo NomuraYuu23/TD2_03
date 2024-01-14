@@ -5,6 +5,7 @@
 #include "Block/UFO.h"
 #include "Block/UFOAttract.h"
 #include "../Engine/GlobalVariables/GlobalVariables.h"
+#include <random>
 void(Screw::* Screw::stateTable[])() = {
 	&Screw::None,
 	& Screw::Follow,
@@ -35,6 +36,16 @@ void Screw::Initialize() {
 	isDead_ = false;
 	isAttract_ = false;
 	isRideBlock_ = false;
+
+	followPosition_ = {0};
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());
+	std::uniform_real_distribution<float> distribution(0, 1.0f);
+	followPosition_.z = distribution(randomEngine);
+	std::uniform_real_distribution<float> distribution2(-1.0f, 1.0f);
+	followPosition_.x = distribution2(randomEngine);
+	std::uniform_real_distribution<float> distribution3(0.5f, 1.2f);
+	followSpeed_ = distribution3(randomEngine);
 }
 void Screw::Update() {
 	if (state_ != STUCK) {
@@ -104,7 +115,7 @@ void Screw::Follow() {
 	if (!isAttract_) {
 		float distance = Vector3Calc::Length(Vector3Calc::Subtract(worldTransform_.GetWorldPosition(), player_->GetWorldTransform()->GetWorldPosition()));
 		if (distance >= 2.0f) {
-			Vector3 velocity = Vector3Calc::Multiply(kFollowSpeed, Vector3Calc::Normalize(Vector3Calc::Subtract(player_->GetWorldTransform()->GetWorldPosition(), worldTransform_.GetWorldPosition())));
+			Vector3 velocity = Vector3Calc::Multiply(kFollowSpeed*followSpeed_, Vector3Calc::Normalize(Vector3Calc::Subtract(Matrix4x4Calc::Transform(followPosition_,player_->GetWorldTransform()->worldMatrix_), worldTransform_.GetWorldPosition())));
 			velocity.y = 0;
 			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity);
 		}

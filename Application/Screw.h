@@ -74,4 +74,6 @@ private:
 	int32_t kStuckMax = 600;
 	int32_t stuckTime_=0;//刺さっている残り時間
 	bool isRideBlock_;
+	Vector3 followPosition_;
+	float followSpeed_;
 };
