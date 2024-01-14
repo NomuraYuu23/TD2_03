@@ -185,6 +185,7 @@ void GameScene::Initialize() {
 	planet_ = std::make_unique<Planet>();
 	planet_->Initialize(planetModel_.get());
 
+	/*
 	std::unique_ptr<UFO> ufo_;
 	ufo_.reset(new UFO);
 	ufo_->Initialize();
@@ -192,6 +193,12 @@ void GameScene::Initialize() {
 	ufo_->SetWorldPosition({ -10.0f,12.0f,150.0f });
 	ufo_->SetVelocity({ 0.0f,0.0f,-0.1f });
 	ufos_.push_back(std::move(ufo_));
+	*/
+	ufos_.clear();
+	ufoManager_.reset(new UFOManager);
+	ufoManager_->Initialize();
+	ufoManager_->SetUFOVector(&ufos_);
+	ufoManager_->SetModelCircle(modelCircle_.get());
 }
 
 /// <summary>
@@ -223,6 +230,7 @@ void GameScene::Update() {
 		(*block)->Update();
 		isRelese = isRelese || (*block)->GetIsRelese();
 	}
+	ufoManager_->Update();
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		(*block)->Update();
 		if ((*block)->GetIsDead()) {
