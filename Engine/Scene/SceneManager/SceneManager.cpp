@@ -66,6 +66,7 @@ void SceneManager::Update()
 			sceneInitialize_ = std::thread(std::bind(&SceneManager::InitializeThread, this));
 			initializing_ = true;
 			sceneTransition_->SetSwitchScene(false);
+			sceneTransition_->SetStoppingUpdates(true);
 		}
 		else if (!sceneTransition_->GetTransitioning()) {
 			sceneTransition_.reset(nullptr);
@@ -81,6 +82,9 @@ void SceneManager::Update()
 	if (initializeEnd_) {
 		initializeEnd_ = false;
 		sceneInitialize_.detach();
+		if (sceneTransition_) {
+			sceneTransition_->SetStoppingUpdates(false);
+		}
 	}
 
 }
