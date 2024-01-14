@@ -19,6 +19,7 @@ void Block::Initialize() {
 	isCenter_ = false;
 	velocity_ = { 0,0,0};
 	isRelese_ = false;
+	isRidePlayer_ = false;
 }
 void Block::Update() {
 	isRelese_ = true;
@@ -45,6 +46,7 @@ void Block::Update() {
 	collider_->worldTransformUpdate();
 
 	//isCenter_ = false;
+	isRidePlayer_ = false;
 }
 void Block::Draw(Model* model, BaseCamera& camera) {
 	model->Draw(worldTransform_,camera);
@@ -63,7 +65,7 @@ void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidion
 				break;
 			}
 		}
-		if (isStack) {
+		if (isStack && !isRidePlayer_) {
 			Vector3 toPlayer = Vector3Calc::Subtract(std::get<Magnet*>(pairObject)->GetCenter(), worldTransform_.GetWorldPosition());
 			toPlayer.y = 0;
 			toPlayer = Vector3Calc::Normalize(toPlayer);
@@ -88,5 +90,8 @@ void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidion
 			worldTransform_.p*/
 			isConnect_ = true;
 		}
+	}
+	if (std::holds_alternative<Player*>(pairObject)) {
+		isRidePlayer_ = true;
 	}
 }

@@ -287,7 +287,7 @@ void GameScene::Update() {
 	/*Block* center = nullptr;
 	//中心となるブロックをリセット
 	for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
-		if ((*block)->GetIsCenter()) {
+		if ((*block)->GetIsRidePlayer()) {
 			center = (*block);
 		}
 	}*/
@@ -319,16 +319,16 @@ void GameScene::Update() {
 		collisionManager_->ListRegister((*block)->GetCollider());
 	}
 	collisionManager_->CheakAllCollision();
-	/*
-	if (center) {
-		for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+	
+	/*if (center) {
+		for (std::list<Block*>::iterator block = blockManager_->GetBlocks().begin(); block != blockManager_->GetBlocks().end(); block++) {
 			if ((*block)->GetIsCenter()) {
-				if (center != (*block).get()) {
-					center->SetIsCenter(false);
+				if (center != (*block)) {
+					center->SetIsRidePlayer(false);
 				}
 			}
 		}
-}*/
+	}*/
 	// スカイドーム
 	skydome_->Update();
 

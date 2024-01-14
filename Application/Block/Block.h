@@ -40,6 +40,8 @@ public:
 	void SetWorldPosition(const Vector3& pos) { worldTransform_.transform_.translate = pos; };
 	void SetVelocity(const Vector3& v) { velocity_ = v; };
 	bool GetIsRelese() { return isRelese_; };
+	bool GetIsRidePlayer() { return isRidePlayer_; };
+	void SetIsRidePlayer(bool is) { isRidePlayer_ = is; };
 protected:
 
 	std::array<AnchorPoint, anchorNum> anchorPoints_;
@@ -50,4 +52,5 @@ protected:
 
 	Vector3 velocity_;
 	bool isRelese_;//ネジが外されたフレームだけtrueになる
+	bool isRidePlayer_; //プレイヤーが上に乗っているか
 };
