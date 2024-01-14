@@ -1,7 +1,7 @@
 #pragma once
 #include "../../../Engine/Math/Vector3.h"
 
-struct BlockPatternData
+struct BlockGenerationPatternData
 {
 
 	Vector3 position_;
@@ -9,14 +9,14 @@ struct BlockPatternData
 
 };
 
-inline void to_json(nlohmann::json& json, const BlockPatternData& value) {
+inline void to_json(nlohmann::json& json, const BlockGenerationPatternData& value) {
 	json = nlohmann::json{
 		{"position", value.position_ },
 		{"velocity", value.velocity_ },
 	};
 }
 
-inline void from_json(const nlohmann::json& json, BlockPatternData& value) {
+inline void from_json(const nlohmann::json& json, BlockGenerationPatternData& value) {
 	
 	// キーを確認
 	if (json.contains("position") && json["position"].is_array() &&

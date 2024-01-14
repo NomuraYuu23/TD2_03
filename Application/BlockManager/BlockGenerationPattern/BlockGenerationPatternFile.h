@@ -2,9 +2,9 @@
 #include <vector>
 #include <map>
 #include <string>
-#include "BlockPatternData.h"
+#include "BlockGenerationPatternData.h"
 
-class BlockPatternFile
+class BlockGenerationPatternFile
 {
 
 public:
@@ -13,7 +13,7 @@ public:
 	/// インスタンスの取得
 	/// </summary>
 	/// <returns></returns>
-	static BlockPatternFile* GetInstance();
+	static BlockGenerationPatternFile* GetInstance();
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -38,7 +38,7 @@ public:
 	/// <param name="groupName">グループ名</param>
 	/// <param name="key">項目名</param>
 	/// <param name="value">値</param>
-	void SetValue(const std::string& groupName, const std::string& key, const std::vector<BlockPatternData>& value);
+	void SetValue(const std::string& groupName, const std::string& key, const std::vector<BlockGenerationPatternData>& value);
 
 	/// <summary>
 	/// ファイルに書き出し
@@ -58,7 +58,7 @@ public:
 	/// <param name="groupName">グループ名</param>
 	/// <param name="key">キー</param>
 	/// <param name="value">値</param>
-	void AddItem(const std::string& groupName, const std::string& key, const std::vector<BlockPatternData>& value);
+	void AddItem(const std::string& groupName, const std::string& key, const std::vector<BlockGenerationPatternData>& value);
 
 	/// <summary>
 	/// 値の取得
@@ -66,17 +66,17 @@ public:
 	/// <param name="groupName">グループ名</param>
 	/// <param name="key">キー</param>
 	/// <returns>値</returns>
-	std::vector<BlockPatternData> GetValue(const std::string& groupName, const std::string& key);
+	std::vector<BlockGenerationPatternData> GetValue(const std::string& groupName, const std::string& key);
 
 private:
-	BlockPatternFile() = default;
-	~BlockPatternFile() = default;
-	BlockPatternFile(const BlockPatternFile&) = delete;
-	const BlockPatternFile& operator=(const BlockPatternFile&) = delete;
+	BlockGenerationPatternFile() = default;
+	~BlockGenerationPatternFile() = default;
+	BlockGenerationPatternFile(const BlockGenerationPatternFile&) = delete;
+	const BlockGenerationPatternFile& operator=(const BlockGenerationPatternFile&) = delete;
 	
 	//項目
 
-	using Item = std::vector<BlockPatternData>;
+	using Item = std::vector<BlockGenerationPatternData>;
 	using Group = std::map<std::string, Item>; // パターン名
 
 	// データ

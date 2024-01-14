@@ -1,20 +1,20 @@
-#include "BlockPatternFile.h"
+#include "BlockGenerationPatternFile.h"
 #include "../../../Engine/2D/ImguiManager.h"
 #include "../../../externals/nlohmann/json.hpp"
 #include <fstream>
 
-BlockPatternFile* BlockPatternFile::GetInstance()
+BlockGenerationPatternFile* BlockGenerationPatternFile::GetInstance()
 {
-	static BlockPatternFile instance;
+	static BlockGenerationPatternFile instance;
 	return &instance;
 }
 
-void BlockPatternFile::Update()
+void BlockGenerationPatternFile::Update()
 {
 
 #ifdef _DEBUG
 
-	if (!ImGui::Begin("BlockPatternFile", nullptr, ImGuiWindowFlags_MenuBar)) {
+	if (!ImGui::Begin("BlockGenerationPatternFile", nullptr, ImGuiWindowFlags_MenuBar)) {
 		ImGui::End();
 		return;
 	}
@@ -42,19 +42,25 @@ void BlockPatternFile::Update()
 			//項目の参照を取得
 			Item& item = itItem->second;
 
-			uint32_t count = 0u;
+			if (ImGui::TreeNode(itemName.c_str())) {
 
-			for (Item::iterator value = item.begin();
-				value != item.end(); ++value) {
-				if (ImGui::TreeNode(std::to_string(count).c_str())) {
+				uint32_t count = 0u;
 
-					ImGui::DragFloat3("position", &value->position_.x);
-					ImGui::DragFloat3("velocity", &value->velocity_.x);
+				for (Item::iterator value = item.begin();
+					value != item.end(); ++value) {
+					if (ImGui::TreeNode(std::to_string(count).c_str())) {
 
-					ImGui::TreePop();
+						ImGui::DragFloat3("position", &value->position_.x);
+						ImGui::DragFloat3("velocity", &value->velocity_.x);
 
+						ImGui::TreePop();
+
+					}
+					count++;
 				}
-				count++;
+
+				ImGui::TreePop();
+
 			}
 		}
 
@@ -83,7 +89,7 @@ void BlockPatternFile::Update()
 
 }
 
-void BlockPatternFile::LoadFiles()
+void BlockGenerationPatternFile::LoadFiles()
 {
 
 	// 保存先ディレクトリのパスをローカル変数で宣言する
@@ -114,7 +120,7 @@ void BlockPatternFile::LoadFiles()
 
 }
 
-void BlockPatternFile::LoadFile(const std::string& groupName)
+void BlockGenerationPatternFile::LoadFile(const std::string& groupName)
 {
 
 	// 読み込むJSONファイルのフルパスを合成する
@@ -152,10 +158,10 @@ void BlockPatternFile::LoadFile(const std::string& groupName)
 		const std::string& itemName = itItem.key();
 
 		// float型のjson配列登録
-		std::vector<BlockPatternData> blockPatternDatas;
+		std::vector<BlockGenerationPatternData> blockPatternDatas;
 		
 		for (nlohmann::json::iterator itItemIndex = itItem->begin(); itItemIndex != itItem->end(); ++itItemIndex) {
-			BlockPatternData blockPatternData = itItemIndex->get<BlockPatternData>();
+			BlockGenerationPatternData blockPatternData = itItemIndex->get<BlockGenerationPatternData>();
 			blockPatternDatas.push_back(blockPatternData);
 		}
 
@@ -165,7 +171,7 @@ void BlockPatternFile::LoadFile(const std::string& groupName)
 
 }
 
-void BlockPatternFile::SetValue(const std::string& groupName, const std::string& key, const std::vector<BlockPatternData>& value)
+void BlockGenerationPatternFile::SetValue(const std::string& groupName, const std::string& key, const std::vector<BlockGenerationPatternData>& value)
 {
 
 	// グループの参照を取得
@@ -178,7 +184,7 @@ void BlockPatternFile::SetValue(const std::string& groupName, const std::string&
 
 }
 
-void BlockPatternFile::SaveFile(const std::string& groupName)
+void BlockGenerationPatternFile::SaveFile(const std::string& groupName)
 {
 
 	//グループを検索
@@ -235,7 +241,7 @@ void BlockPatternFile::SaveFile(const std::string& groupName)
 
 }
 
-void BlockPatternFile::CreateGroup(const std::string& groupName)
+void BlockGenerationPatternFile::CreateGroup(const std::string& groupName)
 {
 
 	//指定名のオブジェクトがなければ追加する
@@ -243,7 +249,7 @@ void BlockPatternFile::CreateGroup(const std::string& groupName)
 
 }
 
-void BlockPatternFile::AddItem(const std::string& groupName, const std::string& key, const std::vector<BlockPatternData>& value)
+void BlockGenerationPatternFile::AddItem(const std::string& groupName, const std::string& key, const std::vector<BlockGenerationPatternData>& value)
 {
 
 	// 項目が未登録なら
@@ -253,7 +259,7 @@ void BlockPatternFile::AddItem(const std::string& groupName, const std::string& 
 
 }
 
-std::vector<BlockPatternData> BlockPatternFile::GetValue(const std::string& groupName, const std::string& key)
+std::vector<BlockGenerationPatternData> BlockGenerationPatternFile::GetValue(const std::string& groupName, const std::string& key)
 {
 
 	assert(datas_.find(groupName) != datas_.end());

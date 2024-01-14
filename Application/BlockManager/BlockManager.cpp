@@ -62,8 +62,20 @@ void BlockManager::Initialize(Model* model)
 	ApplyGlobalVariables();
 
 	// ブロックパターンファイル
-	blockPatternFile_ = BlockPatternFile::GetInstance();
+	blockPatternFile_ = BlockGenerationPatternFile::GetInstance();
 	blockPatternFile_->LoadFiles();
+
+	blockPatternFile_->CreateGroup("blockGenerationPattern");
+
+	std::vector<BlockGenerationPatternData> blockGenerationPatternDataInit;
+	blockGenerationPatternDataInit.push_back(BlockGenerationPatternData
+		{ 0.0f,0.0f,0.0f,0.0f,0.0f });
+	blockGenerationPatternDataInit.push_back(BlockGenerationPatternData
+		{ 0.0f,0.0f,0.0f,0.0f,0.0f });
+
+	for (uint32_t i = 0; i < BlockGenerationPatternName::kBlockGenerationPatternNameOfCount; i++) {
+		blockPatternFile_->AddItem("blockGenerationPattern", blockGenerationPatternNames_[i], blockGenerationPatternDataInit);
+	}
 
 }
 
@@ -116,6 +128,22 @@ void BlockManager::Draw(BaseCamera& camera)
 
 void BlockManager::ImGuiDraw()
 {
+}
+
+void BlockManager::GenerationBlocks(uint32_t patternName)
+{
+
+	Item item;
+	item = blockPatternDatas_["blockGenerationPattern"][blockGenerationPatternNames_[patternName]];
+	item.shrink_to_fit();
+
+	for (Item::iterator value = item.begin();
+		value != item.end(); ++value) {
+	
+		GenerationBlock(value->position_,value->velocity_);
+
+	}
+
 }
 
 void BlockManager::RangeControl()

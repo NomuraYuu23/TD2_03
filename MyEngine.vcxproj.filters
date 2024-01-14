@@ -400,7 +400,7 @@
     <ClCompile Include="Application\BlockManager\BlockManagerState\BlockManagerStatePattern1\BlockManagerStatePattern1.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Application\BlockManager\BlockPattern\BlockPatternFile.cpp">
+    <ClCompile Include="Application\BlockManager\BlockGenerationPattern\BlockGenerationPatternFile.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -735,10 +735,10 @@
     <ClInclude Include="Application\BlockManager\BlockManagerState\BlockManagerStatePattern1\BlockManagerStatePattern1.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Application\BlockManager\BlockPattern\BlockPatternFile.h">
+    <ClInclude Include="Application\BlockManager\BlockGenerationPattern\BlockGenerationPatternFile.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Application\BlockManager\BlockPattern\BlockPatternData.h">
+    <ClInclude Include="Application\BlockManager\BlockGenerationPattern\BlockGenerationPatternData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
