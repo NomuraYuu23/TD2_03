@@ -108,6 +108,7 @@ private:
 	Target target_;
 	std::unique_ptr<Player> player_;
 	std::list<std::unique_ptr<Screw>> screws_;
+	std::unique_ptr<Model> modelPlayer_ = nullptr;
 
 	std::unique_ptr<FollowCamera> followCamera_;
 	uint32_t cursorTextureHandle_;
