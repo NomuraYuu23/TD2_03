@@ -5,6 +5,7 @@
 #include "../../../Engine/base/D3DResourceLeakChecker.h"
 #include "../../Player/player.h"
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
+
 /// <summary>
 /// 初期化
 /// </summary>
@@ -147,8 +148,8 @@ void GameScene::Initialize() {
 
 
 	player_.reset(new Player);
-	player_->Initialize();
-	modelPlayer_.reset(Model::Create("Resources/Model/Player/", "player.obj", dxCommon_, textureHandleManager_.get()));
+	player_->Initialize(playerModels_);
+	//modelPlayer_.reset(Model::Create("Resources/Model/Player/", "player.obj", dxCommon_, textureHandleManager_.get()));
 	colliderDebugDraw_->AddCollider(player_->GetCollider());
 	colliderDebugDraw_->AddCollider(player_->GetMagnet()->GetCollider());
 	
@@ -525,6 +526,12 @@ void GameScene::ModelCreate()
 
 	// 惑星
 	planetModel_.reset(Model::Create("Resources/Planet/", "planet.obj", dxCommon_, textureHandleManager_.get()));
+
+	// プレイヤー
+	playerModels_[kPlayerPartIndexBody].reset(Model::Create("Resources/Model/Player/Body", "playerBody.obj", dxCommon_, textureHandleManager_.get()));
+	playerModels_[kPlayerPartIndexLeftLeg].reset(Model::Create("Resources/Model/Player/LeftLeg/", "playerLeftLeg.obj", dxCommon_, textureHandleManager_.get()));
+	playerModels_[kPlayerPartIndexRightLeg].reset(Model::Create("Resources/Model/Player/RightLeg/", "playerRightLeg.obj", dxCommon_, textureHandleManager_.get()));
+	playerModels_[kPlayerPartIndexMagnet].reset(Model::Create("Resources/Model/Player/Magnet/", "playerMagnet.obj", dxCommon_, textureHandleManager_.get()));
 
 }
 

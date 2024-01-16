@@ -106,7 +106,10 @@ private:
 	std::unique_ptr<BlockManager> blockManager_;
 
 	Target target_;
+	
 	std::unique_ptr<Player> player_;
+	std::array<std::unique_ptr<Model>, PlayerPartIndex::kPlayerPartIndexOfCount> playerModels_;
+
 	std::list<std::unique_ptr<Screw>> screws_;
 	std::unique_ptr<Model> modelPlayer_ = nullptr;
 

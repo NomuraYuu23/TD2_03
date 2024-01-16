@@ -21,7 +21,7 @@ static int rigidityFrame = 30;
 static int attackFrame = 15;
 
 
-void Player::Initialize() {
+void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex::kPlayerPartIndexOfCount>& models) {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const std::string groupName = "Player";
 
@@ -48,6 +48,14 @@ void Player::Initialize() {
 	materialCircle_->Update(t, { 0.8f,0.8f,0.8f,0.5f }, 0, 200);
 	worldTransformCircle_.Initialize();
 	worldTransformCircle_.transform_.scale = { magnet_->GetRadius(),0.5f,magnet_->GetRadius() };
+
+	for (uint32_t i = 0; i < models_.size(); i++) {
+		models_[i] = models[i].get();
+	}
+
+	playerAnimation_ = std::make_unique<PlayerAnimation>();
+	playerAnimation_->Initialize(&worldTransform_);
+
 }
 
 
@@ -123,11 +131,14 @@ void Player::Update(Block* block, size_t blockNum) {
 
 	// 行列更新
 	//worldTransform_.UpdateMatrix();
-	worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(Matrix4x4Calc::MakeScaleMatrix(worldTransform_.transform_.scale) , Matrix4x4Calc::Multiply( directionMatrix_ , Matrix4x4Calc::MakeTranslateMatrix(worldTransform_.transform_.translate)));
-	if (worldTransform_.parent_) {
-		worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(worldTransform_.worldMatrix_,worldTransform_.parent_->worldMatrix_);
-	}
-	//worldTransform_.UpdateMatrix();
+	worldTransform_.direction_ = direction_;
+	worldTransform_.usedDirection_ = true;
+
+	//worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(Matrix4x4Calc::MakeScaleMatrix(worldTransform_.transform_.scale) , Matrix4x4Calc::Multiply( directionMatrix_ , Matrix4x4Calc::MakeTranslateMatrix(worldTransform_.transform_.translate)));
+	//if (worldTransform_.parent_) {
+	//	worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(worldTransform_.worldMatrix_,worldTransform_.parent_->worldMatrix_);
+	//}
+	worldTransform_.UpdateMatrix();
 	/*
 #ifdef _DEBUG
 	ImGui::Begin("Player");
@@ -138,6 +149,8 @@ void Player::Update(Block* block, size_t blockNum) {
 	ImGui::End();
 #endif // _DEBUG
 */
+
+	playerAnimation_->Update();
 
 	collider_->center_ = worldTransform_.GetWorldPosition();
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
@@ -265,7 +278,10 @@ void Player::BehaviorDropUpdate()
 }
 
 void Player::Draw(Model* model, BaseCamera& camera) {
-	model->Draw(worldTransform_, camera,mat_.get());
+	//model->Draw(worldTransform_, camera,mat_.get());
+	model;
+	playerAnimation_->Draw(models_, camera, mat_.get());
+
 	modelCircle_->Draw(worldTransformCircle_, camera, materialCircle_.get());
 }
 

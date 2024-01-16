@@ -10,6 +10,8 @@
 #include "../../Engine/Collider/OBB/OBB.h"
 #include "../Magnet/Magnet.h"
 
+#include "PlayerAnimation/PlayerAnimation.h"
+
 #include <vector>
 #include <optional>
 
@@ -18,10 +20,6 @@ class Screw;
 
 class Player{
 public:
-	struct HierarchicalAnimation {
-		Model* model_;
-		WorldTransform worldTransform_;
-	};
 	
 	enum class Behavior {
 		kRoot,
@@ -33,7 +31,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex::kPlayerPartIndexOfCount>& models);
 	void BehaviorRootInitialize();
 	void BehaviorAttackInitialize();
 	void BehaviorDropInitialize();
@@ -71,8 +69,6 @@ public:
 	void SetCircle(Model* m) { modelCircle_ = m; };
 private:
 	WorldTransform worldTransform_;
-	std::vector<HierarchicalAnimation> models_;
-
 
 	uint32_t textureHandle_ = 0u;
 
@@ -112,4 +108,9 @@ private:
 	std::unique_ptr <Material> materialCircle_;
 	WorldTransform worldTransformCircle_;
 	float magnetRadius_ = 12.0f;
+
+	// アニメーション
+	std::array<Model*, PlayerPartIndex::kPlayerPartIndexOfCount> models_;
+	std::unique_ptr<PlayerAnimation> playerAnimation_;
+
 };
