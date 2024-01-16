@@ -25,7 +25,7 @@ void Screw::Initialize() {
 	//state_ = State(5);
 	worldTransform_.Initialize();
 	worldTransform_.transform_.scale = {0.8f,0.8f,0.8f};
-
+	worldTransform_.direction_ = {0,0,1.0f};
 	mat_.reset(Material::Create());
 	TransformStructure t{ 0 };
 	t.scale = { 1.0f,1.0f,1.0f };
@@ -48,6 +48,10 @@ void Screw::Initialize() {
 	followSpeed_ = distribution3(randomEngine);
 }
 void Screw::Update() {
+	worldTransform_.usedDirection_ = false;
+	if (state_ == FOLLOW) {
+		worldTransform_.usedDirection_ = true;
+	}
 	if (state_ != STUCK) {
 		GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 		const std::string groupName = "Screw";
@@ -118,6 +122,7 @@ void Screw::Follow() {
 			Vector3 velocity = Vector3Calc::Multiply(kFollowSpeed*followSpeed_, Vector3Calc::Normalize(Vector3Calc::Subtract(Matrix4x4Calc::Transform(followPosition_,player_->GetWorldTransform()->worldMatrix_), worldTransform_.GetWorldPosition())));
 			velocity.y = 0;
 			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity);
+			worldTransform_.direction_ = Vector3Calc::Normalize(velocity);
 		}
 		worldTransform_.transform_.translate.y -= 0.3f;
 		if (worldTransform_.transform_.translate.y <= -20.0f) {
