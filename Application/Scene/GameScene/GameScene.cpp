@@ -152,7 +152,7 @@ void GameScene::Initialize() {
 	colliderDebugDraw_->AddCollider(player_->GetCollider());
 	colliderDebugDraw_->AddCollider(player_->GetMagnet()->GetCollider());
 	
-	modelScrew_.reset(Model::Create("Resources/screw_model", "screw.obj", dxCommon_, textureHandleManager_.get()));
+	modelScrew_.reset(Model::Create("Resources/Model/Screw/", "screw.obj", dxCommon_, textureHandleManager_.get()));
 	for (int index = 0; index < firstScrewNum_; index++) {
 		std::unique_ptr<Screw> screw;
 		screw.reset(new Screw);

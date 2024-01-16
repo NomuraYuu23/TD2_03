@@ -29,7 +29,7 @@ void Screw::Initialize() {
 	mat_.reset(Material::Create());
 	TransformStructure t{ 0 };
 	t.scale = { 1.0f,1.0f,1.0f };
-	mat_->Update(t, { 0.0f,0.0f,0.8f,1.0f }, 0, 200);
+	mat_->Update(t, { 1.0f,1.0f,1.0f,1.0f }, 0, 200);
 
 	collider_.reset(new OBB);
 	collider_->Initialize(worldTransform_.transform_.translate, worldTransform_.rotateMatrix_, worldTransform_.transform_.scale, this);

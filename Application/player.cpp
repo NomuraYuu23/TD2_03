@@ -42,7 +42,7 @@ void Player::Initialize() {
 	mat_.reset(Material::Create());
 	TransformStructure t{0};
 	t.scale = {1.0f,1.0f,1.0f};
-	mat_->Update(t, {0.8f,0.0f,0.0f,1.0f},0,200);
+	mat_->Update(t, {1.0f,1.0f,1.0f,1.0f},0,200);
 	materialCircle_.reset(Material::Create());
 	//t.scale = {magnet_->GetRadius(),1.0f,magnet_->GetRadius() };
 	materialCircle_->Update(t, { 0.8f,0.8f,0.8f,0.5f }, 0, 200);
