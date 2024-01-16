@@ -1,14 +1,14 @@
 #pragma once
 //#include "Input.h"
-#include "../Engine/3D/Model.h"
-#include "../Engine/3D/Material.h"
-#include "../Engine/3D/WorldTransform.h"
-#include "../Engine/Input/input.h"
-#include "../Engine/Camera/BaseCamera.h"
-#include "../Engine/Collision/CollisionData.h"
-#include "Collider/ColliderParentObject.h"
-#include "../Engine/Collider/OBB/OBB.h"
-#include "Magnet.h"
+#include "../../Engine/3D/Model.h"
+#include "../../Engine/3D/Material.h"
+#include "../../Engine/3D/WorldTransform.h"
+#include "../../Engine/Input/input.h"
+#include "../../Engine/Camera/BaseCamera.h"
+#include "../../Engine/Collision/CollisionData.h"
+#include "../Collider/ColliderParentObject.h"
+#include "../../Engine/Collider/OBB/OBB.h"
+#include "../Magnet/Magnet.h"
 
 #include <vector>
 #include <optional>

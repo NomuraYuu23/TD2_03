@@ -1,6 +1,6 @@
 #include "Block.h"
 #include "UFO.h"
-#include "../player.h"
+#include "../Player/player.h"
 void Block::Initialize() {
 	anchorPoints_[0].position = {  0.0f, 1.0f, 0.0f };
 	//anchorPoints_[1].position = { -0.8f, 1.0f, 0.8f };

@@ -1,5 +1,5 @@
 #include "UFOAttract.h"
-#include "../Screw.h"
+#include "../Screw/Screw.h"
 void UFOAttract::Initialize() {
 	collider_.reset(new Sphere);
 	collider_->Initialize({ 0,0,0 }, radius_, this);

@@ -1,11 +1,11 @@
 #pragma once
-#include "../Engine/3D/WorldTransform.h"
-#include "../Engine/3D/Model.h"
-#include "../Engine/Camera/BaseCamera.h"
-#include "../Engine/Math/Vector3.h"
-#include "../Engine/Collision/CollisionData.h"
-#include "Collider/ColliderParentObject.h"
-#include "../Engine/Collider/OBB/OBB.h"
+#include "../../Engine/3D/WorldTransform.h"
+#include "../../Engine/3D/Model.h"
+#include "../../Engine/Camera/BaseCamera.h"
+#include "../../Engine/Math/Vector3.h"
+#include "../../Engine/Collision/CollisionData.h"
+#include "../Collider/ColliderParentObject.h"
+#include "../../Engine/Collider/OBB/OBB.h"
 class Player;
 class Block;
 

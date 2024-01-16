@@ -1,7 +1,7 @@
 #pragma once
 #include "Block.h"
 #include "UFOAttract.h"
-#include "../Magnet.h"
+#include "../Magnet/Magnet.h"
 class UFO : public Block
 {
 public:

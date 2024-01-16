@@ -373,10 +373,10 @@
     <ClCompile Include="Application\UI\UISymbol\UISymbol.cpp">
       <Filter>Application\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Application\player.cpp">
+    <ClCompile Include="Application\Player\player.cpp">
       <Filter>Application\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Magnet.cpp">
+    <ClCompile Include="Application\Magnet\Magnet.cpp">
       <Filter>Application\Magnet</Filter>
     </ClCompile>
     <ClCompile Include="Application\Block\UFO.cpp">
@@ -394,10 +394,10 @@
     <ClCompile Include="Application\Planet\Planet.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Application\UFOManager.cpp">
+    <ClCompile Include="Application\UFO\UFOManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Screw.cpp">
+    <ClCompile Include="Application\Screw\Screw.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Application\BlockManager\BlockManagerState\BlockManagerStatePattern1\BlockManagerStatePattern1.cpp">
@@ -711,10 +711,10 @@
     <ClInclude Include="Application\UI\UIScrew\UIScrew.h">
       <Filter>Application\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Application\player.h">
+    <ClInclude Include="Application\Player\player.h">
       <Filter>Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Magnet.h">
+    <ClInclude Include="Application\Magnet\Magnet.h">
       <Filter>Application\Magnet</Filter>
     </ClInclude>
     <ClInclude Include="Application\Planet\Planet.h">
@@ -732,7 +732,7 @@
     <ClInclude Include="Application\Target\Target.h">
       <Filter>Application\Target</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Screw.h">
+    <ClInclude Include="Application\Screw\Screw.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\BlockManager\BlockManagerState\BlockManagerStatePattern1\BlockManagerStatePattern1.h">
@@ -744,7 +744,7 @@
     <ClInclude Include="Application\BlockManager\BlockGenerationPattern\BlockGenerationPatternData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Application\UFOManager.h">
+    <ClInclude Include="Application\UFO\UFOManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

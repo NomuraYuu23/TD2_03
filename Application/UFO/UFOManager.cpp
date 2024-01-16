@@ -1,5 +1,5 @@
 #include "UFOManager.h"
-#include "../Engine/GlobalVariables/GlobalVariables.h"
+#include "../../Engine/GlobalVariables/GlobalVariables.h"
 void UFOManager::Initialize() {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const std::string groupName = "UFO";

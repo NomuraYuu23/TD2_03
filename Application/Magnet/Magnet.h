@@ -1,8 +1,8 @@
 #pragma once
-#include "../Engine/3D/WorldTransform.h"
-#include "../Engine/Collision/CollisionData.h"
-#include "Collider/ColliderParentObject.h"
-#include "../Engine/Collider/Sphere/Sphere.h"
+#include "../../Engine/3D/WorldTransform.h"
+#include "../../Engine/Collision/CollisionData.h"
+#include "../Collider/ColliderParentObject.h"
+#include "../../Engine/Collider/Sphere/Sphere.h"
 
 class Magnet
 {

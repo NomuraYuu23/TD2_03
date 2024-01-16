@@ -5,11 +5,11 @@
 #include <cassert>
 #include <numbers>
 
-#include "../Engine/Math/Vector3.h"
-#include "../Engine/Math/Matrix4x4.h"
-#include "Block/Block.h"
-#include "Screw.h"
-#include "../Engine/GlobalVariables/GlobalVariables.h"
+#include "../../Engine/Math/Vector3.h"
+#include "../../Engine/Math/Matrix4x4.h"
+#include "../Block/Block.h"
+#include "../Screw/Screw.h"
+#include "../../Engine/GlobalVariables/GlobalVariables.h"
 //#include "GlobalVariables.h"
 
 //#include "CollisionManager.h"

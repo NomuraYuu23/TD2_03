@@ -5,9 +5,9 @@
 #include"../../../Engine/Collision/CollisionManager.h"
 #include "../../Pause/Pause.h"
 #include "../../../Engine/base/ITextureHandleManager.h"
-#include "../../player.h"
+#include "../../player/player.h"
 #include "../../Block/Block.h"
-#include "../../Screw.h"
+#include "../../Screw/Screw.h"
 #include "../../Target/Target.h"
 #include "../../Camera/FollowCamera/FollowCamera.h"
 #include "../../../Engine/Collision/CollisionManager.h"
@@ -20,7 +20,7 @@
 
 #include "../../BlockManager/BlockManager.h"
 
-#include "../../UFOManager.h"
+#include "../../UFO/UFOManager.h"
 class GameScene : public IScene
 {
 

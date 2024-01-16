@@ -3,7 +3,7 @@
 #include "../../../Engine/base/TextureManager.h"
 #include "../../../Engine/2D/ImguiManager.h"
 #include "../../../Engine/base/D3DResourceLeakChecker.h"
-#include "../../player.h"
+#include "../../Player/player.h"
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 /// <summary>
 /// 初期化

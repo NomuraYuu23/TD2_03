@@ -1,10 +1,10 @@
 #include "Screw.h"
-#include "Player.h"
-#include "Block/Block.h"
-#include "../Engine/Math/Ease.h"
-#include "Block/UFO.h"
-#include "Block/UFOAttract.h"
-#include "../Engine/GlobalVariables/GlobalVariables.h"
+#include "../Player/Player.h"
+#include "../Block/Block.h"
+#include "../../Engine/Math/Ease.h"
+#include "../Block/UFO.h"
+#include "../Block/UFOAttract.h"
+#include "../../Engine/GlobalVariables/GlobalVariables.h"
 #include <random>
 void(Screw::* Screw::stateTable[])() = {
 	&Screw::None,
