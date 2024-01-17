@@ -15,7 +15,7 @@
 #include "../../AudioManager/GameAudioManager.h"
 #include "../../Skydome/Skydome.h"
 #include "../../Planet/Planet.h"
-
+#include "../../Energy/Energy.h"
 #include "../../Block/UFO.h"
 
 #include "../../BlockManager/BlockManager.h"
@@ -139,4 +139,6 @@ private:
 
 	std::unique_ptr<Model> modelScrew_;
 	int firstScrewNum_ = 6;//最初に生成するネジの本数
+
+	std::unique_ptr<Energy> energy_;
 };

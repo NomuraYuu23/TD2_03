@@ -234,8 +234,19 @@ void BlockManager::GenerationCenterBlock()
 	newBlock->SetIsCenter(true);
 	newBlock->SetIsConnect(true);
 	newBlock->SetVelocity({ 0.0f,0.0f,-0.1f });
+	newBlock->SetSize({100.0f,0.5f,6.0f});
 	blocks_.push_back(newBlock);
 
+}
+
+void BlockManager::GenerationCenterBlock(const Vector3& position, const Vector3& size) {
+	Block* newBlock = new Block();
+	newBlock->Initialize();
+	newBlock->SetIsCenter(true);
+	newBlock->SetIsConnect(true);
+	newBlock->SetWorldPosition(position);
+	newBlock->SetSize(size);
+	blocks_.push_back(newBlock);
 }
 
 void BlockManager::MaterialInitialize()

@@ -42,6 +42,7 @@ public:
 	bool GetIsRelese() { return isRelese_; };
 	bool GetIsRidePlayer() { return isRidePlayer_; };
 	void SetIsRidePlayer(bool is) { isRidePlayer_ = is; };
+	void SetSize(const Vector3& vector) { worldTransform_.transform_.scale = vector; };
 protected:
 
 	std::array<AnchorPoint, anchorNum> anchorPoints_;

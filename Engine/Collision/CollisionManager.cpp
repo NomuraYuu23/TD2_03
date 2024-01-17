@@ -6,6 +6,7 @@
 #include "../../Application/Block/Block.h"
 #include "../../Application/Block/UFO.h"
 #include "../../Application/Block/UFOAttract.h"
+#include "../../Application/Energy/Energy.h"
 void CollisionManager::Initialize()
 {
 

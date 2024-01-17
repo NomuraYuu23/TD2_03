@@ -84,6 +84,11 @@ public:
 	/// </summary>
 	void GenerationCenterBlock();
 
+	/// <summary>
+	/// 中心ブロック生成
+	/// </summary>
+	void GenerationCenterBlock(const Vector3& position, const Vector3& size);
+
 private: // メンバ関数
 
 	/// <summary>

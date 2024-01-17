@@ -203,6 +203,10 @@ void GameScene::Initialize() {
 	ufoManager_->Initialize();
 	ufoManager_->SetUFOVector(&ufos_);
 	ufoManager_->SetModelCircle(modelCircle_.get());
+
+	energy_.reset(new Energy);
+	energy_->Initialize();
+	energy_->SetTarget({ -50.0f,0.0f,-12.0f });
 }
 
 /// <summary>
@@ -284,6 +288,7 @@ void GameScene::Update() {
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Update();
 	}
+	energy_->Update();
 	//ufo_->Update();
 	/*Block* center = nullptr;
 	//中心となるブロックをリセット
@@ -308,7 +313,7 @@ void GameScene::Update() {
 			collisionManager_->ListRegister((*block)->GetMagnet()->GetCollider());
 		}
 	}
-	
+	collisionManager_->ListRegister(energy_->GetCollider());
 
 	//collisionManager_->ListRegister(blocks_[0]->GetCollider());
 	//collisionManager_->ListRegister(blocks_[1]->GetCollider());
@@ -405,13 +410,13 @@ void GameScene::Draw() {
 	}
 	player_->Draw(modelPlayer_.get(), camera_);
 	//ufo_->Draw(modelBlock_.get(), camera_);
-	
+	energy_->Draw(modelBlock_.get(), camera_);
 
 	// スカイドーム
 	skydome_->Draw(camera_);
 
 	// 惑星
-	planet_->Draw(camera_);
+	//planet_->Draw(camera_);
 
 #ifdef _DEBUG
 
