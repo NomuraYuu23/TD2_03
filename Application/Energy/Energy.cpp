@@ -1,4 +1,5 @@
 #include "Energy.h"
+#include "../Block/Block.h"
 void Energy::Initialize() {
 	worldTransform_.Initialize();
 
@@ -19,7 +20,9 @@ void Energy::Update() {
 	worldTransform_.transform_.scale.z = halfSize;
 	worldTransform_.UpdateMatrix();
 	collider_->center_ = worldTransform_.GetWorldPosition();
+	collider_->size_ = worldTransform_.transform_.scale;
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
+	innerAreaCount_ = 0;
 }
 
 void Energy::Draw(Model* model, BaseCamera& camera) {
@@ -30,4 +33,10 @@ void Energy::SetTarget(const Vector3& position) {
 	target_ = position;
 	startPoint_ = target_;
 	startPoint_.z = -200.0f;
+}
+
+void Energy::OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {
+	if (std::holds_alternative<Block*>(pairObject)) {
+		innerAreaCount_++;
+	}
 }

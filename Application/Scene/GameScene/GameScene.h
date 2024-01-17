@@ -141,4 +141,6 @@ private:
 	int firstScrewNum_ = 6;//最初に生成するネジの本数
 
 	std::unique_ptr<Energy> energy_;
+
+	float energyPoint_;//エネルギー量仮
 };

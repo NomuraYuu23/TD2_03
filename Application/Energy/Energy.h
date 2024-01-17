@@ -14,8 +14,9 @@ public:
 	void Draw(Model* model, BaseCamera& camera);
 
 	void SetTarget(const Vector3& position);
-	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {};
+	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData);
 	OBB* GetCollider() { return collider_.get(); };
+	int32_t GetInnerAreaCount() { return innerAreaCount_; };
 private:
 	WorldTransform worldTransform_;
 	Vector3 target_;

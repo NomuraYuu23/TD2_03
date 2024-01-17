@@ -207,6 +207,7 @@ void GameScene::Initialize() {
 	energy_.reset(new Energy);
 	energy_->Initialize();
 	energy_->SetTarget({ -50.0f,0.0f,-12.0f });
+	energyPoint_ = 2000.0f;
 }
 
 /// <summary>
@@ -287,6 +288,22 @@ void GameScene::Update() {
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Update();
+	}
+
+	//接続数カウント
+	int connectCount = 0;
+	for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
+		if ((*block)->GetIsConnect()) {
+			connectCount++;
+		}
+	}
+	//エネルギー増減仮
+	{
+		energyPoint_-= connectCount * 0.1f;
+		energyPoint_ += energy_->GetInnerAreaCount()*0.4f;
+		ImGui::Begin("Energy");
+		ImGui::Text("%f",energyPoint_);
+		ImGui::End();
 	}
 	energy_->Update();
 	//ufo_->Update();
