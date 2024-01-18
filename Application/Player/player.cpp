@@ -56,6 +56,8 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 	playerAnimation_ = std::make_unique<PlayerAnimation>();
 	playerAnimation_->Initialize(&worldTransform_);
 
+	playerAnimationNo_ = kPlayerAnimationIndexStand;
+
 }
 
 
@@ -150,7 +152,7 @@ void Player::Update(Block* block, size_t blockNum) {
 #endif // _DEBUG
 */
 
-	playerAnimation_->Update();
+	playerAnimation_->Update(playerAnimationNo_);
 
 	collider_->center_ = worldTransform_.GetWorldPosition();
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
@@ -243,6 +245,15 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 		}
 		//worldTransform_.transform_.translate += move;
 		worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate,move);
+
+		// アニメーション
+		if (Vector3Calc::Length(move) == 0.0f) {
+			playerAnimationNo_ = kPlayerAnimationIndexStand;
+		}
+		else {
+			playerAnimationNo_ = kPlayerAnimationIndexWalk;
+		}
+
 	}
 	if (!worldTransform_.parent_) {
 		//velocity_ = Vector3Calc::Add( velocity_,kGravity);

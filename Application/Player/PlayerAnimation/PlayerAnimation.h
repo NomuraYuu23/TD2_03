@@ -11,16 +11,48 @@ enum PlayerPartIndex {
 	kPlayerPartIndexOfCount // 数
 };
 
+enum PlayerAnimationIndex {
+	kPlayerAnimationIndexStand, // 立ち状態
+	kPlayerAnimationIndexWalk, // 歩き状態
+	kPlayerAnimationIndexOfCount // 数
+};
+
 class PlayerAnimation
 {
+
+public: // サブクラス
+
+	// 立ち状態
+	struct WorkStand {
+
+	};
+
+	// 歩き状態
+	struct WorkWalk {
+		float rotate_ = 0.0f;
+		float speed_ = 0.1f;
+		int32_t angle_ = 0;
+	};
 
 public:
 
 	void Initialize(WorldTransform* worldTransform);
 
-	void Update();
+	void Update(PlayerAnimationIndex playerAnimationNo);
 
 	void Draw(const std::array<Model*, PlayerPartIndex::kPlayerPartIndexOfCount>& models, BaseCamera& camera, Material* mat);
+
+	void ImGuiDraw();
+
+private:
+	
+	// 立ち状態
+	void StandInitialize();
+	void StandUpdate();
+	
+	// 歩き状態
+	void WalkInitialize();
+	void WalkUpdate();
 
 public:
 
@@ -35,6 +67,12 @@ private:
 
 	// アニメーションタイム
 	std::array<float, PlayerPartIndex::kPlayerPartIndexOfCount> times_;
+
+	PlayerAnimationIndex prevPlayerAnimationNo_;
+
+	WorkStand workStand_;
+
+	WorkWalk workWalk_;
 
 };
 

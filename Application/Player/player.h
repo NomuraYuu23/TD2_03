@@ -67,6 +67,10 @@ public:
 	Magnet* GetMagnet() { return magnet_.get(); };
 	Vector3 GetDirection() { return direction_; };
 	void SetCircle(Model* m) { modelCircle_ = m; };
+
+	// アニメーション
+	PlayerAnimationIndex GetPlayerAnimationNo() { return playerAnimationNo_; }
+
 private:
 	WorldTransform worldTransform_;
 
@@ -112,5 +116,6 @@ private:
 	// アニメーション
 	std::array<Model*, PlayerPartIndex::kPlayerPartIndexOfCount> models_;
 	std::unique_ptr<PlayerAnimation> playerAnimation_;
+	PlayerAnimationIndex playerAnimationNo_;
 
 };
