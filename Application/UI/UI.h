@@ -41,6 +41,8 @@ private: // メンバ変数
 
 	Vector2 size_;
 
+	std::string jsonName_;
+
 	std::string groupName_;
 
 };
