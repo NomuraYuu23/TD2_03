@@ -1,6 +1,6 @@
 {
     "Player": {
-        "MagnetRadius": 24.0,
-        "GravityFrame": 20
+        "GravityFrame": 30,
+        "MagnetRadius": 24.0
     }
 }
