@@ -1,0 +1,254 @@
+{
+    "PlayerAnimation": {
+        "GravityAnimationDataCollapseBodyRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataCollapseBodyScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataCollapseBodyTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataCollapseEaseName": 30,
+        "GravityAnimationDataCollapseFrame": 10,
+        "GravityAnimationDataCollapseLeftLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataCollapseLeftLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataCollapseLeftLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataCollapseMagnetRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataCollapseMagnetScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataCollapseMagnetTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataCollapseRightLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataCollapseRightLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataCollapseRightLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend1BodyRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend1BodyScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataExtend1BodyTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend1EaseName": 30,
+        "GravityAnimationDataExtend1Frame": 10,
+        "GravityAnimationDataExtend1LeftLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend1LeftLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataExtend1LeftLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend1MagnetRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend1MagnetScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataExtend1MagnetTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend1RightLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend1RightLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataExtend1RightLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend2BodyRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend2BodyScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataExtend2BodyTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend2EaseName": 30,
+        "GravityAnimationDataExtend2Frame": 10,
+        "GravityAnimationDataExtend2LeftLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend2LeftLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataExtend2LeftLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend2MagnetRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend2MagnetScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataExtend2MagnetTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend2RightLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataExtend2RightLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataExtend2RightLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataReturnBodyRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataReturnBodyScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataReturnBodyTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataReturnEaseName": 30,
+        "GravityAnimationDataReturnFrame": 10,
+        "GravityAnimationDataReturnLeftLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataReturnLeftLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataReturnLeftLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataReturnMagnetRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataReturnMagnetScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataReturnMagnetTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataReturnRightLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "GravityAnimationDataReturnRightLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "GravityAnimationDataReturnRightLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "WalkAngle": 60,
+        "WalkSpeed": 0.10000000149011612
+    }
+}

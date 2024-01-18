@@ -16,6 +16,8 @@ void UI::Initialize(uint32_t textureHandle, const std::string& groupName)
 
 	size_ = sprite_->GetSize();
 
+	jsonName_ = "UI";
+
 	groupName_ = groupName;
 
 	RegisteringGlobalVariables();
@@ -64,9 +66,9 @@ void UI::RegisteringGlobalVariables()
 
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 
-	globalVariables->AddItem(groupName_, "position", position_);
-	globalVariables->AddItem(groupName_, "rotate", rotate_);
-	globalVariables->AddItem(groupName_, "size", size_);
+	globalVariables->AddItem(jsonName_, groupName_ + "position", position_);
+	globalVariables->AddItem(jsonName_, groupName_ + "rotate", rotate_);
+	globalVariables->AddItem(jsonName_, groupName_ + "size", size_);
 
 }
 
@@ -75,9 +77,9 @@ void UI::ApplyGlobalVariables()
 
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 
-	position_ = globalVariables->GetVector2Value(groupName_, "position");
-	rotate_ = globalVariables->GetFloatValue(groupName_, "rotate");
-	size_ = globalVariables->GetVector2Value(groupName_, "size");
+	position_ = globalVariables->GetVector2Value(jsonName_, groupName_ + "position");
+	rotate_ = globalVariables->GetFloatValue(jsonName_, groupName_ + "rotate");
+	size_ = globalVariables->GetVector2Value(jsonName_, groupName_ + "size");
 
 	sprite_->SetPosition(position_);
 	sprite_->SetRotate(rotate_);

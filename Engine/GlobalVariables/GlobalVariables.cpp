@@ -256,6 +256,8 @@ void GlobalVariables::Update() {
 				ImGui::DragFloat3(itemName.c_str(), reinterpret_cast<float*>(ptr), 0.01f);
 			}
 
+			ImGui::Text("\n");
+
 		}
 
 		//改行

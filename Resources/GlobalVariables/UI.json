@@ -1,0 +1,76 @@
+{
+    "UI": {
+        "UIScrewsCrossposition": [
+            120.0,
+            80.0
+        ],
+        "UIScrewsCrossrotate": 0.0,
+        "UIScrewsCrosssize": [
+            32.0,
+            32.0
+        ],
+        "UIScrewsIconposition": [
+            60.0,
+            70.0
+        ],
+        "UIScrewsIconrotate": 0.0,
+        "UIScrewsIconsize": [
+            64.0,
+            64.0
+        ],
+        "UIScrewsOnesPlaceposition": [
+            218.0,
+            70.0
+        ],
+        "UIScrewsOnesPlacerotate": 0.0,
+        "UIScrewsOnesPlacesize": [
+            48.0,
+            48.0
+        ],
+        "UIScrewsTensPlaceposition": [
+            170.0,
+            70.0
+        ],
+        "UIScrewsTensPlacerotate": 0.0,
+        "UIScrewsTensPlacesize": [
+            48.0,
+            48.0
+        ],
+        "UITimerColonposition": [
+            640.0,
+            80.0
+        ],
+        "UITimerColonrotate": 0.0,
+        "UITimerColonsize": [
+            48.0,
+            48.0
+        ],
+        "UITimerMinutesposition": [
+            590.0,
+            80.0
+        ],
+        "UITimerMinutesrotate": 0.0,
+        "UITimerMinutessize": [
+            48.0,
+            48.0
+        ],
+        "UITimerSecondsOnesPlaceposition": [
+            738.0,
+            80.0
+        ],
+        "UITimerSecondsOnesPlacerotate": 0.0,
+        "UITimerSecondsOnesPlacesize": [
+            48.0,
+            48.0
+        ],
+        "UITimerSecondsTensPlaceposition": [
+            690.0,
+            80.0
+        ],
+        "UITimerSecondsTensPlacerotate": 0.0,
+        "UITimerSecondsTensPlacesize": [
+            48.0,
+            48.0
+        ]
+    }
+}
