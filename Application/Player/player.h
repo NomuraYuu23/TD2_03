@@ -87,7 +87,8 @@ private:
 	bool isFlooar_ = false;
 
 	//調整用
-	int frameCount_ = 0;
+	uint32_t attackFrame_ = 55;
+	uint32_t attackFrameCount_ = 0u;
 
 	//向き
 	Vector3 direction_;

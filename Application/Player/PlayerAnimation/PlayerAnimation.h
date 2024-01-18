@@ -16,6 +16,7 @@ enum PlayerAnimationIndex {
 	kPlayerAnimationIndexStand, // 立ち状態
 	kPlayerAnimationIndexWalk, // 歩き状態
 	kPlayerAnimationIndexGravity, // 重力状態
+	kPlayerAnimationIndexScrewThrowing, // ねじ投擲状態
 	kPlayerAnimationIndexOfCount // 数
 };
 
@@ -52,6 +53,20 @@ public: // サブクラス
 		Ease::EaseName easeName_ = Ease::EaseName::Lerp;
 	};
 
+	// ねじ投擲状態
+	struct WorkScrewThrowing {
+		uint32_t frame_ = 20;
+		uint32_t frameCount_ = 0u;
+		uint32_t phaseNum_ = 0;
+		std::array<TransformStructure, PlayerPartIndex::kPlayerPartIndexOfCount> currentTransforms_ = {};
+		std::array<TransformStructure, PlayerPartIndex::kPlayerPartIndexOfCount> nextTransforms_ = {};
+		Ease::EaseName easeName_ = Ease::EaseName::Lerp;
+
+		// ブロック
+		Vector3 blockPosition_ = {};
+
+	};
+
 private: // 重力状態
 
 	enum GravityPhaseIndex {
@@ -63,6 +78,18 @@ private: // 重力状態
 	};
 	static std::array<AnimationData, GravityPhaseIndex::kGravityPhaseIndexOfCount> gravityAnimationData_;
 
+private: // ねじ投擲状態
+
+	enum ScrewThrowingPhaseIndex {
+		kScrewThrowingPhaseIndexWarp1, // からだを反らす1
+		kScrewThrowingPhaseIndexThrowing, // ねじ投擲する
+		kScrewThrowingPhaseIndexTurn, // ぐるぐる
+		kScrewThrowingPhaseIndexWarp2, // からだを反らす2
+		kScrewThrowingPhaseIndexReturn, //戻る
+		kScrewThrowingPhaseIndexOfCount // 数
+	};
+	static std::array<AnimationData, ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexOfCount> screwThrowingAnimationData_;
+
 private: // 文字列
 
 	const std::array <std::string, PlayerPartIndex::kPlayerPartIndexOfCount> kPlayerPartIndexNames_ = {
@@ -71,15 +98,26 @@ private: // 文字列
 		"RightLeg",
 		"Magnet",
 	};
+
 	const std::array <std::string, PlayerAnimationIndex::kPlayerAnimationIndexOfCount> kPlayerAnimationIndexNames_ = {
 		"Stand",
 		"Walk",
 		"Gravity",
+		"ScrewThrowing",
 	};
+	
 	const std::array <std::string, GravityPhaseIndex::kGravityPhaseIndexOfCount> kGravityPhaseIndexNames_ = {
 		"Extend1",
 		"Collapse",
 		"Extend2",
+		"Return",
+	};
+
+	const std::array <std::string, ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexOfCount> kScrewThrowingPhaseIndexNames_ = {
+		"Warp1",
+		"Throwing",
+		"Turn",
+		"Warp2",
 		"Return",
 	};
 
@@ -112,6 +150,10 @@ private:
 	// 重力状態
 	void GravityInitialize();
 	void GravityUpdate();
+
+	// ねじ投擲状態
+	void ScrewThrowingInitialize();
+	void ScrewThrowingUpdate();
 
 private: // メンバ関数
 
@@ -146,6 +188,8 @@ private:
 	WorkWalk workWalk_;
 
 	WorkGravity workGravity_;
+
+	WorkScrewThrowing workScrewThrowing_;
 
 };
 

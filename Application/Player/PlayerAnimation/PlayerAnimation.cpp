@@ -4,6 +4,8 @@
 
 std::array<PlayerAnimation::AnimationData, PlayerAnimation::GravityPhaseIndex::kGravityPhaseIndexOfCount> PlayerAnimation::gravityAnimationData_;
 
+std::array<PlayerAnimation::AnimationData, PlayerAnimation::ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexOfCount> PlayerAnimation::screwThrowingAnimationData_;
+
 void PlayerAnimation::Initialize(WorldTransform* worldTransform)
 {
 
@@ -46,12 +48,16 @@ void PlayerAnimation::Update(PlayerAnimationIndex playerAnimationNo)
 		{
 		case kPlayerAnimationIndexStand:
 			StandInitialize();
+			//ScrewThrowingInitialize();
 			break;
 		case kPlayerAnimationIndexWalk:
 			WalkInitialize();
 			break;
 		case kPlayerAnimationIndexGravity:
 			GravityInitialize();
+			break;
+		case kPlayerAnimationIndexScrewThrowing:
+			ScrewThrowingInitialize();
 			break;
 		case kPlayerAnimationIndexOfCount:
 			assert(0);
@@ -66,12 +72,16 @@ void PlayerAnimation::Update(PlayerAnimationIndex playerAnimationNo)
 	{
 	case kPlayerAnimationIndexStand:
 		StandUpdate();
+		//ScrewThrowingUpdate();
 		break;
 	case kPlayerAnimationIndexWalk:
 		WalkUpdate();
 		break;
 	case kPlayerAnimationIndexGravity:
 		GravityUpdate();
+		break;
+	case kPlayerAnimationIndexScrewThrowing:
+		ScrewThrowingUpdate();
 		break;
 	case kPlayerAnimationIndexOfCount:
 		assert(0);
@@ -224,17 +234,72 @@ void PlayerAnimation::GravityUpdate()
 
 }
 
+void PlayerAnimation::ScrewThrowingInitialize()
+{
+
+	TransformInitialize();
+
+	workScrewThrowing_.frameCount_ = 0;
+	workScrewThrowing_.phaseNum_ = 0;
+
+	workScrewThrowing_.frame_ = screwThrowingAnimationData_[workScrewThrowing_.phaseNum_].frame_;
+	for (uint32_t i = 0; i < PlayerPartIndex::kPlayerPartIndexOfCount; ++i) {
+		workScrewThrowing_.currentTransforms_[i] = worldTransforms_[i].transform_;
+		workScrewThrowing_.nextTransforms_[i] = screwThrowingAnimationData_[workScrewThrowing_.phaseNum_].transforms_[i];
+	}
+	workScrewThrowing_.easeName_ = screwThrowingAnimationData_[workScrewThrowing_.phaseNum_].easeName_;
+
+}
+
+void PlayerAnimation::ScrewThrowingUpdate()
+{
+
+	if (workScrewThrowing_.phaseNum_ == ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexOfCount || workScrewThrowing_.frame_ == 0) {
+		return;
+	}
+
+	float t = static_cast<float>(workScrewThrowing_.frameCount_) / static_cast<float>(workScrewThrowing_.frame_);
+
+	for (uint32_t i = 0; i < PlayerPartIndex::kPlayerPartIndexOfCount; ++i) {
+		worldTransforms_[i].transform_.scale =
+			Ease::Easing(workScrewThrowing_.easeName_, workScrewThrowing_.currentTransforms_[i].scale, workScrewThrowing_.nextTransforms_[i].scale, t);
+		worldTransforms_[i].transform_.rotate =
+			Ease::Easing(workScrewThrowing_.easeName_, workScrewThrowing_.currentTransforms_[i].rotate, workScrewThrowing_.nextTransforms_[i].rotate, t);
+		worldTransforms_[i].transform_.translate =
+			Ease::Easing(workScrewThrowing_.easeName_, workScrewThrowing_.currentTransforms_[i].translate, workScrewThrowing_.nextTransforms_[i].translate, t);
+	}
+
+	if (workScrewThrowing_.frameCount_++ == workScrewThrowing_.frame_ && workScrewThrowing_.phaseNum_ < ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexOfCount) {
+		workScrewThrowing_.phaseNum_++;
+		workScrewThrowing_.frameCount_ = 0;
+		if (workScrewThrowing_.phaseNum_ == ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexOfCount) {
+			//デバッグ
+			ScrewThrowingInitialize();
+			return;
+		}
+		workScrewThrowing_.frame_ = screwThrowingAnimationData_[workGravity_.phaseNum_].frame_;
+
+		for (uint32_t i = 0; i < PlayerPartIndex::kPlayerPartIndexOfCount; ++i) {
+			workScrewThrowing_.currentTransforms_[i] = worldTransforms_[i].transform_;
+			workScrewThrowing_.nextTransforms_[i] = screwThrowingAnimationData_[workScrewThrowing_.phaseNum_].transforms_[i];
+		}
+		workScrewThrowing_.easeName_ = screwThrowingAnimationData_[workScrewThrowing_.phaseNum_].easeName_;
+	}
+
+}
+
 void PlayerAnimation::RegisteringGlobalVariables()
 {
 
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
-	const std::string groupName = "PlayerAnimation";
 
 	// 歩き状態
+	std::string groupName = "WalkPlayerAnimation";
 	globalVariables->AddItem(groupName, "WalkSpeed", workWalk_.speed_);
 	globalVariables->AddItem(groupName, "WalkAngle", workWalk_.angle_);
 
 	// 重力状態
+	groupName = "GravityPlayerAnimation";
 	for (uint32_t i = 0; i < GravityPhaseIndex::kGravityPhaseIndexOfCount; ++i) {
 
 		for (uint32_t j = 0; j < PlayerPartIndex::kPlayerPartIndexOfCount; ++j) {
@@ -245,19 +310,34 @@ void PlayerAnimation::RegisteringGlobalVariables()
 		globalVariables->AddItem(groupName, "GravityAnimationData" + kGravityPhaseIndexNames_[i] + "Frame", gravityAnimationData_[i].frame_);
 		globalVariables->AddItem(groupName, "GravityAnimationData" + kGravityPhaseIndexNames_[i] + "EaseName", static_cast<uint32_t>(gravityAnimationData_[i].easeName_));
 	}
+
+	// ねじ投擲状態
+	groupName = "ScrewThrowingPlayerAnimation";
+	for (uint32_t i = 0; i < ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexOfCount; ++i) {
+
+		for (uint32_t j = 0; j < PlayerPartIndex::kPlayerPartIndexOfCount; ++j) {
+			globalVariables->AddItem(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + kPlayerPartIndexNames_[j] + "Scale", screwThrowingAnimationData_[i].transforms_[j].scale);
+			globalVariables->AddItem(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + kPlayerPartIndexNames_[j] + "Rotate", screwThrowingAnimationData_[i].transforms_[j].rotate);
+			globalVariables->AddItem(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + kPlayerPartIndexNames_[j] + "Translate", screwThrowingAnimationData_[i].transforms_[j].translate);
+		}
+		globalVariables->AddItem(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + "Frame", screwThrowingAnimationData_[i].frame_);
+		globalVariables->AddItem(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + "EaseName", static_cast<uint32_t>(screwThrowingAnimationData_[i].easeName_));
+	}
+
 }
 
 void PlayerAnimation::ApplyGlobalVariables()
 {
 
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
-	const std::string groupName = "PlayerAnimation";
-
+	
 	// 歩き状態
+	std::string groupName = "WalkPlayerAnimation";
 	workWalk_.speed_ = globalVariables->GetFloatValue(groupName, "WalkSpeed");
 	workWalk_.angle_ = globalVariables->GetIntValue(groupName, "WalkAngle");
 
 	// 重力状態
+	groupName = "GravityPlayerAnimation";
 	for (uint32_t i = 0; i < GravityPhaseIndex::kGravityPhaseIndexOfCount; ++i) {
 
 		for (uint32_t j = 0; j < PlayerPartIndex::kPlayerPartIndexOfCount; ++j) {
@@ -267,6 +347,19 @@ void PlayerAnimation::ApplyGlobalVariables()
 		}
 		gravityAnimationData_[i].frame_ = globalVariables->GetUIntValue(groupName, "GravityAnimationData" + kGravityPhaseIndexNames_[i] + "Frame");
 		gravityAnimationData_[i].easeName_ = static_cast<Ease::EaseName>(globalVariables->GetUIntValue(groupName, "GravityAnimationData" + kGravityPhaseIndexNames_[i] + "EaseName"));
+	}
+
+	// ねじ投擲状態
+	groupName = "ScrewThrowingPlayerAnimation";
+	for (uint32_t i = 0; i < ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexOfCount; ++i) {
+
+		for (uint32_t j = 0; j < PlayerPartIndex::kPlayerPartIndexOfCount; ++j) {
+			screwThrowingAnimationData_[i].transforms_[j].scale = globalVariables->GetVector3Value(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + kPlayerPartIndexNames_[j] + "Scale");
+			screwThrowingAnimationData_[i].transforms_[j].rotate = globalVariables->GetVector3Value(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + kPlayerPartIndexNames_[j] + "Rotate");
+			screwThrowingAnimationData_[i].transforms_[j].translate = globalVariables->GetVector3Value(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + kPlayerPartIndexNames_[j] + "Translate");
+		}
+		screwThrowingAnimationData_[i].frame_ = globalVariables->GetUIntValue(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + "Frame");
+		screwThrowingAnimationData_[i].easeName_ = static_cast<Ease::EaseName>(globalVariables->GetUIntValue(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + "EaseName"));
 	}
 
 }

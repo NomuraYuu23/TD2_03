@@ -71,6 +71,7 @@ void Player::BehaviorRootInitialize() {
 void Player::BehaviorAttackInitialize() {
 
 	velocity_ = { 0,0,0 };
+	playerAnimationNo_ = kPlayerAnimationIndexScrewThrowing;
 	
 }
 
@@ -90,7 +91,7 @@ void Player::Update(Block* block, size_t blockNum) {
 	gravityFrame_ = globalVariables->GetUIntValue(groupName, "GravityFrame");
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
-		frameCount_ = 0;
+		attackFrameCount_ = 0;
 		switch (behavior_) {
 		case Player::Behavior::kRoot:
 		default:
@@ -267,11 +268,11 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 
 void Player::BehaviorAttackUpdate()
 {
-	if (frameCount_ >15) {
+	if (attackFrameCount_ > attackFrame_) {
 		behaviorRequest_ = Behavior::kRoot;
 	}
 
-	frameCount_++;
+	attackFrameCount_++;
 }
 
 void Player::BehaviorDropUpdate()

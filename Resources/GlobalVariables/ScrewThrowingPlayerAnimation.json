@@ -1,0 +1,314 @@
+{
+    "ScrewThrowingPlayerAnimation": {
+        "ScrewThrowingAnimationDataReturnBodyRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataReturnBodyScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataReturnBodyTranslate": [
+            0.0,
+            2.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataReturnEaseName": 5,
+        "ScrewThrowingAnimationDataReturnFrame": 5,
+        "ScrewThrowingAnimationDataReturnLeftLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataReturnLeftLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataReturnLeftLegTranslate": [
+            -0.699999988079071,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataReturnMagnetRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataReturnMagnetScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataReturnMagnetTranslate": [
+            0.0,
+            1.2000000476837158,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataReturnRightLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataReturnRightLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataReturnRightLegTranslate": [
+            0.699999988079071,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataThrowingBodyRotate": [
+            1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataThrowingBodyScale": [
+            0.8,
+            1.2,
+            0.8
+        ],
+        "ScrewThrowingAnimationDataThrowingBodyTranslate": [
+            0.0,
+            2.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataThrowingEaseName": 4,
+        "ScrewThrowingAnimationDataThrowingFrame": 10,
+        "ScrewThrowingAnimationDataThrowingLeftLegRotate": [
+            -1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataThrowingLeftLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataThrowingLeftLegTranslate": [
+            -0.699999988079071,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataThrowingMagnetRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataThrowingMagnetScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataThrowingMagnetTranslate": [
+            1.5,
+            1.2000000476837158,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataThrowingRightLegRotate": [
+            -1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataThrowingRightLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataThrowingRightLegTranslate": [
+            0.699999988079071,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataTurnBodyRotate": [
+            1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataTurnBodyScale": [
+            0.8,
+            1.2,
+            0.8
+        ],
+        "ScrewThrowingAnimationDataTurnBodyTranslate": [
+            0.0,
+            2.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataTurnEaseName": 4,
+        "ScrewThrowingAnimationDataTurnFrame": 20,
+        "ScrewThrowingAnimationDataTurnLeftLegRotate": [
+            -1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataTurnLeftLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataTurnLeftLegTranslate": [
+            -0.699999988079071,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataTurnMagnetRotate": [
+            1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataTurnMagnetScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataTurnMagnetTranslate": [
+            0.0,
+            1.2000000476837158,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataTurnRightLegRotate": [
+            -1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataTurnRightLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataTurnRightLegTranslate": [
+            0.699999988079071,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp1BodyRotate": [
+            -1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp1BodyScale": [
+            0.8,
+            1.2,
+            0.8
+        ],
+        "ScrewThrowingAnimationDataWarp1BodyTranslate": [
+            0.0,
+            2.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp1EaseName": 3,
+        "ScrewThrowingAnimationDataWarp1Frame": 10,
+        "ScrewThrowingAnimationDataWarp1LeftLegRotate": [
+            1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp1LeftLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataWarp1LeftLegTranslate": [
+            -0.699999988079071,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp1MagnetRotate": [
+            -1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp1MagnetScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataWarp1MagnetTranslate": [
+            0.0,
+            1.2000000476837158,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp1RightLegRotate": [
+            1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp1RightLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataWarp1RightLegTranslate": [
+            0.699999988079071,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp2BodyRotate": [
+            -1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp2BodyScale": [
+            0.8,
+            1.2,
+            0.8
+        ],
+        "ScrewThrowingAnimationDataWarp2BodyTranslate": [
+            0.0,
+            2.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp2EaseName": 3,
+        "ScrewThrowingAnimationDataWarp2Frame": 10,
+        "ScrewThrowingAnimationDataWarp2LeftLegRotate": [
+            1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp2LeftLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataWarp2LeftLegTranslate": [
+            -0.699999988079071,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp2MagnetRotate": [
+            -1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp2MagnetScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataWarp2MagnetTranslate": [
+            0.0,
+            1.2000000476837158,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp2RightLegRotate": [
+            1.5,
+            0.0,
+            0.0
+        ],
+        "ScrewThrowingAnimationDataWarp2RightLegScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "ScrewThrowingAnimationDataWarp2RightLegTranslate": [
+            0.699999988079071,
+            0.0,
+            0.0
+        ]
+    }
+}
