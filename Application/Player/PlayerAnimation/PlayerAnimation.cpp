@@ -1,5 +1,6 @@
 #include "PlayerAnimation.h"
 #include <numbers>
+#include "../../../Engine/GlobalVariables/GlobalVariables.h"
 
 void PlayerAnimation::Initialize(WorldTransform* worldTransform)
 {
@@ -22,10 +23,21 @@ void PlayerAnimation::Initialize(WorldTransform* worldTransform)
 
 	prevPlayerAnimationNo_ = kPlayerAnimationIndexStand;
 
+	RegisteringGlobalVariables();
+
+	ApplyGlobalVariables();
+
 }
 
 void PlayerAnimation::Update(PlayerAnimationIndex playerAnimationNo)
 {
+
+#ifdef _DEBUG
+
+	ApplyGlobalVariables();
+
+#endif // _DEBUG
+
 
 	if (prevPlayerAnimationNo_ != playerAnimationNo) {
 		switch (playerAnimationNo)
@@ -114,5 +126,29 @@ void PlayerAnimation::WalkUpdate()
 
 	worldTransforms_[kPlayerPartIndexLeftLeg].transform_.rotate.x = leftRotate;
 	worldTransforms_[kPlayerPartIndexRightLeg].transform_.rotate.x = righttRotate;
+
+}
+
+void PlayerAnimation::RegisteringGlobalVariables()
+{
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const std::string groupName = "PlayerAnimation";
+
+	// 歩き状態
+	globalVariables->AddItem(groupName, "WalkSpeed", workWalk_.speed_);
+	globalVariables->AddItem(groupName, "WalkAngle", workWalk_.angle_);
+
+}
+
+void PlayerAnimation::ApplyGlobalVariables()
+{
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const std::string groupName = "PlayerAnimation";
+
+	// 歩き状態
+	workWalk_.speed_ = globalVariables->GetFloatValue(groupName, "WalkSpeed");
+	workWalk_.angle_ = globalVariables->GetIntValue(groupName, "WalkAngle");
 
 }

@@ -54,6 +54,18 @@ private:
 	void WalkInitialize();
 	void WalkUpdate();
 
+private: // メンバ関数
+
+	/// <summary>
+	/// 外部変数登録
+	/// </summary>
+	virtual void RegisteringGlobalVariables();
+
+	/// <summary>
+	/// 外部変数適用
+	/// </summary>
+	virtual void ApplyGlobalVariables();
+
 public:
 
 	std::array<WorldTransform, PlayerPartIndex::kPlayerPartIndexOfCount>* GetWorldTransforms() { return &worldTransforms_; }
