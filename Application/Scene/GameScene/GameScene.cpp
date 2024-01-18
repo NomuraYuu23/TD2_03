@@ -206,7 +206,7 @@ void GameScene::Initialize() {
 
 	energy_.reset(new Energy);
 	energy_->Initialize();
-	energy_->SetTarget({ -50.0f,0.0f,-12.0f });
+	energy_->SetTarget({ -100.0f,0.0f,-12.0f });
 	energyPoint_ = 2000.0f;
 }
 

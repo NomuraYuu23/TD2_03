@@ -22,34 +22,34 @@ void BlockManagerStateInit::Initialize(BlockManager* blockManager)
 
 	// ブロック
 	Vector3 position = { 2.0f, 0.0f, 60.0f };
-	Vector3 velocity = { 0.0f, 0.0f, -0.1f };
+	Vector3 velocity = { 0.1f, 0.0f, 0.0f };
 	blockManager_->GenerationBlock(position, velocity);
 
-	position = { 2.0f,0.0f,90.0f };
+	position = { -200.0f,0.0f,-30.0f };
 	blockManager_->GenerationBlock(position, velocity);
 
-	position = { 60.0f,0.0f,20.0f };
+	position = { -230.0f,0.0f,-50.0f };
 	blockManager_->GenerationBlock(position, velocity);
 
-	position = { -10.0f,0.0f,150.0f };
+	position = { -250.0f,0.0f,-30.0f };
 	blockManager_->GenerationBlock(position, velocity);
 
-	position = { -30.0f,0.0f,200.0f };
+	position = { -300.0f,0.0f,-50.0f };
 	blockManager_->GenerationBlock(position, velocity);
 
-	position = { 2.0f,0.0f,250.0f };
+	position = { -320.0f,0.0f,-30.0f };
 	blockManager_->GenerationBlock(position, velocity);
 
-	position = { 2.0f,0.0f,300.0f };
+	position = { -340.0f,0.0f,-60.0f };
 	blockManager_->GenerationBlock(position, velocity);
 
-	position = { -20.0f,0.0f,310.0f };
+	position = { -400.0f,0.0f,-80.0f };
 	blockManager_->GenerationBlock(position, velocity);
 
-	position = { -10.0f,0.0f,350.0f };
+	position = { -420.0f,0.0f,-30.0f };
 	blockManager_->GenerationBlock(position, velocity);
 
-	position = { -30.0f,0.0f,450.0f };
+	position = { -440.0f,0.0f,-70.0f };
 	blockManager_->GenerationBlock(position, velocity);
 
 	blockManagerStateNo_ = kBlockManagerState1;

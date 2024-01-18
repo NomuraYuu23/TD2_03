@@ -24,5 +24,12 @@ private:
 	std::unique_ptr<OBB> collider_;
 	std::unique_ptr <Material> mat_;
 	int32_t innerAreaCount_;
+
+	static const size_t kTargetNum = 4;
+	std::array<Vector3, kTargetNum> targetList_;
+	size_t targetNum_;//何番目の位置に出すか
+	int32_t targetChangeLength_=30;//何秒で次の位置に移動するか
+	int32_t currentTime_;
+	int32_t frameCount_;
 };
 
