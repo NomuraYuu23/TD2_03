@@ -191,11 +191,6 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 			}
 			
 		}
-		//抜く
-		else if (anchorScrew) {
-			anchorScrew->Catch();
-			behaviorRequest_ = Behavior::kAttack;
-		}
 	}
 
 	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA) && isFlooar_)

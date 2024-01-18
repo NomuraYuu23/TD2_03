@@ -28,7 +28,7 @@ public:
 	void Draw(Model* model, BaseCamera& camera);
 
 	void Throw(const Vector3 position, void* block , size_t num);
-	void Catch();
+	void Catch(WorldTransform* magnetWorldPosition);
 	void TurnOver();//ひっくり返す
 
 	void None();

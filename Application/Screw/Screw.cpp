@@ -98,10 +98,11 @@ void Screw::Throw(const Vector3 position, void* block, size_t num) {
 	frameCount_ = 30;
 }
 
-void Screw::Catch() {
+void Screw::Catch(WorldTransform* magnetWorldPosition) {
 	state_ = CATCHONPLAYER;
-
+	worldTransform_.transform_.translate = Matrix4x4Calc::Transform(worldTransform_.GetWorldPosition(), Matrix4x4Calc::Inverse(magnetWorldPosition->parentMatrix_));
 	worldTransform_.parent_ = player_->GetWorldTransform();
+	startPosition_ = worldTransform_.transform_.translate;
 	target_ = player_;
 	frameCount_ = 0;
 }
@@ -181,10 +182,15 @@ void Screw::Reverse() {
 }
 
 void Screw::CatchOnPlayer() {
-	worldTransform_.transform_.translate = {0,0};
-	worldTransform_.transform_.translate.y = worldTransform_.transform_.scale.y / 2.0f;
+	float t = float(frameCount_) / 15.0f;
+	worldTransform_.transform_.translate = Vector3Calc::Add(Vector3Calc::Multiply((1.0f - t), startPosition_), {0,worldTransform_.transform_.scale.y / 2.0f,0});
+	//worldTransform_.transform_.translate.y = worldTransform_.transform_.scale.y / 2.0f;
 	worldTransform_.transform_.rotate.x = 0;
 	worldTransform_.transform_.rotate.z = 3.141592f;
+	frameCount_++;
+	if (frameCount_ > 30) {
+		frameCount_ = 30;
+	}
 }
 
 void Screw::ToBlock() {
