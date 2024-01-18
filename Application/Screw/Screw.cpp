@@ -40,14 +40,32 @@ void Screw::Initialize() {
 	followPosition_ = {0};
 	std::random_device seedGenerator;
 	std::mt19937 randomEngine(seedGenerator());
-	std::uniform_real_distribution<float> distribution(0, 1.0f);
+	std::uniform_real_distribution<float> distribution(-24.0f, -1.0f);
 	followPosition_.z = distribution(randomEngine);
-	std::uniform_real_distribution<float> distribution2(-1.0f, 1.0f);
+	std::uniform_real_distribution<float> distribution2(-12.0f, 12.0f);
 	followPosition_.x = distribution2(randomEngine);
-	std::uniform_real_distribution<float> distribution3(0.5f, 1.2f);
-	followSpeed_ = distribution3(randomEngine);
+	std::uniform_real_distribution<float> distribution3(3.0f, 5.0f);
+	followPosition_.y = distribution3(randomEngine);
+	std::uniform_real_distribution<float> distribution4(0.5f, 1.2f);
+	followSpeed_ = distribution4(randomEngine);
+	acceleration_ = { 0 };
+	velocity_ = {0};
 }
 void Screw::Update() {
+
+	if (worldTransform_.transform_.translate.y >= followPosition_.y) {
+		acceleration_.y = -0.001f;
+	}
+	else {
+		acceleration_.y = 0.001f;
+	}
+	velocity_.x += acceleration_.x;
+	velocity_.y += acceleration_.y;
+	velocity_.z += acceleration_.z;
+	if (!(state_ == NONE || state_ == FOLLOW)) {
+		velocity_ = {0};
+	}
+
 	worldTransform_.usedDirection_ = false;
 	if (state_ == FOLLOW) {
 		worldTransform_.usedDirection_ = true;
@@ -101,13 +119,14 @@ void Screw::None() {
 	}
 	frameCount_--;
 
-	if (!isAttract_) {
+	/*if (!isAttract_) {
 		worldTransform_.transform_.translate.y -= 0.3f;
 		if (worldTransform_.transform_.translate.y <= -20.0f) {
 			worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
 			worldTransform_.transform_.translate.y = 4.0f;
 		}
-	}
+	}*/
+	worldTransform_.transform_.translate.y += velocity_.y;
 	if (!isRideBlock_ && worldTransform_.parent_) {
 		worldTransform_.transform_.translate = worldTransform_.GetWorldPosition();
 		worldTransform_.parent_ = nullptr;
@@ -117,18 +136,20 @@ void Screw::None() {
 void Screw::Follow() {
 	//worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
 	if (!isAttract_) {
-		float distance = Vector3Calc::Length(Vector3Calc::Subtract(worldTransform_.GetWorldPosition(), player_->GetWorldTransform()->GetWorldPosition()));
-		if (distance >= 2.0f) {
+		Vector3 tPos = Matrix4x4Calc::Transform(followPosition_, player_->GetWorldTransform()->worldMatrix_);
+		float distance = Vector3Calc::Length(Vector3Calc::Subtract(worldTransform_.GetWorldPosition(),tPos));
+		if (distance >= 0.5f) {
 			Vector3 velocity = Vector3Calc::Multiply(kFollowSpeed*followSpeed_, Vector3Calc::Normalize(Vector3Calc::Subtract(Matrix4x4Calc::Transform(followPosition_,player_->GetWorldTransform()->worldMatrix_), worldTransform_.GetWorldPosition())));
 			velocity.y = 0;
 			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity);
 			worldTransform_.direction_ = Vector3Calc::Normalize(velocity);
 		}
-		worldTransform_.transform_.translate.y -= 0.3f;
+		/*worldTransform_.transform_.translate.y -= 0.3f;
 		if (worldTransform_.transform_.translate.y <= -20.0f) {
 			worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
 			worldTransform_.transform_.translate.y = 4.0f;
-		}
+		}*/
+		worldTransform_.transform_.translate.y += velocity_.y;
 	}
 	if (!isRideBlock_ && worldTransform_.parent_) {
 		worldTransform_.transform_.translate = worldTransform_.GetWorldPosition();

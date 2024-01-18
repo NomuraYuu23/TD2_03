@@ -76,4 +76,6 @@ private:
 	bool isRideBlock_;
 	Vector3 followPosition_;
 	float followSpeed_;
+	Vector3 acceleration_;
+	Vector3 velocity_;
 };
