@@ -13,13 +13,11 @@ void PlayerAnimation::Initialize(WorldTransform* worldTransform)
 	assert(playerWorldTransform_);
 
 	worldTransforms_[kPlayerPartIndexBody].parent_ = playerWorldTransform_;
-	worldTransforms_[kPlayerPartIndexBody].transform_.translate.y = 2.0f;
 	worldTransforms_[kPlayerPartIndexLeftLeg].parent_ = &worldTransforms_[kPlayerPartIndexBody];
-	worldTransforms_[kPlayerPartIndexLeftLeg].transform_.translate.x = -0.7f;
 	worldTransforms_[kPlayerPartIndexRightLeg].parent_ = &worldTransforms_[kPlayerPartIndexBody];
-	worldTransforms_[kPlayerPartIndexRightLeg].transform_.translate.x = 0.7f;
 	worldTransforms_[kPlayerPartIndexMagnet].parent_ = &worldTransforms_[kPlayerPartIndexBody];
-	worldTransforms_[kPlayerPartIndexMagnet].transform_.translate.y = 1.2f;
+
+	TransformInitialize();
 
 	prevPlayerAnimationNo_ = kPlayerAnimationIndexStand;
 
@@ -92,11 +90,31 @@ void PlayerAnimation::ImGuiDraw()
 
 }
 
+void PlayerAnimation::TransformInitialize()
+{
+
+	worldTransforms_[kPlayerPartIndexBody].transform_.scale = { 1.0f, 1.0f, 1.0f };
+	worldTransforms_[kPlayerPartIndexBody].transform_.rotate = { 0.0f, 0.0f, 0.0f };
+	worldTransforms_[kPlayerPartIndexBody].transform_.translate = { 0.0f, 2.0f, 0.0f };
+
+	worldTransforms_[kPlayerPartIndexLeftLeg].transform_.scale = { 1.0f, 1.0f, 1.0f };
+	worldTransforms_[kPlayerPartIndexLeftLeg].transform_.rotate = { 0.0f, 0.0f, 0.0f };
+	worldTransforms_[kPlayerPartIndexLeftLeg].transform_.translate = { -0.7f, 0.0f, 0.0f };
+
+	worldTransforms_[kPlayerPartIndexRightLeg].transform_.scale = { 1.0f, 1.0f, 1.0f };
+	worldTransforms_[kPlayerPartIndexRightLeg].transform_.rotate = { 0.0f, 0.0f, 0.0f };
+	worldTransforms_[kPlayerPartIndexRightLeg].transform_.translate = { 0.7f, 0.0f, 0.0f };
+
+	worldTransforms_[kPlayerPartIndexMagnet].transform_.scale = { 1.0f, 1.0f, 1.0f };
+	worldTransforms_[kPlayerPartIndexMagnet].transform_.rotate = { 0.0f, 0.0f, 0.0f };
+	worldTransforms_[kPlayerPartIndexMagnet].transform_.translate = { 0.0f, 1.2f, 0.0f };
+
+}
+
 void PlayerAnimation::StandInitialize()
 {
 
-	worldTransforms_[kPlayerPartIndexLeftLeg].transform_.rotate.x = 0.0f;
-	worldTransforms_[kPlayerPartIndexRightLeg].transform_.rotate.x = 0.0f;
+	TransformInitialize();
 
 }
 
@@ -108,9 +126,8 @@ void PlayerAnimation::StandUpdate()
 void PlayerAnimation::WalkInitialize()
 {
 
+	TransformInitialize();
 	workWalk_.rotate_ = 0.0f;
-	workWalk_.speed_ = 0.1f;
-	workWalk_.angle_ = 60;
 
 }
 
@@ -126,6 +143,19 @@ void PlayerAnimation::WalkUpdate()
 
 	worldTransforms_[kPlayerPartIndexLeftLeg].transform_.rotate.x = leftRotate;
 	worldTransforms_[kPlayerPartIndexRightLeg].transform_.rotate.x = righttRotate;
+
+}
+
+void PlayerAnimation::GravityInitialize()
+{
+
+	TransformInitialize();
+
+}
+
+void PlayerAnimation::GravityUpdate()
+{
+
 
 }
 

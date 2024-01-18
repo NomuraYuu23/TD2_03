@@ -26,6 +26,7 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 	const std::string groupName = "Player";
 
 	globalVariables->AddItem(groupName, "MagnetRadius", magnetRadius_);
+	globalVariables->AddItem(groupName, "GravityFrame", gravityFrame_);
 	
 	worldTransform_.Initialize();
 	worldTransform_.transform_.translate.y += 4.0f;
@@ -85,6 +86,7 @@ void Player::Update(Block* block, size_t blockNum) {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const std::string groupName = "Player";
 	magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetRadius");
+	gravityFrame_ = globalVariables->GetUIntValue(groupName, "GravityFrame");
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
 		frameCount_ = 0;
@@ -273,9 +275,9 @@ void Player::BehaviorAttackUpdate()
 
 void Player::BehaviorDropUpdate()
 {
-	velocity_ = Vector3Calc::Add(velocity_, acceleration_);
-	worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity_);
-	if (isFlooar_) {
+	//velocity_ = Vector3Calc::Add(velocity_, acceleration_);
+	//worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity_);
+	if (gravityFrameCount_ == 0) {
 		//反転処理
 		for (std::list<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end(); ite++) {
 			float distance = Vector3Calc::Length(Vector3Calc::Subtract(worldTransform_.GetWorldPosition(),(*ite)->GetWorldTransform()->GetWorldPosition()));
@@ -283,9 +285,13 @@ void Player::BehaviorDropUpdate()
 				(*ite)->TurnOver();
 			}
 		}
-
+		//behaviorRequest_ = Behavior::kRoot;
+	}
+	if (gravityFrameCount_++ == gravityFrame_) {
+		gravityFrameCount_ = 0;
 		behaviorRequest_ = Behavior::kRoot;
 	}
+
 }
 
 void Player::Draw(Model* model, BaseCamera& camera) {

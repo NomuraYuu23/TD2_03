@@ -34,6 +34,11 @@ public: // サブクラス
 		int32_t angle_ = 0;
 	};
 
+	// 重力状態
+	struct WorkGravity {
+
+	};
+
 public:
 
 	void Initialize(WorldTransform* worldTransform);
@@ -46,6 +51,9 @@ public:
 
 private:
 	
+	// 初期モデル位置
+	void TransformInitialize();
+
 	// 立ち状態
 	void StandInitialize();
 	void StandUpdate();
@@ -53,6 +61,10 @@ private:
 	// 歩き状態
 	void WalkInitialize();
 	void WalkUpdate();
+
+	// 重力状態
+	void GravityInitialize();
+	void GravityUpdate();
 
 private: // メンバ関数
 

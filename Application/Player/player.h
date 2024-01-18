@@ -113,6 +113,10 @@ private:
 	WorldTransform worldTransformCircle_;
 	float magnetRadius_ = 12.0f;
 
+	// 重力
+	uint32_t gravityFrame_ = 20;
+	uint32_t gravityFrameCount_ = 0u;
+
 	// アニメーション
 	std::array<Model*, PlayerPartIndex::kPlayerPartIndexOfCount> models_;
 	std::unique_ptr<PlayerAnimation> playerAnimation_;
