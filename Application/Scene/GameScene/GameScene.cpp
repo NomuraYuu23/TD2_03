@@ -5,7 +5,7 @@
 #include "../../../Engine/base/D3DResourceLeakChecker.h"
 #include "../../Player/player.h"
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
-
+#include "../../Particle/EmitterName.h"
 /// <summary>
 /// 初期化
 /// </summary>
@@ -219,6 +219,12 @@ void GameScene::Update() {
 #ifdef _DEBUG
 	if (Input::GetInstance()->TriggerJoystick(JoystickButton::kJoystickButtonSTART)) {
 		requestSceneNo = kTitle;
+	}
+#endif
+#ifdef _DEBUG
+	if (Input::GetInstance()->TriggerKey(DIK_G)) {
+		TransformStructure transform{ {1.0f,1.0f,1.0f},{0},{0.0f,3.0f,0.0f} };
+		ParticleManager::GetInstance()->MakeEmitter(transform,3,0.05f,0.5f, ParticleModelIndex::kCircle,ParticleName::kGravityParticle,EmitterName::kGravityEmitter);
 	}
 #endif
 	//光源

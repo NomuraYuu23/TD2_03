@@ -2,5 +2,6 @@
 
 enum EmitterName {
 	kDefaultEmitter,
+	kGravityEmitter,
 	kCountOfEmitterName,
 };
