@@ -152,7 +152,7 @@ void GameScene::Initialize() {
 	colliderDebugDraw_->AddCollider(player_->GetCollider());
 	colliderDebugDraw_->AddCollider(player_->GetMagnet()->GetCollider());
 	
-	modelScrew_.reset(Model::Create("Resources/Model/Screw/", "screw.obj", dxCommon_, textureHandleManager_.get()));
+	modelScrew_.reset(Model::Create("Resources/Model/nejimi2_model/", "nejimi2.obj", dxCommon_, textureHandleManager_.get()));
 	for (int index = 0; index < firstScrewNum_; index++) {
 		std::unique_ptr<Screw> screw;
 		screw.reset(new Screw);
@@ -284,7 +284,7 @@ void GameScene::Update() {
 		} while (oldCount != newCount);
 	}
 
-	target_.Update(&blockUFO, *followCamera_.get(), player_.get());
+	target_.Update(&blockUFO, *followCamera_.get(), player_.get(),&screws_);
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Update();

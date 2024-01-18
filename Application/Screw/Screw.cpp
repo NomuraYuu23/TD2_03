@@ -10,6 +10,7 @@ void(Screw::* Screw::stateTable[])() = {
 	&Screw::None,
 	& Screw::Follow,
 	& Screw::Reverse,
+	& Screw::CatchOnPlayer,
 	& Screw::ToBlock,
 	& Screw::Stuck,
 	& Screw::ToPlayer
@@ -94,16 +95,13 @@ void Screw::Throw(const Vector3 position, void* block, size_t num) {
 	static_cast<Block*>(target_)->SetAnchorPointScrew(num,this);
 	worldTransform_.parent_ = nullptr;
 	targetNum_ = num;
-	frameCount_ = 0;
+	frameCount_ = 30;
 }
 
 void Screw::Catch() {
-	state_ = TOPLAYER;
+	state_ = CATCHONPLAYER;
 
-	static_cast<Block*>(target_)->SetAnchorPointScrew(targetNum_, nullptr);
-
-	startPosition_ = worldTransform_.GetWorldPosition();
-	worldTransform_.parent_ = nullptr;
+	worldTransform_.parent_ = player_->GetWorldTransform();
 	target_ = player_;
 	frameCount_ = 0;
 }
@@ -182,12 +180,24 @@ void Screw::Reverse() {
 	}
 }
 
+void Screw::CatchOnPlayer() {
+	worldTransform_.transform_.translate = {0,0};
+	worldTransform_.transform_.translate.y = worldTransform_.transform_.scale.y / 2.0f;
+	worldTransform_.transform_.rotate.x = 0;
+	worldTransform_.transform_.rotate.z = 3.141592f;
+}
+
 void Screw::ToBlock() {
 	float t = float(frameCount_) / 30.0f;
 	Vector3 endPoint = static_cast<Block*>(target_)->GetAnchorPointWorldPosition(targetNum_);
-	worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseInSine,startPosition_,endPoint,t);
-	frameCount_++;
-	if (frameCount_>30) {
+	//worldTransform_.transform_.translate = Ease::Easing(Ease::EaseName::EaseInSine,startPosition_,endPoint,t);
+	worldTransform_.transform_.translate = endPoint;
+	worldTransform_.transform_.rotate.y = t * 3.14f * 4.0f;
+	worldTransform_.usedDirection_ = false;
+	//float t = float(kStuckMax - stuckTime_) / float(kStuckMax);
+	worldTransform_.transform_.translate.y += (1.0f - t) * -(static_cast<Block*>(target_)->GetWorldTransform()->transform_.scale.y / 2.0f + worldTransform_.transform_.scale.y / 2.0f) + t * (static_cast<Block*>(target_)->GetWorldTransform()->transform_.scale.y / 2.0f + worldTransform_.transform_.scale.y / 2.0f);
+	frameCount_--;
+	if (frameCount_<0) {
 		state_ = STUCK;
 		stuckTime_ = kStuckMax;
 	}
@@ -198,6 +208,7 @@ void Screw::Stuck(){
 	worldTransform_.transform_.translate = endPoint;
 	float t = float(kStuckMax - stuckTime_) / float(kStuckMax);
 	worldTransform_.transform_.translate.y +=(1.0f-t)* -(static_cast<Block*>(target_)->GetWorldTransform()->transform_.scale.y / 2.0f + worldTransform_.transform_.scale.y / 2.0f) + t * (static_cast<Block*>(target_)->GetWorldTransform()->transform_.scale.y / 2.0f + worldTransform_.transform_.scale.y / 2.0f);
+	worldTransform_.transform_.rotate.y = t * 3.14f * 4.0f;
 	if (stuckTime_<=0) {
 		static_cast<Block*>(target_)->SetAnchorPointScrew(targetNum_, nullptr);
 		frameCount_ = 0;

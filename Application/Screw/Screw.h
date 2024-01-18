@@ -17,6 +17,7 @@ public:
 		NONE,
 		FOLLOW,
 		REVERSE,
+		CATCHONPLAYER,
 		TOBLOCK,
 		STUCK,
 		TOPLAYER,
@@ -33,6 +34,7 @@ public:
 	void None();
 	void Follow();
 	void Reverse();
+	void CatchOnPlayer();//プレイヤーに掴まれてる状態
 	void ToBlock();
 	void Stuck();
 	void ToPlayer();

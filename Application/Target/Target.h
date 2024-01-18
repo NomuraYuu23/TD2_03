@@ -3,15 +3,17 @@
 #include "../../Engine/Camera/BaseCamera.h"
 #include "../../Engine/2D/Sprite.h"
 #include "../Player/player.h"
+#include "../Screw/Screw.h"
 #include <vector>
+#include <list>
 class Target
 {
 public:
 	void Initialize(uint32_t textureHandle,uint32_t textureHandle2[2]);
-	void Update(std::vector<Block*>* blockList, BaseCamera& camera,Player* player);
+	void Update(std::vector<Block*>* blockList, BaseCamera& camera,Player* player, std::list<std::unique_ptr<Screw>>* screwList);
 	void SpriteDraw();
 	
-	void ForchNearAnchor(std::vector<Block*>* blockList, BaseCamera& camera,Player* player);
+	void ForchNearAnchor(std::vector<Block*>* blockList, BaseCamera& camera,Player* player, std::list<std::unique_ptr<Screw>>* screwList);
 
 	bool IsTarget() { return isTarget_; };
 	Block* GetTargetBlock() { return targetBlock_; };

@@ -12,11 +12,11 @@ void Target::Initialize(uint32_t textureHandle, uint32_t textureHandle2[2]) {
 	textureHandle_[1] = textureHandle2[1];
 
 }
-void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* player) {
+void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* player, std::list<std::unique_ptr<Screw>>* screwList) {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const std::string groupName = "Target";
 	targetRange_ = globalVariables->GetFloatValue(groupName, "Range");
-	ForchNearAnchor(blockList,camera,player);
+	ForchNearAnchor(blockList,camera,player,screwList);
 	if (!isTarget_) {
 		targetBlock_ = nullptr;
 	}
@@ -29,12 +29,22 @@ bool IsInnerCamera(const Vector3& vector) {
 	return false;
 }
 
-void Target::ForchNearAnchor(std::vector<Block*>* blockList, BaseCamera& camera, Player* player) {
+void Target::ForchNearAnchor(std::vector<Block*>* blockList, BaseCamera& camera, Player* player, std::list<std::unique_ptr<Screw>>* screwList) {
 	isTarget_ = false;
 	if (blockList->empty()) {
 		isTarget_ = false;
 		return;
 	}
+	bool isFollow = false;
+	for (std::list<std::unique_ptr<Screw>>::iterator ite = screwList->begin(); ite != screwList->end();ite++) {
+		if ((*ite)->GetState() == Screw::FOLLOW) {
+			isFollow = true;
+		}
+	}
+	if (!isFollow) {
+		return;
+	}
+
 	std::vector<Block*>::iterator ite = blockList->begin();
 	Block* block = *ite;
 	size_t num = 0;
