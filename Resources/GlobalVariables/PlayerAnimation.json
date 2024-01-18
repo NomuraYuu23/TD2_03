@@ -6,29 +6,29 @@
             0.0
         ],
         "GravityAnimationDataCollapseBodyScale": [
-            1.0,
-            1.0,
-            1.0
+            1.5,
+            0.10000000149011612,
+            1.5
         ],
         "GravityAnimationDataCollapseBodyTranslate": [
             0.0,
             0.0,
             0.0
         ],
-        "GravityAnimationDataCollapseEaseName": 30,
-        "GravityAnimationDataCollapseFrame": 10,
+        "GravityAnimationDataCollapseEaseName": 7,
+        "GravityAnimationDataCollapseFrame": 8,
         "GravityAnimationDataCollapseLeftLegRotate": [
             0.0,
             0.0,
             0.0
         ],
         "GravityAnimationDataCollapseLeftLegScale": [
-            1.0,
-            1.0,
-            1.0
+            1.5,
+            0.10000000149011612,
+            1.5
         ],
         "GravityAnimationDataCollapseLeftLegTranslate": [
-            0.0,
+            -0.699999988079071,
             0.0,
             0.0
         ],
@@ -38,9 +38,9 @@
             0.0
         ],
         "GravityAnimationDataCollapseMagnetScale": [
-            1.0,
-            1.0,
-            1.0
+            1.5,
+            0.10000000149011612,
+            1.5
         ],
         "GravityAnimationDataCollapseMagnetTranslate": [
             0.0,
@@ -53,12 +53,12 @@
             0.0
         ],
         "GravityAnimationDataCollapseRightLegScale": [
-            1.0,
-            1.0,
-            1.0
+            1.5,
+            0.10000000149011612,
+            1.5
         ],
         "GravityAnimationDataCollapseRightLegTranslate": [
-            0.0,
+            0.699999988079071,
             0.0,
             0.0
         ],
@@ -68,13 +68,13 @@
             0.0
         ],
         "GravityAnimationDataExtend1BodyScale": [
-            1.0,
-            1.0,
-            1.0
+            0.800000011920929,
+            1.2000000476837158,
+            0.800000011920929
         ],
         "GravityAnimationDataExtend1BodyTranslate": [
             0.0,
-            0.0,
+            2.0999999046325684,
             0.0
         ],
         "GravityAnimationDataExtend1EaseName": 30,
@@ -85,13 +85,13 @@
             0.0
         ],
         "GravityAnimationDataExtend1LeftLegScale": [
-            1.0,
-            1.0,
-            1.0
+            0.800000011920929,
+            1.2000000476837158,
+            0.800000011920929
         ],
         "GravityAnimationDataExtend1LeftLegTranslate": [
-            0.0,
-            0.0,
+            -0.699999988079071,
+            0.10000000149011612,
             0.0
         ],
         "GravityAnimationDataExtend1MagnetRotate": [
@@ -100,13 +100,13 @@
             0.0
         ],
         "GravityAnimationDataExtend1MagnetScale": [
-            1.0,
-            1.0,
-            1.0
+            0.800000011920929,
+            1.2000000476837158,
+            0.800000011920929
         ],
         "GravityAnimationDataExtend1MagnetTranslate": [
             0.0,
-            0.0,
+            1.2999999523162842,
             0.0
         ],
         "GravityAnimationDataExtend1RightLegRotate": [
@@ -115,13 +115,13 @@
             0.0
         ],
         "GravityAnimationDataExtend1RightLegScale": [
-            1.0,
-            1.0,
-            1.0
+            0.800000011920929,
+            1.2000000476837158,
+            0.800000011920929
         ],
         "GravityAnimationDataExtend1RightLegTranslate": [
-            0.0,
-            0.0,
+            0.699999988079071,
+            0.10000000149011612,
             0.0
         ],
         "GravityAnimationDataExtend2BodyRotate": [
@@ -130,29 +130,29 @@
             0.0
         ],
         "GravityAnimationDataExtend2BodyScale": [
-            1.0,
-            1.0,
-            1.0
+            0.800000011920929,
+            1.2000000476837158,
+            0.800000011920929
         ],
         "GravityAnimationDataExtend2BodyTranslate": [
             0.0,
-            0.0,
+            2.0,
             0.0
         ],
-        "GravityAnimationDataExtend2EaseName": 30,
-        "GravityAnimationDataExtend2Frame": 10,
+        "GravityAnimationDataExtend2EaseName": 6,
+        "GravityAnimationDataExtend2Frame": 8,
         "GravityAnimationDataExtend2LeftLegRotate": [
             0.0,
             0.0,
             0.0
         ],
         "GravityAnimationDataExtend2LeftLegScale": [
-            1.0,
-            1.0,
-            1.0
+            0.800000011920929,
+            1.2000000476837158,
+            0.800000011920929
         ],
         "GravityAnimationDataExtend2LeftLegTranslate": [
-            0.0,
+            -0.699999988079071,
             0.0,
             0.0
         ],
@@ -162,13 +162,13 @@
             0.0
         ],
         "GravityAnimationDataExtend2MagnetScale": [
-            1.0,
-            1.0,
-            1.0
+            0.800000011920929,
+            1.2000000476837158,
+            0.800000011920929
         ],
         "GravityAnimationDataExtend2MagnetTranslate": [
             0.0,
-            0.0,
+            1.2000000476837158,
             0.0
         ],
         "GravityAnimationDataExtend2RightLegRotate": [
@@ -177,12 +177,12 @@
             0.0
         ],
         "GravityAnimationDataExtend2RightLegScale": [
-            1.0,
-            1.0,
-            1.0
+            0.800000011920929,
+            1.2000000476837158,
+            0.800000011920929
         ],
         "GravityAnimationDataExtend2RightLegTranslate": [
-            0.0,
+            0.699999988079071,
             0.0,
             0.0
         ],
@@ -198,11 +198,11 @@
         ],
         "GravityAnimationDataReturnBodyTranslate": [
             0.0,
-            0.0,
+            2.0,
             0.0
         ],
         "GravityAnimationDataReturnEaseName": 30,
-        "GravityAnimationDataReturnFrame": 10,
+        "GravityAnimationDataReturnFrame": 4,
         "GravityAnimationDataReturnLeftLegRotate": [
             0.0,
             0.0,
@@ -214,7 +214,7 @@
             1.0
         ],
         "GravityAnimationDataReturnLeftLegTranslate": [
-            0.0,
+            -0.699999988079071,
             0.0,
             0.0
         ],
@@ -230,7 +230,7 @@
         ],
         "GravityAnimationDataReturnMagnetTranslate": [
             0.0,
-            0.0,
+            1.2000000476837158,
             0.0
         ],
         "GravityAnimationDataReturnRightLegRotate": [
@@ -244,7 +244,7 @@
             1.0
         ],
         "GravityAnimationDataReturnRightLegTranslate": [
-            0.0,
+            0.699999988079071,
             0.0,
             0.0
         ],

@@ -180,6 +180,13 @@ void PlayerAnimation::GravityInitialize()
 	workGravity_.frameCount_ = 0;
 	workGravity_.phaseNum_ = 0;
 
+	workGravity_.frame_ = gravityAnimationData_[workGravity_.phaseNum_].frame_;
+	for (uint32_t i = 0; i < PlayerPartIndex::kPlayerPartIndexOfCount; ++i) {
+		workGravity_.currentTransforms_[i] = worldTransforms_[i].transform_;
+		workGravity_.nextTransforms_[i] = gravityAnimationData_[workGravity_.phaseNum_].transforms_[i];
+	}
+	workGravity_.easeName_ = gravityAnimationData_[workGravity_.phaseNum_].easeName_;
+
 }
 
 void PlayerAnimation::GravityUpdate()
