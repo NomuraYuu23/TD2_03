@@ -2,6 +2,7 @@
 #include <array>
 #include "../../../Engine/3D/WorldTransform.h"
 #include "../../../Engine/3D/Model.h"
+#include "../../../Engine/Math/Ease.h"
 
 enum PlayerPartIndex {
 	kPlayerPartIndexBody, // 体
@@ -14,6 +15,7 @@ enum PlayerPartIndex {
 enum PlayerAnimationIndex {
 	kPlayerAnimationIndexStand, // 立ち状態
 	kPlayerAnimationIndexWalk, // 歩き状態
+	kPlayerAnimationIndexGravity, // 重力状態
 	kPlayerAnimationIndexOfCount // 数
 };
 
@@ -21,6 +23,12 @@ class PlayerAnimation
 {
 
 public: // サブクラス
+
+	struct AnimationData{
+		TransformStructure transforms_[PlayerPartIndex::kPlayerPartIndexOfCount];
+		uint32_t frame_ = 10;
+		Ease::EaseName easeName_ = Ease::EaseName::Lerp;
+	};
 
 	// 立ち状態
 	struct WorkStand {
@@ -36,7 +44,43 @@ public: // サブクラス
 
 	// 重力状態
 	struct WorkGravity {
+		uint32_t frame_ = 20;
+		uint32_t frameCount_ = 0u;
+		uint32_t phaseNum_ = 0;
+		std::array<TransformStructure, PlayerPartIndex::kPlayerPartIndexOfCount> currentTransforms_ = {};
+		std::array<TransformStructure, PlayerPartIndex::kPlayerPartIndexOfCount> nextTransforms_ = {};
+		Ease::EaseName easeName_ = Ease::EaseName::Lerp;
+	};
 
+private: // 重力状態
+
+	enum GravityPhaseIndex {
+		kGravityPhaseIndexExtend1, //のびる1
+		kGravityPhaseIndexCollapse, //つぶれる
+		kGravityPhaseIndexExtend2, //のびる2
+		kGravityPhaseIndexReturn, //戻る
+		kGravityPhaseIndexOfCount // 数
+	};
+	static std::array<AnimationData, GravityPhaseIndex::kGravityPhaseIndexOfCount> gravityAnimationData_;
+
+private: // 文字列
+
+	const std::array <std::string, PlayerPartIndex::kPlayerPartIndexOfCount> kPlayerPartIndexNames_ = {
+		"Body",
+		"LeftLeg",
+		"RightLeg",
+		"Magnet",
+	};
+	const std::array <std::string, PlayerAnimationIndex::kPlayerAnimationIndexOfCount> kPlayerAnimationIndexNames_ = {
+		"Stand",
+		"Walk",
+		"Gravity",
+	};
+	const std::array <std::string, GravityPhaseIndex::kGravityPhaseIndexOfCount> kGravityPhaseIndexNames_ = {
+		"Extend1",
+		"Collapse",
+		"Extend2",
+		"Return",
 	};
 
 public:
@@ -51,6 +95,9 @@ public:
 
 private:
 	
+	// アニメーション初期化
+	void AnimationInitialize();
+
 	// 初期モデル位置
 	void TransformInitialize();
 
@@ -97,6 +144,8 @@ private:
 	WorkStand workStand_;
 
 	WorkWalk workWalk_;
+
+	WorkGravity workGravity_;
 
 };
 

@@ -79,6 +79,7 @@ void Player::BehaviorDropInitialize() {
 	velocity_ = { 0,2.0f,0 };
 	acceleration_ = {0,-0.15f,0};
 	isFlooar_ = false;
+	playerAnimationNo_ = kPlayerAnimationIndexGravity;
 }
 
 void Player::Update(Block* block, size_t blockNum) {
