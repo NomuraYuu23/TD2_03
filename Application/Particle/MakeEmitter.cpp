@@ -1,7 +1,7 @@
 #include "MakeEmitter.h"
 #include <cassert>
 #include "EmitterName.h"
-
+#include "GravityEmitter.h"	
 MakeEmitter* MakeEmitter::GetInstance()
 {
     return nullptr;
@@ -18,6 +18,10 @@ IEmitter* MakeEmitter::Run(const TransformStructure& transform, uint32_t instanc
 	{
 	case kDefaultEmitter:
 		emitter = new IEmitter();
+		emitter->Initialize(transform, instanceCount, frequency, lifeTime, particleModelNum, paeticleName);
+		break;
+	case kGravityEmitter:
+		emitter = new GravityEmitter();
 		emitter->Initialize(transform, instanceCount, frequency, lifeTime, particleModelNum, paeticleName);
 		break;
 	case kCountOfParticleName:
