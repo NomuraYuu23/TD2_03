@@ -118,6 +118,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Player\player.cpp" />
     <ClCompile Include="Application\Player\PlayerAnimation\PlayerAnimation.cpp" />
     <ClCompile Include="Application\SampleBone\SampleBone.cpp" />
+    <ClCompile Include="Application\SceneTransition\SceneTransitionPitaverse\SceneTransitionPitaverse.cpp" />
     <ClCompile Include="Application\Scene\SelectScene\SelectScene.cpp" />
     <ClCompile Include="Application\Scene\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Application\Screw\Screw.cpp" />
@@ -215,6 +216,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Player\player.h" />
     <ClInclude Include="Application\Player\PlayerAnimation\PlayerAnimation.h" />
     <ClInclude Include="Application\SampleBone\SampleBone.h" />
+    <ClInclude Include="Application\SceneTransition\SceneTransitionPitaverse\SceneTransitionPitaverse.h" />
     <ClInclude Include="Application\Scene\SceneName.h" />
     <ClInclude Include="Application\Scene\SelectScene\SelectScene.h" />
     <ClInclude Include="Application\Scene\TitleScene\TitleScene.h" />
