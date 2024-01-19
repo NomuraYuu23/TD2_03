@@ -71,6 +71,9 @@ public:
 	// アニメーション
 	PlayerAnimationIndex GetPlayerAnimationNo() { return playerAnimationNo_; }
 
+	// ブロック
+	Block* GetBlock() { return block_; }
+
 private:
 	WorldTransform worldTransform_;
 
@@ -122,5 +125,8 @@ private:
 	std::array<Model*, PlayerPartIndex::kPlayerPartIndexOfCount> models_;
 	std::unique_ptr<PlayerAnimation> playerAnimation_;
 	PlayerAnimationIndex playerAnimationNo_;
+
+	// ブロック
+	Block* block_ = nullptr;
 
 };

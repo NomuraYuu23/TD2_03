@@ -4,6 +4,8 @@
 #include "../../../Engine/3D/Model.h"
 #include "../../../Engine/Math/Ease.h"
 
+class Player;
+
 enum PlayerPartIndex {
 	kPlayerPartIndexBody, // 体
 	kPlayerPartIndexLeftLeg, // 左足
@@ -63,7 +65,7 @@ public: // サブクラス
 		Ease::EaseName easeName_ = Ease::EaseName::Lerp;
 
 		// ブロック
-		Vector3 blockPosition_ = {};
+		float blockAddPositionY_ = 2.0f;
 
 	};
 
@@ -123,7 +125,7 @@ private: // 文字列
 
 public:
 
-	void Initialize(WorldTransform* worldTransform);
+	void Initialize(Player* player);
 
 	void Update(PlayerAnimationIndex playerAnimationNo);
 
@@ -154,6 +156,8 @@ private:
 	// ねじ投擲状態
 	void ScrewThrowingInitialize();
 	void ScrewThrowingUpdate();
+	// 磁石部分の例外
+	void ScrewThrowingMagunetException();
 
 private: // メンバ関数
 
@@ -176,7 +180,7 @@ private:
 	// ワールドトランスフォーム
 	std::array<WorldTransform, PlayerPartIndex::kPlayerPartIndexOfCount> worldTransforms_;
 
-	WorldTransform* playerWorldTransform_;
+	Player* player_;
 
 	// アニメーションタイム
 	std::array<float, PlayerPartIndex::kPlayerPartIndexOfCount> times_;

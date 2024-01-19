@@ -1,22 +1,24 @@
 #include "PlayerAnimation.h"
 #include <numbers>
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
+#include "../player.h"
+#include "../../Block/Block.h"
 
 std::array<PlayerAnimation::AnimationData, PlayerAnimation::GravityPhaseIndex::kGravityPhaseIndexOfCount> PlayerAnimation::gravityAnimationData_;
 
 std::array<PlayerAnimation::AnimationData, PlayerAnimation::ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexOfCount> PlayerAnimation::screwThrowingAnimationData_;
 
-void PlayerAnimation::Initialize(WorldTransform* worldTransform)
+void PlayerAnimation::Initialize(Player* player)
 {
 
 	for (uint32_t i = 0; i < worldTransforms_.size(); i++) {
 		worldTransforms_[i].Initialize();
 	}
 
-	playerWorldTransform_ = worldTransform;
-	assert(playerWorldTransform_);
+	assert(player);
+	player_ = player;
 
-	worldTransforms_[kPlayerPartIndexBody].parent_ = playerWorldTransform_;
+	worldTransforms_[kPlayerPartIndexBody].parent_ = player_->GetWorldTransform();
 	worldTransforms_[kPlayerPartIndexLeftLeg].parent_ = &worldTransforms_[kPlayerPartIndexBody];
 	worldTransforms_[kPlayerPartIndexRightLeg].parent_ = &worldTransforms_[kPlayerPartIndexBody];
 	worldTransforms_[kPlayerPartIndexMagnet].parent_ = &worldTransforms_[kPlayerPartIndexBody];
@@ -48,7 +50,6 @@ void PlayerAnimation::Update(PlayerAnimationIndex playerAnimationNo)
 		{
 		case kPlayerAnimationIndexStand:
 			StandInitialize();
-			//ScrewThrowingInitialize();
 			break;
 		case kPlayerAnimationIndexWalk:
 			WalkInitialize();
@@ -72,7 +73,6 @@ void PlayerAnimation::Update(PlayerAnimationIndex playerAnimationNo)
 	{
 	case kPlayerAnimationIndexStand:
 		StandUpdate();
-		//ScrewThrowingUpdate();
 		break;
 	case kPlayerAnimationIndexWalk:
 		WalkUpdate();
@@ -284,8 +284,34 @@ void PlayerAnimation::ScrewThrowingUpdate()
 			workScrewThrowing_.nextTransforms_[i] = screwThrowingAnimationData_[workScrewThrowing_.phaseNum_].transforms_[i];
 		}
 		workScrewThrowing_.easeName_ = screwThrowingAnimationData_[workScrewThrowing_.phaseNum_].easeName_;
+
+		// 
+		if (workScrewThrowing_.phaseNum_ == ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexThrowing ||
+			workScrewThrowing_.phaseNum_ == ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexTurn) {
+			ScrewThrowingMagunetException();
+		}
 	}
 
+}
+
+void PlayerAnimation::ScrewThrowingMagunetException()
+{
+
+	Matrix4x4 worldMatrix = Matrix4x4Calc::MakeAffineMatrix(
+		screwThrowingAnimationData_[workScrewThrowing_.phaseNum_].transforms_[PlayerPartIndex::kPlayerPartIndexBody].scale,
+		screwThrowingAnimationData_[workScrewThrowing_.phaseNum_].transforms_[PlayerPartIndex::kPlayerPartIndexBody].rotate,
+		screwThrowingAnimationData_[workScrewThrowing_.phaseNum_].transforms_[PlayerPartIndex::kPlayerPartIndexBody].translate);
+	
+	worldMatrix = Matrix4x4Calc::Multiply(worldMatrix, player_->GetWorldTransform()->parentMatrix_);
+
+	Matrix4x4 worldMatrixInverse = Matrix4x4Calc::Inverse(worldMatrix);
+
+	Vector3 blockPosition = player_->GetBlock()->GetAnchorPointWorldPosition(0);
+	blockPosition.y += workScrewThrowing_.blockAddPositionY_;
+
+	Vector3 translate = Matrix4x4Calc::Transform(blockPosition, worldMatrixInverse);
+
+	workScrewThrowing_.nextTransforms_[PlayerPartIndex::kPlayerPartIndexMagnet].translate = translate;
 }
 
 void PlayerAnimation::RegisteringGlobalVariables()
@@ -323,6 +349,7 @@ void PlayerAnimation::RegisteringGlobalVariables()
 		globalVariables->AddItem(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + "Frame", screwThrowingAnimationData_[i].frame_);
 		globalVariables->AddItem(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + "EaseName", static_cast<uint32_t>(screwThrowingAnimationData_[i].easeName_));
 	}
+	globalVariables->AddItem(groupName, "BlockAddPositionY", workScrewThrowing_.blockAddPositionY_);
 
 }
 
@@ -361,5 +388,6 @@ void PlayerAnimation::ApplyGlobalVariables()
 		screwThrowingAnimationData_[i].frame_ = globalVariables->GetUIntValue(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + "Frame");
 		screwThrowingAnimationData_[i].easeName_ = static_cast<Ease::EaseName>(globalVariables->GetUIntValue(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + "EaseName"));
 	}
+	workScrewThrowing_.blockAddPositionY_ = globalVariables->GetFloatValue(groupName, "BlockAddPositionY");
 
 }
