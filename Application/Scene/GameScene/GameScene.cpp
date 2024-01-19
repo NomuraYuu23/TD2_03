@@ -174,6 +174,8 @@ void GameScene::Initialize() {
 	modelCircle_.reset(Model::Create("Resources/Circle/", "Circle.obj", dxCommon_, textureHandleManager_.get()));
 	player_->SetCircle(modelCircle_.get());
 
+	blockManager_->SetPlayer(player_.get());
+
 	//UIマネージャー
 	uiManager_ = std::make_unique<UIManager>();
 	uiManager_->Initialize(uiTextureHandles_);
