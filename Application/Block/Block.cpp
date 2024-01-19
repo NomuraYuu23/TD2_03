@@ -1,6 +1,7 @@
 #include "Block.h"
 #include "UFO.h"
 #include "../Player/player.h"
+#include "../Collider/CollisionConfig.h"
 void Block::Initialize() {
 	anchorPoints_[0].position = {  0.0f, 1.0f, 0.0f };
 	//anchorPoints_[1].position = { -0.8f, 1.0f, 0.8f };
@@ -15,6 +16,7 @@ void Block::Initialize() {
 
 	collider_.reset(new OBB);
 	collider_->Initialize(worldTransform_.transform_.translate,worldTransform_.rotateMatrix_,worldTransform_.transform_.scale,this);
+	collider_->SetCollisionAttribute(kCollisionAttributeBlock);
 	isConnect_ = false;
 	isCenter_ = false;
 	velocity_ = { 0,0,0};

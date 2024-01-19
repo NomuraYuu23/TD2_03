@@ -5,6 +5,7 @@
 #include "../Block/UFO.h"
 #include "../Block/UFOAttract.h"
 #include "../../Engine/GlobalVariables/GlobalVariables.h"
+#include "../Collider/CollisionConfig.h"
 #include <random>
 void(Screw::* Screw::stateTable[])() = {
 	&Screw::None,
@@ -34,6 +35,8 @@ void Screw::Initialize() {
 
 	collider_.reset(new OBB);
 	collider_->Initialize(worldTransform_.transform_.translate, worldTransform_.rotateMatrix_, worldTransform_.transform_.scale, this);
+	collider_->SetCollisionAttribute(kCollisionAttributeScrew);
+	collider_->SetCollisionMask(!(kCollisionAttributeScrew));
 	isDead_ = false;
 	isAttract_ = false;
 	isRideBlock_ = false;

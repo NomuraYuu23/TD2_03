@@ -11,9 +11,9 @@ void GravityParticle::Initialize(const Vector3& position, const Vector3& size) {
 
 	worldMatrix_ = matrix4x4Calc->MakeIdentity4x4();
 
-	color_ = { 1.0f,1.0f, 1.0f ,1.0f};
+	color_ = { 0.8f,0.3f, 0.8f ,1.0f};
 
-	lifeTime_ = 0.5f;
+	lifeTime_ = 0.3f;
 
 	currentTime_ = 0.0f;
 
@@ -25,7 +25,7 @@ void GravityParticle::Initialize(const Vector3& position, const Vector3& size) {
 
 	endPosition_ = position;
 	startPosition_=position;
-	float y = RandomEngine::GetRandom(1.0f, 6.0f);
+	float y = RandomEngine::GetRandom(2.0f, 15.0f);
 	startPosition_.y+= y;
 }
 

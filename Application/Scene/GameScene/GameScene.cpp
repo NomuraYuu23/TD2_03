@@ -224,7 +224,7 @@ void GameScene::Update() {
 #ifdef _DEBUG
 	if (Input::GetInstance()->TriggerKey(DIK_G)) {
 		TransformStructure transform{ {1.0f,1.0f,1.0f},{0},{0.0f,3.0f,0.0f} };
-		ParticleManager::GetInstance()->MakeEmitter(transform,3,0.05f,0.5f, ParticleModelIndex::kCircle,ParticleName::kGravityParticle,EmitterName::kGravityEmitter);
+		ParticleManager::GetInstance()->MakeEmitter(transform,3,0.005f,0.5f, ParticleModelIndex::kCircle,ParticleName::kGravityParticle,EmitterName::kGravityEmitter);
 	}
 #endif
 	//光源
