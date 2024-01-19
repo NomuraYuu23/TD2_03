@@ -46,8 +46,13 @@ private:
 	std::unique_ptr<Sprite> loadSprite_;
 	uint32_t loadTextureHandle_;
 	Vector4 loadColor_;
-
 	uint32_t loadCount_;
 
-};
+	// プレイヤーイラスト
+	std::unique_ptr<Sprite> playerSprite_;
+	uint32_t playerTextureHandle_;
+	Vector4 playerColor_;
+	float playerRotate_;
+	float playerRotateSpeed_;
 
+};
