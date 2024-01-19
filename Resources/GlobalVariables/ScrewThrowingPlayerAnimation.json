@@ -36,7 +36,7 @@
         "ScrewThrowingAnimationDataReturnMagnetRotate": [
             0.0,
             0.0,
-            0.0
+            6.28000020980835
         ],
         "ScrewThrowingAnimationDataReturnMagnetScale": [
             1.0,
@@ -96,9 +96,9 @@
             0.0
         ],
         "ScrewThrowingAnimationDataThrowingMagnetRotate": [
+            1.5,
             0.0,
-            0.0,
-            0.0
+            6.28000020980835
         ],
         "ScrewThrowingAnimationDataThrowingMagnetScale": [
             1.0,
@@ -173,7 +173,7 @@
             0.0
         ],
         "ScrewThrowingAnimationDataTurnRightLegRotate": [
-            -1.5,
+            1.5,
             0.0,
             0.0
         ],
@@ -284,7 +284,7 @@
         "ScrewThrowingAnimationDataWarp2MagnetRotate": [
             -1.5,
             0.0,
-            0.0
+            6.28000020980835
         ],
         "ScrewThrowingAnimationDataWarp2MagnetScale": [
             1.0,
