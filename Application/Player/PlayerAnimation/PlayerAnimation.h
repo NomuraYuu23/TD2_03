@@ -175,6 +175,8 @@ public:
 
 	std::array<WorldTransform, PlayerPartIndex::kPlayerPartIndexOfCount>* GetWorldTransforms() { return &worldTransforms_; }
 
+	uint32_t GetScrewThrowPhase() { return workScrewThrowing_.phaseNum_; };
+
 private:
 
 	// ワールドトランスフォーム

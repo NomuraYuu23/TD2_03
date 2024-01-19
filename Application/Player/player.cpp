@@ -199,6 +199,8 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 					//(*ite)->Throw(worldTransform_.GetWorldPosition(), block_,blockNum);
 					WorldTransform* magnetWorldTransform = &((*playerAnimation_->GetWorldTransforms())[PlayerPartIndex::kPlayerPartIndexMagnet]);
 					(*ite)->Catch(magnetWorldTransform);
+					holdScrew_ = (*ite).get();
+					blockNum_ = blockNum;
 					behaviorRequest_ = Behavior::kAttack;
 					break;
 				}
@@ -281,6 +283,10 @@ void Player::BehaviorAttackUpdate()
 {
 	if (attackFrameCount_ > attackFrame_) {
 		behaviorRequest_ = Behavior::kRoot;
+	}
+
+	if (playerAnimation_->GetScrewThrowPhase() == 3 && holdScrew_) {
+		holdScrew_->Throw(worldTransform_.GetWorldPosition(),block_,blockNum_);
 	}
 
 	attackFrameCount_++;

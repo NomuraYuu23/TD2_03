@@ -129,4 +129,9 @@ private:
 	// ブロック
 	Block* block_ = nullptr;
 
+	//刺すブロックのネジ穴の番地
+	size_t blockNum_;
+	//掴んでるネジのポインタ、リリース用
+	Screw* holdScrew_;
+
 };

@@ -95,6 +95,7 @@ void Screw::Throw(const Vector3 position, void* block, size_t num) {
 	state_ = TOBLOCK;
 	startPosition_ = position;
 	target_ = block;
+	worldTransform_.transform_.rotate.z = 0;
 	static_cast<Block*>(target_)->SetAnchorPointScrew(num,this);
 	worldTransform_.parent_ = nullptr;
 	targetNum_ = num;
