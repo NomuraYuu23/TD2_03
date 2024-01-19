@@ -24,7 +24,7 @@ void GravityParticle::Initialize(const Vector3& position, const Vector3& size) {
 	currentTime_ = 0.0f;
 
 	useBillBoard_ = true;
-	billBoardName_ = kBillBoardNameIndexYAxes;
+	billBoardName_ = kBillBoardNameIndexYAxis;
 	UpdateMatrix(matrix4x4Calc->MakeIdentity4x4());
 
 	isDead_ = false;
