@@ -23,5 +23,6 @@ public:
 private:
 	Vector3 startPosition_;
 	Vector3 endPosition_;
+	Vector3 colorRGB_ = {0.4f,0.1f,0.4f};
 };
 

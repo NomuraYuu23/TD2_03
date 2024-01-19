@@ -30,6 +30,8 @@ std::list<IParticle*> GravityEmitter::Emit()
 	}
 	translate.x *= radius_;
 	translate.z *= radius_;
+	translate.x += transform_.translate.x;
+	translate.z += transform_.translate.z;
 	for (uint32_t count = 0; count < instanceCount_; ++count) {
 		particles.push_back(makeParticle->Run(paeticleName_,translate, transform_.scale));
 	}

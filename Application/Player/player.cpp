@@ -10,6 +10,7 @@
 #include "../Block/Block.h"
 #include "../Screw/Screw.h"
 #include "../../Engine/GlobalVariables/GlobalVariables.h"
+#include "../Particle/EmitterName.h"
 //#include "GlobalVariables.h"
 
 //#include "CollisionManager.h"
@@ -207,6 +208,9 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA) && isFlooar_)
 	{
 		behaviorRequest_ = Behavior::kDrop;
+		TransformStructure transform{ {1.0f,1.0f,1.0f},{0},{0.0f,3.0f,0.0f} };
+		transform.translate = worldTransformCircle_.GetWorldPosition();
+		ParticleManager::GetInstance()->MakeEmitter(transform, 3, 0.005f, 0.5f, ParticleModelIndex::kCircle, ParticleName::kGravityParticle, EmitterName::kGravityEmitter);
 	}
 
 	if (1) {
