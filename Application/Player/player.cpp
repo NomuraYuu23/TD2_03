@@ -196,7 +196,9 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 		if (!anchorScrew ) {
 			for (std::list<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end();ite++) {
 				if ((*ite)->GetState() == Screw::FOLLOW) {
-					(*ite)->Throw(worldTransform_.GetWorldPosition(), block_,blockNum);
+					//(*ite)->Throw(worldTransform_.GetWorldPosition(), block_,blockNum);
+					WorldTransform* magnetWorldTransform = &((*playerAnimation_->GetWorldTransforms())[PlayerPartIndex::kPlayerPartIndexMagnet]);
+					(*ite)->Catch(magnetWorldTransform);
 					behaviorRequest_ = Behavior::kAttack;
 					break;
 				}
