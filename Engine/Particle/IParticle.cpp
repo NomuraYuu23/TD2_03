@@ -44,7 +44,7 @@ void IParticle::Initialize(const Vector3& position, const Vector3& size)
 
 	useBillBoard_ = true;
 
-	billBoardName_ = kBillBoardNameIndexAllAxes;
+	billBoardName_ = kBillBoardNameIndexAllAxis;
 
 	UpdateMatrix(matrix4x4Calc->MakeIdentity4x4());
 

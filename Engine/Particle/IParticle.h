@@ -15,8 +15,8 @@ class IParticle
 public: // サブクラス
 
 	enum BillBoardNameIndex {
-		kBillBoardNameIndexAllAxes,	// 全軸
-		kBillBoardNameIndexYAxes,	// y軸
+		kBillBoardNameIndexAllAxis,	// 全軸
+		kBillBoardNameIndexYAxis,	// y軸
 		kBillBoardNameIndexOfCount
 	};
 
