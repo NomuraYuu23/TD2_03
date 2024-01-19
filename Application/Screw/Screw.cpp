@@ -99,7 +99,7 @@ void Screw::Throw(const Vector3 position, void* block, size_t num) {
 	static_cast<Block*>(target_)->SetAnchorPointScrew(num,this);
 	worldTransform_.parent_ = nullptr;
 	targetNum_ = num;
-	frameCount_ = 30;
+	frameCount_ = 00;
 }
 
 void Screw::Catch(WorldTransform* magnetWorldPosition) {
@@ -217,7 +217,7 @@ void Screw::Stuck(){
 	Vector3 endPoint = static_cast<Block*>(target_)->GetAnchorPointWorldPosition(targetNum_);
 	worldTransform_.transform_.translate = endPoint;
 	float t = float(kStuckMax - stuckTime_) / float(kStuckMax);
-	worldTransform_.transform_.translate.y +=(1.0f-t)* -(static_cast<Block*>(target_)->GetWorldTransform()->transform_.scale.y / 2.0f + worldTransform_.transform_.scale.y / 2.0f) + t * (static_cast<Block*>(target_)->GetWorldTransform()->transform_.scale.y / 2.0f + worldTransform_.transform_.scale.y / 2.0f);
+	worldTransform_.transform_.translate.y +=(1.0f-t)* -(static_cast<Block*>(target_)->GetWorldTransform()->transform_.scale.y / 2.0f + worldTransform_.transform_.scale.y ) + t * (static_cast<Block*>(target_)->GetWorldTransform()->transform_.scale.y / 2.0f + worldTransform_.transform_.scale.y+0.5f);
 	worldTransform_.transform_.rotate.y = t * 3.14f * 4.0f;
 	if (stuckTime_<=0) {
 		static_cast<Block*>(target_)->SetAnchorPointScrew(targetNum_, nullptr);
