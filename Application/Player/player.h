@@ -71,6 +71,9 @@ public:
 	// アニメーション
 	PlayerAnimationIndex GetPlayerAnimationNo() { return playerAnimationNo_; }
 
+	// ブロック
+	Block* GetBlock() { return block_; }
+
 private:
 	WorldTransform worldTransform_;
 
@@ -87,7 +90,8 @@ private:
 	bool isFlooar_ = false;
 
 	//調整用
-	int frameCount_ = 0;
+	uint32_t attackFrame_ = 55;
+	uint32_t attackFrameCount_ = 0u;
 
 	//向き
 	Vector3 direction_;
@@ -121,5 +125,8 @@ private:
 	std::array<Model*, PlayerPartIndex::kPlayerPartIndexOfCount> models_;
 	std::unique_ptr<PlayerAnimation> playerAnimation_;
 	PlayerAnimationIndex playerAnimationNo_;
+
+	// ブロック
+	Block* block_ = nullptr;
 
 };

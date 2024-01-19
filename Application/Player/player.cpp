@@ -55,7 +55,7 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 	}
 
 	playerAnimation_ = std::make_unique<PlayerAnimation>();
-	playerAnimation_->Initialize(&worldTransform_);
+	playerAnimation_->Initialize(this);
 
 	playerAnimationNo_ = kPlayerAnimationIndexStand;
 
@@ -71,6 +71,13 @@ void Player::BehaviorRootInitialize() {
 void Player::BehaviorAttackInitialize() {
 
 	velocity_ = { 0,0,0 };
+	playerAnimationNo_ = kPlayerAnimationIndexScrewThrowing;
+
+	if (block_) {
+		Vector3 blockPosition = block_->GetAnchorPointWorldPosition(0);
+		direction_ =
+			Vector3Calc::Normalize(Vector3Calc::Subtract(blockPosition, worldTransform_.GetWorldPosition()));
+	}
 	
 }
 
@@ -90,7 +97,7 @@ void Player::Update(Block* block, size_t blockNum) {
 	gravityFrame_ = globalVariables->GetUIntValue(groupName, "GravityFrame");
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
-		frameCount_ = 0;
+		attackFrameCount_ = 0;
 		switch (behavior_) {
 		case Player::Behavior::kRoot:
 		default:
@@ -173,18 +180,22 @@ void Player::Update(Block* block, size_t blockNum) {
 
 void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 {
+
+	// ブロック情報
+	block_ = block;
+
 	// ゲームパッドの状態をえる
 	input_ = Input::GetInstance();
-	if (input_->TriggerJoystick(5) && block)
+	if (input_->TriggerJoystick(5) && block_)
 	{
 		//behavior_ = Behavior::kAttack;
 		
-		Screw* anchorScrew = block->GetAnchorPointScrew(blockNum);
+		Screw* anchorScrew = block_->GetAnchorPointScrew(blockNum);
 		//刺す
 		if (!anchorScrew ) {
 			for (std::list<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end();ite++) {
 				if ((*ite)->GetState() == Screw::FOLLOW) {
-					(*ite)->Throw(worldTransform_.GetWorldPosition(),block,blockNum);
+					(*ite)->Throw(worldTransform_.GetWorldPosition(), block_,blockNum);
 					behaviorRequest_ = Behavior::kAttack;
 					break;
 				}
@@ -262,11 +273,13 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 
 void Player::BehaviorAttackUpdate()
 {
-	if (frameCount_ >15) {
+	if (attackFrameCount_ > attackFrame_) {
 		behaviorRequest_ = Behavior::kRoot;
 	}
 
-	frameCount_++;
+	attackFrameCount_++;
+
+	worldTransform_.transform_.rotate.z = 0.0f;
 }
 
 void Player::BehaviorDropUpdate()

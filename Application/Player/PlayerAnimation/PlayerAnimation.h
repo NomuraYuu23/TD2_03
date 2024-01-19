@@ -4,6 +4,8 @@
 #include "../../../Engine/3D/Model.h"
 #include "../../../Engine/Math/Ease.h"
 
+class Player;
+
 enum PlayerPartIndex {
 	kPlayerPartIndexBody, // 体
 	kPlayerPartIndexLeftLeg, // 左足
@@ -16,6 +18,7 @@ enum PlayerAnimationIndex {
 	kPlayerAnimationIndexStand, // 立ち状態
 	kPlayerAnimationIndexWalk, // 歩き状態
 	kPlayerAnimationIndexGravity, // 重力状態
+	kPlayerAnimationIndexScrewThrowing, // ねじ投擲状態
 	kPlayerAnimationIndexOfCount // 数
 };
 
@@ -52,6 +55,20 @@ public: // サブクラス
 		Ease::EaseName easeName_ = Ease::EaseName::Lerp;
 	};
 
+	// ねじ投擲状態
+	struct WorkScrewThrowing {
+		uint32_t frame_ = 20;
+		uint32_t frameCount_ = 0u;
+		uint32_t phaseNum_ = 0;
+		std::array<TransformStructure, PlayerPartIndex::kPlayerPartIndexOfCount> currentTransforms_ = {};
+		std::array<TransformStructure, PlayerPartIndex::kPlayerPartIndexOfCount> nextTransforms_ = {};
+		Ease::EaseName easeName_ = Ease::EaseName::Lerp;
+
+		// ブロック
+		float blockAddPositionY_ = 2.0f;
+
+	};
+
 private: // 重力状態
 
 	enum GravityPhaseIndex {
@@ -63,6 +80,18 @@ private: // 重力状態
 	};
 	static std::array<AnimationData, GravityPhaseIndex::kGravityPhaseIndexOfCount> gravityAnimationData_;
 
+private: // ねじ投擲状態
+
+	enum ScrewThrowingPhaseIndex {
+		kScrewThrowingPhaseIndexWarp1, // からだを反らす1
+		kScrewThrowingPhaseIndexThrowing, // ねじ投擲する
+		kScrewThrowingPhaseIndexTurn, // ぐるぐる
+		kScrewThrowingPhaseIndexWarp2, // からだを反らす2
+		kScrewThrowingPhaseIndexReturn, //戻る
+		kScrewThrowingPhaseIndexOfCount // 数
+	};
+	static std::array<AnimationData, ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexOfCount> screwThrowingAnimationData_;
+
 private: // 文字列
 
 	const std::array <std::string, PlayerPartIndex::kPlayerPartIndexOfCount> kPlayerPartIndexNames_ = {
@@ -71,11 +100,14 @@ private: // 文字列
 		"RightLeg",
 		"Magnet",
 	};
+
 	const std::array <std::string, PlayerAnimationIndex::kPlayerAnimationIndexOfCount> kPlayerAnimationIndexNames_ = {
 		"Stand",
 		"Walk",
 		"Gravity",
+		"ScrewThrowing",
 	};
+	
 	const std::array <std::string, GravityPhaseIndex::kGravityPhaseIndexOfCount> kGravityPhaseIndexNames_ = {
 		"Extend1",
 		"Collapse",
@@ -83,9 +115,17 @@ private: // 文字列
 		"Return",
 	};
 
+	const std::array <std::string, ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexOfCount> kScrewThrowingPhaseIndexNames_ = {
+		"Warp1",
+		"Throwing",
+		"Turn",
+		"Warp2",
+		"Return",
+	};
+
 public:
 
-	void Initialize(WorldTransform* worldTransform);
+	void Initialize(Player* player);
 
 	void Update(PlayerAnimationIndex playerAnimationNo);
 
@@ -113,6 +153,12 @@ private:
 	void GravityInitialize();
 	void GravityUpdate();
 
+	// ねじ投擲状態
+	void ScrewThrowingInitialize();
+	void ScrewThrowingUpdate();
+	// 磁石部分の例外
+	void ScrewThrowingMagunetException();
+
 private: // メンバ関数
 
 	/// <summary>
@@ -134,7 +180,7 @@ private:
 	// ワールドトランスフォーム
 	std::array<WorldTransform, PlayerPartIndex::kPlayerPartIndexOfCount> worldTransforms_;
 
-	WorldTransform* playerWorldTransform_;
+	Player* player_;
 
 	// アニメーションタイム
 	std::array<float, PlayerPartIndex::kPlayerPartIndexOfCount> times_;
@@ -146,6 +192,8 @@ private:
 	WorkWalk workWalk_;
 
 	WorkGravity workGravity_;
+
+	WorkScrewThrowing workScrewThrowing_;
 
 };
 

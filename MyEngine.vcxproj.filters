@@ -415,6 +415,12 @@
     <ClCompile Include="Application\Player\PlayerAnimation\PlayerAnimation.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Particle\GravityParticle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Particle\GravityEmitter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="Application\SceneTransition\SceneTransitionPitaverse\SceneTransitionPitaverse.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -766,6 +772,18 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\Player\PlayerAnimation\PlayerAnimation.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Collider\CollisionConfig.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Particle\GravityParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\RandomEngine.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Particle\GravityEmitter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\SceneTransition\SceneTransitionPitaverse\SceneTransitionPitaverse.h">
