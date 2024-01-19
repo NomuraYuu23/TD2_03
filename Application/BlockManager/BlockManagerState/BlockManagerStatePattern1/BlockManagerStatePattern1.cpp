@@ -12,6 +12,6 @@ void BlockManagerStatePattern1::Update()
 void BlockManagerStatePattern1::GenerationBlock(uint32_t maxGenerationBlock)
 {
 
-	//blockManager_->GenerationBlocks(BlockGenerationPatternName::kBlockGenerationPatternNameSample);
+	blockManager_->GenerationBlocks(BlockGenerationPatternName::kBlockGenerationPatternNameSample);
 
 }

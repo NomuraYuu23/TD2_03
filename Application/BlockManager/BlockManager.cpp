@@ -1,5 +1,6 @@
 #include "BlockManager.h"
 #include "../Block/Block.h"
+#include "../Player/player.h"
 #include "../../Engine/GlobalVariables/GlobalVariables.h"
 #include "BlockManagerState/BlockManagerStateInit/BlockManagerStateInit.h"
 
@@ -23,10 +24,10 @@ void BlockManager::Initialize(Model* model)
 	blocks_.clear();
 
 	// ブロックの最大位置
-	maxBlockPosition_ = {100.0f, 100.0f, 100.0f};
+	maxBlockPosition_ = {1000.0f, 1000.0f, 1000.0f };
 
 	// ブロックの最小位置
-	minBlockPosition_ = { -100.0f, -100.0f, -100.0f };
+	minBlockPosition_ = { -1000.0f, -1000.0f, -1000.0f };
 
 	// ブロックの最大数
 	maxBlock_ = 128;
@@ -162,12 +163,12 @@ void BlockManager::GenerationBlocks(uint32_t patternName)
 void BlockManager::RangeControl()
 {
 
-	Vector3 playerPosition = {0.0f, 0.0f, 0.0f}/*player_->GetWorldPosition()*/;
+	Vector3 playerPosition = player_->GetWorldTransform()->GetWorldPosition();
 
 	blocks_.remove_if([=](Block* block) {
 		
 		// ブロックの位置取得
-		Vector3 blockPosition = { 0.0f, 0.0f, 0.0f }/*block->GetWorldPositon()*/;
+		Vector3 blockPosition = block->GetAnchorPointWorldPosition(0);
 		
 		// ブロックが範囲を超えていたら削除
 		if (blockPosition.x > playerPosition.x + maxBlockPosition_.x ||

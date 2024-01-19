@@ -186,10 +186,10 @@ void ParticleManager::ParticlesUpdate()
 		for (IParticle* particle : particleDatas_[i].particles_) {
 			switch (particle->GetBillBoardName())
 			{
-			case IParticle::kBillBoardNameIndexAllAxes:
+			case IParticle::kBillBoardNameIndexAllAxis:
 				particle->Update(billBoardMatrix_);
 				break;
-			case IParticle::kBillBoardNameIndexYAxes:
+			case IParticle::kBillBoardNameIndexYAxis:
 				particle->Update(billBoardMatrixY_);
 				break;
 			default:
