@@ -587,6 +587,7 @@ void GameScene::TextureLoad()
 		TextureManager::Load("Resources/UI/kugimi.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/UI/number.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/UI/ingame_ui_symbol.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/UI/ingame_frame.png", dxCommon_,textureHandleManager_.get()),
 	};
 
 	shotUITextureHandle_[0] = TextureManager::Load("Resources/ingame_ui_RB.png", dxCommon_, textureHandleManager_.get());

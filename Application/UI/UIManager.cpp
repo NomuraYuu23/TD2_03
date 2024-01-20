@@ -2,6 +2,7 @@
 #include "UIScrew/UIScrew.h"
 #include "UINumber/UINumber.h"
 #include "UISymbol/UISymbol.h"
+#include "UIFrame/UIFrame.h"
 
 void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUITextureHandleIndexOfCount>& textureHandles)
 {
@@ -16,9 +17,9 @@ void UIManager::Update(uint32_t screwCount)
 {
 
 	Vector2 leftTop = { 0.0f, 0.0f };
-	Vector2 numberSize = { 128.0f, 128.0f };
-	Vector2 symbolSize = { 192.0f, 192.0f };
 
+	// フレーム
+	UIs_[kUIIndexFrame]->Update();
 	// 残りねじアイコン
 	UIs_[kUIIndexRemainingScrewsIcon]->Update();
 	// 残りねじのx
@@ -56,7 +57,12 @@ void UIManager::UIInitialize()
 	Vector2 leftTop = { 0.0f, 0.0f };
 	Vector2 numberSize = { 128.0f, 128.0f };
 	Vector2 symbolSize = { 192.0f, 192.0f };
+	Vector2 frameSize = { 1280.0f, 720.0f };
 
+	// フレーム
+	leftTop = { 0.0f, 0.0f };
+	UIs_[kUIIndexFrame] = std::make_unique<UIFrame>();
+	UIs_[kUIIndexFrame]->Initialize(textureHandles_[kUITextureHandleIndexFrame], "UIIndexFrame", frameSize, leftTop);
 
 	// 残りねじアイコン
 	UIs_[kUIIndexRemainingScrewsIcon] = std::make_unique<UIScrew>();
@@ -65,7 +71,7 @@ void UIManager::UIInitialize()
 	// 残りねじのx
 	leftTop = { 192.0f, 0.0f };
 	UIs_[kUIIndexRemainingScrewsCross] = std::make_unique<UISymbol>();
-	UIs_[kUIIndexRemainingScrewsCross]->Initialize(textureHandles_[UITextureHandleIndexSymbol], "UIScrewsCross", symbolSize, leftTop);
+	UIs_[kUIIndexRemainingScrewsCross]->Initialize(textureHandles_[kUITextureHandleIndexSymbol], "UIScrewsCross", symbolSize, leftTop);
 
 	// 残りねじの数字10の位
 	UIs_[kUIIndexRemainingScrewsTensPlace] = std::make_unique<UINumber>();
@@ -90,6 +96,6 @@ void UIManager::UIInitialize()
 	// タイマーコロン
 	leftTop = { 0.0f, 0.0f };
 	UIs_[kUIIndexTimerColon] = std::make_unique<UISymbol>();
-	UIs_[kUIIndexTimerColon]->Initialize(textureHandles_[UITextureHandleIndexSymbol], "UITimerColon", symbolSize, leftTop);
+	UIs_[kUIIndexTimerColon]->Initialize(textureHandles_[kUITextureHandleIndexSymbol], "UITimerColon", symbolSize, leftTop);
 
 }

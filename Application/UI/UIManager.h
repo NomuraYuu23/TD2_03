@@ -7,12 +7,13 @@
 enum UITextureHandleIndex {
 	kUITextureHandleIndexScrews, // ねじ
 	kUITextureHandleIndexNumber, // 数字
-	UITextureHandleIndexSymbol, // 記号
+	kUITextureHandleIndexSymbol, // 記号
+	kUITextureHandleIndexFrame, // フレーム
 	kUITextureHandleIndexOfCount
 };
 
 enum UIIndex {
-	
+	kUIIndexFrame, // フレーム
 	kUIIndexRemainingScrewsIcon, // 残りねじアイコン
 	kUIIndexRemainingScrewsCross, // 残りねじのx
 	kUIIndexRemainingScrewsTensPlace, // 残りねじの数字10の位
