@@ -4,6 +4,7 @@
 #include "../../AudioManager/TitleAudioManager.h"
 
 #include "../../Skydome/Skydome.h"
+#include "../../TitleObj/TitleObj.h"
 
 class TitleScene : public IScene
 {
@@ -15,17 +16,22 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialize() override;
+	void Initialize() override;
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	virtual void Update() override;
+	void Update() override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	virtual void Draw() override;
+	void Draw() override;
+
+	/// <summary>
+	/// imgui描画処理
+	/// </summary>
+	void ImguiDraw();
 
 private: // メンバ関数
 
@@ -68,8 +74,16 @@ private: // メンバ変数
 	// スカイドーム
 	std::unique_ptr<Skydome> skydome_;
 	std::unique_ptr<Model> skydomeModel_;
+	bool isDrawSkydome_ = true;
 
 	// プレイヤー
+	std::unique_ptr<TitleObj> player_;
+	std::unique_ptr<Model> playerModel_;
+
+	// ねじ
+	std::array<std::unique_ptr<TitleObj>, 3> screws_;
+	std::unique_ptr<Model> screwModel_;
+
 
 };
 

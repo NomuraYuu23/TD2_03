@@ -1,5 +1,6 @@
 #include "TitleScene.h"
 #include "../../../Engine/base/TextureManager.h"
+#include "../../../Engine/2D/ImguiManager.h"
 
 TitleScene::~TitleScene()
 {
@@ -39,10 +40,22 @@ void TitleScene::Initialize()
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(skydomeModel_.get());
 
+	// プレイヤー
+	player_ = std::make_unique<TitleObj>();
+	player_->Initialize(playerModel_.get(), "Player");
+
+	// ねじ
+	for (uint32_t i = 0; i < screws_.size(); ++i) {
+		screws_[i] = std::make_unique<TitleObj>();
+		screws_[i]->Initialize(screwModel_.get(), "Screw" + std::to_string(i));
+	}
+
 }
 
 void TitleScene::Update()
 {
+
+	ImguiDraw();
 
 	if ((input_->TriggerKey(DIK_SPACE) || input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) &&
 		requestSceneNo == kTitle) {
@@ -61,6 +74,14 @@ void TitleScene::Update()
 	
 	// スカイドーム
 	skydome_->Update();
+
+	// プレイヤー
+	player_->Update();
+
+	// ねじ
+	for (uint32_t i = 0; i < screws_.size(); ++i) {
+		screws_[i]->Update();
+	}
 
 }
 
@@ -82,7 +103,18 @@ void TitleScene::Draw()
 	Model::PreDraw(dxCommon_->GetCommadList());
 
 	//3Dオブジェクトはここ
-	skydome_->Draw(camera_);
+
+	// スカイドーム
+	if (isDrawSkydome_) {
+		skydome_->Draw(camera_);
+	}
+	// プレイヤー
+	player_->Draw(camera_);
+
+	// ねじ
+	for (uint32_t i = 0; i < screws_.size(); ++i) {
+		screws_[i]->Draw(camera_);
+	}
 
 	Model::PostDraw();
 
@@ -103,11 +135,26 @@ void TitleScene::Draw()
 
 }
 
+void TitleScene::ImguiDraw()
+{
+
+#ifdef _DEBUG
+	ImGui::Begin("Title");
+	ImGui::Checkbox("isDrawSkydome", &isDrawSkydome_);
+	ImGui::End();
+#endif // _DEBUG
+
+}
+
 void TitleScene::ModelCreate()
 {
 
 	// スカイドーム
 	skydomeModel_.reset(Model::Create("Resources/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
+	// プレイヤー
+	playerModel_.reset(Model::Create("Resources/Model/Player/Original/", "player.obj", dxCommon_, textureHandleManager_.get()));
+	// ねじ
+	screwModel_.reset(Model::Create("Resources/Model/nejimi2_model/", "nejimi2.obj", dxCommon_, textureHandleManager_.get()));
 
 }
 
