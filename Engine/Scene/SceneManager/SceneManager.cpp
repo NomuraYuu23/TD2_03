@@ -20,7 +20,8 @@ void SceneManager::Initialize(uint32_t earlySceneNo)
 	// シーンの静的初期化
 	scene_->StaticInitialize();
 	// シーンの初期化
-	sceneInitialize_ = std::thread(std::bind(&SceneManager::InitializeThread, this));
+	//sceneInitialize_ = std::thread(std::bind(&SceneManager::InitializeThread, this));
+	scene_->Initialize();
 
 	// 初期シーン
 	currentSceneNo_ = earlySceneNo;

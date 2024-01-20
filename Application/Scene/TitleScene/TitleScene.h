@@ -3,6 +3,8 @@
 
 #include "../../AudioManager/TitleAudioManager.h"
 
+#include "../../Skydome/Skydome.h"
+
 class TitleScene : public IScene
 {
 
@@ -61,8 +63,18 @@ private: // メンバ変数
 	// オーディオマネージャー
 	std::unique_ptr<TitleAudioManager> audioManager_;
 
-
 	bool isDecreasingVolume = true;
+
+	// スカイドーム
+	std::unique_ptr<Skydome> skydome_;
+	std::unique_ptr<Model> skydomeModel_;
+
+	// プレイヤー
+	std::unique_ptr<Model> playerModel_;
+	WorldTransform playerWorldTransform_;
+	std::array<Vector3, 2> playerPosition_;
+	Vector3 playerRotate_;
+	Vector3 playerSize_;
 
 };
 

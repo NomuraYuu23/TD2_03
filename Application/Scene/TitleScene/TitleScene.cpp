@@ -28,6 +28,17 @@ void TitleScene::Initialize()
 	audioManager_->Initialize();
 	audioManager_->PlayWave(kTitleAudioNameIndexBGM);
 
+	// ビュープロジェクション
+	TransformStructure baseCameraTransform = {
+		1.0f, 1.0f, 1.0f,
+		0.58f,0.0f,0.0f,
+		0.0f, 23.0f, -35.0f };
+	camera_.SetTransform(baseCameraTransform);
+
+	// スカイドーム
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Initialize(skydomeModel_.get());
+
 }
 
 void TitleScene::Update()
@@ -44,6 +55,13 @@ void TitleScene::Update()
 	if (requestSceneNo == kGame && isDecreasingVolume) {
 		LowerVolumeBGM();
 	}
+	
+	// カメラ
+	camera_.Update();
+	
+	// スカイドーム
+	skydome_->Update();
+
 }
 
 void TitleScene::Draw()
@@ -64,6 +82,7 @@ void TitleScene::Draw()
 	Model::PreDraw(dxCommon_->GetCommadList());
 
 	//3Dオブジェクトはここ
+	skydome_->Draw(camera_);
 
 	Model::PostDraw();
 
@@ -86,6 +105,10 @@ void TitleScene::Draw()
 
 void TitleScene::ModelCreate()
 {
+
+	// スカイドーム
+	skydomeModel_.reset(Model::Create("Resources/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
+
 }
 
 void TitleScene::MaterialCreate()
