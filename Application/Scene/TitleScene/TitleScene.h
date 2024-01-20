@@ -86,6 +86,14 @@ private: // メンバ変数
 	Vector2 buttonPosition_ = {};
 	// サイズ
 	Vector2 buttonSize_ = {};
+	// 点滅用媒介変数
+	float buttonAlphaT_;
+	// 点滅用媒介変数速度
+	float buttonAlphaTSpeed_;
+	// 点滅用媒介変数は増えるか
+	bool buttonItIncreaseAlphaT_;
+	// 色
+	Vector4 buttonColor_;
 
 	// オーディオマネージャー
 	std::unique_ptr<TitleAudioManager> audioManager_;

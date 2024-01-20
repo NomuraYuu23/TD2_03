@@ -2,6 +2,7 @@
 #include "../../../Engine/base/TextureManager.h"
 #include "../../../Engine/2D/ImguiManager.h"
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
+#include "../../../Engine/Math/Ease.h"
 
 TitleScene::~TitleScene()
 {
@@ -28,6 +29,10 @@ void TitleScene::Initialize()
 	buttonSprite_->SetSize(Vector2{ 128.0f, 128.0f });
 	buttonSprite_->SetTextureLeftTop(Vector2{0.0f, 0.0f});
 	buttonSize_ = { 128.0f, 128.0f };
+	buttonAlphaT_ = 0.0f;
+	buttonAlphaTSpeed_ = 0.01f;
+	buttonItIncreaseAlphaT_ = true;
+	buttonColor_ = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	audioManager_ = std::make_unique<TitleAudioManager>();
 	audioManager_->StaticInitialize();
@@ -96,6 +101,24 @@ void TitleScene::Update()
 	for (uint32_t i = 0; i < screws_.size(); ++i) {
 		screws_[i]->Update();
 	}
+
+	// ボタンスプライト
+	if (buttonItIncreaseAlphaT_) {
+		buttonAlphaT_ += buttonAlphaTSpeed_;
+		if (buttonAlphaT_ >= 1.0f) {
+			buttonAlphaT_ = 1.0f;
+			buttonItIncreaseAlphaT_ = false;
+		}
+	}
+	else {
+		buttonAlphaT_ -= buttonAlphaTSpeed_;
+		if (buttonAlphaT_ <= 0.0f) {
+			buttonAlphaT_ = 0.0f;
+			buttonItIncreaseAlphaT_ = true;
+		}
+	}
+	buttonColor_.w = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 1.0f, buttonAlphaT_);
+	buttonSprite_->SetColor(buttonColor_);
 
 }
 

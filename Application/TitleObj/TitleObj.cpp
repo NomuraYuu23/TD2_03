@@ -62,7 +62,6 @@ void TitleObj::Draw(BaseCamera& camera)
 void TitleObj::Fluffy()
 {
 
-	// 移動用媒介変数
 	if (itIncreaseMoveT_) {
 		moveT_ += moveTSpeed_;
 		if (moveT_ >= 1.0f) {
