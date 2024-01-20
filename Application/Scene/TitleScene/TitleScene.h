@@ -52,7 +52,20 @@ private: // メンバ関数
 
 private:
 
+	/// <summary>
+	/// 音量
+	/// </summary>
 	void LowerVolumeBGM();
+
+	/// <summary>
+	/// 外部変数登録
+	/// </summary>
+	void SpriteRegisteringGlobalVariables();
+
+	/// <summary>
+	/// 外部変数適用
+	/// </summa
+	void SpriteApplyGlobalVariables();
 
 private: // メンバ変数
 
@@ -60,11 +73,19 @@ private: // メンバ変数
 	std::unique_ptr<Sprite> titleSprite_ = nullptr;
 	// テクスチャハンドル
 	uint32_t titleTextureHandle_ = 0u;
+	// ポジション
+	Vector2 titlePosition_ = {};
+	// サイズ
+	Vector2 titleSize_ = {};
 
 	// スプライト
 	std::unique_ptr<Sprite> buttonSprite_ = nullptr;
 	// テクスチャハンドル
 	uint32_t buttonTextureHandle_ = 0u;
+	// ポジション
+	Vector2 buttonPosition_ = {};
+	// サイズ
+	Vector2 buttonSize_ = {};
 
 	// オーディオマネージャー
 	std::unique_ptr<TitleAudioManager> audioManager_;

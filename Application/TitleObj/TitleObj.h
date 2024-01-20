@@ -55,7 +55,10 @@ private: // 変数
 
 	// 移動用媒介変数は増えるか
 	bool itIncreaseMoveT_;
-	
+
+	// 回転
+	Vector3 rotate_;
+
 	// 回転速度
 	Vector3 rotateSpeed_;
 	

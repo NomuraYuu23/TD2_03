@@ -1,6 +1,7 @@
 #include "TitleScene.h"
 #include "../../../Engine/base/TextureManager.h"
 #include "../../../Engine/2D/ImguiManager.h"
+#include "../../../Engine/GlobalVariables/GlobalVariables.h"
 
 TitleScene::~TitleScene()
 {
@@ -15,14 +16,18 @@ void TitleScene::Initialize()
 	MaterialCreate();
 	TextureLoad();
 
-	titleTextureHandle_ = TextureManager::Load("Resources/Title/title.png", dxCommon_, textureHandleManager_.get()),
-	titleSprite_.reset(Sprite::Create(titleTextureHandle_, Vector2{ 640.0f, 360.0f }, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	titlePosition_ = { 320.0f, 240.0f };
+	titleTextureHandle_ = TextureManager::Load("Resources/Title/title.png", dxCommon_, textureHandleManager_.get());
+	titleSprite_.reset(Sprite::Create(titleTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	titleSize_ = titleSprite_->GetSize();
 
-	buttonTextureHandle_ = TextureManager::Load("Resources/Title/controler_UI_A.png", dxCommon_, textureHandleManager_.get()),
-	buttonSprite_.reset(Sprite::Create(buttonTextureHandle_, Vector2{ 640.0f, 560.0f }, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	buttonPosition_ = { 640.0f, 560.0f };
+	buttonTextureHandle_ = TextureManager::Load("Resources/Title/controler_UI_A.png", dxCommon_, textureHandleManager_.get());
+	buttonSprite_.reset(Sprite::Create(buttonTextureHandle_, buttonPosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	buttonSprite_->SetTextureSize(Vector2{ 384.0f, 384.0f });
 	buttonSprite_->SetSize(Vector2{ 128.0f, 128.0f });
 	buttonSprite_->SetTextureLeftTop(Vector2{0.0f, 0.0f});
+	buttonSize_ = { 128.0f, 128.0f };
 
 	audioManager_ = std::make_unique<TitleAudioManager>();
 	audioManager_->StaticInitialize();
@@ -32,8 +37,8 @@ void TitleScene::Initialize()
 	// ビュープロジェクション
 	TransformStructure baseCameraTransform = {
 		1.0f, 1.0f, 1.0f,
-		0.58f,0.0f,0.0f,
-		0.0f, 23.0f, -35.0f };
+		0.0f,0.0f,0.0f,
+		0.0f, 0.0f, -35.0f };
 	camera_.SetTransform(baseCameraTransform);
 
 	// スカイドーム
@@ -50,10 +55,19 @@ void TitleScene::Initialize()
 		screws_[i]->Initialize(screwModel_.get(), "Screw" + std::to_string(i));
 	}
 
+	SpriteRegisteringGlobalVariables();
+
+	SpriteApplyGlobalVariables();
+
 }
 
 void TitleScene::Update()
 {
+
+#ifdef _DEBUG
+	SpriteApplyGlobalVariables();
+#endif // _DEBUG
+
 
 	ImguiDraw();
 
@@ -184,5 +198,51 @@ void TitleScene::LowerVolumeBGM()
 			}
 		}
 	}
+
+}
+
+void TitleScene::SpriteRegisteringGlobalVariables()
+{
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+
+	const std::string groupName = "TilteSceneSprite";
+
+	// タイトル
+	std::string objName = "TilteSprite";
+	globalVariables->AddItem(groupName, objName + "Position", titlePosition_);
+	globalVariables->AddItem(groupName, objName + "Size", titleSize_);
+
+	// ボタン
+	objName = "ButtonSprite";
+	globalVariables->AddItem(groupName, objName + "Position", buttonPosition_);
+	globalVariables->AddItem(groupName, objName + "Size", buttonSize_);
+
+}
+
+void TitleScene::SpriteApplyGlobalVariables()
+{
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+
+	const std::string groupName = "TilteSceneSprite";
+
+	// タイトル
+	std::string objName = "TilteSprite";
+
+	titlePosition_ = globalVariables->GetVector2Value(groupName, objName + "Position");
+	titleSprite_->SetPosition(titlePosition_);
+
+	titleSize_ = globalVariables->GetVector2Value(groupName, objName + "Size");
+	titleSprite_->SetSize(titleSize_);
+
+	// ボタン
+	objName = "ButtonSprite";
+
+	buttonPosition_ = globalVariables->GetVector2Value(groupName, objName + "Position");
+	buttonSprite_->SetPosition(buttonPosition_);
+
+	buttonSize_ = globalVariables->GetVector2Value(groupName, objName + "Size");
+	buttonSprite_->SetSize(buttonSize_);
 
 }
