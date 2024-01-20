@@ -70,11 +70,6 @@ private: // メンバ変数
 	std::unique_ptr<Model> skydomeModel_;
 
 	// プレイヤー
-	std::unique_ptr<Model> playerModel_;
-	WorldTransform playerWorldTransform_;
-	std::array<Vector3, 2> playerPosition_;
-	Vector3 playerRotate_;
-	Vector3 playerSize_;
 
 };
 

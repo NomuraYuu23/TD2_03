@@ -8,7 +8,7 @@ class TitleObj
 
 public:
 
-	void Initialize(Model* model, std::string groupName);
+	void Initialize(Model* model, const std::string& objName);
 
 	void Update();
 
@@ -29,12 +29,12 @@ private: // 関数
 	/// <summary>
 	/// 外部変数登録
 	/// </summary>
-	virtual void RegisteringGlobalVariables();
+	void RegisteringGlobalVariables();
 
 	/// <summary>
 	/// 外部変数適用
-	/// </summary>
-	virtual void ApplyGlobalVariables();
+	/// </summa
+	void ApplyGlobalVariables();
 
 private: // 変数
 
@@ -50,6 +50,9 @@ private: // 変数
 	// 移動用媒介変数
 	float moveT_;
 
+	// 移動用媒介変数速度
+	float moveTSpeed_;
+
 	// 移動用媒介変数は増えるか
 	bool itIncreaseMoveT_;
 	
@@ -60,7 +63,7 @@ private: // 変数
 	Vector3 size_;
 
 	// ネーム
-	std::string groupName_;
+	std::string objName_;
 
 };
 
