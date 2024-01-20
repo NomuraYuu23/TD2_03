@@ -178,7 +178,7 @@ void GameScene::Initialize() {
 
 	//UIマネージャー
 	uiManager_ = std::make_unique<UIManager>();
-	uiManager_->Initialize(uiTextureHandles_);
+	uiManager_->Initialize(uiTextureHandles_, energyMax_);
 
 	// オーディオマネージャー
 	audioManager_ = std::make_unique<GameAudioManager>();
@@ -210,7 +210,7 @@ void GameScene::Initialize() {
 	energy_.reset(new Energy);
 	energy_->Initialize();
 	energy_->SetTarget({ -100.0f,0.0f,-12.0f });
-	energyPoint_ = 2000.0f;
+	energyPoint_ = energyMax_;
 }
 
 /// <summary>
@@ -310,6 +310,12 @@ void GameScene::Update() {
 	{
 		energyPoint_-= connectCount * 0.1f;
 		energyPoint_ += energy_->GetInnerAreaCount()*0.4f;
+		if (energyPoint_ > energyMax_) {
+			energyPoint_ = energyMax_;
+		}
+		if (energyPoint_ < 0.0f) {
+			energyPoint_ = 0.0f;
+		}
 		ImGui::Begin("Energy");
 		ImGui::Text("%f",energyPoint_);
 		ImGui::End();
@@ -379,7 +385,7 @@ void GameScene::Update() {
 			screwCount++;
 		}
 	}
-	uiManager_->Update(screwCount);
+	uiManager_->Update(screwCount, energyPoint_);
 
 	// デバッグカメラ
 	DebugCameraUpdate();
@@ -588,6 +594,8 @@ void GameScene::TextureLoad()
 		TextureManager::Load("Resources/UI/number.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/UI/ingame_ui_symbol.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/UI/ingame_frame.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/UI/ingame_frame_UI.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/UI/gage.png", dxCommon_,textureHandleManager_.get()),
 	};
 
 	shotUITextureHandle_[0] = TextureManager::Load("Resources/ingame_ui_RB.png", dxCommon_, textureHandleManager_.get());

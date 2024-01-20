@@ -127,6 +127,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Target\Target.cpp" />
     <ClCompile Include="Application\UFO\UFOManager.cpp" />
     <ClCompile Include="Application\UI\UI.cpp" />
+    <ClCompile Include="Application\UI\UIEnergyPlate\UIEnergyPlate.cpp" />
+    <ClCompile Include="Application\UI\UIEnergy\UIEnergy.cpp" />
     <ClCompile Include="Application\UI\UIFrame\UIFrame.cpp" />
     <ClCompile Include="Application\UI\UIManager.cpp" />
     <ClCompile Include="Application\UI\UINumber\UINumber.cpp" />
@@ -230,6 +232,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Target\Target.h" />
     <ClInclude Include="Application\UFO\UFOManager.h" />
     <ClInclude Include="Application\UI\UI.h" />
+    <ClInclude Include="Application\UI\UIEnergyPlate\UIEnergyPlate.h" />
+    <ClInclude Include="Application\UI\UIEnergy\UIEnergy.h" />
     <ClInclude Include="Application\UI\UIFrame\UIFrame.h" />
     <ClInclude Include="Application\UI\UIManager.h" />
     <ClInclude Include="Application\UI\UINumber\UINumber.h" />

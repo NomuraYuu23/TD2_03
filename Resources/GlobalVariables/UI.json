@@ -1,5 +1,23 @@
 {
     "UI": {
+        "UIIndexEnergyPlateposition": [
+            900.0,
+            18.0
+        ],
+        "UIIndexEnergyPlaterotate": 0.0,
+        "UIIndexEnergyPlatesize": [
+            125.0,
+            30.0
+        ],
+        "UIIndexEnergyposition": [
+            995.0,
+            43.0
+        ],
+        "UIIndexEnergyrotate": 0.0,
+        "UIIndexEnergysize": [
+            325.0,
+            46.0
+        ],
         "UIIndexFrameposition": [
             640.0,
             360.0

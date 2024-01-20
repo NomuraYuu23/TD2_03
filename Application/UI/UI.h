@@ -31,7 +31,7 @@ private: // メンバ関数
 	virtual void ApplyGlobalVariables();
 
 
-private: // メンバ変数
+protected: // メンバ変数
 
 	std::unique_ptr<Sprite> sprite_;
 

@@ -146,4 +146,5 @@ private:
 	std::unique_ptr<Energy> energy_;
 
 	float energyPoint_;//エネルギー量仮
+	float energyMax_ = 2000.0f;//エネルギー最大量仮
 };

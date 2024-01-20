@@ -3,17 +3,19 @@
 #include "UINumber/UINumber.h"
 #include "UISymbol/UISymbol.h"
 #include "UIFrame/UIFrame.h"
+#include "UIEnergyPlate/UIEnergyPlate.h"
+#include "UIEnergy/UIEnergy.h"
 
-void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUITextureHandleIndexOfCount>& textureHandles)
+void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUITextureHandleIndexOfCount>& textureHandles, float energyMax)
 {
 
 	textureHandles_ = textureHandles;
 
-	UIInitialize();
+	UIInitialize(energyMax);
 
 }
 
-void UIManager::Update(uint32_t screwCount)
+void UIManager::Update(uint32_t screwCount, float energy)
 {
 
 	Vector2 leftTop = { 0.0f, 0.0f };
@@ -39,6 +41,10 @@ void UIManager::Update(uint32_t screwCount)
 	UIs_[kUIIndexTimerSecondsOnesPlace]->Update(leftTop);
 	// タイマーコロン
 	UIs_[kUIIndexTimerColon]->Update();
+	//エナジー
+	static_cast<UIEnergy*>(UIs_[kUIIndexEnergy].get())->Update(energy);
+	//エナジープレート
+	UIs_[kUIIndexEnergyPlate]->Update();
 
 }
 
@@ -51,13 +57,15 @@ void UIManager::Draw()
 
 }
 
-void UIManager::UIInitialize()
+void UIManager::UIInitialize(float energyMax)
 {
 
 	Vector2 leftTop = { 0.0f, 0.0f };
 	Vector2 numberSize = { 128.0f, 128.0f };
 	Vector2 symbolSize = { 192.0f, 192.0f };
 	Vector2 frameSize = { 1280.0f, 720.0f };
+	Vector2 EnergySize = { 1536.0f, 96.0f };
+	Vector2 EnergyPlateSize = { 500.0f, 120.0f};
 
 	// フレーム
 	leftTop = { 0.0f, 0.0f };
@@ -97,5 +105,15 @@ void UIManager::UIInitialize()
 	leftTop = { 0.0f, 0.0f };
 	UIs_[kUIIndexTimerColon] = std::make_unique<UISymbol>();
 	UIs_[kUIIndexTimerColon]->Initialize(textureHandles_[kUITextureHandleIndexSymbol], "UITimerColon", symbolSize, leftTop);
+
+	// エナジー
+	leftTop = { 0.0f, 0.0f };
+	UIs_[kUIIndexEnergy] = std::make_unique<UIEnergy>();
+	static_cast<UIEnergy*>(UIs_[kUIIndexEnergy].get())->Initialize(textureHandles_[kUITextureHandleIndexEnergy], "UIIndexEnergy", EnergySize, leftTop, energyMax);
+
+	// エナジープレート
+	leftTop = { 0.0f, 0.0f };
+	UIs_[kUIIndexEnergyPlate] = std::make_unique<UIEnergyPlate>();
+	UIs_[kUIIndexEnergyPlate]->Initialize(textureHandles_[kUITextureHandleIndexEnergyPlate], "UIIndexEnergyPlate", EnergyPlateSize, leftTop);
 
 }
