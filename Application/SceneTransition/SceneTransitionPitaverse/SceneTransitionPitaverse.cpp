@@ -4,6 +4,13 @@
 #include "../../../Engine/base/WinApp.h"
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 
+SceneTransitionPitaverse::~SceneTransitionPitaverse()
+{
+
+	//ISceneTransition::~ISceneTransition();
+
+}
+
 void SceneTransitionPitaverse::Initialize()
 {
 

@@ -10,7 +10,7 @@ class ISceneTransition
 
 public: // メンバ関数
 
-	~ISceneTransition();
+	virtual ~ISceneTransition();
 
 	/// <summary>
 	/// 初期化

@@ -8,6 +8,8 @@ class SceneTransitionPitaverse : public ISceneTransition
 
 public: // メンバ関数
 
+	~SceneTransitionPitaverse() override;
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
