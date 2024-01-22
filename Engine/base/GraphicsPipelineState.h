@@ -14,6 +14,7 @@ public:
 		kModel, // モデル
 		kSprite, //スプライト
 		kParticle, // パーティクル
+		kOutLine, //アウトライン
 		kCountOfPipelineStateName // 使わない
 	};
 
@@ -51,5 +52,7 @@ private:
 	static void CreateForSprite(ID3D12Device* sDevice);
 	// パーティクル用
 	static void CreateForParticle(ID3D12Device* sDevice);
+	// アウトライン用
+	static void CreateForOutLine(ID3D12Device* sDevice);
 
 };

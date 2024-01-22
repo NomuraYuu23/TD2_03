@@ -84,6 +84,25 @@ void Model::PreParticleDraw(ID3D12GraphicsCommandList* cmdList, const Matrix4x4&
 }
 
 /// <summary>
+/// 静的前処理
+/// </summary>
+/// <param name="cmdList">描画コマンドリスト</param>
+void Model::PreDrawOutLine(ID3D12GraphicsCommandList* cmdList) {
+
+	assert(sCommandList == nullptr);
+
+	sCommandList = cmdList;
+
+	//RootSignatureを設定。
+	sCommandList->SetPipelineState(sPipelineState[GraphicsPipelineState::PipelineStateName::kOutLine]);//PS0を設定
+	sCommandList->SetGraphicsRootSignature(sRootSignature[GraphicsPipelineState::PipelineStateName::kOutLine]);
+
+	//形状を設定。PS0に設定しているものとは別。
+	sCommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+}
+
+/// <summary>
 /// 描画後処理
 /// </summary>
 void Model::PostDraw() {
@@ -331,6 +350,28 @@ void Model::ParticleDraw()
 
 }
 
+void Model::OutLineDraw(WorldTransform& worldTransform, BaseCamera& camera, OutLineData& outLineData) {
+	// nullptrチェック
+	assert(sDevice);
+	assert(sCommandList);
+
+	worldTransform.Map(camera.GetViewProjectionMatrix());
+	sCommandList->IASetVertexBuffers(0, 1, &vbView_); //VBVを設定
+
+	//wvp用のCBufferの場所を設定
+	sCommandList->SetGraphicsRootConstantBufferView(1, worldTransform.transformationMatrixBuff_->GetGPUVirtualAddress());
+
+	//マテリアルCBufferの場所を設定
+	sCommandList->SetGraphicsRootConstantBufferView(0, outLineData.forPSResource_->GetGPUVirtualAddress());
+
+	//マテリアルCBufferの場所を設定
+	sCommandList->SetGraphicsRootConstantBufferView(2, outLineData.forVSResource_->GetGPUVirtualAddress());
+
+	
+	//描画
+	sCommandList->DrawInstanced(UINT(modelData.vertices.size()), 1, 0, 0);
+
+}
 
 /// <summary>
 /// メッシュデータ生成

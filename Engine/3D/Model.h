@@ -30,7 +30,7 @@
 #include "../Camera/BaseCamera.h"
 
 #include "../base/ITextureHandleManager.h"
-
+#include "OutLineData.h"
 class Model
 {
 
@@ -66,6 +66,12 @@ public:
 	/// </summary>
 	/// <param name="cmdList">描画コマンドリスト</param>
 	static void PreParticleDraw(ID3D12GraphicsCommandList* cmdList, const Matrix4x4& viewProjectionMatrix);
+
+	/// <summary>
+	/// 静的前処理
+	/// </summary>
+	/// <param name="cmdList">描画コマンドリスト</param>
+	static void PreDrawOutLine(ID3D12GraphicsCommandList* cmdList);
 
 	/// <summary>
 	/// 描画後処理
@@ -111,6 +117,7 @@ public:
 	void Draw(WorldTransform& worldTransform, BaseCamera& camera);
 	void Draw(WorldTransform& worldTransform, BaseCamera& camera, Material* material);
 	void ParticleDraw();
+	void OutLineDraw(WorldTransform& worldTransform, BaseCamera& camera,OutLineData& outLineData);
 
 	/// <summary>
 	/// メッシュデータ生成

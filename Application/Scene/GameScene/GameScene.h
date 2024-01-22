@@ -21,6 +21,7 @@
 #include "../../BlockManager/BlockManager.h"
 
 #include "../../UFO/UFOManager.h"
+#include "../../../Engine/3D/OutLineData.h"
 class GameScene : public IScene
 {
 
@@ -147,4 +148,7 @@ private:
 
 	float energyPoint_;//エネルギー量仮
 	float energyMax_ = 2000.0f;//エネルギー最大量仮
+
+	//アウトライン仮
+	OutLineData outline_;
 };

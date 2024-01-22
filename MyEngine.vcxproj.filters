@@ -436,6 +436,9 @@
     <ClCompile Include="Application\TitleObj\TitleObj.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\3D\OutLineData.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -813,6 +816,9 @@
     <ClInclude Include="Application\TitleObj\TitleObj.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\3D\OutLineData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -850,5 +856,7 @@
     <FxCompile Include="Resources\shaders\Sprite.PS.hlsl">
       <Filter>shaders</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\OutLine3D.PS.hlsl" />
+    <FxCompile Include="Resources\shaders\OutLine3D.VS.hlsl" />
   </ItemGroup>
 </Project>

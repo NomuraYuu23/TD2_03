@@ -91,6 +91,10 @@ void Screw::Draw(Model* model, BaseCamera& camera) {
 	model->Draw(worldTransform_, camera,mat_.get());
 }
 
+void Screw::DrawOutLine(Model* model, BaseCamera& camera, OutLineData& outLineData) {
+	model->OutLineDraw(worldTransform_, camera, outLineData);
+}
+
 void Screw::Throw(const Vector3 position, void* block, size_t num) {
 	state_ = TOBLOCK;
 	startPosition_ = position;

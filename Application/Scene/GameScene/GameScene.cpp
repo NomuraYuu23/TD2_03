@@ -211,6 +211,8 @@ void GameScene::Initialize() {
 	energy_->Initialize();
 	energy_->SetTarget({ -100.0f,0.0f,-12.0f });
 	energyPoint_ = energyMax_;
+	outline_.Initialize();
+	outline_.color_.x = 1.0f;
 }
 
 /// <summary>
@@ -396,6 +398,9 @@ void GameScene::Update() {
 	//パーティクル
 	particleManager_->Update(camera_);
 
+	//アウトライン
+	outline_.Map();
+
 	// ポーズ機能
 	pause_->Update();
 
@@ -458,6 +463,17 @@ void GameScene::Draw() {
 #endif // _DEBUG
 
 	Model::PostDraw();
+	
+#pragma region アウトライン描画
+	Model::PreDrawOutLine(dxCommon_->GetCommadList());
+	/*
+	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+		(*block)->DrawOutLine(modelScrew_.get(), camera_,outline_);
+	}
+	*/
+	Model::PostDraw();
+
+#pragma endregion
 
 #pragma region パーティクル描画
 	Model::PreParticleDraw(dxCommon_->GetCommadList(), camera_.GetViewProjectionMatrix());

@@ -6,6 +6,7 @@
 #include "../../Engine/Collision/CollisionData.h"
 #include "../Collider/ColliderParentObject.h"
 #include "../../Engine/Collider/OBB/OBB.h"
+#include "../../Engine/3D/OutLineData.h"
 class Player;
 class Block;
 
@@ -26,7 +27,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw(Model* model, BaseCamera& camera);
-
+	void DrawOutLine(Model* model, BaseCamera& camera, OutLineData& outLineData);
 	void Throw(const Vector3 position, void* block , size_t num);
 	void Catch(WorldTransform* magnetWorldPosition);
 	void TurnOver();//ひっくり返す
