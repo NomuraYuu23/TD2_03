@@ -154,4 +154,5 @@ private:
 
 	size_t missionNum_;
 	std::vector<int32_t> mission_;
+	uint32_t whiteTextureHandle_;
 };

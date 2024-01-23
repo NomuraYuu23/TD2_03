@@ -43,6 +43,8 @@ public:
 	bool GetIsRidePlayer() { return isRidePlayer_; };
 	void SetIsRidePlayer(bool is) { isRidePlayer_ = is; };
 	void SetSize(const Vector3& vector) { worldTransform_.transform_.scale = vector; };
+	void SetWhiteTextureHandle(uint32_t th) { whiteTextureHandle_ = th; };
+	void SetReConnect(bool is) { reConnect_ = is; }; //再構成時に演出を出さない用
 protected:
 
 	std::array<AnchorPoint, anchorNum> anchorPoints_;
@@ -54,4 +56,10 @@ protected:
 	Vector3 velocity_;
 	bool isRelese_;//ネジが外されたフレームだけtrueになる
 	bool isRidePlayer_; //プレイヤーが上に乗っているか
+	std::unique_ptr <Material> mat_;
+	WorldTransform worldTransformOverRay_;
+	uint32_t whiteTextureHandle_;
+	bool isConnectAnimation_;
+	bool reConnect_ = false;
+	float alpha_;
 };

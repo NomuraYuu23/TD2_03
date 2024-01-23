@@ -257,6 +257,7 @@ void GameScene::Update() {
 	int oldConnectCount = 0;
 	for (std::list<Block*>::iterator block = blockManager_->GetBlocks().begin(); block != blockManager_->GetBlocks().end(); block++) {
 		(*block)->Update();
+		(*block)->SetWhiteTextureHandle(whiteTextureHandle_);
 		isRelese = isRelese || (*block)->GetIsRelese();
 		if ((*block)->GetIsConnect()) {
 			oldConnectCount++;
@@ -266,6 +267,7 @@ void GameScene::Update() {
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		(*block)->Update();
 		if ((*block)->GetIsDead()) {
+			(*block)->SetWhiteTextureHandle(whiteTextureHandle_);
 			isRelese = isRelese || (*block)->GetIsRelese();
 			if ((*block)->GetIsConnect()) {
 				oldConnectCount++;
@@ -287,6 +289,7 @@ void GameScene::Update() {
 	if (isRelese) {
 		for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
 			if (!(*block)->GetIsCenter()) {
+				(*block)->SetReConnect(true);
 				(*block)->SetIsConnect(false);
 			}
 		}
@@ -307,7 +310,9 @@ void GameScene::Update() {
 			}
 		} while (oldCount != newCount);
 	}
-
+	for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
+			(*block)->SetReConnect(false);
+	}
 	target_.Update(&blockUFO, *followCamera_.get(), player_.get(),&screws_);
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
@@ -647,4 +652,6 @@ void GameScene::TextureLoad()
 
 	shotUITextureHandle_[0] = TextureManager::Load("Resources/ingame_ui_RB.png", dxCommon_, textureHandleManager_.get());
 	shotUITextureHandle_[1] = TextureManager::Load("Resources/ingame_ui_RB_remove.png", dxCommon_, textureHandleManager_.get());
+
+	whiteTextureHandle_= TextureManager::Load("Resources/default/white2x2.png", dxCommon_, textureHandleManager_.get());
 }
