@@ -151,4 +151,7 @@ private:
 
 	//アウトライン仮
 	OutLineData outline_;
+
+	size_t missionNum_;
+	std::vector<int32_t> mission_;
 };

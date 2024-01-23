@@ -9,7 +9,7 @@ void BlockManagerStateInit::Initialize(BlockManager* blockManager)
 
 	// 中心ブロック生成
 	blockManager_->GenerationCenterBlock();
-
+	/*
 	blockManager_->GenerationCenterBlock({ -50.0f,0.0f,-12.0f}, {6.0f,0.5f,12.0f});
 	blockManager_->GenerationCenterBlock({ -100.0f,0.0f,-12.0f }, { 6.0f,0.5f,12.0f });
 	blockManager_->GenerationCenterBlock({ 50.0f,0.0f,-12.0f }, { 6.0f,0.5f,12.0f });
@@ -19,7 +19,7 @@ void BlockManagerStateInit::Initialize(BlockManager* blockManager)
 	blockManager_->GenerationCenterBlock({ -100.0f,0.0f,12.0f }, { 6.0f,0.5f,12.0f });
 	blockManager_->GenerationCenterBlock({ 50.0f,0.0f, 12.0f }, { 6.0f,0.5f,12.0f });
 	blockManager_->GenerationCenterBlock({ 100.0f,0.0f, 12.0f }, { 6.0f,0.5f,12.0f });
-
+	*/
 	// ブロック
 	Vector3 position = { 2.0f, 0.0f, 60.0f };
 	Vector3 velocity = { 0.1f, 0.0f, 0.0f };

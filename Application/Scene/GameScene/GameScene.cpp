@@ -213,6 +213,12 @@ void GameScene::Initialize() {
 	energyPoint_ = energyMax_;
 	outline_.Initialize();
 	outline_.color_ = { 0.8f,0.4f,0.1f,1.0f };
+	missionNum_ = 0;
+	mission_.clear();
+	mission_.push_back(4);
+	mission_.push_back(8);
+	mission_.push_back(12);
+	mission_.push_back(160);
 }
 
 /// <summary>
@@ -365,8 +371,20 @@ void GameScene::Update() {
 	if (oldConnectCount < connectCount) {
 		followCamera_->Shake();
 	}
+	if (mission_[missionNum_] < connectCount) {
+		if (mission_.size()-1> missionNum_) {
+			missionNum_++;
+		}
+	}
+#ifdef _DEBUG
+
+	ImGui::Begin("MISSION");
+	ImGui::Text("%d", mission_[missionNum_]);
+	ImGui::End();
+	
+#endif // _DEBUG
 	//エネルギー増減仮
-	{
+	/* {
 		energyPoint_ -= connectCount * 0.1f;
 		energyPoint_ += energy_->GetInnerAreaCount() * 0.4f;
 		if (energyPoint_ > energyMax_) {
@@ -380,6 +398,7 @@ void GameScene::Update() {
 		ImGui::End();
 	}
 	energy_->Update();
+	*/
 
 	// スカイドーム
 	skydome_->Update();
@@ -459,7 +478,7 @@ void GameScene::Draw() {
 	}
 	player_->Draw(modelPlayer_.get(), camera_);
 	//ufo_->Draw(modelBlock_.get(), camera_);
-	energy_->Draw(modelBlock_.get(), camera_);
+	//energy_->Draw(modelBlock_.get(), camera_);
 
 	// スカイドーム
 	skydome_->Draw(camera_);
