@@ -66,7 +66,7 @@ void Energy::SetTarget(const Vector3& position) {
 }
 
 void Energy::OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {
-	if (std::holds_alternative<Block*>(pairObject)) {
+	if (std::holds_alternative<Block*>(pairObject) && std::get<Block*>(pairObject)->GetIsConnect() && !std::get<Block*>(pairObject)->GetIsCenter()) {
 		innerAreaCount_++;
 	}
 }
