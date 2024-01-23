@@ -76,7 +76,7 @@ void Screw::Update() {
 	if (state_ == FOLLOW) {
 		worldTransform_.usedDirection_ = true;
 	}
-	if (state_ != STUCK) {
+	if (1|| state_ != STUCK) {
 		GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 		const std::string groupName = "Screw";
 		kStuckMax = globalVariables->GetIntValue(groupName, "StuckMax");
