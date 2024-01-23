@@ -13,7 +13,7 @@ public:
 	void Update();
 
 	void Draw(BaseCamera& camera);
-
+	void DrawOutLine(BaseCamera& camera, OutLineData& outLineData);
 private: // 関数
 
 	/// <summary>

@@ -64,6 +64,10 @@ void TitleScene::Initialize()
 
 	SpriteApplyGlobalVariables();
 
+	outline_.Initialize();
+	outline_.color_ = { 0.8f,0.4f,0.1f,1.0f };
+	//アウトライン
+	outline_.Map();
 }
 
 void TitleScene::Update()
@@ -154,7 +158,12 @@ void TitleScene::Draw()
 	}
 
 	Model::PostDraw();
+	Model::PreDrawOutLine(dxCommon_->GetCommadList());
 
+	for (uint32_t i = 0; i < screws_.size(); ++i) {
+		screws_[i]->DrawOutLine(camera_, outline_);
+	}
+	Model::PostDraw();
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(dxCommon_->GetCommadList());

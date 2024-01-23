@@ -113,6 +113,7 @@ private: // メンバ変数
 	std::array<std::unique_ptr<TitleObj>, 3> screws_;
 	std::unique_ptr<Model> screwModel_;
 
-
+	//アウトライン仮
+	OutLineData outline_;
 };
 

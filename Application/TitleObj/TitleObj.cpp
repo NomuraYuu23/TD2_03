@@ -59,6 +59,10 @@ void TitleObj::Draw(BaseCamera& camera)
 
 }
 
+void TitleObj::DrawOutLine(BaseCamera& camera, OutLineData& outLineData) {
+	model_->OutLineDraw(worldTransform_, camera, outLineData);
+}
+
 void TitleObj::Fluffy()
 {
 
