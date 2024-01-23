@@ -1,7 +1,7 @@
 #include "MakeEmitter.h"
 #include <cassert>
 #include "EmitterName.h"
-#include "GravityEmitter.h"	
+#include "Gravity/GravityEmitter.h"	
 MakeEmitter* MakeEmitter::GetInstance()
 {
     return nullptr;

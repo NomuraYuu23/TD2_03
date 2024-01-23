@@ -114,8 +114,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Camera\FollowCamera\FollowCamera.cpp" />
     <ClCompile Include="Application\Energy\Energy.cpp" />
     <ClCompile Include="Application\Magnet\Magnet.cpp" />
-    <ClCompile Include="Application\Particle\GravityEmitter.cpp" />
-    <ClCompile Include="Application\Particle\GravityParticle.cpp" />
+    <ClCompile Include="Application\Particle\Gravity\GravityEmitter.cpp" />
+    <ClCompile Include="Application\Particle\Gravity\GravityParticle.cpp" />
     <ClCompile Include="Application\Planet\Planet.cpp" />
     <ClCompile Include="Application\Player\player.cpp" />
     <ClCompile Include="Application\Player\PlayerAnimation\PlayerAnimation.cpp" />
@@ -220,8 +220,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Collider\CollisionConfig.h" />
     <ClInclude Include="Application\Energy\Energy.h" />
     <ClInclude Include="Application\Magnet\Magnet.h" />
-    <ClInclude Include="Application\Particle\GravityEmitter.h" />
-    <ClInclude Include="Application\Particle\GravityParticle.h" />
+    <ClInclude Include="Application\Particle\Gravity\GravityEmitter.h" />
+    <ClInclude Include="Application\Particle\Gravity\GravityParticle.h" />
     <ClInclude Include="Application\Planet\Planet.h" />
     <ClInclude Include="Application\Player\player.h" />
     <ClInclude Include="Application\Player\PlayerAnimation\PlayerAnimation.h" />
