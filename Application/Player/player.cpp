@@ -357,7 +357,8 @@ void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidio
 			isFlooar_ = true;
 		}*/
 		isFlooar_ = true;
-		worldTransform_.transform_.translate.y = std::get<Block*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + std::get<Block*>(pairObject)->GetWorldTransform()->transform_.scale.y + worldTransform_.transform_.scale.y;
+		float sizeY = std::get<Block*>(pairObject)->GetCollider()->size_.y;
+		worldTransform_.transform_.translate.y = std::get<Block*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + sizeY + worldTransform_.transform_.scale.y;
 		//worldTransform_.UpdateMatrix();
 		// worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(Matrix4x4Calc::MakeScaleMatrix(worldTransform_.transform_.scale) , Matrix4x4Calc::Multiply( directionMatrix_ , Matrix4x4Calc::MakeTranslateMatrix(worldTransform_.transform_.translate)));
 		if (worldTransform_.parent_) {

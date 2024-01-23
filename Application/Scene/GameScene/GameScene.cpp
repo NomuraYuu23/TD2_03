@@ -61,7 +61,7 @@ void GameScene::Initialize() {
 
 	worldTransform_.Initialize();
 
-	modelBlock_.reset(Model::Create("Resources/TD2_November/collider/box/", "box.obj", dxCommon_, textureHandleManager_.get()));
+	modelBlock_.reset(Model::Create("Resources/Model/Block/", "block.obj", dxCommon_, textureHandleManager_.get()));
 	blockManager_ = std::make_unique<BlockManager>();
 	blockManager_->Initialize(modelBlock_.get());
 
