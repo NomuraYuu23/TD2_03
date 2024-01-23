@@ -235,7 +235,7 @@ void BlockManager::GenerationCenterBlock()
 	newBlock->SetIsCenter(true);
 	newBlock->SetIsConnect(true);
 	newBlock->SetVelocity({ 0.0f,0.0f,-0.1f });
-	newBlock->SetSize({100.0f,0.5f,6.0f});
+	newBlock->SetSize({33.3f,1.0f,2.0f});
 	blocks_.push_back(newBlock);
 
 }

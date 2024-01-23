@@ -151,4 +151,5 @@ private:
 
 	//アウトライン仮
 	OutLineData outline_;
+
 };

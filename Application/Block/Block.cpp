@@ -12,7 +12,7 @@ void Block::Initialize() {
 		anchorPoints_[index].screw = nullptr;
 	}
 	worldTransform_.Initialize();
-	worldTransform_.transform_.scale = {6.0f,0.5f,6.0f};
+	worldTransform_.transform_.scale = {2.0f,1.0f,2.0f};
 
 	collider_.reset(new OBB);
 	collider_->Initialize(worldTransform_.transform_.translate,worldTransform_.rotateMatrix_,worldTransform_.transform_.scale,this);
@@ -44,7 +44,7 @@ void Block::Update() {
 	}
 	worldTransform_.UpdateMatrix();
 	collider_->center_ = worldTransform_.GetWorldPosition();
-	collider_->size_ = worldTransform_.transform_.scale;
+	collider_->size_ = { worldTransform_.transform_.scale.x * 3.0f, worldTransform_.transform_.scale.y / 2.0f, worldTransform_.transform_.scale.z * 3.0f };
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
 	collider_->worldTransformUpdate();
 
