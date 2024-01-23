@@ -93,6 +93,8 @@ void Model::PreDrawOutLine(ID3D12GraphicsCommandList* cmdList) {
 
 	sCommandList = cmdList;
 
+	assert(sPipelineState[GraphicsPipelineState::PipelineStateName::kOutLine]);
+
 	//RootSignatureを設定。
 	sCommandList->SetPipelineState(sPipelineState[GraphicsPipelineState::PipelineStateName::kOutLine]);//PS0を設定
 	sCommandList->SetGraphicsRootSignature(sRootSignature[GraphicsPipelineState::PipelineStateName::kOutLine]);
