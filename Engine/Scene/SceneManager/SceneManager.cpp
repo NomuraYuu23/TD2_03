@@ -20,8 +20,8 @@ void SceneManager::Initialize(uint32_t earlySceneNo)
 	// シーンの静的初期化
 	scene_->StaticInitialize();
 	// シーンの初期化
-	//sceneInitialize_ = std::thread(std::bind(&SceneManager::InitializeThread, this));
-	scene_->Initialize();
+	sceneInitialize_ = std::thread(std::bind(&SceneManager::InitializeThread, this));
+	//scene_->Initialize();
 
 	// 初期シーン
 	currentSceneNo_ = earlySceneNo;
@@ -33,7 +33,12 @@ void SceneManager::Initialize(uint32_t earlySceneNo)
 	sceneTransitionFactory_ = SceneTransitionFactory::GetInstance();
 
 	// シーン遷移を保持するメンバ変数
-	sceneTransition_ = nullptr;
+	sceneTransition_.reset(sceneTransitionFactory_->CreateSceneTransition(currentSceneNo_, requestSeneNo_));
+	sceneTransition_->Initialize();
+	initializing_ = true;
+	sceneTransition_->SetSwitchScene(false);
+	sceneTransition_->SetStoppingUpdates(true);
+	sceneTransition_->SetIsFadeIn(false);
 
 }
 

@@ -41,6 +41,8 @@ public: // アクセッサ
 
 	void SetStoppingUpdates(bool stoppingUpdates) { stoppingUpdates_ = stoppingUpdates; }
 
+	void SetIsFadeIn(bool isFadeIn) { isFadeIn_ = isFadeIn; }
+
 protected: // メンバ変数
 
 	// フェード時間
