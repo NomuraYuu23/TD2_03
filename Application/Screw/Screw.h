@@ -81,4 +81,6 @@ private:
 	float followSpeed_;
 	Vector3 acceleration_;
 	Vector3 velocity_;
+	float stuckTop_ = 2.0f;
+	float stuckLow_ = -2.0f;
 };
