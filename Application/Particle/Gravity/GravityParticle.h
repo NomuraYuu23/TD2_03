@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Engine/Particle/IParticle.h"
+#include "../../../Engine/Particle/IParticle.h"
 
 class GravityParticle : public IParticle
 {

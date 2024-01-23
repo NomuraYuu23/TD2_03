@@ -1,7 +1,7 @@
 #include "GravityEmitter.h"
-#include "MakeParticle.h"
-#include "../../Engine/GlobalVariables/GlobalVariables.h"
-#include "../../Engine/Math/RandomEngine.h"
+#include "../MakeParticle.h"
+#include "../../../Engine/GlobalVariables/GlobalVariables.h"
+#include "../../../Engine/Math/RandomEngine.h"
 void GravityEmitter::Initialize(const TransformStructure& transform, uint32_t instanceCount,
 	float frequency, float lifeTime, uint32_t particleModelNum, uint32_t paeticleName) {
 	IEmitter::Initialize(transform,instanceCount,frequency,lifeTime,particleModelNum,paeticleName);

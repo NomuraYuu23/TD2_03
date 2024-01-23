@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Engine/Particle/IEmitter.h"
+#include "../../../Engine/Particle/IEmitter.h"
 class GravityEmitter : public IEmitter
 {
 public:

@@ -1,7 +1,7 @@
 #include "GravityParticle.h"
-#include "../../Engine/Math/RandomEngine.h"
-#include "../../Engine/Math/Ease.h"
-#include "../../Engine/GlobalVariables/GlobalVariables.h"
+#include "../../../Engine/Math/RandomEngine.h"
+#include "../../../Engine/Math/Ease.h"
+#include "../../../Engine/GlobalVariables/GlobalVariables.h"
 void GravityParticle::Initialize(const Vector3& position, const Vector3& size) {
 	Vector3Calc* vector3Calc = Vector3Calc::GetInstance();
 	Matrix4x4Calc* matrix4x4Calc = Matrix4x4Calc::GetInstance();

@@ -1,5 +1,5 @@
 #include "MakeParticle.h"
-#include "GravityParticle.h"
+#include "Gravity/GravityParticle.h"
 #include <cassert>
 
 MakeParticle* MakeParticle::GetInstance()
