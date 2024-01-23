@@ -248,15 +248,22 @@ void GameScene::Update() {
 		return false;
 		});
 	bool isRelese = false;
+	int oldConnectCount = 0;
 	for (std::list<Block*>::iterator block = blockManager_->GetBlocks().begin(); block != blockManager_->GetBlocks().end(); block++) {
 		(*block)->Update();
 		isRelese = isRelese || (*block)->GetIsRelese();
+		if ((*block)->GetIsConnect()) {
+			oldConnectCount++;
+		}
 	}
 	ufoManager_->Update();
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		(*block)->Update();
 		if ((*block)->GetIsDead()) {
 			isRelese = isRelese || (*block)->GetIsRelese();
+			if ((*block)->GetIsConnect()) {
+				oldConnectCount++;
+			}
 		}
 	}
 
@@ -301,28 +308,6 @@ void GameScene::Update() {
 		(*block)->Update();
 	}
 
-	//接続数カウント
-	int connectCount = 0;
-	for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
-		if ((*block)->GetIsConnect()) {
-			connectCount++;
-		}
-	}
-	//エネルギー増減仮
-	{
-		energyPoint_-= connectCount * 0.1f;
-		energyPoint_ += energy_->GetInnerAreaCount()*0.4f;
-		if (energyPoint_ > energyMax_) {
-			energyPoint_ = energyMax_;
-		}
-		if (energyPoint_ < 0.0f) {
-			energyPoint_ = 0.0f;
-		}
-		ImGui::Begin("Energy");
-		ImGui::Text("%f",energyPoint_);
-		ImGui::End();
-	}
-	energy_->Update();
 	//ufo_->Update();
 	/*Block* center = nullptr;
 	//中心となるブロックをリセット
@@ -369,6 +354,33 @@ void GameScene::Update() {
 			}
 		}
 	}*/
+
+	//接続数カウント
+	int connectCount = 0;
+	for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
+		if ((*block)->GetIsConnect()) {
+			connectCount++;
+		}
+	}
+	if (oldConnectCount < connectCount) {
+		followCamera_->Shake();
+	}
+	//エネルギー増減仮
+	{
+		energyPoint_ -= connectCount * 0.1f;
+		energyPoint_ += energy_->GetInnerAreaCount() * 0.4f;
+		if (energyPoint_ > energyMax_) {
+			energyPoint_ = energyMax_;
+		}
+		if (energyPoint_ < 0.0f) {
+			energyPoint_ = 0.0f;
+		}
+		ImGui::Begin("Energy");
+		ImGui::Text("%f", energyPoint_);
+		ImGui::End();
+	}
+	energy_->Update();
+
 	// スカイドーム
 	skydome_->Update();
 
