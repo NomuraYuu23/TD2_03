@@ -1,5 +1,6 @@
 {
     "Screw": {
-        "FirstScrewNum": 10
+        "FirstScrewNum": 10,
+        "StuckMax": 3600
     }
 }
