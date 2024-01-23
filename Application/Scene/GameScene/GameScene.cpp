@@ -215,10 +215,16 @@ void GameScene::Initialize() {
 	outline_.color_ = { 0.8f,0.4f,0.1f,1.0f };
 	missionNum_ = 0;
 	mission_.clear();
-	mission_.push_back(4);
-	mission_.push_back(8);
-	mission_.push_back(12);
-	mission_.push_back(160);
+	mission_.push_back(2);
+	mission_.push_back(6);
+	mission_.push_back(10);
+	mission_.push_back(14);
+	mission_.push_back(20);
+	mission_.push_back(24);
+	mission_.push_back(28);
+	mission_.push_back(32);
+	mission_.push_back(36);
+	mission_.push_back(40);
 }
 
 /// <summary>
