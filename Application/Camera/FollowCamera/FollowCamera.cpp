@@ -6,7 +6,7 @@
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../../Engine/Math/Math.h"
 #include "../../../Engine/Math/Ease.h"
-
+#include "../../../Engine/Math/RandomEngine.h"
 void FollowCamera::Initialize() {
 
 	BaseCamera::Initialize();
@@ -63,7 +63,15 @@ void FollowCamera::Update() {
 		Vector3 offset = OffsetCalc();
 
 		transform_.translate = v3Calc->Add(interTarget_, offset);
-
+		if (isShake_) {
+			transform_.translate.x += RandomEngine::GetRandom(-shakeSize_ / 2.0f, shakeSize_ / 2.0f);
+			transform_.translate.y += RandomEngine::GetRandom(-shakeSize_ / 2.0f, shakeSize_ / 2.0f);
+			transform_.translate.z += RandomEngine::GetRandom(-shakeSize_ / 2.0f, shakeSize_ / 2.0f);
+			shakeSize_ *= 0.8f;
+			if (shakeSize_ <= 0.1f) {
+				isShake_ = false;
+			}
+		}
 	}
 
 	//y固定
@@ -112,4 +120,9 @@ void FollowCamera::ApplyGlobalVariables()
 	moveRate_ = globalVariables->GetFloatValue(groupName, "moveRate");
 	rotateRate_ = globalVariables->GetFloatValue(groupName, "rotateRate");
 	offsetLength_ = globalVariables->GetFloatValue(groupName, "offsetLength");
+}
+
+void FollowCamera::Shake() {
+	isShake_ = true;
+	shakeSize_ = 3.0f;
 }
