@@ -76,8 +76,11 @@ void Player::BehaviorAttackInitialize() {
 
 	if (block_) {
 		Vector3 blockPosition = block_->GetAnchorPointWorldPosition(0);
-		direction_ =
-			Vector3Calc::Normalize(Vector3Calc::Subtract(blockPosition, worldTransform_.GetWorldPosition()));
+		blockPosition.y = 0.0f;
+		Vector3 playerPosition = worldTransform_.GetWorldPosition();
+		playerPosition.y = 0.0f;
+		direction_ = 
+			Vector3Calc::Normalize(Vector3Calc::Subtract(blockPosition, playerPosition));
 	}
 	
 }
