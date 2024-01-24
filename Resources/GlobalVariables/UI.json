@@ -28,7 +28,7 @@
             720.0
         ],
         "UIMissionDenominatorOnesPlaceposition": [
-            1100.0,
+            1150.0,
             43.0
         ],
         "UIMissionDenominatorOnesPlacerotate": 0.0,
@@ -37,7 +37,7 @@
             24.0
         ],
         "UIMissionDenominatorTensPlaceposition": [
-            1080.0,
+            1130.0,
             43.0
         ],
         "UIMissionDenominatorTensPlacerotate": 0.0,
@@ -73,7 +73,7 @@
             24.0
         ],
         "UIMissionNumeratorOnesPlaceposition": [
-            1150.0,
+            1100.0,
             43.0
         ],
         "UIMissionNumeratorOnesPlacerotate": 0.0,
@@ -82,7 +82,7 @@
             24.0
         ],
         "UIMissionNumeratorTensPlaceposition": [
-            1130.0,
+            1080.0,
             43.0
         ],
         "UIMissionNumeratorTensPlacerotate": 0.0,

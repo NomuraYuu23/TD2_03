@@ -17,7 +17,7 @@ void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUIT
 
 }
 
-void UIManager::Update(uint32_t screwCount)
+void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t blockCount)
 {
 
 	Vector2 leftTop = { 0.0f, 0.0f };
@@ -47,18 +47,25 @@ void UIManager::Update(uint32_t screwCount)
 	UIs_[kUIIndexMissionFrame]->Update();
 	// ミッションテキスト
 	UIs_[kUIIndexMissionText]->Update();
+
 	// ミッション番号10の位
+	leftTop.x = 128.0f * static_cast<float>(missionBlockCount / 10);
 	UIs_[kUIIndexMissionNumTensPlace]->Update(leftTop);
 	// ミッション番号1の位
+	leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
 	UIs_[kUIIndexMissionNumOnesPlace]->Update(leftTop);
 
 	// ミッション分母10の位
+	leftTop.x = 128.0f * static_cast<float>(missionBlockCount / 10);
 	UIs_[kUIIndexMissionDenominatorTensPlace]->Update(leftTop);
 	// ミッション分母1の位
+	leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
 	UIs_[kUIIndexMissionDenominatorOnesPlace]->Update(leftTop);
 	// ミッション分子10の位
+	leftTop.x = 128.0f * static_cast<float>(blockCount / 10);
 	UIs_[kUIIndexMissionNumeratorTensPlace]->Update(leftTop);
 	// ミッション分子1の位
+	leftTop.x = 128.0f * static_cast<float>(blockCount % 10);
 	UIs_[kUIIndexMissionNumeratorOnesPlace]->Update(leftTop);
 
 }
