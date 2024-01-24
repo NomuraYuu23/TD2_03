@@ -27,6 +27,78 @@
             1280.0,
             720.0
         ],
+        "UIMissionDenominatorOnesPlaceposition": [
+            1100.0,
+            43.0
+        ],
+        "UIMissionDenominatorOnesPlacerotate": 0.0,
+        "UIMissionDenominatorOnesPlacesize": [
+            24.0,
+            24.0
+        ],
+        "UIMissionDenominatorTensPlaceposition": [
+            1080.0,
+            43.0
+        ],
+        "UIMissionDenominatorTensPlacerotate": 0.0,
+        "UIMissionDenominatorTensPlacesize": [
+            24.0,
+            24.0
+        ],
+        "UIMissionFrameposition": [
+            985.0,
+            37.0
+        ],
+        "UIMissionFramerotate": 0.0,
+        "UIMissionFramesize": [
+            437.0,
+            75.0
+        ],
+        "UIMissionNumOnesPlaceposition": [
+            948.0,
+            43.0
+        ],
+        "UIMissionNumOnesPlacerotate": 0.0,
+        "UIMissionNumOnesPlacesize": [
+            24.0,
+            24.0
+        ],
+        "UIMissionNumTensPlaceposition": [
+            929.0,
+            43.0
+        ],
+        "UIMissionNumTensPlacerotate": 0.0,
+        "UIMissionNumTensPlacesize": [
+            24.0,
+            24.0
+        ],
+        "UIMissionNumeratorOnesPlaceposition": [
+            1150.0,
+            43.0
+        ],
+        "UIMissionNumeratorOnesPlacerotate": 0.0,
+        "UIMissionNumeratorOnesPlacesize": [
+            24.0,
+            24.0
+        ],
+        "UIMissionNumeratorTensPlaceposition": [
+            1130.0,
+            43.0
+        ],
+        "UIMissionNumeratorTensPlacerotate": 0.0,
+        "UIMissionNumeratorTensPlacesize": [
+            24.0,
+            24.0
+        ],
+        "UIMissionTextposition": [
+            985.0,
+            37.0
+        ],
+        "UIMissionTextrotate": 0.0,
+        "UIMissionTextsize": [
+            437.0,
+            75.0
+        ],
         "UIScrewsCrossposition": [
             280.0,
             52.0

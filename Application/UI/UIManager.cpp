@@ -5,17 +5,19 @@
 #include "UIFrame/UIFrame.h"
 #include "UIEnergyPlate/UIEnergyPlate.h"
 #include "UIEnergy/UIEnergy.h"
+#include "UIMissionFrame/UIMissionFrame.h"
+#include "UIMissionText/UIMissionText.h"
 
-void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUITextureHandleIndexOfCount>& textureHandles, float energyMax)
+void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUITextureHandleIndexOfCount>& textureHandles)
 {
 
 	textureHandles_ = textureHandles;
 
-	UIInitialize(energyMax);
+	UIInitialize();
 
 }
 
-void UIManager::Update(uint32_t screwCount, float energy)
+void UIManager::Update(uint32_t screwCount)
 {
 
 	Vector2 leftTop = { 0.0f, 0.0f };
@@ -41,10 +43,23 @@ void UIManager::Update(uint32_t screwCount, float energy)
 	UIs_[kUIIndexTimerSecondsOnesPlace]->Update(leftTop);
 	// タイマーコロン
 	UIs_[kUIIndexTimerColon]->Update();
-	//エナジー
-	static_cast<UIEnergy*>(UIs_[kUIIndexEnergy].get())->Update(energy);
-	//エナジープレート
-	UIs_[kUIIndexEnergyPlate]->Update();
+	// ミッションフレーム
+	UIs_[kUIIndexMissionFrame]->Update();
+	// ミッションテキスト
+	UIs_[kUIIndexMissionText]->Update();
+	// ミッション番号10の位
+	UIs_[kUIIndexMissionNumTensPlace]->Update(leftTop);
+	// ミッション番号1の位
+	UIs_[kUIIndexMissionNumOnesPlace]->Update(leftTop);
+
+	// ミッション分母10の位
+	UIs_[kUIIndexMissionDenominatorTensPlace]->Update(leftTop);
+	// ミッション分母1の位
+	UIs_[kUIIndexMissionDenominatorOnesPlace]->Update(leftTop);
+	// ミッション分子10の位
+	UIs_[kUIIndexMissionNumeratorTensPlace]->Update(leftTop);
+	// ミッション分子1の位
+	UIs_[kUIIndexMissionNumeratorOnesPlace]->Update(leftTop);
 
 }
 
@@ -57,15 +72,15 @@ void UIManager::Draw()
 
 }
 
-void UIManager::UIInitialize(float energyMax)
+void UIManager::UIInitialize()
 {
 
 	Vector2 leftTop = { 0.0f, 0.0f };
 	Vector2 numberSize = { 128.0f, 128.0f };
 	Vector2 symbolSize = { 192.0f, 192.0f };
 	Vector2 frameSize = { 1280.0f, 720.0f };
-	Vector2 EnergySize = { 1536.0f, 96.0f };
-	Vector2 EnergyPlateSize = { 500.0f, 120.0f};
+	Vector2 missionFrameSize = { 1748.0f, 300.0f };
+	Vector2 missionTextSize = { 1748.0f, 300.0f};
 
 	// フレーム
 	leftTop = { 0.0f, 0.0f };
@@ -106,14 +121,34 @@ void UIManager::UIInitialize(float energyMax)
 	UIs_[kUIIndexTimerColon] = std::make_unique<UISymbol>();
 	UIs_[kUIIndexTimerColon]->Initialize(textureHandles_[kUITextureHandleIndexSymbol], "UITimerColon", symbolSize, leftTop);
 
-	// エナジー
-	leftTop = { 0.0f, 0.0f };
-	UIs_[kUIIndexEnergy] = std::make_unique<UIEnergy>();
-	static_cast<UIEnergy*>(UIs_[kUIIndexEnergy].get())->Initialize(textureHandles_[kUITextureHandleIndexEnergy], "UIIndexEnergy", EnergySize, leftTop, energyMax);
+	// ミッションフレーム
+	UIs_[kUIIndexMissionFrame] = std::make_unique<UIMissionFrame>();
+	UIs_[kUIIndexMissionFrame]->Initialize(textureHandles_[kUITextureHandleIndexMissionFrame], "UIMissionFrame", missionFrameSize, leftTop);
 
-	// エナジープレート
-	leftTop = { 0.0f, 0.0f };
-	UIs_[kUIIndexEnergyPlate] = std::make_unique<UIEnergyPlate>();
-	UIs_[kUIIndexEnergyPlate]->Initialize(textureHandles_[kUITextureHandleIndexEnergyPlate], "UIIndexEnergyPlate", EnergyPlateSize, leftTop);
+	// ミッションテキスト
+	UIs_[kUIIndexMissionText] = std::make_unique<UIMissionText>();
+	UIs_[kUIIndexMissionText]->Initialize(textureHandles_[kUITextureHandleIndexMissionText], "UIMissionText", missionTextSize, leftTop);
+
+	// タイマー秒1の位
+	UIs_[kUIIndexMissionNumTensPlace] = std::make_unique<UINumber>();
+	UIs_[kUIIndexMissionNumTensPlace]->Initialize(textureHandles_[kUITextureHandleIndexNumber], "UIMissionNumTensPlace", numberSize, leftTop);
+
+	// タイマー秒10の位
+	UIs_[kUIIndexMissionNumOnesPlace] = std::make_unique<UINumber>();
+	UIs_[kUIIndexMissionNumOnesPlace]->Initialize(textureHandles_[kUITextureHandleIndexNumber], "UIMissionNumOnesPlace", numberSize, leftTop);
+
+
+	// ミッション分母10の位
+	UIs_[kUIIndexMissionDenominatorTensPlace] = std::make_unique<UINumber>();
+	UIs_[kUIIndexMissionDenominatorTensPlace]->Initialize(textureHandles_[kUITextureHandleIndexNumber], "UIMissionDenominatorTensPlace", numberSize, leftTop);
+	// ミッション分母1の位
+	UIs_[kUIIndexMissionDenominatorOnesPlace] = std::make_unique<UINumber>();
+	UIs_[kUIIndexMissionDenominatorOnesPlace]->Initialize(textureHandles_[kUITextureHandleIndexNumber], "UIMissionDenominatorOnesPlace", numberSize, leftTop);
+	// ミッション分子10の位
+	UIs_[kUIIndexMissionNumeratorTensPlace] = std::make_unique<UINumber>();
+	UIs_[kUIIndexMissionNumeratorTensPlace]->Initialize(textureHandles_[kUITextureHandleIndexNumber], "UIMissionNumeratorTensPlace", numberSize, leftTop);
+	// ミッション分子1の位
+	UIs_[kUIIndexMissionNumeratorOnesPlace] = std::make_unique<UINumber>();
+	UIs_[kUIIndexMissionNumeratorOnesPlace]->Initialize(textureHandles_[kUITextureHandleIndexNumber], "UIMissionNumeratorOnesPlace", numberSize, leftTop);
 
 }

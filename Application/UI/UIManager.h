@@ -9,8 +9,8 @@ enum UITextureHandleIndex {
 	kUITextureHandleIndexNumber, // 数字
 	kUITextureHandleIndexSymbol, // 記号
 	kUITextureHandleIndexFrame, // フレーム
-	kUITextureHandleIndexEnergyPlate, // エナジープレート
-	kUITextureHandleIndexEnergy, // エナジー
+	kUITextureHandleIndexMissionFrame, // ミッションフレーム
+	kUITextureHandleIndexMissionText, // ミッションテキスト
 	kUITextureHandleIndexOfCount
 };
 
@@ -24,8 +24,14 @@ enum UIIndex {
 	kUIIndexTimerSecondsTensPlace, // タイマー秒10の位
 	kUIIndexTimerSecondsOnesPlace, // タイマー秒1の位
 	kUIIndexTimerColon, // タイマーコロン
-	kUIIndexEnergy, // エナジー
-	kUIIndexEnergyPlate, // エナジープレート
+	kUIIndexMissionFrame, // ミッションフレーム
+	kUIIndexMissionText, // ミッションテキスト
+	kUIIndexMissionNumTensPlace, // ミッション番号10の位
+	kUIIndexMissionNumOnesPlace, // ミッション番号1の位
+	kUIIndexMissionDenominatorTensPlace, // ミッション分母10の位
+	kUIIndexMissionDenominatorOnesPlace, // ミッション分母1の位
+	kUIIndexMissionNumeratorTensPlace, // ミッション分子10の位
+	kUIIndexMissionNumeratorOnesPlace, // ミッション分子1の位
 	kUIIndexOfCount
 };
 
@@ -39,14 +45,14 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="textureHandles">テクスチャハンドル</param>
 	/// <param name="energyMax">エナジー最大量</param>
-	void Initialize(const std::array<uint32_t, UITextureHandleIndex::kUITextureHandleIndexOfCount>& textureHandles, float energyMax);
+	void Initialize(const std::array<uint32_t, UITextureHandleIndex::kUITextureHandleIndexOfCount>& textureHandles);
 
 	/// <summary>
 	/// 更新
 	/// </summary>
 	/// <param name="screwCount">ねじの数</param>
 	/// <param name="energy">エナジー</param>
-	void Update(uint32_t screwCount, float energy);
+	void Update(uint32_t screwCount);
 
 	/// <summary>
 	/// 描画
@@ -59,7 +65,7 @@ private: // メンバ関数
 	/// UIごとの初期化
 	/// </summary>
 	/// <param name="energyMax">エナジー最大量</param>
-	void UIInitialize(float energyMax);
+	void UIInitialize();
 
 private: // メンバ変数
 

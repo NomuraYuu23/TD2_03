@@ -178,7 +178,7 @@ void GameScene::Initialize() {
 
 	//UIマネージャー
 	uiManager_ = std::make_unique<UIManager>();
-	uiManager_->Initialize(uiTextureHandles_, energyMax_);
+	uiManager_->Initialize(uiTextureHandles_);
 
 	// オーディオマネージャー
 	audioManager_ = std::make_unique<GameAudioManager>();
@@ -418,7 +418,7 @@ void GameScene::Update() {
 			screwCount++;
 		}
 	}
-	uiManager_->Update(screwCount, energyPoint_);
+	uiManager_->Update(screwCount);
 
 	// デバッグカメラ
 	DebugCameraUpdate();
@@ -641,8 +641,8 @@ void GameScene::TextureLoad()
 		TextureManager::Load("Resources/UI/number.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/UI/ingame_ui_symbol.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/UI/ingame_frame.png", dxCommon_,textureHandleManager_.get()),
-		TextureManager::Load("Resources/UI/ingame_frame_UI.png", dxCommon_,textureHandleManager_.get()),
-		TextureManager::Load("Resources/UI/gage.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/UI/ingame_mission_frame.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/UI/ingame_mission_text.png", dxCommon_,textureHandleManager_.get()),
 	};
 
 	shotUITextureHandle_[0] = TextureManager::Load("Resources/ingame_ui_RB.png", dxCommon_, textureHandleManager_.get());
