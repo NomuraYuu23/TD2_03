@@ -1,0 +1,44 @@
+{
+    "ClearSceneSprite": {
+        "LeftSpritePosition": [
+            675.0,
+            300.0
+        ],
+        "LeftSpriteSize": [
+            64.0,
+            128.0
+        ],
+        "LeftTenSpritePosition": [
+            625.0,
+            300.0
+        ],
+        "LeftTenSpriteSize": [
+            64.0,
+            128.0
+        ],
+        "MissionSpritePosition": [
+            500.0,
+            300.0
+        ],
+        "MissionSpriteSize": [
+            720.0,
+            128.0
+        ],
+        "RightSpritePosition": [
+            825.0,
+            300.0
+        ],
+        "RightSpriteSize": [
+            64.0,
+            128.0
+        ],
+        "RightTenSpritePosition": [
+            775.0,
+            300.0
+        ],
+        "RightTenSpriteSize": [
+            64.0,
+            128.0
+        ]
+    }
+}

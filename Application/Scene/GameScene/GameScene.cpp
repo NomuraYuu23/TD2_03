@@ -275,7 +275,7 @@ void GameScene::Update() {
 		(*block)->Update();
 		(*block)->SetWhiteTextureHandle(whiteTextureHandle_);
 		isRelese = isRelese || (*block)->GetIsRelese();
-		if ((*block)->GetIsConnect()) {
+		if ((*block)->GetIsConnect() && !(*block)->GetIsCenter()) {
 			oldConnectCount++;
 		}
 	}
@@ -285,7 +285,7 @@ void GameScene::Update() {
 		if ((*block)->GetIsDead()) {
 			(*block)->SetWhiteTextureHandle(whiteTextureHandle_);
 			isRelese = isRelese || (*block)->GetIsRelese();
-			if ((*block)->GetIsConnect()) {
+			if ((*block)->GetIsConnect() && !(*block)->GetIsCenter()) {
 				oldConnectCount++;
 			}
 		}
@@ -385,7 +385,7 @@ void GameScene::Update() {
 	//接続数カウント
 	int connectCount = 0;
 	for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
-		if ((*block)->GetIsConnect()) {
+		if ((*block)->GetIsConnect() && !(*block)->GetIsCenter()) {
 			connectCount++;
 		}
 	}
