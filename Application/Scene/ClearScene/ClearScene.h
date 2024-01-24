@@ -121,5 +121,20 @@ private: // メンバ変数
 	uint32_t missionTextureHandle_ = 0u;
 	Vector2 missionPosition_ = {};
 	Vector2 missionSize_ = {};
+
+	std::unique_ptr<Sprite> leftSprite_ = nullptr;
+	Vector2 leftPosition_ = {};
+	Vector2 leftSize_ = {};
+	std::unique_ptr<Sprite> rightSprite_ = nullptr;
+	Vector2 rightPosition_ = {};
+	Vector2 rightSize_ = {};
+	uint32_t numTextureHandle_ = 0u;
+
+	size_t missionClearCount_;//カウント用
+	size_t missionClearNum_;//クリアした数
+	int32_t changeNumInterval_;
+	int32_t frameCount_;
+	size_t missionMax_;//最大ミッション数
+	bool isEndCountUp_;//カウントが終了したか
 };
 

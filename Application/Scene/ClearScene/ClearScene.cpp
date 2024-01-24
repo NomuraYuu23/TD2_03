@@ -3,7 +3,7 @@
 #include "../../../Engine/2D/ImguiManager.h"
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../../Engine/Math/Ease.h"
-
+#include "../../MissionData/MissionData.h"
 ClearScene::~ClearScene()
 {
 }
@@ -64,6 +64,10 @@ void ClearScene::Initialize()
 	missionTextureHandle_ = TextureManager::Load("Resources/UI/outgame_mission_TEXT.png", dxCommon_, textureHandleManager_.get());
 	missionSprite_.reset(Sprite::Create(missionTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 
+	numTextureHandle_ = TextureManager::Load("Resources/UI/number.png", dxCommon_, textureHandleManager_.get());
+	leftSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	rightSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+
 	SpriteRegisteringGlobalVariables();
 
 	SpriteApplyGlobalVariables();
@@ -73,8 +77,12 @@ void ClearScene::Initialize()
 	//アウトライン
 	outline_.Map();
 
-	
-	//titleSize_ = titleSprite_->GetSize();
+	missionClearCount_ = 0;
+	missionClearNum_ = MissionData::GetInstance()->GetMissionNum();
+	missionMax_ = MissionData::GetInstance()->GetMax();
+	changeNumInterval_ = 30;
+	frameCount_ = 0;
+	isEndCountUp_ = false;
 }
 
 void ClearScene::Update()
@@ -88,7 +96,7 @@ void ClearScene::Update()
 	ImguiDraw();
 
 	if ((input_->TriggerKey(DIK_SPACE) || input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) &&
-		requestSceneNo == kClear) {
+		requestSceneNo == kClear && isEndCountUp_) {
 		// 行きたいシーンへ
 		requestSceneNo = kTitle;
 		audioManager_->PlayWave(kTitleAudioNameIndexDecision);
@@ -131,6 +139,16 @@ void ClearScene::Update()
 	buttonColor_.w = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 1.0f, buttonAlphaT_);
 	buttonSprite_->SetColor(buttonColor_);
 
+	//数字
+	if (missionClearCount_ < missionClearNum_) {
+		if (frameCount_++ > changeNumInterval_) {
+			frameCount_ = 0;
+			missionClearCount_++;
+		}
+	}
+	else {
+		isEndCountUp_ = true;
+	}
 }
 
 void ClearScene::Draw()
@@ -179,8 +197,12 @@ void ClearScene::Draw()
 	//背景
 	//前景スプライト描画
 	//titleSprite_->Draw();
+	leftSprite_->Draw();
+	rightSprite_->Draw();
 	missionSprite_->Draw();
-	buttonSprite_->Draw();
+	if (isEndCountUp_) {
+		buttonSprite_->Draw();
+	}
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
@@ -265,6 +287,13 @@ void ClearScene::SpriteRegisteringGlobalVariables()
 	globalVariables->AddItem(groupName2, objName + "Position", missionPosition_);
 	globalVariables->AddItem(groupName2, objName + "Size", missionSize_);
 
+	objName = "LeftSprite";
+	globalVariables->AddItem(groupName2, objName + "Position", leftPosition_);
+	globalVariables->AddItem(groupName2, objName + "Size", leftSize_);
+
+	objName = "RightSprite";
+	globalVariables->AddItem(groupName2, objName + "Position", rightPosition_);
+	globalVariables->AddItem(groupName2, objName + "Size", rightSize_);
 }
 
 void ClearScene::SpriteApplyGlobalVariables()
@@ -302,4 +331,17 @@ void ClearScene::SpriteApplyGlobalVariables()
 
 	missionSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
 	missionSprite_->SetSize(missionSize_);
+
+	objName = "LeftSprite";
+	leftPosition_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	leftSprite_->SetPosition(leftPosition_);
+	leftSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	leftSprite_->SetSize(leftSize_);
+
+	objName = "RightSprite";
+	rightPosition_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	rightSprite_->SetPosition(rightPosition_);
+	rightSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	rightSprite_->SetSize(rightSize_);
+
 }
