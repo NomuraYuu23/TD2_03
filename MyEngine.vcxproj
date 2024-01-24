@@ -221,6 +221,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Collider\CollisionConfig.h" />
     <ClInclude Include="Application\Energy\Energy.h" />
     <ClInclude Include="Application\Magnet\Magnet.h" />
+    <ClInclude Include="Application\MissionData\MissionData.h" />
     <ClInclude Include="Application\Particle\Gravity\GravityEmitter.h" />
     <ClInclude Include="Application\Particle\Gravity\GravityParticle.h" />
     <ClInclude Include="Application\Particle\Spark\SparkParticle.h" />

@@ -7,6 +7,7 @@
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../Particle/EmitterName.h"
 #include "../../../Engine/Math/DeltaTime.h"
+#include "../../MissionData/MissionData.h"
 /// <summary>
 /// 初期化
 /// </summary>
@@ -232,6 +233,7 @@ void GameScene::Initialize() {
 	mission_.push_back(32);
 	mission_.push_back(36);
 	mission_.push_back(40);
+	MissionData::GetInstance()->Initialize();
 }
 
 /// <summary>
@@ -392,6 +394,7 @@ void GameScene::Update() {
 	if (mission_[missionNum_] < connectCount) {
 		if (mission_.size()-1> missionNum_) {
 			missionNum_++;
+			MissionData::GetInstance()->SetMissionNum(missionNum_);
 		}
 		else {
 			requestSceneNo = kClear;
