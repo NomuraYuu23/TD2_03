@@ -234,6 +234,7 @@ void GameScene::Initialize() {
 	mission_.push_back(36);
 	mission_.push_back(40);
 	MissionData::GetInstance()->Initialize();
+	MissionData::GetInstance()->SetMax(mission_.size());
 }
 
 /// <summary>

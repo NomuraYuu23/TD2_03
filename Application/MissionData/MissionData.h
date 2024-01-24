@@ -15,6 +15,9 @@ public:
 	size_t GetMissionNum() {
 		return missionNum_;
 	}
+	void SetMax(size_t max) { missionMax_ = max; };
+	size_t GetMax() { return missionMax_; };
 private:
 	size_t missionNum_;
+	size_t missionMax_;
 };
