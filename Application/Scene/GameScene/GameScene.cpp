@@ -6,6 +6,7 @@
 #include "../../Player/player.h"
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../Particle/EmitterName.h"
+#include "../../../Engine/Math/DeltaTime.h"
 /// <summary>
 /// 初期化
 /// </summary>
@@ -17,6 +18,12 @@ void GameScene::Initialize() {
 
 	globalVariables->AddItem(groupName, "FirstScrewNum", firstScrewNum_);
 	firstScrewNum_ = globalVariables->GetIntValue(groupName, "FirstScrewNum");
+	
+	const std::string groupName2 = "Timer";
+	globalVariables->AddItem(groupName2, "MAX", timerMax_);
+	timerMax_ = globalVariables->GetIntValue(groupName2, "MAX");
+	gameTimer_ = timerMax_;
+	gameTimerFloat_ = float(gameTimer_);
 	ModelCreate();
 	MaterialCreate();
 	TextureLoad();
@@ -386,6 +393,9 @@ void GameScene::Update() {
 		if (mission_.size()-1> missionNum_) {
 			missionNum_++;
 		}
+		else {
+			requestSceneNo = kClear;
+		}
 	}
 #ifdef _DEBUG
 
@@ -449,6 +459,22 @@ void GameScene::Update() {
 	// タイトルへ行く
 	GoToTheTitle();
 
+	gameTimerFloat_ -= kDeltaTime_;
+	gameTimer_ = int(gameTimerFloat_);
+	if (gameTimerFloat_ - float(gameTimer_)>0) {
+		gameTimer_++;
+	}
+	if (gameTimer_<0) {
+		gameTimer_ = 0;
+		requestSceneNo = kClear;
+	}
+#ifdef _DEBUG
+
+	ImGui::Begin("TIMER");
+	ImGui::Text("%d", gameTimer_);
+	ImGui::End();
+
+#endif // _DEBUG
 }
 
 /// <summary>

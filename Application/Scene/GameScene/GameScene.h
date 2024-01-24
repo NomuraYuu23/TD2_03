@@ -155,4 +155,9 @@ private:
 	size_t missionNum_;
 	std::vector<int32_t> mission_;
 	uint32_t whiteTextureHandle_;
+
+	int gameTimer_;//受け渡し用秒単位時間
+	float gameTimerFloat_;
+	int timerMax_ = 300;
+
 };
