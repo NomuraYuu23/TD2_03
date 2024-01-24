@@ -86,3 +86,10 @@ void UI::ApplyGlobalVariables()
 	sprite_->SetSize(size_);
 
 }
+
+void UI::SetColor(const Vector4& color)
+{
+
+	sprite_->SetColor(color);
+	
+}

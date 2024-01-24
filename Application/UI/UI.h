@@ -30,7 +30,6 @@ private: // メンバ関数
 	/// </summary>
 	virtual void ApplyGlobalVariables();
 
-
 protected: // メンバ変数
 
 	std::unique_ptr<Sprite> sprite_;
@@ -44,6 +43,14 @@ protected: // メンバ変数
 	std::string jsonName_;
 
 	std::string groupName_;
+
+public:
+
+	/// <summary>
+	/// セットカラー
+	/// </summary>
+	/// <param name="color"></param>
+	void SetColor(const Vector4& color);
 
 };
 

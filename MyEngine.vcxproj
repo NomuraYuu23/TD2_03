@@ -133,6 +133,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\UI\UIEnergy\UIEnergy.cpp" />
     <ClCompile Include="Application\UI\UIFrame\UIFrame.cpp" />
     <ClCompile Include="Application\UI\UIManager.cpp" />
+    <ClCompile Include="Application\UI\UIMissionText\UIMissionText.cpp" />
     <ClCompile Include="Application\UI\UINumber\UINumber.cpp" />
     <ClCompile Include="Application\UI\UIScrew\UIScrew.cpp" />
     <ClCompile Include="Application\UI\UISymbol\UISymbol.cpp" />
@@ -202,6 +203,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\base\WinApp.cpp" />
     <ClCompile Include="Engine\3D\WorldTransform.cpp" />
+    <ClCompile Include="Application\UI\UIMissionFrame\UIMissionFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\AudioManager\GameAudioManager.h" />
@@ -242,6 +244,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\UI\UIEnergy\UIEnergy.h" />
     <ClInclude Include="Application\UI\UIFrame\UIFrame.h" />
     <ClInclude Include="Application\UI\UIManager.h" />
+    <ClInclude Include="Application\UI\UIMissionText\UIMissionText.h" />
     <ClInclude Include="Application\UI\UINumber\UINumber.h" />
     <ClInclude Include="Application\UI\UIScrew\UIScrew.h" />
     <ClInclude Include="Application\UI\UISymbol\UISymbol.h" />
@@ -331,6 +334,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\base\WinApp.h" />
     <ClInclude Include="Engine\3D\VertexData.h" />
     <ClInclude Include="Engine\3D\WorldTransform.h" />
+    <ClInclude Include="Application\UI\UIMissionFrame\UIMissionFrame.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt" />
