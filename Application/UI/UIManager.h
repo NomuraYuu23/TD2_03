@@ -52,7 +52,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="screwCount">ねじの数</param>
 	/// <param name="energy">エナジー</param>
-	void Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t blockCount);
+	void Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t blockCount, bool missionBeenUpdated);
 
 	/// <summary>
 	/// 描画
@@ -67,6 +67,11 @@ private: // メンバ関数
 	/// <param name="energyMax">エナジー最大量</param>
 	void UIInitialize();
 
+	/// <summary>
+	/// ミッションアップデート
+	/// </summary>
+	void MissionUpdate(uint32_t missionBlockCount);
+
 private: // メンバ変数
 
 	// テクスチャハンドル
@@ -74,6 +79,15 @@ private: // メンバ変数
 
 	// UI
 	std::array<std::unique_ptr<UI>, UIIndex::kUIIndexOfCount> UIs_;
+
+	// ミッション更新中
+	bool missionBeenUpdate_;
+
+	// ミッション更新中の色
+	Vector4 missionBeenUpdateColor_;
+
+	// ミッション
+	bool missionBeenUpdateFadeIn_;
 
 };
 

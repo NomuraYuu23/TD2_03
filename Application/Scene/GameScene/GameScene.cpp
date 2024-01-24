@@ -371,9 +371,12 @@ void GameScene::Update() {
 	if (oldConnectCount < connectCount) {
 		followCamera_->Shake();
 	}
-	if (mission_[missionNum_] < connectCount) {
+	// このフレームでミッションが更新されたか
+	bool missionBeenUpdated = false;
+	if (mission_[missionNum_] <= connectCount) {
 		if (mission_.size()-1> missionNum_) {
 			missionNum_++;
+			missionBeenUpdated = true;
 		}
 	}
 #ifdef _DEBUG
@@ -418,7 +421,7 @@ void GameScene::Update() {
 			screwCount++;
 		}
 	}
-	uiManager_->Update(screwCount, mission_[missionNum_], connectCount);
+	uiManager_->Update(screwCount, mission_[missionNum_], connectCount, missionBeenUpdated);
 
 	// デバッグカメラ
 	DebugCameraUpdate();

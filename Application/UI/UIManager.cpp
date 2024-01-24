@@ -15,9 +15,15 @@ void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUIT
 
 	UIInitialize();
 
+	missionBeenUpdate_ = false;
+
+	missionBeenUpdateColor_ = {1.0f,1.0f,1.0f,1.0f };
+
+	missionBeenUpdateFadeIn_ = false;
+
 }
 
-void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t blockCount)
+void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t blockCount, bool missionBeenUpdated)
 {
 
 	Vector2 leftTop = { 0.0f, 0.0f };
@@ -43,30 +49,45 @@ void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t
 	UIs_[kUIIndexTimerSecondsOnesPlace]->Update(leftTop);
 	// タイマーコロン
 	UIs_[kUIIndexTimerColon]->Update();
-	// ミッションフレーム
-	UIs_[kUIIndexMissionFrame]->Update();
-	// ミッションテキスト
-	UIs_[kUIIndexMissionText]->Update();
 
-	// ミッション番号10の位
-	leftTop.x = 128.0f * static_cast<float>(missionBlockCount / 10);
-	UIs_[kUIIndexMissionNumTensPlace]->Update(leftTop);
-	// ミッション番号1の位
-	leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
-	UIs_[kUIIndexMissionNumOnesPlace]->Update(leftTop);
+	if (missionBeenUpdated) {
+		missionBeenUpdate_ = true;
+	}
 
-	// ミッション分母10の位
-	leftTop.x = 128.0f * static_cast<float>(missionBlockCount / 10);
-	UIs_[kUIIndexMissionDenominatorTensPlace]->Update(leftTop);
-	// ミッション分母1の位
-	leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
-	UIs_[kUIIndexMissionDenominatorOnesPlace]->Update(leftTop);
-	// ミッション分子10の位
-	leftTop.x = 128.0f * static_cast<float>(blockCount / 10);
-	UIs_[kUIIndexMissionNumeratorTensPlace]->Update(leftTop);
-	// ミッション分子1の位
-	leftTop.x = 128.0f * static_cast<float>(blockCount % 10);
-	UIs_[kUIIndexMissionNumeratorOnesPlace]->Update(leftTop);
+	//アップデート中
+	if (missionBeenUpdate_) {
+		MissionUpdate(missionBlockCount);
+		// ミッション分子10の位
+		leftTop.x = 128.0f * static_cast<float>(blockCount / 10);
+		UIs_[kUIIndexMissionNumeratorTensPlace]->Update(leftTop);
+		// ミッション分子1の位
+		leftTop.x = 128.0f * static_cast<float>(blockCount % 10);
+		UIs_[kUIIndexMissionNumeratorOnesPlace]->Update(leftTop);
+	}
+	else {
+		// ミッションフレーム
+		UIs_[kUIIndexMissionFrame]->Update();
+		// ミッションテキスト
+		UIs_[kUIIndexMissionText]->Update();
+		// ミッション番号10の位
+		leftTop.x = 128.0f * static_cast<float>(missionBlockCount / 10);
+		UIs_[kUIIndexMissionNumTensPlace]->Update(leftTop);
+		// ミッション番号1の位
+		leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
+		UIs_[kUIIndexMissionNumOnesPlace]->Update(leftTop);
+		// ミッション分母10の位
+		leftTop.x = 128.0f * static_cast<float>(missionBlockCount / 10);
+		UIs_[kUIIndexMissionDenominatorTensPlace]->Update(leftTop);
+		// ミッション分母1の位
+		leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
+		UIs_[kUIIndexMissionDenominatorOnesPlace]->Update(leftTop);
+		// ミッション分子10の位
+		leftTop.x = 128.0f * static_cast<float>(blockCount / 10);
+		UIs_[kUIIndexMissionNumeratorTensPlace]->Update(leftTop);
+		// ミッション分子1の位
+		leftTop.x = 128.0f * static_cast<float>(blockCount % 10);
+		UIs_[kUIIndexMissionNumeratorOnesPlace]->Update(leftTop);
+	}
 
 }
 
@@ -157,5 +178,57 @@ void UIManager::UIInitialize()
 	// ミッション分子1の位
 	UIs_[kUIIndexMissionNumeratorOnesPlace] = std::make_unique<UINumber>();
 	UIs_[kUIIndexMissionNumeratorOnesPlace]->Initialize(textureHandles_[kUITextureHandleIndexNumber], "UIMissionNumeratorOnesPlace", numberSize, leftTop);
+
+}
+
+void UIManager::MissionUpdate(uint32_t missionBlockCount)
+{
+
+	Vector2 leftTop = { 0.0f, 0.0f };
+
+	if (!missionBeenUpdateFadeIn_) {
+		missionBeenUpdateColor_.w -= 0.05f;
+		if (missionBeenUpdateColor_.w <= 0.0f) {
+			missionBeenUpdateColor_.w = 0.0f;
+			missionBeenUpdateFadeIn_ = true;
+			// ミッション番号10の位
+			leftTop.x = 128.0f * static_cast<float>(missionBlockCount / 10);
+			UIs_[kUIIndexMissionNumTensPlace]->Update(leftTop);
+			// ミッション番号1の位
+			leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
+			UIs_[kUIIndexMissionNumOnesPlace]->Update(leftTop);
+			// ミッション分母10の位
+			leftTop.x = 128.0f * static_cast<float>(missionBlockCount / 10);
+			UIs_[kUIIndexMissionDenominatorTensPlace]->Update(leftTop);
+			// ミッション分母1の位
+			leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
+			UIs_[kUIIndexMissionDenominatorOnesPlace]->Update(leftTop);
+		}
+	}
+	else {
+		missionBeenUpdateColor_.w += 0.05f;
+		if (missionBeenUpdateColor_.w >= 1.0f) {
+			missionBeenUpdateColor_.w = 1.0f;
+			missionBeenUpdateFadeIn_ = false;
+			missionBeenUpdate_ = false;
+		}
+	}
+
+	// ミッションフレーム
+	UIs_[kUIIndexMissionFrame]->SetColor(missionBeenUpdateColor_);
+	// ミッションテキスト
+	UIs_[kUIIndexMissionText]->SetColor(missionBeenUpdateColor_);
+	// ミッション番号10の位
+	UIs_[kUIIndexMissionNumTensPlace]->SetColor(missionBeenUpdateColor_);
+	// ミッション番号1の位
+	UIs_[kUIIndexMissionNumOnesPlace]->SetColor(missionBeenUpdateColor_);
+	// ミッション分母10の位
+	UIs_[kUIIndexMissionDenominatorTensPlace]->SetColor(missionBeenUpdateColor_);
+	// ミッション分母1の位
+	UIs_[kUIIndexMissionDenominatorOnesPlace]->SetColor(missionBeenUpdateColor_);
+	// ミッション分子10の位
+	UIs_[kUIIndexMissionNumeratorTensPlace]->SetColor(missionBeenUpdateColor_);
+	// ミッション分子1の位
+	UIs_[kUIIndexMissionNumeratorOnesPlace]->SetColor(missionBeenUpdateColor_);
 
 }
