@@ -13,16 +13,16 @@
             300.0
         ],
         "LeftSpriteSize": [
-            64.0,
-            128.0
+            44.0,
+            100.0
         ],
         "LeftTenSpritePosition": [
             625.0,
             300.0
         ],
         "LeftTenSpriteSize": [
-            64.0,
-            128.0
+            44.0,
+            100.0
         ],
         "Line1SpritePosition": [
             410.0,
@@ -53,16 +53,16 @@
             300.0
         ],
         "RightSpriteSize": [
-            64.0,
-            128.0
+            44.0,
+            100.0
         ],
         "RightTenSpritePosition": [
             775.0,
             300.0
         ],
         "RightTenSpriteSize": [
-            64.0,
-            128.0
+            44.0,
+            100.0
         ],
         "TilteSpritePosition": [
             300.0,

@@ -70,7 +70,7 @@ void ClearScene::Initialize()
 	leftTenSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	rightTenSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 
-	frameTextureHandle_ = TextureManager::Load("Resources/UI/ingame_frame.png", dxCommon_, textureHandleManager_.get());
+	frameTextureHandle_ = TextureManager::Load("Resources/UI/outgame_frame.png", dxCommon_, textureHandleManager_.get());
 	frameSprite_.reset(Sprite::Create(frameTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	toTitleTextureHandle_ = TextureManager::Load("Resources/UI/outgame_titleGO_UI.png", dxCommon_, textureHandleManager_.get());
 	toTitleSprite_.reset(Sprite::Create(toTitleTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
