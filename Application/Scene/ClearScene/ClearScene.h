@@ -125,9 +125,15 @@ private: // メンバ変数
 	std::unique_ptr<Sprite> leftSprite_ = nullptr;
 	Vector2 leftPosition_ = {};
 	Vector2 leftSize_ = {};
+	std::unique_ptr<Sprite> leftTenSprite_ = nullptr;
+	Vector2 leftTenPosition_ = {};
+	Vector2 leftTenSize_ = {};
 	std::unique_ptr<Sprite> rightSprite_ = nullptr;
 	Vector2 rightPosition_ = {};
 	Vector2 rightSize_ = {};
+	std::unique_ptr<Sprite> rightTenSprite_ = nullptr;
+	Vector2 rightTenPosition_ = {};
+	Vector2 rightTenSize_ = {};
 	uint32_t numTextureHandle_ = 0u;
 
 	size_t missionClearCount_;//カウント用

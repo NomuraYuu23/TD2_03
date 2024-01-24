@@ -67,6 +67,8 @@ void ClearScene::Initialize()
 	numTextureHandle_ = TextureManager::Load("Resources/UI/number.png", dxCommon_, textureHandleManager_.get());
 	leftSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	rightSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	leftTenSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	rightTenSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 
 	SpriteRegisteringGlobalVariables();
 
@@ -149,6 +151,21 @@ void ClearScene::Update()
 	else {
 		isEndCountUp_ = true;
 	}
+	Vector2 size = {128.0f,128.0f};
+	Vector2 leftTop = {128.0f,0.0f};
+	leftTop.x = 128.0f * static_cast<float>(missionClearCount_ % 10);
+	leftSprite_->SetTextureLeftTop(leftTop);
+	leftSprite_->SetTextureSize(size);
+	leftTop.x = 128.0f * static_cast<float>(missionClearCount_ / 10);
+	leftTenSprite_->SetTextureLeftTop(leftTop);
+	leftTenSprite_->SetTextureSize(size);
+
+	leftTop.x = 128.0f * static_cast<float>(missionMax_ % 10);
+	rightSprite_->SetTextureLeftTop(leftTop);
+	rightSprite_->SetTextureSize(size);
+	leftTop.x = 128.0f * static_cast<float>(missionMax_ / 10);
+	rightTenSprite_->SetTextureLeftTop(leftTop);
+	rightTenSprite_->SetTextureSize(size);
 }
 
 void ClearScene::Draw()
@@ -198,7 +215,9 @@ void ClearScene::Draw()
 	//前景スプライト描画
 	//titleSprite_->Draw();
 	leftSprite_->Draw();
+	leftTenSprite_->Draw();
 	rightSprite_->Draw();
+	rightTenSprite_->Draw();
 	missionSprite_->Draw();
 	if (isEndCountUp_) {
 		buttonSprite_->Draw();
@@ -294,6 +313,14 @@ void ClearScene::SpriteRegisteringGlobalVariables()
 	objName = "RightSprite";
 	globalVariables->AddItem(groupName2, objName + "Position", rightPosition_);
 	globalVariables->AddItem(groupName2, objName + "Size", rightSize_);
+
+	objName = "LeftTenSprite";
+	globalVariables->AddItem(groupName2, objName + "Position", leftTenPosition_);
+	globalVariables->AddItem(groupName2, objName + "Size", leftTenSize_);
+
+	objName = "RightTenSprite";
+	globalVariables->AddItem(groupName2, objName + "Position", rightTenPosition_);
+	globalVariables->AddItem(groupName2, objName + "Size", rightTenSize_);
 }
 
 void ClearScene::SpriteApplyGlobalVariables()
@@ -344,4 +371,15 @@ void ClearScene::SpriteApplyGlobalVariables()
 	rightSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
 	rightSprite_->SetSize(rightSize_);
 
+	objName = "LeftTenSprite";
+	leftTenPosition_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	leftTenSprite_->SetPosition(leftTenPosition_);
+	leftTenSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	leftTenSprite_->SetSize(leftTenSize_);
+
+	objName = "RightTenSprite";
+	rightTenPosition_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	rightTenSprite_->SetPosition(rightTenPosition_);
+	rightTenSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	rightTenSprite_->SetSize(rightTenSize_);
 }
