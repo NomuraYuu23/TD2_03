@@ -510,6 +510,9 @@ void GameScene::Draw() {
 
 	//model_->Draw(worldTransform_, camera_, material_.get());
 	
+	// スカイドーム
+	skydome_->Draw(camera_);
+
 	for (std::list<Block*>::iterator block = blockManager_->GetBlocks().begin(); block != blockManager_->GetBlocks().end(); block++) {
 		(*block)->Draw(modelBlock_.get(), camera_);
 	}
@@ -522,9 +525,6 @@ void GameScene::Draw() {
 	player_->Draw(modelPlayer_.get(), camera_);
 	//ufo_->Draw(modelBlock_.get(), camera_);
 	//energy_->Draw(modelBlock_.get(), camera_);
-
-	// スカイドーム
-	skydome_->Draw(camera_);
 
 	// 惑星
 	//planet_->Draw(camera_);
