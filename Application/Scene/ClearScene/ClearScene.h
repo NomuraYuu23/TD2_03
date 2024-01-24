@@ -142,5 +142,24 @@ private: // メンバ変数
 	int32_t frameCount_;
 	size_t missionMax_;//最大ミッション数
 	bool isEndCountUp_;//カウントが終了したか
+
+	std::unique_ptr<Sprite> frameSprite_ = nullptr;
+	Vector2 framePosition_ = {};
+	Vector2 frameSize_ = {};
+	uint32_t frameTextureHandle_ = 0u;
+
+	std::unique_ptr<Sprite> toTitleSprite_ = nullptr;
+	Vector2 toTitlePosition_ = {};
+	Vector2 toTitleSize_ = {};
+	uint32_t toTitleTextureHandle_ = 0u;
+
+	std::unique_ptr<Sprite> lineSprite_ = nullptr;
+	Vector2 linePosition_ = {};
+	Vector2 lineSize_ = {};
+	uint32_t lineTextureHandle_ = 0u;
+
+	std::unique_ptr<Sprite> line2Sprite_ = nullptr;
+	Vector2 line2Position_ = {};
+	Vector2 line2Size_ = {};
 };
 

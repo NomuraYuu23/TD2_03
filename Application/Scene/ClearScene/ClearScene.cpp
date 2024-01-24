@@ -18,7 +18,7 @@ void ClearScene::Initialize()
 	TextureLoad();
 
 	titlePosition_ = { 320.0f, 240.0f };
-	titleTextureHandle_ = TextureManager::Load("Resources/Title/title.png", dxCommon_, textureHandleManager_.get());
+	titleTextureHandle_ = TextureManager::Load("Resources/UI/outgame_result.png", dxCommon_, textureHandleManager_.get());
 	titleSprite_.reset(Sprite::Create(titleTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	titleSize_ = titleSprite_->GetSize();
 
@@ -69,6 +69,14 @@ void ClearScene::Initialize()
 	rightSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	leftTenSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	rightTenSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+
+	frameTextureHandle_ = TextureManager::Load("Resources/UI/ingame_frame.png", dxCommon_, textureHandleManager_.get());
+	frameSprite_.reset(Sprite::Create(frameTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	toTitleTextureHandle_ = TextureManager::Load("Resources/UI/outgame_titleGO_UI.png", dxCommon_, textureHandleManager_.get());
+	toTitleSprite_.reset(Sprite::Create(toTitleTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	lineTextureHandle_ = TextureManager::Load("Resources/UI/outgame_line_UI.png", dxCommon_, textureHandleManager_.get());
+	lineSprite_.reset(Sprite::Create(lineTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	line2Sprite_.reset(Sprite::Create(lineTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 
 	SpriteRegisteringGlobalVariables();
 
@@ -140,7 +148,7 @@ void ClearScene::Update()
 	}
 	buttonColor_.w = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 1.0f, buttonAlphaT_);
 	buttonSprite_->SetColor(buttonColor_);
-
+	toTitleSprite_->SetColor(buttonColor_);
 	//数字
 	if (missionClearCount_ < missionClearNum_) {
 		if (frameCount_++ > changeNumInterval_) {
@@ -213,14 +221,18 @@ void ClearScene::Draw()
 
 	//背景
 	//前景スプライト描画
-	//titleSprite_->Draw();
+	titleSprite_->Draw();
+	frameSprite_->Draw();
 	leftSprite_->Draw();
 	leftTenSprite_->Draw();
 	rightSprite_->Draw();
 	rightTenSprite_->Draw();
 	missionSprite_->Draw();
+	lineSprite_->Draw();
+	line2Sprite_->Draw();
 	if (isEndCountUp_) {
 		buttonSprite_->Draw();
+		toTitleSprite_->Draw();
 	}
 
 	// 前景スプライト描画後処理
@@ -287,7 +299,7 @@ void ClearScene::SpriteRegisteringGlobalVariables()
 
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 
-	const std::string groupName = "TilteSceneSprite";
+	const std::string groupName = "ClearSceneSprite";
 
 	// タイトル
 	std::string objName = "TilteSprite";
@@ -321,6 +333,18 @@ void ClearScene::SpriteRegisteringGlobalVariables()
 	objName = "RightTenSprite";
 	globalVariables->AddItem(groupName2, objName + "Position", rightTenPosition_);
 	globalVariables->AddItem(groupName2, objName + "Size", rightTenSize_);
+
+	objName = "ToTitleSprite";
+	globalVariables->AddItem(groupName2, objName + "Position", toTitlePosition_);
+	globalVariables->AddItem(groupName2, objName + "Size", toTitleSize_);
+
+	objName = "Line1Sprite";
+	globalVariables->AddItem(groupName2, objName + "Position", linePosition_);
+	globalVariables->AddItem(groupName2, objName + "Size", lineSize_);
+	objName = "Line2Sprite";
+	globalVariables->AddItem(groupName2, objName + "Position", line2Position_);
+	globalVariables->AddItem(groupName2, objName + "Size", line2Size_);
+
 }
 
 void ClearScene::SpriteApplyGlobalVariables()
@@ -328,7 +352,7 @@ void ClearScene::SpriteApplyGlobalVariables()
 
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 
-	const std::string groupName = "TilteSceneSprite";
+	const std::string groupName = "ClearSceneSprite";
 
 	// タイトル
 	std::string objName = "TilteSprite";
@@ -382,4 +406,29 @@ void ClearScene::SpriteApplyGlobalVariables()
 	rightTenSprite_->SetPosition(rightTenPosition_);
 	rightTenSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
 	rightTenSprite_->SetSize(rightTenSize_);
+
+	objName = "ToTitleSprite";
+	toTitlePosition_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	toTitleSprite_->SetPosition(toTitlePosition_);
+	toTitleSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	toTitleSprite_->SetSize(toTitleSize_);
+
+	objName = "Line1Sprite";
+	linePosition_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	lineSprite_->SetPosition(linePosition_);
+	lineSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	lineSprite_->SetSize(lineSize_);
+
+	objName = "Line2Sprite";
+	line2Position_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	line2Sprite_->SetPosition(line2Position_);
+	line2Size_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	line2Sprite_->SetSize(line2Size_);
+
+	const std::string groupName3 = "UI";
+	objName = "UIIndexFrame";
+	framePosition_ = globalVariables->GetVector2Value(groupName3, objName + "position");
+	frameSprite_->SetPosition(framePosition_);
+	frameSize_ = globalVariables->GetVector2Value(groupName3, objName + "size");
+	frameSprite_->SetSize(frameSize_);
 }
