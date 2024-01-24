@@ -840,6 +840,12 @@
     <ClInclude Include="Application\UI\UIMissionText\UIMissionText.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Application\MissionData\MissionData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Particle\Spark\SparkEmitter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
     <ClInclude Include="Application\Particle\Spark\SparkEmitter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

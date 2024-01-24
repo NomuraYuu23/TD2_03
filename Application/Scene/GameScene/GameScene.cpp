@@ -6,6 +6,8 @@
 #include "../../Player/player.h"
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../Particle/EmitterName.h"
+#include "../../../Engine/Math/DeltaTime.h"
+#include "../../MissionData/MissionData.h"
 /// <summary>
 /// 初期化
 /// </summary>
@@ -17,6 +19,12 @@ void GameScene::Initialize() {
 
 	globalVariables->AddItem(groupName, "FirstScrewNum", firstScrewNum_);
 	firstScrewNum_ = globalVariables->GetIntValue(groupName, "FirstScrewNum");
+	
+	const std::string groupName2 = "Timer";
+	globalVariables->AddItem(groupName2, "MAX", timerMax_);
+	timerMax_ = globalVariables->GetIntValue(groupName2, "MAX");
+	gameTimer_ = timerMax_;
+	gameTimerFloat_ = float(gameTimer_);
 	ModelCreate();
 	MaterialCreate();
 	TextureLoad();
@@ -215,10 +223,18 @@ void GameScene::Initialize() {
 	outline_.color_ = { 0.8f,0.4f,0.1f,1.0f };
 	missionNum_ = 0;
 	mission_.clear();
-	mission_.push_back(4);
-	mission_.push_back(8);
-	mission_.push_back(12);
-	mission_.push_back(160);
+	mission_.push_back(2);
+	mission_.push_back(6);
+	mission_.push_back(10);
+	mission_.push_back(14);
+	mission_.push_back(20);
+	mission_.push_back(24);
+	mission_.push_back(28);
+	mission_.push_back(32);
+	mission_.push_back(36);
+	mission_.push_back(40);
+	MissionData::GetInstance()->Initialize();
+	MissionData::GetInstance()->SetMax(mission_.size());
 }
 
 /// <summary>
@@ -257,6 +273,7 @@ void GameScene::Update() {
 	int oldConnectCount = 0;
 	for (std::list<Block*>::iterator block = blockManager_->GetBlocks().begin(); block != blockManager_->GetBlocks().end(); block++) {
 		(*block)->Update();
+		(*block)->SetWhiteTextureHandle(whiteTextureHandle_);
 		isRelese = isRelese || (*block)->GetIsRelese();
 		if ((*block)->GetIsConnect()) {
 			oldConnectCount++;
@@ -266,6 +283,7 @@ void GameScene::Update() {
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		(*block)->Update();
 		if ((*block)->GetIsDead()) {
+			(*block)->SetWhiteTextureHandle(whiteTextureHandle_);
 			isRelese = isRelese || (*block)->GetIsRelese();
 			if ((*block)->GetIsConnect()) {
 				oldConnectCount++;
@@ -287,6 +305,7 @@ void GameScene::Update() {
 	if (isRelese) {
 		for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
 			if (!(*block)->GetIsCenter()) {
+				(*block)->SetReConnect(true);
 				(*block)->SetIsConnect(false);
 			}
 		}
@@ -307,7 +326,9 @@ void GameScene::Update() {
 			}
 		} while (oldCount != newCount);
 	}
-
+	for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
+			(*block)->SetReConnect(false);
+	}
 	target_.Update(&blockUFO, *followCamera_.get(), player_.get(),&screws_);
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
@@ -376,7 +397,11 @@ void GameScene::Update() {
 	if (mission_[missionNum_] <= connectCount) {
 		if (mission_.size()-1> missionNum_) {
 			missionNum_++;
+			MissionData::GetInstance()->SetMissionNum(missionNum_);
 			missionBeenUpdated = true;
+		}
+		else {
+			requestSceneNo = kClear;
 		}
 	}
 #ifdef _DEBUG
@@ -441,6 +466,22 @@ void GameScene::Update() {
 	// タイトルへ行く
 	GoToTheTitle();
 
+	gameTimerFloat_ -= kDeltaTime_;
+	gameTimer_ = int(gameTimerFloat_);
+	if (gameTimerFloat_ - float(gameTimer_)>0) {
+		gameTimer_++;
+	}
+	if (gameTimer_<0) {
+		gameTimer_ = 0;
+		requestSceneNo = kClear;
+	}
+#ifdef _DEBUG
+
+	ImGui::Begin("TIMER");
+	ImGui::Text("%d", gameTimer_);
+	ImGui::End();
+
+#endif // _DEBUG
 }
 
 /// <summary>
@@ -650,4 +691,6 @@ void GameScene::TextureLoad()
 
 	shotUITextureHandle_[0] = TextureManager::Load("Resources/ingame_ui_RB.png", dxCommon_, textureHandleManager_.get());
 	shotUITextureHandle_[1] = TextureManager::Load("Resources/ingame_ui_RB_remove.png", dxCommon_, textureHandleManager_.get());
+
+	whiteTextureHandle_= TextureManager::Load("Resources/default/white2x2.png", dxCommon_, textureHandleManager_.get());
 }

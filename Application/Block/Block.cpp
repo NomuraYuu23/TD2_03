@@ -12,7 +12,7 @@ void Block::Initialize() {
 		anchorPoints_[index].screw = nullptr;
 	}
 	worldTransform_.Initialize();
-	worldTransform_.transform_.scale = {2.0f,1.0f,2.0f};
+	worldTransform_.transform_.scale = {2.0f,2.0f,2.0f};
 
 	collider_.reset(new OBB);
 	collider_->Initialize(worldTransform_.transform_.translate,worldTransform_.rotateMatrix_,worldTransform_.transform_.scale,this);
@@ -22,9 +22,16 @@ void Block::Initialize() {
 	velocity_ = { 0,0,0};
 	isRelese_ = false;
 	isRidePlayer_ = false;
+	mat_.reset(Material::Create());
+	TransformStructure t{ 0 };
+	t.scale = { 1.0f,1.0f,1.0f };
+	mat_->Update(t, { 1.0f,1.0f,1.0f,1.0f }, 0, 200);
+	whiteTextureHandle_ = 0;
+	worldTransformOverRay_.Initialize();
 }
 void Block::Update() {
-	isRelese_ = true;
+	reConnect_ = false;
+	isRelese_ = false;
 	if (!isConnect_) {
 		worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate,velocity_);
 	}
@@ -44,15 +51,31 @@ void Block::Update() {
 	}
 	worldTransform_.UpdateMatrix();
 	collider_->center_ = worldTransform_.GetWorldPosition();
-	collider_->size_ = { worldTransform_.transform_.scale.x * 4.0f, worldTransform_.transform_.scale.y / 2.0f, worldTransform_.transform_.scale.z * 4.0f };
+	collider_->size_ = { worldTransform_.transform_.scale.x * 4.0f, worldTransform_.transform_.scale.y/2.0f, worldTransform_.transform_.scale.z * 4.0f };
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
 	collider_->worldTransformUpdate();
+
+	if (isConnectAnimation_) {
+		worldTransformOverRay_.transform_ = worldTransform_.transform_;
+		worldTransformOverRay_.transform_.scale.x += 0.03f;
+		worldTransformOverRay_.transform_.scale.y += 0.03f;
+		worldTransformOverRay_.transform_.scale.z += 0.03f;
+		worldTransformOverRay_.UpdateMatrix();
+		mat_->SetColor({1.0f,1.0f,1.0f,alpha_});
+		alpha_ -= 1.0f/30.0f;
+		if (alpha_ < 0.0f) {
+			isConnectAnimation_ = false;
+		}
+	}
 
 	//isCenter_ = false;
 	isRidePlayer_ = false;
 }
 void Block::Draw(Model* model, BaseCamera& camera) {
 	model->Draw(worldTransform_,camera);
+	if (isConnectAnimation_) {
+		model->Draw(worldTransformOverRay_, camera,mat_.get(), whiteTextureHandle_);
+	}
 }
 
 Vector3 Block::GetAnchorPointWorldPosition(size_t num) {
@@ -92,6 +115,11 @@ void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidion
 			worldTransform_.transform_.translate.z = rocal.m[3][2];
 			worldTransform_.p*/
 			isConnect_ = true;
+			if (!reConnect_) {
+				isConnectAnimation_ = true;
+				mat_->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
+				alpha_ = 1.0f;
+			}
 		}
 	}
 	if (std::holds_alternative<Player*>(pairObject)) {

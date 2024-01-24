@@ -325,6 +325,36 @@ void Model::Draw(WorldTransform& worldTransform, BaseCamera& camera, Material* m
 
 }
 
+/// <summary>
+/// 描画
+/// </summary>
+void Model::Draw(WorldTransform& worldTransform, BaseCamera& camera, Material* material,uint32_t textureHandle) {
+
+	// nullptrチェック
+	assert(sDevice);
+	assert(sCommandList);
+
+	worldTransform.Map(camera.GetViewProjectionMatrix());
+
+	sCommandList->IASetVertexBuffers(0, 1, &vbView_); //VBVを設定
+
+	//wvp用のCBufferの場所を設定
+	sCommandList->SetGraphicsRootConstantBufferView(1, worldTransform.transformationMatrixBuff_->GetGPUVirtualAddress());
+
+	//マテリアルCBufferの場所を設定
+	sCommandList->SetGraphicsRootConstantBufferView(0, material->GetMaterialBuff()->GetGPUVirtualAddress());
+
+	// カメラCBufferの場所を設定
+	sCommandList->SetGraphicsRootConstantBufferView(4, camera.GetWorldPositionBuff()->GetGPUVirtualAddress());
+
+	//SRVのDescriptorTableの先頭を設定。2はrootParamenter[2]である
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(sCommandList, 2, textureHandle);
+
+	//描画
+	sCommandList->DrawInstanced(UINT(modelData.vertices.size()), 1, 0, 0);
+
+}
+
 void Model::ParticleDraw()
 {
 

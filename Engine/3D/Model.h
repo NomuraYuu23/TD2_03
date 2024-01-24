@@ -116,6 +116,7 @@ public:
 	/// </summary>
 	void Draw(WorldTransform& worldTransform, BaseCamera& camera);
 	void Draw(WorldTransform& worldTransform, BaseCamera& camera, Material* material);
+	void Draw(WorldTransform& worldTransform, BaseCamera& camera, Material* material,uint32_t texureHandle);
 	void ParticleDraw();
 	void OutLineDraw(WorldTransform& worldTransform, BaseCamera& camera,OutLineData& outLineData);
 

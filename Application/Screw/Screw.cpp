@@ -6,6 +6,7 @@
 #include "../Block/UFOAttract.h"
 #include "../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../Collider/CollisionConfig.h"
+#include "../../Engine/Math/RandomEngine.h"
 #include <random>
 void(Screw::* Screw::stateTable[])() = {
 	&Screw::None,
@@ -22,7 +23,8 @@ void Screw::Initialize() {
 	const std::string groupName = "Screw";
 
 	globalVariables->AddItem(groupName, "StuckMax", kStuckMax);
-
+	globalVariables->AddItem(groupName, "StuckTop", stuckTop_);
+	globalVariables->AddItem(groupName, "StuckLow", stuckLow_);
 	state_ = State::FOLLOW;
 	//state_ = State(5);
 	worldTransform_.Initialize();
@@ -74,10 +76,12 @@ void Screw::Update() {
 	if (state_ == FOLLOW) {
 		worldTransform_.usedDirection_ = true;
 	}
-	if (state_ != STUCK) {
+	if (1|| state_ != STUCK) {
 		GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 		const std::string groupName = "Screw";
 		kStuckMax = globalVariables->GetIntValue(groupName, "StuckMax");
+		stuckTop_ = globalVariables->GetFloatValue(groupName, "StuckTop");
+		stuckLow_ = globalVariables->GetFloatValue(groupName, "StuckLow");
 	}
 	(this->*stateTable[static_cast<size_t>(state_)])();
 	worldTransform_.UpdateMatrix();
@@ -221,8 +225,12 @@ void Screw::Stuck(){
 	Vector3 endPoint = static_cast<Block*>(target_)->GetAnchorPointWorldPosition(targetNum_);
 	worldTransform_.transform_.translate = endPoint;
 	float t = float(kStuckMax - stuckTime_) / float(kStuckMax);
-	worldTransform_.transform_.translate.y +=(1.0f-t)* -(static_cast<Block*>(target_)->GetWorldTransform()->transform_.scale.y / 2.0f + worldTransform_.transform_.scale.y ) + t * (static_cast<Block*>(target_)->GetWorldTransform()->transform_.scale.y / 2.0f + worldTransform_.transform_.scale.y+0.5f);
+	worldTransform_.transform_.translate.y += (1.0f - t) * (stuckLow_)+t * (stuckTop_);
 	worldTransform_.transform_.rotate.y = t * 3.14f * 4.0f;
+	if (stuckTime_ < float(kStuckMax/3)) {
+		worldTransform_.transform_.translate.x +=0.2f* RandomEngine::GetRandom(-1.0f,1.0f);
+		worldTransform_.transform_.translate.z += 0.2f * RandomEngine::GetRandom(-1.0f, 1.0f);
+	}
 	if (stuckTime_<=0) {
 		static_cast<Block*>(target_)->SetAnchorPointScrew(targetNum_, nullptr);
 		frameCount_ = 0;
