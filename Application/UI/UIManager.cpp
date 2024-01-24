@@ -23,7 +23,7 @@ void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUIT
 
 }
 
-void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t blockCount, bool missionBeenUpdated)
+void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t blockCount, bool missionBeenUpdated, int timer)
 {
 
 	Vector2 leftTop = { 0.0f, 0.0f };
@@ -41,11 +41,13 @@ void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t
 	leftTop.x = 128.0f * static_cast<float>(screwCount % 10);
 	UIs_[kUIIndexRemainingScrewsOnesPlace]->Update(leftTop);
 	// タイマー分
-	leftTop = { 0.0f, 0.0f };
+	leftTop.x = 128.0f * static_cast<float>(timer / 60);
 	UIs_[kUIIndexTimerMinutes]->Update(leftTop);
 	// タイマー秒10の位
+	leftTop.x = 128.0f * static_cast<float>((timer % 60) / 10);
 	UIs_[kUIIndexTimerSecondsTensPlace]->Update(leftTop);
 	// タイマー秒1の位
+	leftTop.x = 128.0f * static_cast<float>((timer % 60) % 10);
 	UIs_[kUIIndexTimerSecondsOnesPlace]->Update(leftTop);
 	// タイマーコロン
 	UIs_[kUIIndexTimerColon]->Update();

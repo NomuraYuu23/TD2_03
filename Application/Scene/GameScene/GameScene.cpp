@@ -446,7 +446,7 @@ void GameScene::Update() {
 			screwCount++;
 		}
 	}
-	uiManager_->Update(screwCount, mission_[missionNum_], connectCount, missionBeenUpdated);
+	uiManager_->Update(screwCount, mission_[missionNum_], connectCount, missionBeenUpdated, gameTimer_);
 
 	// デバッグカメラ
 	DebugCameraUpdate();

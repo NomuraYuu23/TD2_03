@@ -52,7 +52,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="screwCount">ねじの数</param>
 	/// <param name="energy">エナジー</param>
-	void Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t blockCount, bool missionBeenUpdated);
+	void Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t blockCount, bool missionBeenUpdated, int timer);
 
 	/// <summary>
 	/// 描画
