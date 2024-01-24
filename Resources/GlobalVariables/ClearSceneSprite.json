@@ -1,0 +1,12 @@
+{
+    "ClearSceneSprite": {
+        "MissionSpritePosition": [
+            500.0,
+            300.0
+        ],
+        "MissionSpriteSize": [
+            720.0,
+            128.0
+        ]
+    }
+}

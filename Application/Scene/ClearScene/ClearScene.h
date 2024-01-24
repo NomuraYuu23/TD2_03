@@ -115,5 +115,11 @@ private: // メンバ変数
 
 	//アウトライン仮
 	OutLineData outline_;
+
+	// ミッション表示
+	std::unique_ptr<Sprite> missionSprite_ = nullptr;
+	uint32_t missionTextureHandle_ = 0u;
+	Vector2 missionPosition_ = {};
+	Vector2 missionSize_ = {};
 };
 

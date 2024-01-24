@@ -60,6 +60,10 @@ void ClearScene::Initialize()
 		screws_[i]->Initialize(screwModel_.get(), "Screw" + std::to_string(i));
 	}
 
+	titlePosition_ = { 320.0f, 240.0f };
+	missionTextureHandle_ = TextureManager::Load("Resources/UI/outgame_mission_TEXT.png", dxCommon_, textureHandleManager_.get());
+	missionSprite_.reset(Sprite::Create(missionTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+
 	SpriteRegisteringGlobalVariables();
 
 	SpriteApplyGlobalVariables();
@@ -68,6 +72,9 @@ void ClearScene::Initialize()
 	outline_.color_ = { 0.8f,0.4f,0.1f,1.0f };
 	//アウトライン
 	outline_.Map();
+
+	
+	//titleSize_ = titleSprite_->GetSize();
 }
 
 void ClearScene::Update()
@@ -172,6 +179,7 @@ void ClearScene::Draw()
 	//背景
 	//前景スプライト描画
 	//titleSprite_->Draw();
+	missionSprite_->Draw();
 	buttonSprite_->Draw();
 
 	// 前景スプライト描画後処理
@@ -250,6 +258,13 @@ void ClearScene::SpriteRegisteringGlobalVariables()
 	globalVariables->AddItem(groupName, objName + "Position", buttonPosition_);
 	globalVariables->AddItem(groupName, objName + "Size", buttonSize_);
 
+	const std::string groupName2 = "ClearSceneSprite";
+
+	//ミッション
+	objName = "MissionSprite";
+	globalVariables->AddItem(groupName2, objName + "Position", missionPosition_);
+	globalVariables->AddItem(groupName2, objName + "Size", missionSize_);
+
 }
 
 void ClearScene::SpriteApplyGlobalVariables()
@@ -277,4 +292,14 @@ void ClearScene::SpriteApplyGlobalVariables()
 	buttonSize_ = globalVariables->GetVector2Value(groupName, objName + "Size");
 	buttonSprite_->SetSize(buttonSize_);
 
+	const std::string groupName2 = "ClearSceneSprite";
+
+	//ミッション
+	objName = "MissionSprite";
+	
+	missionPosition_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	missionSprite_->SetPosition(missionPosition_);
+
+	missionSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	missionSprite_->SetSize(missionSize_);
 }
