@@ -39,9 +39,9 @@ void UI::Initialize(uint32_t textureHandle, const std::string& groupName, const 
 void UI::Update()
 {
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	ApplyGlobalVariables();
-#endif // _DEBUG
+//#endif // _DEBUG
 
 }
 
@@ -92,4 +92,28 @@ void UI::SetColor(const Vector4& color)
 
 	sprite_->SetColor(color);
 	
+}
+
+void UI::SetIsInvisible(bool isInvisible)
+{
+
+	sprite_->SetIsInvisible(isInvisible);
+
+}
+
+bool UI::GetIsInvisible()
+{
+	return sprite_->GetIsInvisible();
+}
+
+void UI::SetPosition(const Vector2& positon)
+{
+
+	sprite_->SetPosition(positon);
+
+}
+
+Vector2 UI::GetPosition()
+{
+	return sprite_->GetPosition();
 }

@@ -52,5 +52,19 @@ public:
 	/// <param name="color"></param>
 	void SetColor(const Vector4& color);
 
+	/// <summary>
+	/// 表示するか
+	/// </summary>
+	/// <param name="isInvisible"></param>
+	void SetIsInvisible(bool isInvisible);
+
+	/// <summary>
+	/// 表示するか
+	/// </summary>
+	bool GetIsInvisible();
+
+	void SetPosition(const Vector2& positon);
+	Vector2 GetPosition();
+
 };
 
