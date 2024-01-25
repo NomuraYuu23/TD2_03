@@ -59,7 +59,7 @@ void ShadowManager::SeeShadow()
 		for (; itrShadowAppearsObj != castsShadowObjList_.end(); ++itrShadowAppearsObj) {
 
 			// 影が出るか確認
-			if (OverlapY) {
+			if (OverlapY(*itrCastsShadowObj, *itrShadowAppearsObj)) {
 				// ワールドトランスフォーム設定
 				worldTransforms_[shadowCount_].transform_.translate.x = itrCastsShadowObj->position_.x;
 				worldTransforms_[shadowCount_].transform_.translate.y = itrShadowAppearsObj->position_.y + itrShadowAppearsObj->size_.y;

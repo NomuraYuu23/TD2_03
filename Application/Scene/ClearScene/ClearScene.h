@@ -1,7 +1,7 @@
 #pragma once
 #include "../../../Engine/Scene/IScene/IScene.h"
 
-#include "../../AudioManager/TitleAudioManager.h"
+#include "../../AudioManager/ClearAudioManager.h"
 
 #include "../../Skydome/Skydome.h"
 #include "../../TitleObj/titleObj.h"
@@ -96,7 +96,7 @@ private: // メンバ変数
 	Vector4 buttonColor_;
 
 	// オーディオマネージャー
-	std::unique_ptr<TitleAudioManager> audioManager_;
+	std::unique_ptr<ClearAudioManager> audioManager_;
 
 	bool isDecreasingVolume = true;
 

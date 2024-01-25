@@ -67,7 +67,9 @@ void AudioManager::StaticApplyGlobalVariables()
 
 void AudioManager::StopWave(uint32_t playingSoundDataHandle)
 {
-
+	if (!playingSoundDatas_[playingSoundDataHandle].pSourceVoice_) {
+		return;
+	}
 	playingSoundDatas_[playingSoundDataHandle].pSourceVoice_->DestroyVoice();
 	playingSoundDatas_[playingSoundDataHandle].pSourceVoice_ = nullptr;
 

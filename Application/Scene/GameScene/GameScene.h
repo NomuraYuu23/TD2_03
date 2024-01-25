@@ -77,6 +77,13 @@ private: // メンバ関数
 	void TextureLoad() override;
 
 private:
+	  
+	/// <summary>
+	/// 音量
+	/// </summary>
+	void LowerVolumeBGM();
+
+private:
 
 	// デバッグ描画
 	std::unique_ptr<ColliderDebugDraw> colliderDebugDraw_ = nullptr;
@@ -128,6 +135,7 @@ private:
 	std::unique_ptr<Model> modelCircle_ = nullptr;
 	// オーディオマネージャー
 	std::unique_ptr<GameAudioManager> audioManager_;
+	bool isDecreasingVolume = true;
 
 	// スカイドーム
 	std::unique_ptr<Skydome> skydome_;

@@ -2,11 +2,16 @@
 #include "../../Engine/Audio/AudioManager.h"
 
 enum GameAudioNameIndex {
-	kGameAudioNameIndexHipdrop, // ヒップドロップ
+	kGameAudioNameIndexBGM, // BGM
+	kGameAudioNameIndexUnion1, // 合体1
+	kGameAudioNameIndexUnion2, // 合体2
+	kGameAudioNameIndexUnion3, // 合体3
 	kGameAudioNameIndexPlayerShootRemove, // プレイヤー撃って戻る 
 	kGameAudioNameIndexScrewRemove, // ねじ戻る
 	kGameAudioNameIndexScrewShoot, // ねじ撃つ
-	kGameAudioNameIndexUnion, // 合体
+	kGameAudioNameIndexMissionClear, // ミッションクリア
+	kGameAudioNameIndexMissionOccurrrence, // ミッション更新
+	kGameAudioNameIndexPlayerGravity, // プレイヤー重力
 	kGameAudioNameIndexOfCount // 数
 };
 
@@ -42,13 +47,17 @@ private: // メンバ変数
 	// ファイル名
 	std::array<const std::string, GameAudioNameIndex::kGameAudioNameIndexOfCount> audioNames_ = 
 	{
-		"Soundeffect/ingame_hipdrop.wav",
-		"Soundeffect/ingame_player_shootRemove.wav",
-		"Soundeffect/ingame_screw_remove.wav",
-		"Soundeffect/ingame_screw_shoot.wav",
-		"Soundeffect/ingame_union.wav",
+		"BGM/ingame.wav",
+		"Soundeffect/Game/block_union1.wav",
+		"Soundeffect/Game/block_union2.wav",
+		"Soundeffect/Game/block_union3.wav",
+		"Soundeffect/Game/ingame_player_shootRemove.wav",
+		"Soundeffect/Game/ingame_screw_remove.wav",
+		"Soundeffect/Game/ingame_screw_shoot.wav",
+		"Soundeffect/Game/mission_clear.wav",
+		"Soundeffect/Game/mission_occurrence.wav",
+		"Soundeffect/Game/player_gravity.wav",
 	};
-
 
 };
 

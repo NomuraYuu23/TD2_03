@@ -235,6 +235,9 @@ void GameScene::Initialize() {
 	mission_.push_back(40);
 	MissionData::GetInstance()->Initialize();
 	MissionData::GetInstance()->SetMax(mission_.size());
+
+	audioManager_->PlayWave(kGameAudioNameIndexBGM);
+
 }
 
 /// <summary>
@@ -474,7 +477,14 @@ void GameScene::Update() {
 	if (gameTimer_<0) {
 		gameTimer_ = 0;
 		requestSceneNo = kClear;
+		isDecreasingVolume = true;
 	}
+
+	// BGM音量下げる
+	if (requestSceneNo == kClear && isDecreasingVolume) {
+		LowerVolumeBGM();
+	}
+
 #ifdef _DEBUG
 
 	ImGui::Begin("TIMER");
@@ -693,4 +703,28 @@ void GameScene::TextureLoad()
 	shotUITextureHandle_[1] = TextureManager::Load("Resources/ingame_ui_RB_remove.png", dxCommon_, textureHandleManager_.get());
 
 	whiteTextureHandle_= TextureManager::Load("Resources/default/white2x2.png", dxCommon_, textureHandleManager_.get());
+}
+
+void GameScene::LowerVolumeBGM()
+{
+
+
+	const uint32_t startHandleIndex = 3;
+
+	for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
+		if (audioManager_->GetPlayingSoundDatas()[i].handle_ == kGameAudioNameIndexBGM + startHandleIndex) {
+			float decreasingVolume = 1.0f / 60.0f;
+			float volume = audioManager_->GetPlayingSoundDatas()[i].volume_ - decreasingVolume;
+			if (volume < 0.0f) {
+				volume = 0.0f;
+				audioManager_->StopWave(i);
+				isDecreasingVolume = false;
+			}
+			else {
+				audioManager_->SetPlayingSoundDataVolume(i, volume);
+				audioManager_->SetVolume(i, audioManager_->GetPlayingSoundDatas()[i].volume_);
+			}
+		}
+	}
+
 }
