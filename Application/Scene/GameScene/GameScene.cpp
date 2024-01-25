@@ -8,6 +8,7 @@
 #include "../../Particle/EmitterName.h"
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../MissionData/MissionData.h"
+#include "../../ForResult/ForResult.h"
 /// <summary>
 /// 初期化
 /// </summary>
@@ -167,6 +168,7 @@ void GameScene::Initialize() {
 		screw.reset(new Screw);
 		screw->Initialize();
 		screw->SetPlayer(player_.get());
+		screw->SetSweatTextureHandle(TextureManager::Load("Resources/drops.png", dxCommon_, textureHandleManager_.get()));
 		screws_.push_back(std::move(screw));
 	}
 
@@ -235,6 +237,8 @@ void GameScene::Initialize() {
 	mission_.push_back(40);
 	MissionData::GetInstance()->Initialize();
 	MissionData::GetInstance()->SetMax(mission_.size());
+
+	sweatModel_.reset(Model::Create("Resources/default/", "plane.obj", dxCommon_, textureHandleManager_.get()));
 }
 
 /// <summary>
@@ -402,6 +406,7 @@ void GameScene::Update() {
 		}
 		else {
 			requestSceneNo = kClear;
+			ForResult::GetInstance()->connectNum_ = connectCount;
 		}
 	}
 #ifdef _DEBUG
@@ -474,6 +479,7 @@ void GameScene::Update() {
 	if (gameTimer_<0) {
 		gameTimer_ = 0;
 		requestSceneNo = kClear;
+		ForResult::GetInstance()->connectNum_ = connectCount;
 	}
 #ifdef _DEBUG
 
@@ -520,8 +526,17 @@ void GameScene::Draw() {
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		(*block)->Draw(modelBlock_.get(), camera_);
 	}
+	Matrix4x4 billBoardMatrix = Matrix4x4Calc::MakeIdentity4x4();
+	billBoardMatrix = Matrix4x4Calc::Multiply(Matrix4x4Calc::MakeRotateXYZMatrix({ 0.0f,3.141592f,0.0f }) , Matrix4x4Calc::Inverse(camera_.GetViewMatrix()));
+	billBoardMatrix.m[3][0] = 0;
+	billBoardMatrix.m[3][1] = 0;
+	billBoardMatrix.m[3][2] = 0;
+	
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Draw(modelScrew_.get(), camera_);
+		if ((*block)->GetIsDrawSweat()) {
+			(*block)->DrawSweat(sweatModel_.get(), camera_,billBoardMatrix);
+		}
 	}
 	player_->Draw(modelPlayer_.get(), camera_);
 	//ufo_->Draw(modelBlock_.get(), camera_);

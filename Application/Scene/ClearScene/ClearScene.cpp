@@ -4,6 +4,7 @@
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../../Engine/Math/Ease.h"
 #include "../../MissionData/MissionData.h"
+#include "../../ForResult/ForResult.h"
 ClearScene::~ClearScene()
 {
 }
@@ -77,6 +78,11 @@ void ClearScene::Initialize()
 	lineTextureHandle_ = TextureManager::Load("Resources/UI/outgame_line_UI.png", dxCommon_, textureHandleManager_.get());
 	lineSprite_.reset(Sprite::Create(lineTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	line2Sprite_.reset(Sprite::Create(lineTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	line3Sprite_.reset(Sprite::Create(lineTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+
+	connectSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	connectTenSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	connectHandSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 
 	SpriteRegisteringGlobalVariables();
 
@@ -174,6 +180,19 @@ void ClearScene::Update()
 	leftTop.x = 128.0f * static_cast<float>(missionMax_ / 10);
 	rightTenSprite_->SetTextureLeftTop(leftTop);
 	rightTenSprite_->SetTextureSize(size);
+
+	leftTop.x = 128.0f * static_cast<float>(ForResult::GetInstance()->connectNum_ / 100);
+	connectHandSprite_->SetTextureLeftTop(leftTop);
+	connectHandSprite_->SetTextureSize(size);
+
+	leftTop.x = 128.0f * static_cast<float>((ForResult::GetInstance()->connectNum_ % 100) / 10);
+	connectTenSprite_->SetTextureLeftTop(leftTop);
+	connectTenSprite_->SetTextureSize(size);
+
+	leftTop.x = 128.0f * static_cast<float>((ForResult::GetInstance()->connectNum_ % 10));
+	connectSprite_->SetTextureLeftTop(leftTop);
+	connectSprite_->SetTextureSize(size);
+	
 }
 
 void ClearScene::Draw()
@@ -224,17 +243,28 @@ void ClearScene::Draw()
 	titleSprite_->Draw();
 	frameSprite_->Draw();
 	leftSprite_->Draw();
-	leftTenSprite_->Draw();
+	if (leftTenSprite_->GetTextureLeftTop().x) {
+		leftTenSprite_->Draw();
+	}
 	rightSprite_->Draw();
-	rightTenSprite_->Draw();
+	if (rightTenSprite_->GetTextureLeftTop().x) {
+		rightTenSprite_->Draw();
+	}
 	missionSprite_->Draw();
 	lineSprite_->Draw();
 	line2Sprite_->Draw();
+	line3Sprite_->Draw();
 	if (isEndCountUp_) {
 		buttonSprite_->Draw();
 		toTitleSprite_->Draw();
 	}
-
+	connectSprite_->Draw();
+	if (connectTenSprite_->GetTextureLeftTop().x) {
+		connectTenSprite_->Draw();
+	}
+	if (connectHandSprite_->GetTextureLeftTop().x) {
+		connectHandSprite_->Draw();
+	}
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -344,7 +374,19 @@ void ClearScene::SpriteRegisteringGlobalVariables()
 	objName = "Line2Sprite";
 	globalVariables->AddItem(groupName2, objName + "Position", line2Position_);
 	globalVariables->AddItem(groupName2, objName + "Size", line2Size_);
+	objName = "Line3Sprite";
+	globalVariables->AddItem(groupName2, objName + "Position", line2Position_);
+	globalVariables->AddItem(groupName2, objName + "Size", line2Size_);
 
+	objName = "ConnectSprite";
+	globalVariables->AddItem(groupName2, objName + "Position", connectPosition_);
+	globalVariables->AddItem(groupName2, objName + "Size", connectSize_);
+	objName = "ConnectTenSprite";
+	globalVariables->AddItem(groupName2, objName + "Position", connectTenPosition_);
+	globalVariables->AddItem(groupName2, objName + "Size", connectTenSize_);
+	objName = "ConnectHandSprite";
+	globalVariables->AddItem(groupName2, objName + "Position", connectHandPosition_);
+	globalVariables->AddItem(groupName2, objName + "Size", connectHandSize_);
 }
 
 void ClearScene::SpriteApplyGlobalVariables()
@@ -425,10 +467,32 @@ void ClearScene::SpriteApplyGlobalVariables()
 	line2Size_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
 	line2Sprite_->SetSize(line2Size_);
 
+	objName = "Line3Sprite";
+	line3Position_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	line3Sprite_->SetPosition(line3Position_);
+	line3Size_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	line3Sprite_->SetSize(line3Size_);
+
 	const std::string groupName3 = "UI";
 	objName = "UIIndexFrame";
 	framePosition_ = globalVariables->GetVector2Value(groupName3, objName + "position");
 	frameSprite_->SetPosition(framePosition_);
 	frameSize_ = globalVariables->GetVector2Value(groupName3, objName + "size");
 	frameSprite_->SetSize(frameSize_);
+
+	objName = "ConnectSprite";
+	connectPosition_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	connectSprite_->SetPosition(connectPosition_);
+	connectSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	connectSprite_->SetSize(connectSize_);
+	objName = "ConnectTenSprite";
+	connectTenPosition_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	connectTenSprite_->SetPosition(connectTenPosition_);
+	connectTenSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	connectTenSprite_->SetSize(connectTenSize_);
+	objName = "ConnectHandSprite";
+	connectHandPosition_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	connectHandSprite_->SetPosition(connectHandPosition_);
+	connectHandSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	connectHandSprite_->SetSize(connectHandSize_);
 }

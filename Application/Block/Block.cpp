@@ -28,6 +28,10 @@ void Block::Initialize() {
 	mat_->Update(t, { 1.0f,1.0f,1.0f,1.0f }, 0, 200);
 	whiteTextureHandle_ = 0;
 	worldTransformOverRay_.Initialize();
+	mat2_.reset(Material::Create());
+	//TransformStructure t{ 0 };
+	t.scale = { 1.0f,1.0f,1.0f };
+	mat2_->Update(t, { 0.8f,0.5f,1.5f,1.0f }, 0, 200);
 }
 void Block::Update() {
 	reConnect_ = false;
@@ -36,6 +40,7 @@ void Block::Update() {
 		worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate,velocity_);
 	}
 	if (isConnect_) {
+		mat2_->SetColor({1.0f,0.4f,0.4f,1.0f});
 		bool isStack = false;
 		for (int index = 0; index < anchorNum; index++) {
 			if (anchorPoints_[index].screw != nullptr) {
@@ -48,6 +53,9 @@ void Block::Update() {
 			isConnect_ = false;
 			isRelese_ = true;
 		}
+	}
+	else {
+		mat2_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	}
 	worldTransform_.UpdateMatrix();
 	collider_->center_ = worldTransform_.GetWorldPosition();
@@ -72,7 +80,7 @@ void Block::Update() {
 	isRidePlayer_ = false;
 }
 void Block::Draw(Model* model, BaseCamera& camera) {
-	model->Draw(worldTransform_,camera);
+	model->Draw(worldTransform_,camera,mat2_.get());
 	if (isConnectAnimation_) {
 		model->Draw(worldTransformOverRay_, camera,mat_.get(), whiteTextureHandle_);
 	}

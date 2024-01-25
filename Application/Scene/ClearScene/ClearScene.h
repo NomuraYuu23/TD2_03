@@ -161,5 +161,20 @@ private: // メンバ変数
 	std::unique_ptr<Sprite> line2Sprite_ = nullptr;
 	Vector2 line2Position_ = {};
 	Vector2 line2Size_ = {};
+
+	std::unique_ptr<Sprite> line3Sprite_ = nullptr;
+	Vector2 line3Position_ = {};
+	Vector2 line3Size_ = {};
+
+	std::unique_ptr<Sprite> connectSprite_ = nullptr;
+	Vector2 connectPosition_ = {};
+	Vector2 connectSize_ = {};
+	std::unique_ptr<Sprite> connectTenSprite_ = nullptr;
+	Vector2 connectTenPosition_ = {};
+	Vector2 connectTenSize_ = {};
+	std::unique_ptr<Sprite> connectHandSprite_ = nullptr;
+	Vector2 connectHandPosition_ = {};
+	Vector2 connectHandSize_ = {};
+
 };
 

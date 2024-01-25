@@ -28,6 +28,7 @@ public:
 	void Update();
 	void Draw(Model* model, BaseCamera& camera);
 	void DrawOutLine(Model* model, BaseCamera& camera, OutLineData& outLineData);
+	void DrawSweat(Model* model, BaseCamera& camera, Matrix4x4& billboard);
 	void Throw(const Vector3 position, void* block , size_t num);
 	void Catch(WorldTransform* magnetWorldPosition);
 	void TurnOver();//ひっくり返す
@@ -49,6 +50,8 @@ public:
 	void SetReverseTime(int t) { kReverseTime = t; };
 	void SetIsDead(bool is) { isDead_ = is; };
 	bool GetIsDead() { return isDead_; };
+	void SetSweatTextureHandle(uint32_t handle) { sweatTextureHandle_ = handle; };
+	bool GetIsDrawSweat() { return isDrawSweat_; };
 private:
 	WorldTransform worldTransform_;
 	Vector3 startPosition_; //補間アニメーションの開始位置
@@ -83,4 +86,14 @@ private:
 	Vector3 velocity_;
 	float stuckTop_ = 2.0f;
 	float stuckLow_ = -2.0f;
+
+	std::unique_ptr <Material> matSweat_;
+	WorldTransform worldTransformSweat_;
+	TransformStructure transformSweatUV_;
+	uint32_t sweatTextureHandle_;
+	bool isDrawSweat_;
+	int32_t sweatAnimationChange_ = 3;//遷移時間
+	int32_t sweatAnimationframe_;
+	int32_t sweatAnimationNum_;//連番の番号
+	static const int32_t sweatAnimationMax_ = 8;//アニメーションの枚数
 };

@@ -2,79 +2,111 @@
     "ClearSceneSprite": {
         "ButtonSpritePosition": [
             430.0,
-            550.0
+            600.0
         ],
         "ButtonSpriteSize": [
             128.0,
             128.0
         ],
+        "ConnectHandSpritePosition": [
+            625.0,
+            400.0
+        ],
+        "ConnectHandSpriteSize": [
+            32.0,
+            60.0
+        ],
+        "ConnectSpritePosition": [
+            725.0,
+            400.0
+        ],
+        "ConnectSpriteSize": [
+            32.0,
+            60.0
+        ],
+        "ConnectTenSpritePosition": [
+            675.0,
+            400.0
+        ],
+        "ConnectTenSpriteSize": [
+            32.0,
+            60.0
+        ],
         "LeftSpritePosition": [
             675.0,
-            310.0
+            260.0
         ],
         "LeftSpriteSize": [
             32.0,
-            80.0
+            60.0
         ],
         "LeftTenSpritePosition": [
             625.0,
-            310.0
+            260.0
         ],
         "LeftTenSpriteSize": [
             32.0,
-            80.0
+            60.0
         ],
         "Line1SpritePosition": [
-            410.0,
-            220.0
+            400.0,
+            190.0
         ],
         "Line1SpriteSize": [
             512.0,
             32.0
         ],
         "Line2SpritePosition": [
-            650.0,
-            380.0
+            470.0,
+            310.0
         ],
         "Line2SpriteSize": [
-            1000.0,
+            650.0,
+            32.0
+        ],
+        "Line3SpritePosition": [
+            470.0,
+            450.0
+        ],
+        "Line3SpriteSize": [
+            650.0,
             32.0
         ],
         "MissionSpritePosition": [
-            500.0,
-            320.0
+            480.0,
+            270.0
         ],
         "MissionSpriteSize": [
             720.0,
             128.0
         ],
         "RightSpritePosition": [
-            825.0,
-            310.0
+            790.0,
+            260.0
         ],
         "RightSpriteSize": [
             32.0,
-            80.0
+            60.0
         ],
         "RightTenSpritePosition": [
-            775.0,
-            310.0
+            740.0,
+            260.0
         ],
         "RightTenSpriteSize": [
             32.0,
-            80.0
+            60.0
         ],
         "TilteSpritePosition": [
-            300.0,
-            160.0
+            250.0,
+            159.0
         ],
         "TilteSpriteSize": [
-            512.0,
-            100.0
+            450.0,
+            80.0
         ],
         "ToTitleSpritePosition": [
             700.0,
-            550.0
+            600.0
         ],
         "ToTitleSpriteSize": [
             700.0,

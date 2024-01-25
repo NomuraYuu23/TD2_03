@@ -113,6 +113,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Block\UFOAttract.cpp" />
     <ClCompile Include="Application\Camera\FollowCamera\FollowCamera.cpp" />
     <ClCompile Include="Application\Energy\Energy.cpp" />
+    <ClCompile Include="Application\ForResult\ForResult.cpp" />
     <ClCompile Include="Application\Magnet\Magnet.cpp" />
     <ClCompile Include="Application\Particle\Gravity\GravityEmitter.cpp" />
     <ClCompile Include="Application\Particle\Gravity\GravityParticle.cpp" />
@@ -223,6 +224,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Collider\ColliderParentObject.h" />
     <ClInclude Include="Application\Collider\CollisionConfig.h" />
     <ClInclude Include="Application\Energy\Energy.h" />
+    <ClInclude Include="Application\ForResult\ForResult.h" />
     <ClInclude Include="Application\Magnet\Magnet.h" />
     <ClInclude Include="Application\MissionData\MissionData.h" />
     <ClInclude Include="Application\Particle\Gravity\GravityEmitter.h" />
