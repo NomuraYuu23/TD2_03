@@ -7,6 +7,7 @@
 #include "../Collider/ColliderParentObject.h"
 #include "../../Engine/Collider/OBB/OBB.h"
 #include "../../Engine/3D/OutLineData.h"
+#include "../AudioManager/GameAudioManager.h"
 class Player;
 class Block;
 
@@ -23,6 +24,8 @@ public:
 		STUCK,
 		TOPLAYER,
 	};
+
+	static void StaticInitialize(GameAudioManager* audioManager);
 
 	void Initialize();
 	void Update();
@@ -83,4 +86,7 @@ private:
 	Vector3 velocity_;
 	float stuckTop_ = 2.0f;
 	float stuckLow_ = -2.0f;
+
+	static GameAudioManager* audioManager_;
+
 };

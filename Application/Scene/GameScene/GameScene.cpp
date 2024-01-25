@@ -191,6 +191,9 @@ void GameScene::Initialize() {
 	// オーディオマネージャー
 	audioManager_ = std::make_unique<GameAudioManager>();
 	audioManager_->Initialize();
+	player_->SetAudioManager(audioManager_.get());
+	Screw::StaticInitialize(audioManager_.get());
+	uiManager_->SetAudioManager(audioManager_.get());
 
 	// スカイドーム
 	skydome_ = std::make_unique<Skydome>();
@@ -394,6 +397,8 @@ void GameScene::Update() {
 	}
 	if (oldConnectCount < connectCount) {
 		followCamera_->Shake();
+		// 合体
+		audioManager_->PlayWave(kGameAudioNameIndexUnion1);
 	}
 	// このフレームでミッションが更新されたか
 	bool missionBeenUpdated = false;

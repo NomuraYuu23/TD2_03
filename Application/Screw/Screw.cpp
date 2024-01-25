@@ -8,6 +8,9 @@
 #include "../Collider/CollisionConfig.h"
 #include "../../Engine/Math/RandomEngine.h"
 #include <random>
+
+GameAudioManager* Screw::audioManager_ = nullptr;
+
 void(Screw::* Screw::stateTable[])() = {
 	&Screw::None,
 	& Screw::Follow,
@@ -17,6 +20,13 @@ void(Screw::* Screw::stateTable[])() = {
 	& Screw::Stuck,
 	& Screw::ToPlayer
 };
+
+void Screw::StaticInitialize(GameAudioManager* audioManager)
+{
+	
+	audioManager_ = audioManager;
+
+}
 
 void Screw::Initialize() {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
@@ -235,6 +245,7 @@ void Screw::Stuck(){
 		static_cast<Block*>(target_)->SetAnchorPointScrew(targetNum_, nullptr);
 		frameCount_ = 0;
 		state_ = NONE;
+		audioManager_->PlayWave(kGameAudioNameIndexScrewRemove);
 	}
 	stuckTime_--;
 }
