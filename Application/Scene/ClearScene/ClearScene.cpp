@@ -35,10 +35,10 @@ void ClearScene::Initialize()
 	buttonItIncreaseAlphaT_ = true;
 	buttonColor_ = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	audioManager_ = std::make_unique<TitleAudioManager>();
+	audioManager_ = std::make_unique<ClearAudioManager>();
 	audioManager_->StaticInitialize();
 	audioManager_->Initialize();
-	audioManager_->PlayWave(kTitleAudioNameIndexBGM);
+	audioManager_->PlayWave(kClearAudioNameIndexBGM);
 
 	// ビュープロジェクション
 	TransformStructure baseCameraTransform = {
@@ -115,11 +115,11 @@ void ClearScene::Update()
 		requestSceneNo == kClear && isEndCountUp_) {
 		// 行きたいシーンへ
 		requestSceneNo = kTitle;
-		audioManager_->PlayWave(kTitleAudioNameIndexDecision);
+		audioManager_->PlayWave(kClearAudioNameIndexDecision);
 	}
 
 	// BGM音量下げる
-	if (requestSceneNo == kGame && isDecreasingVolume) {
+	if (requestSceneNo == kTitle && isDecreasingVolume) {
 		LowerVolumeBGM();
 	}
 
@@ -306,8 +306,10 @@ void ClearScene::TextureLoad()
 void ClearScene::LowerVolumeBGM()
 {
 
+	const uint32_t startHandleIndex = 13;
+
 	for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
-		if (audioManager_->GetPlayingSoundDatas()[i].handle_ == kTitleAudioNameIndexBGM) {
+		if (audioManager_->GetPlayingSoundDatas()[i].handle_ == kClearAudioNameIndexBGM + startHandleIndex) {
 			float decreasingVolume = 1.0f / 60.0f;
 			float volume = audioManager_->GetPlayingSoundDatas()[i].volume_ - decreasingVolume;
 			if (volume < 0.0f) {

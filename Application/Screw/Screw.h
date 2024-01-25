@@ -7,6 +7,7 @@
 #include "../Collider/ColliderParentObject.h"
 #include "../../Engine/Collider/OBB/OBB.h"
 #include "../../Engine/3D/OutLineData.h"
+#include "../AudioManager/GameAudioManager.h"
 class Player;
 class Block;
 
@@ -23,6 +24,8 @@ public:
 		STUCK,
 		TOPLAYER,
 	};
+
+	static void StaticInitialize(GameAudioManager* audioManager);
 
 	void Initialize();
 	void Update();
@@ -96,4 +99,7 @@ private:
 	int32_t sweatAnimationframe_;
 	int32_t sweatAnimationNum_;//連番の番号
 	static const int32_t sweatAnimationMax_ = 8;//アニメーションの枚数
+
+	static GameAudioManager* audioManager_;
+
 };

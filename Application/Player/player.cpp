@@ -91,6 +91,8 @@ void Player::BehaviorDropInitialize() {
 	acceleration_ = {0,-0.15f,0};
 	isFlooar_ = false;
 	playerAnimationNo_ = kPlayerAnimationIndexGravity;
+	audioManager_->PlayWave(kGameAudioNameIndexPlayerGravity);
+
 }
 
 void Player::Update(Block* block, size_t blockNum) {
@@ -290,6 +292,10 @@ void Player::BehaviorAttackUpdate()
 
 	if (playerAnimation_->GetScrewThrowPhase() == 3 && holdScrew_) {
 		holdScrew_->Throw(worldTransform_.GetWorldPosition(),block_,blockNum_);
+	}
+
+	if (attackFrameCount_ == 20) {
+		audioManager_->PlayWave(kGameAudioNameIndexScrewShoot);
 	}
 
 	attackFrameCount_++;

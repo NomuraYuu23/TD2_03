@@ -54,6 +54,7 @@ void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t
 
 	if (missionBeenUpdated) {
 		missionBeenUpdate_ = true;
+		audioManager_->PlayWave(kGameAudioNameIndexMissionClear);
 	}
 
 	//アップデート中
@@ -205,6 +206,7 @@ void UIManager::MissionUpdate(uint32_t missionBlockCount)
 			// ミッション分母1の位
 			leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
 			UIs_[kUIIndexMissionDenominatorOnesPlace]->Update(leftTop);
+			audioManager_->PlayWave(kGameAudioNameIndexMissionOccurrrence);
 		}
 	}
 	else {

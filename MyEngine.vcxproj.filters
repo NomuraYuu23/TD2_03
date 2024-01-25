@@ -451,6 +451,12 @@
     <ClCompile Include="Application\Particle\Spark\SparkEmitter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Application\ShadowManager\ShadowManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\AudioManager\ClearAudioManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="Application\ForResult\ForResult.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -850,6 +856,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\Particle\Spark\SparkEmitter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\ShadowManager\ShadowManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\AudioManager\ClearAudioManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\ForResult\ForResult.h">

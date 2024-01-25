@@ -3,6 +3,7 @@
 #include <memory>
 #include <cstdint>
 #include "UI.h"
+#include "../AudioManager/GameAudioManager.h"
 
 enum UITextureHandleIndex {
 	kUITextureHandleIndexScrews, // ねじ
@@ -88,6 +89,13 @@ private: // メンバ変数
 
 	// ミッション
 	bool missionBeenUpdateFadeIn_;
+
+	// オーディオマネージャー
+	GameAudioManager* audioManager_;
+
+public:
+
+	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
 
 };
 

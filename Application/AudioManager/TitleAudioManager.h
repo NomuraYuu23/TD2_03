@@ -2,9 +2,9 @@
 #include "../../Engine/Audio/AudioManager.h"
 
 enum TitleAudioNameIndex {
-	kTitleAudioNameIndexDecision, // 決定
-	kTitleAudioNameIndexReturn, // 戻る
 	kTitleAudioNameIndexBGM, // BGM
+	kTitleAudioNameIndexDecision, // 決定
+	kTitleAudioNameIndexDecision2, // 決定2
 	kTitleAudioNameIndexOfCount // 数
 };
 
@@ -41,9 +41,9 @@ private: // メンバ変数
 	// ファイル名
 	std::array<const std::string, TitleAudioNameIndex::kTitleAudioNameIndexOfCount> audioNames_ =
 	{
-		"Soundeffect/UI_decision.wav",
-		"Soundeffect/UI_return.wav",
-		"BGM/title_BGM.wav",
+		"BGM/title.wav",
+		"Soundeffect/Common/desicion1.wav",
+		"Soundeffect/Common/desicion2.wav",
 	};
 
 };

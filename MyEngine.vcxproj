@@ -100,6 +100,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Application\AudioManager\ClearAudioManager.cpp" />
     <ClCompile Include="Application\AudioManager\GameAudioManager.cpp" />
     <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp" />
     <ClCompile Include="Application\BlockManager\BlockManager.cpp" />
@@ -127,6 +128,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Scene\SelectScene\SelectScene.cpp" />
     <ClCompile Include="Application\Scene\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Application\Screw\Screw.cpp" />
+    <ClCompile Include="Application\ShadowManager\ShadowManager.cpp" />
     <ClCompile Include="Application\Target\Target.cpp" />
     <ClCompile Include="Application\TitleObj\TitleObj.cpp" />
     <ClCompile Include="Application\UFO\UFOManager.cpp" />
@@ -208,6 +210,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\UI\UIMissionFrame\UIMissionFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application\AudioManager\ClearAudioManager.h" />
     <ClInclude Include="Application\AudioManager\GameAudioManager.h" />
     <ClInclude Include="Application\AudioManager\TitleAudioManager.h" />
     <ClInclude Include="Application\BlockManager\BlockManager.h" />
@@ -240,6 +243,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Scene\SelectScene\SelectScene.h" />
     <ClInclude Include="Application\Scene\TitleScene\TitleScene.h" />
     <ClInclude Include="Application\Screw\Screw.h" />
+    <ClInclude Include="Application\ShadowManager\ShadowManager.h" />
     <ClInclude Include="Application\Target\Target.h" />
     <ClInclude Include="Application\TitleObj\TitleObj.h" />
     <ClInclude Include="Application\UFO\UFOManager.h" />

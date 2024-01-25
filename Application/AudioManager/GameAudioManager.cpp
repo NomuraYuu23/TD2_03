@@ -19,7 +19,8 @@ void GameAudioManager::Initialize()
 	}
 
 	// 個別設定
-
+	audioDatas_[kGameAudioNameIndexBGM].isBGM_ = true;
+	audioDatas_[kGameAudioNameIndexBGM].isLoop_ = true;
 }
 
 void GameAudioManager::Update()

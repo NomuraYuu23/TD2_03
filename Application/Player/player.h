@@ -14,6 +14,7 @@
 
 #include <vector>
 #include <optional>
+#include "../AudioManager/GameAudioManager.h"
 
 class Block;
 class Screw;
@@ -74,6 +75,9 @@ public:
 	// ブロック
 	Block* GetBlock() { return block_; }
 
+	// オーディオマネージャー
+	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
+
 private:
 	WorldTransform worldTransform_;
 
@@ -133,5 +137,8 @@ private:
 	size_t blockNum_;
 	//掴んでるネジのポインタ、リリース用
 	Screw* holdScrew_;
+
+	// オーディオマネージャー
+	GameAudioManager* audioManager_;
 
 };
