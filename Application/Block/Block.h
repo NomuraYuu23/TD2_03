@@ -62,4 +62,6 @@ protected:
 	bool isConnectAnimation_;
 	bool reConnect_ = false;
 	float alpha_;
+
+	std::unique_ptr <Material> mat2_;
 };

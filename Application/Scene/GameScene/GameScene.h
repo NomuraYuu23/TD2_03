@@ -160,4 +160,5 @@ private:
 	float gameTimerFloat_;
 	int timerMax_ = 300;
 
+	std::unique_ptr<Model> sweatModel_;
 };

@@ -56,9 +56,16 @@ void Screw::Initialize() {
 	followSpeed_ = distribution4(randomEngine);
 	acceleration_ = { 0 };
 	velocity_ = {0};
+
+	matSweat_.reset(Material::Create());
+	transformSweatUV_.scale = { 0.5f,1.0f,1.0f };
+	transformSweatUV_.rotate = {0};
+	transformSweatUV_.translate = {0};
+	matSweat_->Update(transformSweatUV_, { 1.0f,1.0f,1.0f,1.0f }, 0, 200);
+	worldTransformSweat_.Initialize();
 }
 void Screw::Update() {
-
+	isDrawSweat_ = false;
 	if (worldTransform_.transform_.translate.y >= followPosition_.y) {
 		acceleration_.y = -0.001f;
 	}
@@ -97,6 +104,12 @@ void Screw::Draw(Model* model, BaseCamera& camera) {
 
 void Screw::DrawOutLine(Model* model, BaseCamera& camera, OutLineData& outLineData) {
 	model->OutLineDraw(worldTransform_, camera, outLineData);
+}
+
+void Screw::DrawSweat(Model* model, BaseCamera& camera, Matrix4x4& billboard) {
+	worldTransformSweat_.worldMatrix_ = Matrix4x4Calc::Multiply(Matrix4x4Calc::MakeScaleMatrix(worldTransformSweat_.transform_.scale), Matrix4x4Calc::Multiply(billboard,Matrix4x4Calc::MakeTranslateMatrix(worldTransformSweat_.transform_.translate)));
+	//worldTransformSweat_.Map();
+	model->Draw(worldTransformSweat_, camera, matSweat_.get(),sweatTextureHandle_);
 }
 
 void Screw::Throw(const Vector3 position, void* block, size_t num) {
@@ -230,6 +243,22 @@ void Screw::Stuck(){
 	if (stuckTime_ < float(kStuckMax/3)) {
 		worldTransform_.transform_.translate.x +=0.2f* RandomEngine::GetRandom(-1.0f,1.0f);
 		worldTransform_.transform_.translate.z += 0.2f * RandomEngine::GetRandom(-1.0f, 1.0f);
+		worldTransformSweat_.transform_.translate = worldTransform_.transform_.translate;
+		worldTransformSweat_.transform_.translate.y += 4.0f;
+		sweatAnimationframe_++;
+		if (sweatAnimationframe_ > sweatAnimationChange_) {
+			sweatAnimationframe_ = 0;
+			sweatAnimationNum_++;
+		}
+		transformSweatUV_.translate.x = (1.0f / float(sweatAnimationMax_)) * sweatAnimationNum_;
+		transformSweatUV_.scale.x = 1.0f / float(sweatAnimationMax_);
+		matSweat_->SetUvTransform(transformSweatUV_);
+
+		isDrawSweat_ = true;
+	}
+	else {
+		sweatAnimationframe_ = 0;
+		sweatAnimationNum_ = 0;
 	}
 	if (stuckTime_<=0) {
 		static_cast<Block*>(target_)->SetAnchorPointScrew(targetNum_, nullptr);
