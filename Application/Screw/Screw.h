@@ -92,8 +92,8 @@ private:
 	TransformStructure transformSweatUV_;
 	uint32_t sweatTextureHandle_;
 	bool isDrawSweat_;
-	int32_t sweatAnimationChange_ = 10;//遷移時間
+	int32_t sweatAnimationChange_ = 3;//遷移時間
 	int32_t sweatAnimationframe_;
 	int32_t sweatAnimationNum_;//連番の番号
-	static const int32_t sweatAnimationMax_ = 3;//アニメーションの枚数
+	static const int32_t sweatAnimationMax_ = 8;//アニメーションの枚数
 };

@@ -8,6 +8,7 @@
 #include "../../Particle/EmitterName.h"
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../MissionData/MissionData.h"
+#include "../../ForResult/ForResult.h"
 /// <summary>
 /// 初期化
 /// </summary>
@@ -167,7 +168,7 @@ void GameScene::Initialize() {
 		screw.reset(new Screw);
 		screw->Initialize();
 		screw->SetPlayer(player_.get());
-		screw->SetSweatTextureHandle(TextureManager::Load("Resources/sweat.png", dxCommon_, textureHandleManager_.get()));
+		screw->SetSweatTextureHandle(TextureManager::Load("Resources/drops.png", dxCommon_, textureHandleManager_.get()));
 		screws_.push_back(std::move(screw));
 	}
 
@@ -405,6 +406,7 @@ void GameScene::Update() {
 		}
 		else {
 			requestSceneNo = kClear;
+			ForResult::GetInstance()->connectNum_ = connectCount;
 		}
 	}
 #ifdef _DEBUG
@@ -477,6 +479,7 @@ void GameScene::Update() {
 	if (gameTimer_<0) {
 		gameTimer_ = 0;
 		requestSceneNo = kClear;
+		ForResult::GetInstance()->connectNum_ = connectCount;
 	}
 #ifdef _DEBUG
 

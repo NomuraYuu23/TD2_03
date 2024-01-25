@@ -107,7 +107,8 @@ void Screw::DrawOutLine(Model* model, BaseCamera& camera, OutLineData& outLineDa
 }
 
 void Screw::DrawSweat(Model* model, BaseCamera& camera, Matrix4x4& billboard) {
-	worldTransformSweat_.worldMatrix_ = Matrix4x4Calc::Multiply(Matrix4x4Calc::MakeScaleMatrix(worldTransformSweat_.transform_.scale), Matrix4x4Calc::Multiply(billboard,Matrix4x4Calc::MakeTranslateMatrix(worldTransformSweat_.transform_.translate)));
+	Matrix4x4 rotateMatrix = Matrix4x4Calc::Multiply(Matrix4x4Calc::MakeRotateZMatrix(-(3.141592f/2.0f)),billboard);
+	worldTransformSweat_.worldMatrix_ = Matrix4x4Calc::Multiply(Matrix4x4Calc::MakeScaleMatrix(worldTransformSweat_.transform_.scale), Matrix4x4Calc::Multiply(rotateMatrix,Matrix4x4Calc::MakeTranslateMatrix(worldTransformSweat_.transform_.translate)));
 	//worldTransformSweat_.Map();
 	model->Draw(worldTransformSweat_, camera, matSweat_.get(),sweatTextureHandle_);
 }
