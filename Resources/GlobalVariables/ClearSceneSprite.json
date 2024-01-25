@@ -10,19 +10,19 @@
         ],
         "LeftSpritePosition": [
             675.0,
-            300.0
+            310.0
         ],
         "LeftSpriteSize": [
-            44.0,
-            100.0
+            32.0,
+            80.0
         ],
         "LeftTenSpritePosition": [
             625.0,
-            300.0
+            310.0
         ],
         "LeftTenSpriteSize": [
-            44.0,
-            100.0
+            32.0,
+            80.0
         ],
         "Line1SpritePosition": [
             410.0,
@@ -50,19 +50,19 @@
         ],
         "RightSpritePosition": [
             825.0,
-            300.0
+            310.0
         ],
         "RightSpriteSize": [
-            44.0,
-            100.0
+            32.0,
+            80.0
         ],
         "RightTenSpritePosition": [
             775.0,
-            300.0
+            310.0
         ],
         "RightTenSpriteSize": [
-            44.0,
-            100.0
+            32.0,
+            80.0
         ],
         "TilteSpritePosition": [
             300.0,
