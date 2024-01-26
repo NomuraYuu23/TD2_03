@@ -52,6 +52,18 @@ private: // 関数
 	/// </summary>
 	bool OverlapY(const ShadowObj& a, const ShadowObj& b);
 
+	// 衝突確認
+	bool CollisionCheck(const ShadowObj& a, const ShadowObj& b);
+
+	// 内包時衝突処理
+	void CompriseOnCollision(const ShadowObj& a, const ShadowObj& b);
+
+	// 非内包時衝突処理
+	void NotCompriseOnCollision(const ShadowObj& a, const ShadowObj& b);
+
+	// 影の個数制限
+	void ShadowLimit();
+
 private: // 定数
 
 	// 影の数
@@ -76,6 +88,9 @@ private:
 
 	// 影を出す数
 	uint32_t shadowCount_;
+
+	// 影が最大か
+	bool isShadowMax_;
 
 };
 

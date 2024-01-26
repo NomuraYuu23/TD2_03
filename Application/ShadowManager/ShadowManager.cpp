@@ -1,4 +1,5 @@
 #include "ShadowManager.h"
+#include <algorithm>
 
 void ShadowManager::Initialize(Model* model)
 {
@@ -19,6 +20,8 @@ void ShadowManager::Initialize(Model* model)
 
 	// 影を出す数
 	shadowCount_ = 0u;
+
+	isShadowMax_ = false;
 
 }
 
@@ -52,6 +55,7 @@ void ShadowManager::SeeShadow()
 {
 
 	shadowCount_ = 0u;
+	isShadowMax_ = false;
 
 	// 影を発生させるオブジェクトリスト
 	std::list<ShadowObj>::iterator itrCastsShadowObj = castsShadowObjList_.begin();
@@ -62,27 +66,15 @@ void ShadowManager::SeeShadow()
 		for (; itrShadowAppearsObj != shadowAppearsObjList_.end(); ++itrShadowAppearsObj) {
 
 			// 影が出るか確認
-			if (OverlapY(*itrCastsShadowObj, *itrShadowAppearsObj)) {
-				// ワールドトランスフォーム設定
-				worldTransforms_[shadowCount_].transform_.translate.x = itrCastsShadowObj->position_.x;
-				worldTransforms_[shadowCount_].transform_.translate.y = itrShadowAppearsObj->position_.y + itrShadowAppearsObj->size_.y;
-				worldTransforms_[shadowCount_].transform_.translate.z = itrCastsShadowObj->position_.z;
-				worldTransforms_[shadowCount_].transform_.scale.x = itrCastsShadowObj->size_.x;
-				worldTransforms_[shadowCount_].transform_.scale.y = 1.0f;
-				worldTransforms_[shadowCount_].transform_.scale.z = itrCastsShadowObj->size_.z;
-				worldTransforms_[shadowCount_].UpdateMatrix();
-
-				// 影の数を増やす
-				shadowCount_++;
-
-				// 影の作成最大値
-				if (shadowCount_ == kShadowMax_) {
-					return;
-				}
-
+			if (CollisionCheck(*itrCastsShadowObj, *itrShadowAppearsObj)) {
 				break;
 			}
 
+		}
+
+		// 影が最大
+		if (isShadowMax_) {
+			return;
 		}
 
 	}
@@ -102,17 +94,93 @@ void ShadowManager::Draw(BaseCamera& baseCamera)
 bool ShadowManager::OverlapY(const ShadowObj& a, const ShadowObj& b)
 {
 	
-	if (a.position_.x + a.size_.x >= b.position_.x - b.size_.x &&
-		a.position_.x - a.size_.x <= b.position_.x + b.size_.x &&
-		a.position_.z + a.size_.z >= b.position_.z - b.size_.z &&
-		a.position_.z - a.size_.z <= b.position_.z + b.size_.z) {
+	// 高さ確認
+	if (a.position_.y + a.size_.y >= b.position_.y + b.size_.y) {
+		
+		// 完全に内包している
 
-		if (a.position_.y + a.size_.y >= b.position_.y + b.size_.y) {
+		if (a.position_.x - a.size_.x >= b.position_.x - b.size_.x &&
+			a.position_.x + a.size_.x <= b.position_.x + b.size_.x &&
+			a.position_.z - a.size_.z >= b.position_.z - b.size_.z &&
+			a.position_.z + a.size_.z <= b.position_.z + b.size_.z) {
+
 			return true;
-		}
 
+		}
 	}
 
 	return false;
+
+}
+
+bool ShadowManager::CollisionCheck(const ShadowObj& a, const ShadowObj& b)
+{
+
+	// 高さ確認
+	if (a.position_.y + a.size_.y >= b.position_.y + b.size_.y) {
+
+		// 完全に内包している
+		if (a.position_.x - a.size_.x >= b.position_.x - b.size_.x &&
+			a.position_.x + a.size_.x <= b.position_.x + b.size_.x &&
+			a.position_.z - a.size_.z >= b.position_.z - b.size_.z &&
+			a.position_.z + a.size_.z <= b.position_.z + b.size_.z) {
+			CompriseOnCollision(a,b);
+		}
+		// 完全に内包していないが衝突
+		else if(a.position_.x + a.size_.x >= b.position_.x - b.size_.x &&
+				a.position_.x - a.size_.x <= b.position_.x + b.size_.x &&
+				a.position_.z + a.size_.z >= b.position_.z - b.size_.z &&
+				a.position_.z - a.size_.z <= b.position_.z + b.size_.z){
+			NotCompriseOnCollision(a, b);
+		}
+		// 衝突していない
+		else {
+			return false;
+		}
+		// 影の数制限
+		ShadowLimit();
+		return true;
+	}		
+
+	return false;
+
+}
+
+void ShadowManager::CompriseOnCollision(const ShadowObj& a, const ShadowObj& b)
+{
+	// ワールドトランスフォーム設定
+	worldTransforms_[shadowCount_].transform_.translate.x = a.position_.x;
+	worldTransforms_[shadowCount_].transform_.translate.y = b.position_.y + b.size_.y;
+	worldTransforms_[shadowCount_].transform_.translate.z = a.position_.z;
+	worldTransforms_[shadowCount_].transform_.scale.x = a.size_.x;
+	worldTransforms_[shadowCount_].transform_.scale.y = 1.0f;
+	worldTransforms_[shadowCount_].transform_.scale.z = a.size_.z;
+	worldTransforms_[shadowCount_].UpdateMatrix();
+
+}
+
+void ShadowManager::NotCompriseOnCollision(const ShadowObj& a, const ShadowObj& b)
+{
+
+	worldTransforms_[shadowCount_].transform_.translate.x = std::clamp(a.position_.x, b.position_.x - b.size_.x + a.size_.x, b.position_.x + b.size_.x - a.size_.x);
+	worldTransforms_[shadowCount_].transform_.translate.y = b.position_.y + b.size_.y;
+	worldTransforms_[shadowCount_].transform_.translate.z = std::clamp(a.position_.z, b.position_.z - b.size_.z + a.size_.z, b.position_.z + b.size_.z - a.size_.z);
+	worldTransforms_[shadowCount_].transform_.scale.x = a.size_.x;
+	worldTransforms_[shadowCount_].transform_.scale.y = 1.0f;
+	worldTransforms_[shadowCount_].transform_.scale.z = a.size_.z;
+	worldTransforms_[shadowCount_].UpdateMatrix();
+
+}
+
+void ShadowManager::ShadowLimit()
+{
+
+	// 影の数を増やす
+	shadowCount_++;
+
+	// 影の作成最大値
+	if (shadowCount_ == kShadowMax_) {
+		isShadowMax_ = true;
+	}
 
 }
