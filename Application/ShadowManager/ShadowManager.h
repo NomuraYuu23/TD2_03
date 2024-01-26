@@ -55,7 +55,7 @@ private: // 関数
 private: // 定数
 
 	// 影の数
-	static const uint32_t kShadowMax_ = 128;
+	static const uint32_t kShadowMax_ = 64;
 	
 private:
 

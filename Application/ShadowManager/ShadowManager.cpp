@@ -64,10 +64,18 @@ void ShadowManager::SeeShadow()
 				worldTransforms_[shadowCount_].transform_.translate.x = itrCastsShadowObj->position_.x;
 				worldTransforms_[shadowCount_].transform_.translate.y = itrShadowAppearsObj->position_.y + itrShadowAppearsObj->size_.y;
 				worldTransforms_[shadowCount_].transform_.translate.z = itrCastsShadowObj->position_.z;
+				worldTransforms_[shadowCount_].transform_.scale.x = itrCastsShadowObj->size_.x;
+				worldTransforms_[shadowCount_].transform_.scale.y = 1.0f;
+				worldTransforms_[shadowCount_].transform_.scale.z = itrCastsShadowObj->size_.z;
 				worldTransforms_[shadowCount_].UpdateMatrix();
 
 				// 影の数を増やす
 				shadowCount_++;
+
+				// 影の作成最大値
+				if (shadowCount_ == kShadowMax_) {
+					return;
+				}
 
 				break;
 			}
@@ -96,7 +104,9 @@ bool ShadowManager::OverlapY(const ShadowObj& a, const ShadowObj& b)
 		a.position_.z + a.size_.z >= b.position_.z - b.size_.z &&
 		a.position_.z - a.size_.z <= b.position_.z + b.size_.z) {
 
-		return true;
+		if (a.position_.y + a.size_.y >= b.position_.y + b.size_.y) {
+			return true;
+		}
 
 	}
 
