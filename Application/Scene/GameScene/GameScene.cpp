@@ -242,7 +242,7 @@ void GameScene::Initialize() {
 	MissionData::GetInstance()->SetMax(mission_.size());
 
 	sweatModel_.reset(Model::Create("Resources/default/", "plane.obj", dxCommon_, textureHandleManager_.get()));
-
+	soilModel_.reset(Model::Create("Resources/Model/soil_model/", "soil.obj", dxCommon_, textureHandleManager_.get()));
 	audioManager_->PlayWave(kGameAudioNameIndexBGM);
 
 }
@@ -537,6 +537,7 @@ void GameScene::Draw() {
 
 	for (std::list<Block*>::iterator block = blockManager_->GetBlocks().begin(); block != blockManager_->GetBlocks().end(); block++) {
 		(*block)->Draw(modelBlock_.get(), camera_);
+		(*block)->DrawSoil(soilModel_.get(), camera_);
 	}
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		(*block)->Draw(modelBlock_.get(), camera_);

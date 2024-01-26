@@ -169,4 +169,5 @@ private:
 	int timerMax_ = 300;
 
 	std::unique_ptr<Model> sweatModel_;
+	std::unique_ptr<Model> soilModel_;
 };

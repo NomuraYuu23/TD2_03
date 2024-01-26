@@ -176,5 +176,8 @@ private: // メンバ変数
 	Vector2 connectHandPosition_ = {};
 	Vector2 connectHandSize_ = {};
 
+	std::unique_ptr<Sprite> connectTextSprite_ = nullptr;
+	Vector2 connectTextPosition_ = {};
+	Vector2 connectTextSize_ = {};
 };
 
