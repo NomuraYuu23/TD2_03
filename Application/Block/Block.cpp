@@ -32,6 +32,8 @@ void Block::Initialize() {
 	//TransformStructure t{ 0 };
 	t.scale = { 1.0f,1.0f,1.0f };
 	mat2_->Update(t, { 0.8f,0.5f,1.5f,1.0f }, 0, 200);
+	worldTransformSoil_.Initialize();
+	worldTransformSoil_.parent_ = &worldTransform_;
 }
 void Block::Update() {
 	reConnect_ = false;
@@ -58,6 +60,9 @@ void Block::Update() {
 		mat2_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	}
 	worldTransform_.UpdateMatrix();
+	worldTransformSoil_.transform_.translate.y = 1.5f;
+	worldTransformSoil_.transform_.scale = {3.0f,3.0f,3.0f};
+	worldTransformSoil_.UpdateMatrix();
 	collider_->center_ = worldTransform_.GetWorldPosition();
 	collider_->size_ = { worldTransform_.transform_.scale.x * 4.0f, worldTransform_.transform_.scale.y/2.0f, worldTransform_.transform_.scale.z * 4.0f };
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
@@ -83,6 +88,19 @@ void Block::Draw(Model* model, BaseCamera& camera) {
 	model->Draw(worldTransform_,camera,mat2_.get());
 	if (isConnectAnimation_) {
 		model->Draw(worldTransformOverRay_, camera,mat_.get(), whiteTextureHandle_);
+	}
+}
+
+void Block::DrawSoil(Model* model, BaseCamera& camera) {
+	bool isStack = false;
+	for (int index = 0; index < anchorNum; index++) {
+		if (anchorPoints_[index].screw != nullptr) {
+			isStack = true;
+			break;
+		}
+	}
+	if (isStack && !isCenter_) {
+		model->Draw(worldTransformSoil_, camera);
 	}
 }
 

@@ -255,7 +255,7 @@ void Screw::Stuck(){
 		worldTransform_.transform_.translate.x +=0.2f* RandomEngine::GetRandom(-1.0f,1.0f);
 		worldTransform_.transform_.translate.z += 0.2f * RandomEngine::GetRandom(-1.0f, 1.0f);
 		worldTransformSweat_.transform_.translate = worldTransform_.transform_.translate;
-		worldTransformSweat_.transform_.translate.y += 4.0f;
+		worldTransformSweat_.transform_.translate.y += 3.0f;
 		sweatAnimationframe_++;
 		if (sweatAnimationframe_ > sweatAnimationChange_) {
 			sweatAnimationframe_ = 0;
@@ -275,7 +275,7 @@ void Screw::Stuck(){
 		static_cast<Block*>(target_)->SetAnchorPointScrew(targetNum_, nullptr);
 		frameCount_ = 0;
 		state_ = NONE;
-		worldTransform_.transform_.translate.y += 2.0f;
+		worldTransform_.transform_.translate.y += 5.0f;
 		audioManager_->PlayWave(kGameAudioNameIndexScrewRemove);
 	}
 	stuckTime_--;
