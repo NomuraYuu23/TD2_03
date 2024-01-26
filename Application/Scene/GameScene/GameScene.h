@@ -22,6 +22,9 @@
 
 #include "../../UFO/UFOManager.h"
 #include "../../../Engine/3D/OutLineData.h"
+
+#include "../../ShadowManager/ShadowManager.h"
+
 class GameScene : public IScene
 {
 
@@ -82,6 +85,11 @@ private:
 	/// 音量
 	/// </summary>
 	void LowerVolumeBGM();
+
+	/// <summary>
+	/// 影更新
+	/// </summary>
+	void ShadowUpdate();
 
 private:
 
@@ -169,4 +177,9 @@ private:
 	int timerMax_ = 300;
 
 	std::unique_ptr<Model> sweatModel_;
+
+	//影
+	std::unique_ptr<ShadowManager> shadowManager_;
+	std::unique_ptr<Model> shadowModel_;
+
 };

@@ -56,7 +56,7 @@ void ShadowManager::SeeShadow()
 
 		// 影が現れるオブジェクトリスト	
 		std::list<ShadowObj>::iterator itrShadowAppearsObj = shadowAppearsObjList_.begin();
-		for (; itrShadowAppearsObj != castsShadowObjList_.end(); ++itrShadowAppearsObj) {
+		for (; itrShadowAppearsObj != shadowAppearsObjList_.end(); ++itrShadowAppearsObj) {
 
 			// 影が出るか確認
 			if (OverlapY(*itrCastsShadowObj, *itrShadowAppearsObj)) {
