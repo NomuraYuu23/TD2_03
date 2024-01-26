@@ -157,17 +157,64 @@ void ShadowManager::CompriseOnCollision(const ShadowObj& a, const ShadowObj& b)
 	worldTransforms_[shadowCount_].transform_.scale.z = a.size_.z;
 	worldTransforms_[shadowCount_].UpdateMatrix();
 
+	TransformStructure transformStructure = {
+		0.33f, 0.33f, 1.0f,
+		0.0f, 0.0f, 0.0f,
+		0.33f, 0.33f, 0.0f
+	};
+	materials_[shadowCount_]->SetUvTransform(transformStructure);
+
 }
 
 void ShadowManager::NotCompriseOnCollision(const ShadowObj& a, const ShadowObj& b)
 {
 
-	worldTransforms_[shadowCount_].transform_.translate.x = std::clamp(a.position_.x, b.position_.x - b.size_.x + a.size_.x, b.position_.x + b.size_.x - a.size_.x);
+	worldTransforms_[shadowCount_].transform_.translate.x = a.position_.x;
 	worldTransforms_[shadowCount_].transform_.translate.y = b.position_.y + b.size_.y;
-	worldTransforms_[shadowCount_].transform_.translate.z = std::clamp(a.position_.z, b.position_.z - b.size_.z + a.size_.z, b.position_.z + b.size_.z - a.size_.z);
+	worldTransforms_[shadowCount_].transform_.translate.z = a.position_.z;
 	worldTransforms_[shadowCount_].transform_.scale.x = a.size_.x;
 	worldTransforms_[shadowCount_].transform_.scale.y = 1.0f;
 	worldTransforms_[shadowCount_].transform_.scale.z = a.size_.z;
+
+	Vector3 materialPosition = { 0.33f, 0.33f, 0.0f };
+	float move = 0.0f;
+	float size = 32.0f;
+
+	// x
+	if (a.position_.x + a.size_.x > b.position_.x - b.size_.x && 
+		a.position_.x - a.size_.x < b.position_.x - b.size_.x) {
+		worldTransforms_[shadowCount_].transform_.translate.x = b.position_.x - b.size_.x + a.size_.x;
+		move = 0.33f * (std::fabsf((b.position_.x - b.size_.x) - (a.position_.x - a.size_.x)) / a.size_.x / 2.0f);
+		materialPosition.x = 0.33f - move;
+	}
+	else if(a.position_.x - a.size_.x < b.position_.x + b.size_.x &&
+			a.position_.x + a.size_.x > b.position_.x + b.size_.x){
+		worldTransforms_[shadowCount_].transform_.translate.x = b.position_.x + b.size_.x - a.size_.x;
+		move = 0.33f * (std::fabsf((b.position_.x + b.size_.x) - (a.position_.x + a.size_.x)) / a.size_.x / 2.0f);
+		materialPosition.x = 0.33f + move;
+	}
+
+	// z
+	if (a.position_.z + a.size_.z > b.position_.z - b.size_.z &&
+		a.position_.z - a.size_.z < b.position_.z - b.size_.z) {
+		worldTransforms_[shadowCount_].transform_.translate.z = b.position_.z - b.size_.z + a.size_.z;
+		move = 0.33f * (std::fabsf((b.position_.z - b.size_.z) - (a.position_.z - a.size_.z)) / a.size_.z / 2.0f);
+		materialPosition.y = 0.33f + move;
+	}
+	else if (a.position_.z - a.size_.z < b.position_.z + b.size_.z &&
+		a.position_.z + a.size_.z > b.position_.z + b.size_.z) {
+		worldTransforms_[shadowCount_].transform_.translate.z = b.position_.z + b.size_.z - a.size_.z;
+		move = 0.33f * (std::fabsf((b.position_.z + b.size_.z) - (a.position_.z + a.size_.z)) / a.size_.z / 2.0f);
+		materialPosition.y = 0.33f - move;
+	}
+
+	TransformStructure transformStructure = {
+	0.33f, 0.33f, 1.0f,
+	0.0f, 0.0f, 0.0f,
+	materialPosition
+	};
+	materials_[shadowCount_]->SetUvTransform(transformStructure);
+
 	worldTransforms_[shadowCount_].UpdateMatrix();
 
 }
