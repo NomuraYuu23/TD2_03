@@ -83,7 +83,7 @@ void ClearScene::Initialize()
 	connectSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	connectTenSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	connectHandSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
-
+	connectTextSprite_.reset(Sprite::Create(TextureManager::Load("Resources/UI/outgame_blockNum_text.png", dxCommon_, textureHandleManager_.get()), titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	SpriteRegisteringGlobalVariables();
 
 	SpriteApplyGlobalVariables();
@@ -265,6 +265,7 @@ void ClearScene::Draw()
 	if (connectHandSprite_->GetTextureLeftTop().x) {
 		connectHandSprite_->Draw();
 	}
+	connectTextSprite_->Draw();
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -389,6 +390,10 @@ void ClearScene::SpriteRegisteringGlobalVariables()
 	objName = "ConnectHandSprite";
 	globalVariables->AddItem(groupName2, objName + "Position", connectHandPosition_);
 	globalVariables->AddItem(groupName2, objName + "Size", connectHandSize_);
+
+	objName = "ConnectTextSprite";
+	globalVariables->AddItem(groupName2, objName + "Position", connectTextPosition_);
+	globalVariables->AddItem(groupName2, objName + "Size", connectTextSize_);
 }
 
 void ClearScene::SpriteApplyGlobalVariables()
@@ -497,4 +502,10 @@ void ClearScene::SpriteApplyGlobalVariables()
 	connectHandSprite_->SetPosition(connectHandPosition_);
 	connectHandSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
 	connectHandSprite_->SetSize(connectHandSize_);
+
+	objName = "ConnectTextSprite";
+	connectTextPosition_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	connectTextSprite_->SetPosition(connectTextPosition_);
+	connectTextSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	connectTextSprite_->SetSize(connectTextSize_);
 }

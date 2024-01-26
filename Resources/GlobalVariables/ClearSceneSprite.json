@@ -9,7 +9,7 @@
             128.0
         ],
         "ConnectHandSpritePosition": [
-            625.0,
+            710.0,
             400.0
         ],
         "ConnectHandSpriteSize": [
@@ -17,7 +17,7 @@
             60.0
         ],
         "ConnectSpritePosition": [
-            725.0,
+            770.0,
             400.0
         ],
         "ConnectSpriteSize": [
@@ -25,12 +25,20 @@
             60.0
         ],
         "ConnectTenSpritePosition": [
-            675.0,
+            740.0,
             400.0
         ],
         "ConnectTenSpriteSize": [
             32.0,
             60.0
+        ],
+        "ConnectTextSpritePosition": [
+            427.79998779296875,
+            400.0
+        ],
+        "ConnectTextSpriteSize": [
+            700.0,
+            128.0
         ],
         "LeftSpritePosition": [
             675.0,

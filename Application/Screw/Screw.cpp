@@ -250,7 +250,7 @@ void Screw::Stuck(){
 	worldTransform_.transform_.translate = endPoint;
 	float t = float(kStuckMax - stuckTime_) / float(kStuckMax);
 	worldTransform_.transform_.translate.y += (1.0f - t) * (stuckLow_)+t * (stuckTop_);
-	worldTransform_.transform_.rotate.y = t * 3.14f * 4.0f;
+	worldTransform_.transform_.rotate.y = t * 3.14f * 64.0f;
 	if (stuckTime_ < float(kStuckMax/3)) {
 		worldTransform_.transform_.translate.x +=0.2f* RandomEngine::GetRandom(-1.0f,1.0f);
 		worldTransform_.transform_.translate.z += 0.2f * RandomEngine::GetRandom(-1.0f, 1.0f);
@@ -275,6 +275,7 @@ void Screw::Stuck(){
 		static_cast<Block*>(target_)->SetAnchorPointScrew(targetNum_, nullptr);
 		frameCount_ = 0;
 		state_ = NONE;
+		worldTransform_.transform_.translate.y += 2.0f;
 		audioManager_->PlayWave(kGameAudioNameIndexScrewRemove);
 	}
 	stuckTime_--;
