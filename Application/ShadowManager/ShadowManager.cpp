@@ -9,9 +9,12 @@ void ShadowManager::Initialize(Model* model)
 	// リスト
 	ListClear();
 
-	// ワールドトランスフォーム
+	// ワールドトランスフォーム,マテリアル
+	Vector4 color = { 1.0f,1.0f,1.0f, 0.8f };
 	for (uint32_t i = 0; i < worldTransforms_.size(); ++i) {
 		worldTransforms_[i].Initialize();
+		materials_[i].reset(Material::Create());
+		materials_[i]->SetColor(color);
 	}
 
 	// 影を出す数
@@ -91,7 +94,7 @@ void ShadowManager::Draw(BaseCamera& baseCamera)
 {
 
 	for (uint32_t i = 0; i < shadowCount_; ++i) {
-		model_->Draw(worldTransforms_[i], baseCamera);
+		model_->Draw(worldTransforms_[i], baseCamera, materials_[i].get());
 	}
 
 }

@@ -71,6 +71,9 @@ private:
 	// ワールドトランスフォーム
 	std::array<WorldTransform, kShadowMax_> worldTransforms_;
 
+	// マテリアル
+	std::array<std::unique_ptr<Material>, kShadowMax_> materials_;
+
 	// 影を出す数
 	uint32_t shadowCount_;
 
