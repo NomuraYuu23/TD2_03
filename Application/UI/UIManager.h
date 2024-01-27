@@ -12,6 +12,8 @@ enum UITextureHandleIndex {
 	kUITextureHandleIndexFrame, // フレーム
 	kUITextureHandleIndexMissionFrame, // ミッションフレーム
 	kUITextureHandleIndexMissionText, // ミッションテキスト
+	kUITextureHandleIndexMissionNum, // ミッション数字
+	kUITextureHandleIndexMissionClear,// ミッションクリア
 	kUITextureHandleIndexOfCount
 };
 
@@ -33,6 +35,7 @@ enum UIIndex {
 	kUIIndexMissionDenominatorOnesPlace, // ミッション分母1の位
 	kUIIndexMissionNumeratorTensPlace, // ミッション分子10の位
 	kUIIndexMissionNumeratorOnesPlace, // ミッション分子1の位
+	kUIIndexMissionClear, // ミッションクリア
 	kUIIndexOfCount
 };
 
@@ -94,6 +97,11 @@ private: // メンバ関数
 	/// <param name="t"></param>
 	void ClearMissionUpdate(float t);
 
+	/// <summary>
+	/// スタンプ
+	/// </summary>
+	void Stamp();
+
 private: // メンバ変数
 
 	// テクスチャハンドル
@@ -111,16 +119,14 @@ private: // メンバ変数
 	// ミッション更新中の色
 	Vector4 missionBeenUpdateColor_;
 
-	// ミッションの数字色
-	const Vector4 kMissionNumColor_ = {
-		226.0f / 255.0f,
-		91.0f / 255.0f,
-		64.0f / 255.0f,
-		1.0f
-	};
-
 	// ミッション
 	bool missionBeenUpdateFadeIn_;
+
+	// ハンコが押された
+	bool IsStamped_;
+
+	// ハンコの媒介変数
+	float stampT_;
 
 	// オーディオマネージャー
 	GameAudioManager* audioManager_;
