@@ -147,27 +147,32 @@ void UIManager::UIInitialize()
 	UIs_[kUIIndexMissionText] = std::make_unique<UIMissionText>();
 	UIs_[kUIIndexMissionText]->Initialize(textureHandles_[kUITextureHandleIndexMissionText], "UIMissionText", missionTextSize, leftTop);
 
-	// タイマー秒1の位
+	// ミッション番号1の位
 	UIs_[kUIIndexMissionNumTensPlace] = std::make_unique<UINumber>();
 	UIs_[kUIIndexMissionNumTensPlace]->Initialize(textureHandles_[kUITextureHandleIndexNumber], "UIMissionNumTensPlace", numberSize, leftTop);
+	UIs_[kUIIndexMissionNumTensPlace]->SetColor(kMissionNumColor_);
 
-	// タイマー秒10の位
+	// ミッション番号10の位
 	UIs_[kUIIndexMissionNumOnesPlace] = std::make_unique<UINumber>();
 	UIs_[kUIIndexMissionNumOnesPlace]->Initialize(textureHandles_[kUITextureHandleIndexNumber], "UIMissionNumOnesPlace", numberSize, leftTop);
-
+	UIs_[kUIIndexMissionNumOnesPlace]->SetColor(kMissionNumColor_);
 
 	// ミッション分母10の位
 	UIs_[kUIIndexMissionDenominatorTensPlace] = std::make_unique<UINumber>();
 	UIs_[kUIIndexMissionDenominatorTensPlace]->Initialize(textureHandles_[kUITextureHandleIndexNumber], "UIMissionDenominatorTensPlace", numberSize, leftTop);
+	UIs_[kUIIndexMissionDenominatorTensPlace]->SetColor(kMissionNumColor_);
 	// ミッション分母1の位
 	UIs_[kUIIndexMissionDenominatorOnesPlace] = std::make_unique<UINumber>();
 	UIs_[kUIIndexMissionDenominatorOnesPlace]->Initialize(textureHandles_[kUITextureHandleIndexNumber], "UIMissionDenominatorOnesPlace", numberSize, leftTop);
+	UIs_[kUIIndexMissionDenominatorOnesPlace]->SetColor(kMissionNumColor_);
 	// ミッション分子10の位
 	UIs_[kUIIndexMissionNumeratorTensPlace] = std::make_unique<UINumber>();
 	UIs_[kUIIndexMissionNumeratorTensPlace]->Initialize(textureHandles_[kUITextureHandleIndexNumber], "UIMissionNumeratorTensPlace", numberSize, leftTop);
+	UIs_[kUIIndexMissionNumeratorTensPlace]->SetColor(kMissionNumColor_);
 	// ミッション分子1の位
 	UIs_[kUIIndexMissionNumeratorOnesPlace] = std::make_unique<UINumber>();
 	UIs_[kUIIndexMissionNumeratorOnesPlace]->Initialize(textureHandles_[kUITextureHandleIndexNumber], "UIMissionNumeratorOnesPlace", numberSize, leftTop);
+	UIs_[kUIIndexMissionNumeratorOnesPlace]->SetColor(kMissionNumColor_);
 
 }
 
@@ -185,11 +190,13 @@ void UIManager::MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount)
 		if (missionBeenUpdateColor_.w <= 0.0f) {
 			missionBeenUpdateColor_.w = 0.0f;
 			missionBeenUpdateFadeIn_ = true;
-			
 			// ミッションブロック更新
 			MissionBlockCountUpdate(missionBlockCount);
 			audioManager_->PlayWave(kGameAudioNameIndexMissionOccurrrence);
 		}
+
+		ClearMissionUpdate((1.0f - missionBeenUpdateColor_.w));
+
 	}
 	// 新しいものが飛んでくる
 	else {
@@ -203,11 +210,20 @@ void UIManager::MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount)
 		NewMissionMove(missionBeenUpdateColor_.w);
 
 	}
+	
+	missionBeenUpdateColor_.x = 1.0f;
+	missionBeenUpdateColor_.y = 1.0f;
+	missionBeenUpdateColor_.z = 1.0f;
 
 	// ミッションフレーム
 	UIs_[kUIIndexMissionFrame]->SetColor(missionBeenUpdateColor_);
 	// ミッションテキスト
 	UIs_[kUIIndexMissionText]->SetColor(missionBeenUpdateColor_);
+
+	missionBeenUpdateColor_.x = kMissionNumColor_.x;
+	missionBeenUpdateColor_.y = kMissionNumColor_.y;
+	missionBeenUpdateColor_.z = kMissionNumColor_.z;
+
 	// ミッション番号10の位
 	UIs_[kUIIndexMissionNumTensPlace]->SetColor(missionBeenUpdateColor_);
 	// ミッション番号1の位
@@ -300,7 +316,7 @@ void UIManager::NewMissionMove(float t)
 	//ミッション位置
 	Vector2 start = { 0.0f,0.0f };
 	Vector2 end = { 0.0f,0.0f };
-	float addStart = 500.0f;
+	float addStart = 520.0f;
 
 	// ミッションフレーム
 	start = UIInitPositions_[kUIIndexMissionFrame];
@@ -342,5 +358,56 @@ void UIManager::NewMissionMove(float t)
 	end = UIInitPositions_[kUIIndexMissionNumeratorOnesPlace];
 	start.x += addStart;
 	UIs_[kUIIndexMissionNumeratorOnesPlace]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
+
+}
+
+void UIManager::ClearMissionUpdate(float t)
+{
+
+	//ミッション位置
+	Vector2 start = { 0.0f,0.0f };
+	Vector2 end = { 0.0f,0.0f };
+	float addEnd = 520.0f;
+
+	// ミッションフレーム
+	start = UIInitPositions_[kUIIndexMissionFrame];
+	end = UIInitPositions_[kUIIndexMissionFrame];
+	end.x += addEnd;
+	UIs_[kUIIndexMissionFrame]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
+	// ミッションテキスト
+	start = UIInitPositions_[kUIIndexMissionText];
+	end = UIInitPositions_[kUIIndexMissionText];
+	end.x += addEnd;
+	UIs_[kUIIndexMissionText]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
+	// ミッション番号10の位
+	start = UIInitPositions_[kUIIndexMissionNumTensPlace];
+	end = UIInitPositions_[kUIIndexMissionNumTensPlace];
+	end.x += addEnd;
+	UIs_[kUIIndexMissionNumTensPlace]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
+	// ミッション番号1の位
+	start = UIInitPositions_[kUIIndexMissionNumOnesPlace];
+	end = UIInitPositions_[kUIIndexMissionNumOnesPlace];
+	end.x += addEnd;
+	UIs_[kUIIndexMissionNumOnesPlace]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
+	// ミッション分母10の位
+	start = UIInitPositions_[kUIIndexMissionDenominatorTensPlace];
+	end = UIInitPositions_[kUIIndexMissionDenominatorTensPlace];
+	end.x += addEnd;
+	UIs_[kUIIndexMissionDenominatorTensPlace]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
+	// ミッション分母1の位
+	start = UIInitPositions_[kUIIndexMissionDenominatorOnesPlace];
+	end = UIInitPositions_[kUIIndexMissionDenominatorOnesPlace];
+	end.x += addEnd;
+	UIs_[kUIIndexMissionDenominatorOnesPlace]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
+	// ミッション分子10の位
+	start = UIInitPositions_[kUIIndexMissionNumeratorTensPlace];
+	end = UIInitPositions_[kUIIndexMissionNumeratorTensPlace];
+	end.x += addEnd;
+	UIs_[kUIIndexMissionNumeratorTensPlace]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
+	// ミッション分子1の位
+	start = UIInitPositions_[kUIIndexMissionNumeratorOnesPlace];
+	end = UIInitPositions_[kUIIndexMissionNumeratorOnesPlace];
+	end.x += addEnd;
+	UIs_[kUIIndexMissionNumeratorOnesPlace]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
 
 }
