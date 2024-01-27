@@ -25,6 +25,8 @@
 
 #include "../../ShadowManager/ShadowManager.h"
 
+#include "../../ClearMigration/ClearMigration.h"
+
 class GameScene : public IScene
 {
 
@@ -181,5 +183,9 @@ private:
 	//影
 	std::unique_ptr<ShadowManager> shadowManager_;
 	std::unique_ptr<Model> shadowModel_;
+
+	// クリア演出
+	std::unique_ptr<ClearMigration> clearMigration_;
+	uint32_t clearMigrationTextureHandle_;
 
 };
