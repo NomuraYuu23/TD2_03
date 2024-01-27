@@ -88,6 +88,12 @@ private: // メンバ関数
 	/// </summary>
 	void NewMissionMove(float t);
 
+	/// <summary>
+	/// クリアミッション移動
+	/// </summary>
+	/// <param name="t"></param>
+	void ClearMissionUpdate(float t);
+
 private: // メンバ変数
 
 	// テクスチャハンドル
@@ -104,6 +110,14 @@ private: // メンバ変数
 
 	// ミッション更新中の色
 	Vector4 missionBeenUpdateColor_;
+
+	// ミッションの数字色
+	const Vector4 kMissionNumColor_ = {
+		226.0f / 255.0f,
+		91.0f / 255.0f,
+		64.0f / 255.0f,
+		1.0f
+	};
 
 	// ミッション
 	bool missionBeenUpdateFadeIn_;

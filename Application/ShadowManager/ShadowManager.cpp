@@ -11,7 +11,7 @@ void ShadowManager::Initialize(Model* model)
 	ListClear();
 
 	// ワールドトランスフォーム,マテリアル
-	Vector4 color = { 1.0f,1.0f,1.0f, 0.8f };
+	Vector4 color = { 1.0f,1.0f,1.0f, 0.5f };
 	for (uint32_t i = 0; i < worldTransforms_.size(); ++i) {
 		worldTransforms_[i].Initialize();
 		materials_[i].reset(Material::Create());
