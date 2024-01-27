@@ -38,12 +38,23 @@ void Block::Initialize() {
 void Block::Update() {
 	reConnect_ = false;
 	isRelese_ = false;
+	bool isStack = false;
+	for (int index = 0; index < anchorNum; index++) {
+		if (anchorPoints_[index].screw != nullptr) {
+			isStack = true;
+			break;
+		}
+	}
+	worldTransform_.transform_.translate.y = 0;
+	if (!isStack && !isCenter_) {
+		worldTransform_.transform_.translate.y = - collider_->size_.y * 2.0f;
+	}
 	if (!isConnect_) {
 		worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate,velocity_);
 	}
 	if (isConnect_) {
 		mat2_->SetColor({1.0f,0.4f,0.4f,1.0f});
-		bool isStack = false;
+		//bool isStack = false;
 		for (int index = 0; index < anchorNum; index++) {
 			if (anchorPoints_[index].screw != nullptr) {
 				isStack = true;
@@ -61,6 +72,7 @@ void Block::Update() {
 	}
 	worldTransform_.UpdateMatrix();
 	worldTransformSoil_.transform_.translate.y = 1.5f;
+
 	worldTransformSoil_.transform_.scale = {3.0f,3.0f,3.0f};
 	worldTransformSoil_.UpdateMatrix();
 	collider_->center_ = worldTransform_.GetWorldPosition();
