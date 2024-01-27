@@ -71,7 +71,17 @@ private: // メンバ関数
 	/// <summary>
 	/// ミッションアップデート
 	/// </summary>
-	void MissionUpdate(uint32_t missionBlockCount);
+	void MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount);
+
+	/// <summary>
+	/// ブロック更新
+	/// </summary>
+	void BlockCountUpdate(uint32_t blockCount);
+
+	/// <summary>
+	/// ミッションブロック更新
+	/// </summary>
+	void MissionBlockCountUpdate(uint32_t missionBlockCount);
 
 private: // メンバ変数
 

@@ -59,26 +59,7 @@ void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t
 
 	//アップデート中
 	if (missionBeenUpdate_) {
-		MissionUpdate(missionBlockCount);
-		// ミッション分子10の位
-		leftTop.x = 128.0f * static_cast<float>(blockCount / 10);
-		UIs_[kUIIndexMissionNumeratorTensPlace]->Update(leftTop);
-		if (leftTop.x == 0.0f) {
-			UIs_[kUIIndexMissionNumeratorTensPlace]->SetIsInvisible(true);
-		}
-		else {
-			UIs_[kUIIndexMissionNumeratorTensPlace]->SetIsInvisible(false);
-		}
-		// ミッション分子1の位
-		leftTop.x = 128.0f * static_cast<float>(blockCount % 10);
-		UIs_[kUIIndexMissionNumeratorOnesPlace]->Update(leftTop);
-		if (UIs_[kUIIndexMissionNumeratorTensPlace]->GetIsInvisible()) {
-			Vector2 pos = {
-				(UIs_[kUIIndexMissionNumeratorTensPlace]->GetPosition().x + UIs_[kUIIndexMissionNumeratorOnesPlace]->GetPosition().x) / 2.0f,
-				(UIs_[kUIIndexMissionNumeratorTensPlace]->GetPosition().y + UIs_[kUIIndexMissionNumeratorOnesPlace]->GetPosition().y) / 2.0f };
-			UIs_[kUIIndexMissionNumeratorOnesPlace]->SetPosition(pos);
-		}
-
+		MissionUpdate(missionBlockCount, blockCount);
 	}
 	else {
 		// ミッションフレーム
@@ -123,24 +104,8 @@ void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t
 			UIs_[kUIIndexMissionDenominatorOnesPlace]->SetPosition(pos);
 		}
 
-		// ミッション分子10の位
-		leftTop.x = 128.0f * static_cast<float>(blockCount / 10);
-		UIs_[kUIIndexMissionNumeratorTensPlace]->Update(leftTop);
-		if (leftTop.x == 0.0f) {
-			UIs_[kUIIndexMissionNumeratorTensPlace]->SetIsInvisible(true);
-		}
-		else {
-			UIs_[kUIIndexMissionNumeratorTensPlace]->SetIsInvisible(false);
-		}
-		// ミッション分子1の位
-		leftTop.x = 128.0f * static_cast<float>(blockCount % 10);
-		UIs_[kUIIndexMissionNumeratorOnesPlace]->Update(leftTop);
-		if (UIs_[kUIIndexMissionNumeratorTensPlace]->GetIsInvisible()) {
-			Vector2 pos = {
-				(UIs_[kUIIndexMissionNumeratorTensPlace]->GetPosition().x + UIs_[kUIIndexMissionNumeratorOnesPlace]->GetPosition().x) / 2.0f,
-				(UIs_[kUIIndexMissionNumeratorTensPlace]->GetPosition().y + UIs_[kUIIndexMissionNumeratorOnesPlace]->GetPosition().y) / 2.0f };
-			UIs_[kUIIndexMissionNumeratorOnesPlace]->SetPosition(pos);
-		}
+		// 持っているブロックの数更新
+		BlockCountUpdate(blockCount);
 	}
 
 }
@@ -235,58 +200,22 @@ void UIManager::UIInitialize()
 
 }
 
-void UIManager::MissionUpdate(uint32_t missionBlockCount)
+void UIManager::MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount)
 {
 
 	Vector2 leftTop = { 0.0f, 0.0f };
 
+	// クリア
 	if (!missionBeenUpdateFadeIn_) {
 		missionBeenUpdateColor_.w -= 0.05f;
 		if (missionBeenUpdateColor_.w <= 0.0f) {
 			missionBeenUpdateColor_.w = 0.0f;
 			missionBeenUpdateFadeIn_ = true;
 
-			// ミッション番号10の位
-			leftTop.x = 128.0f * static_cast<float>(missionBlockCount / 10);
-			UIs_[kUIIndexMissionNumTensPlace]->Update(leftTop);
-			if (leftTop.x == 0.0f) {
-				UIs_[kUIIndexMissionNumTensPlace]->SetIsInvisible(true);
-			}
-			else {
-				UIs_[kUIIndexMissionNumTensPlace]->SetIsInvisible(false);
-			}
-			// ミッション番号1の位
-			leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
-			UIs_[kUIIndexMissionNumOnesPlace]->Update(leftTop);
-			if (UIs_[kUIIndexMissionNumTensPlace]->GetIsInvisible()) {
-				Vector2 pos = { 
-					(UIs_[kUIIndexMissionNumTensPlace]->GetPosition().x + UIs_[kUIIndexMissionNumOnesPlace]->GetPosition().x) / 2.0f,
-					(UIs_[kUIIndexMissionNumTensPlace]->GetPosition().y + UIs_[kUIIndexMissionNumOnesPlace]->GetPosition().y) / 2.0f };
-				UIs_[kUIIndexMissionNumOnesPlace]->SetPosition(pos);
-			}
-
-			// ミッション分母10の位
-			leftTop.x = 128.0f * static_cast<float>(missionBlockCount / 10);
-			UIs_[kUIIndexMissionDenominatorTensPlace]->Update(leftTop);
-			if (leftTop.x == 0.0f) {
-				UIs_[kUIIndexMissionDenominatorTensPlace]->SetIsInvisible(true);
-			}
-			else {
-				UIs_[kUIIndexMissionDenominatorTensPlace]->SetIsInvisible(false);
-			}
-			// ミッション分母1の位
-			leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
-			UIs_[kUIIndexMissionDenominatorOnesPlace]->Update(leftTop);
-			if (UIs_[kUIIndexMissionDenominatorTensPlace]->GetIsInvisible()) {
-				Vector2 pos = {
-					(UIs_[kUIIndexMissionDenominatorTensPlace]->GetPosition().x + UIs_[kUIIndexMissionDenominatorOnesPlace]->GetPosition().x) / 2.0f,
-					(UIs_[kUIIndexMissionDenominatorTensPlace]->GetPosition().y + UIs_[kUIIndexMissionDenominatorOnesPlace]->GetPosition().y) / 2.0f };
-				UIs_[kUIIndexMissionDenominatorOnesPlace]->SetPosition(pos);
-			}
-
 			audioManager_->PlayWave(kGameAudioNameIndexMissionOccurrrence);
 		}
 	}
+	// 新しいものが飛んでくる
 	else {
 		missionBeenUpdateColor_.w += 0.05f;
 		if (missionBeenUpdateColor_.w >= 1.0f) {
@@ -312,5 +241,80 @@ void UIManager::MissionUpdate(uint32_t missionBlockCount)
 	UIs_[kUIIndexMissionNumeratorTensPlace]->SetColor(missionBeenUpdateColor_);
 	// ミッション分子1の位
 	UIs_[kUIIndexMissionNumeratorOnesPlace]->SetColor(missionBeenUpdateColor_);
+
+	// 持っているブロックの数更新
+	BlockCountUpdate(blockCount);
+
+
+}
+
+void UIManager::BlockCountUpdate(uint32_t blockCount)
+{
+
+	Vector2 leftTop = { 0.0f, 0.0f };
+
+	// ミッション分子10の位
+	leftTop.x = 128.0f * static_cast<float>(blockCount / 10);
+	UIs_[kUIIndexMissionNumeratorTensPlace]->Update(leftTop);
+	if (leftTop.x == 0.0f) {
+		UIs_[kUIIndexMissionNumeratorTensPlace]->SetIsInvisible(true);
+	}
+	else {
+		UIs_[kUIIndexMissionNumeratorTensPlace]->SetIsInvisible(false);
+	}
+	// ミッション分子1の位
+	leftTop.x = 128.0f * static_cast<float>(blockCount % 10);
+	UIs_[kUIIndexMissionNumeratorOnesPlace]->Update(leftTop);
+	if (UIs_[kUIIndexMissionNumeratorTensPlace]->GetIsInvisible()) {
+		Vector2 pos = {
+			(UIs_[kUIIndexMissionNumeratorTensPlace]->GetPosition().x + UIs_[kUIIndexMissionNumeratorOnesPlace]->GetPosition().x) / 2.0f,
+			(UIs_[kUIIndexMissionNumeratorTensPlace]->GetPosition().y + UIs_[kUIIndexMissionNumeratorOnesPlace]->GetPosition().y) / 2.0f };
+		UIs_[kUIIndexMissionNumeratorOnesPlace]->SetPosition(pos);
+	}
+
+}
+
+void UIManager::MissionBlockCountUpdate(uint32_t missionBlockCount)
+{
+
+	Vector2 leftTop = { 0.0f, 0.0f };
+
+	// ミッション番号10の位
+	leftTop.x = 128.0f * static_cast<float>(missionBlockCount / 10);
+	UIs_[kUIIndexMissionNumTensPlace]->Update(leftTop);
+	if (leftTop.x == 0.0f) {
+		UIs_[kUIIndexMissionNumTensPlace]->SetIsInvisible(true);
+	}
+	else {
+		UIs_[kUIIndexMissionNumTensPlace]->SetIsInvisible(false);
+	}
+	// ミッション番号1の位
+	leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
+	UIs_[kUIIndexMissionNumOnesPlace]->Update(leftTop);
+	if (UIs_[kUIIndexMissionNumTensPlace]->GetIsInvisible()) {
+		Vector2 pos = {
+			(UIs_[kUIIndexMissionNumTensPlace]->GetPosition().x + UIs_[kUIIndexMissionNumOnesPlace]->GetPosition().x) / 2.0f,
+			(UIs_[kUIIndexMissionNumTensPlace]->GetPosition().y + UIs_[kUIIndexMissionNumOnesPlace]->GetPosition().y) / 2.0f };
+		UIs_[kUIIndexMissionNumOnesPlace]->SetPosition(pos);
+	}
+
+	// ミッション分母10の位
+	leftTop.x = 128.0f * static_cast<float>(missionBlockCount / 10);
+	UIs_[kUIIndexMissionDenominatorTensPlace]->Update(leftTop);
+	if (leftTop.x == 0.0f) {
+		UIs_[kUIIndexMissionDenominatorTensPlace]->SetIsInvisible(true);
+	}
+	else {
+		UIs_[kUIIndexMissionDenominatorTensPlace]->SetIsInvisible(false);
+	}
+	// ミッション分母1の位
+	leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
+	UIs_[kUIIndexMissionDenominatorOnesPlace]->Update(leftTop);
+	if (UIs_[kUIIndexMissionDenominatorTensPlace]->GetIsInvisible()) {
+		Vector2 pos = {
+			(UIs_[kUIIndexMissionDenominatorTensPlace]->GetPosition().x + UIs_[kUIIndexMissionDenominatorOnesPlace]->GetPosition().x) / 2.0f,
+			(UIs_[kUIIndexMissionDenominatorTensPlace]->GetPosition().y + UIs_[kUIIndexMissionDenominatorOnesPlace]->GetPosition().y) / 2.0f };
+		UIs_[kUIIndexMissionDenominatorOnesPlace]->SetPosition(pos);
+	}
 
 }
