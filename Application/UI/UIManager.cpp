@@ -31,6 +31,8 @@ void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUIT
 
 	stampT_ = 0.0f;
 
+	stampCooltime_ = 0.0f;
+
 }
 
 void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t blockCount, bool missionBeenUpdated, int timer)
@@ -436,10 +438,18 @@ void UIManager::ClearMissionUpdate(float t)
 void UIManager::Stamp()
 {
 
-	stampT_ += 0.05f;
+	float speed = 0.05f;
+
+	stampT_ += speed;
 	if (stampT_ >= 1.0f) {
 		stampT_ = 1.0f;
-		IsStamped_ = true;
+		if (stampCooltime_ >= 1.0f) {
+			stampCooltime_ = 0.0f;
+			IsStamped_ = true;
+		}
+		else {
+			stampCooltime_ += speed;
+		}
 	}
 
 	// ミッションクリア

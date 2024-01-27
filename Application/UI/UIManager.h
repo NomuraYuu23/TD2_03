@@ -128,6 +128,9 @@ private: // メンバ変数
 	// ハンコの媒介変数
 	float stampT_;
 
+	// ハンコのクールタイム
+	float stampCooltime_;
+
 	// オーディオマネージャー
 	GameAudioManager* audioManager_;
 
