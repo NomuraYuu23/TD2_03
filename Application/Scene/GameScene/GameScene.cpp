@@ -785,8 +785,9 @@ void GameScene::ShadowUpdate()
 	shadowManager_->CastsShadowObjListRegister(player_->GetWorldTransform()->GetWorldPosition(), size);
 
 	// ねじ
+	size = { 1.2f,1.2f,1.2f };
 	for (std::list<std::unique_ptr<Screw>>::iterator screw = screws_.begin(); screw != screws_.end(); screw++) {
-		shadowManager_->CastsShadowObjListRegister((*screw)->GetWorldTransform()->GetWorldPosition(), (*screw)->GetWorldTransform()->transform_.scale);
+		shadowManager_->CastsShadowObjListRegister((*screw)->GetWorldTransform()->GetWorldPosition(), size);
 	}
 
 	// リスト登録（影が現れる物）

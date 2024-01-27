@@ -66,12 +66,9 @@ void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t
 		UIs_[kUIIndexMissionFrame]->Update();
 		// ミッションテキスト
 		UIs_[kUIIndexMissionText]->Update();
-		// ミッション番号10の位
-		UIs_[kUIIndexMissionNumOnesPlace]->Update(leftTop);
-		// ミッション分母10の位
-		UIs_[kUIIndexMissionDenominatorTensPlace]->Update(leftTop);
-		// ミッション分母1の位
-		UIs_[kUIIndexMissionDenominatorOnesPlace]->Update(leftTop);
+
+		// ミッションブロック更新
+		MissionBlockCountUpdate(missionBlockCount);
 
 		// 持っているブロックの数更新
 		BlockCountUpdate(blockCount);
@@ -180,6 +177,9 @@ void UIManager::MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount)
 		if (missionBeenUpdateColor_.w <= 0.0f) {
 			missionBeenUpdateColor_.w = 0.0f;
 			missionBeenUpdateFadeIn_ = true;
+			
+			// ミッションブロック更新
+			MissionBlockCountUpdate(missionBlockCount);
 
 			audioManager_->PlayWave(kGameAudioNameIndexMissionOccurrrence);
 		}
