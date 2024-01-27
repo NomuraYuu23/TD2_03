@@ -247,6 +247,10 @@ void GameScene::Initialize() {
 	shadowManager_ = std::make_unique<ShadowManager>();
 	shadowManager_->Initialize(shadowModel_.get());
 
+	// クリア演出
+	clearMigration_ = std::make_unique<ClearMigration>();
+	clearMigration_->Initialize(clearMigrationTextureHandle_);
+
 	soilModel_.reset(Model::Create("Resources/Model/soil_model/", "soil.obj", dxCommon_, textureHandleManager_.get()));
 	audioManager_->PlayWave(kGameAudioNameIndexBGM);
 
@@ -487,16 +491,24 @@ void GameScene::Update() {
 	// タイトルへ行く
 	GoToTheTitle();
 
+	// クリア演出
+	clearMigration_->Update();
+	if (clearMigration_->GetIsEnd()) {
+		requestSceneNo = kClear;
+		isDecreasingVolume = true;
+		ForResult::GetInstance()->connectNum_ = connectCount;
+	}
+
 	gameTimerFloat_ -= kDeltaTime_;
 	gameTimer_ = int(gameTimerFloat_);
 	if (gameTimerFloat_ - float(gameTimer_)>0) {
 		gameTimer_++;
 	}
-	if (gameTimer_<0) {
+	if (gameTimer_< 0) {
 		gameTimer_ = 0;
-		requestSceneNo = kClear;
-		isDecreasingVolume = true;
-		ForResult::GetInstance()->connectNum_ = connectCount;
+		if (requestSceneNo != kClear) {
+			clearMigration_->Stert();
+		}
 	}
 
 	// BGM音量下げる
@@ -620,6 +632,8 @@ void GameScene::Draw() {
 
 	target_.SpriteDraw();
 
+	clearMigration_->Draw();
+
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -741,6 +755,9 @@ void GameScene::TextureLoad()
 	shotUITextureHandle_[1] = TextureManager::Load("Resources/ingame_ui_RB_remove.png", dxCommon_, textureHandleManager_.get());
 
 	whiteTextureHandle_= TextureManager::Load("Resources/default/white2x2.png", dxCommon_, textureHandleManager_.get());
+
+	clearMigrationTextureHandle_ = TextureManager::Load("Resources/ingameSprite/ingame_fnish.png", dxCommon_, textureHandleManager_.get());
+
 }
 
 void GameScene::LowerVolumeBGM()
