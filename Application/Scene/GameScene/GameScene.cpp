@@ -242,6 +242,11 @@ void GameScene::Initialize() {
 	MissionData::GetInstance()->SetMax(mission_.size());
 
 	sweatModel_.reset(Model::Create("Resources/default/", "plane.obj", dxCommon_, textureHandleManager_.get()));
+
+	//影
+	shadowManager_ = std::make_unique<ShadowManager>();
+	shadowManager_->Initialize(shadowModel_.get());
+
 	soilModel_.reset(Model::Create("Resources/Model/soil_model/", "soil.obj", dxCommon_, textureHandleManager_.get()));
 	audioManager_->PlayWave(kGameAudioNameIndexBGM);
 
@@ -441,6 +446,9 @@ void GameScene::Update() {
 	energy_->Update();
 	*/
 
+	// 影
+	ShadowUpdate();
+
 	// スカイドーム
 	skydome_->Update();
 
@@ -554,7 +562,11 @@ void GameScene::Draw() {
 			(*block)->DrawSweat(sweatModel_.get(), camera_,billBoardMatrix);
 		}
 	}
+
+	shadowManager_->Draw(camera_);
+
 	player_->Draw(modelPlayer_.get(), camera_);
+
 	//ufo_->Draw(modelBlock_.get(), camera_);
 	//energy_->Draw(modelBlock_.get(), camera_);
 
@@ -691,6 +703,9 @@ void GameScene::ModelCreate()
 	playerModels_[kPlayerPartIndexRightLeg].reset(Model::Create("Resources/Model/Player/RightLeg/", "playerRightLeg.obj", dxCommon_, textureHandleManager_.get()));
 	playerModels_[kPlayerPartIndexMagnet].reset(Model::Create("Resources/Model/Player/Magnet/", "playerMagnet.obj", dxCommon_, textureHandleManager_.get()));
 
+	// 影
+	shadowModel_.reset(Model::Create("Resources/Model/shadow/", "shadow.obj", dxCommon_, textureHandleManager_.get()));
+
 }
 
 void GameScene::MaterialCreate()
@@ -747,5 +762,48 @@ void GameScene::LowerVolumeBGM()
 			}
 		}
 	}
+
+}
+
+void GameScene::ShadowUpdate()
+{
+
+	// リストクリア
+	shadowManager_->ListClear();
+	
+	// サイズ倍率
+	Vector3 magnification = { 1.0f,1.0f,1.0f };
+	// サイズ
+	Vector3 size = { 1.0f,1.0f,1.0f };
+
+	// リスト登録（影を発生させる物）
+
+	// プレイヤー
+	magnification = { 2.0f, 3.0f, 2.0f };
+	size = {
+	player_->GetWorldTransform()->transform_.scale.x * magnification.x,
+	player_->GetWorldTransform()->transform_.scale.y * magnification.y,
+	player_->GetWorldTransform()->transform_.scale.z * magnification.z };
+	shadowManager_->CastsShadowObjListRegister(player_->GetWorldTransform()->GetWorldPosition(), size);
+
+	// ねじ
+	size = { 1.2f,1.2f,1.2f };
+	for (std::list<std::unique_ptr<Screw>>::iterator screw = screws_.begin(); screw != screws_.end(); screw++) {
+		shadowManager_->CastsShadowObjListRegister((*screw)->GetWorldTransform()->GetWorldPosition(), size);
+	}
+
+	// リスト登録（影が現れる物）
+	// ブロック
+	for (std::list<Block*>::iterator block = blockManager_->GetBlocks().begin(); block != blockManager_->GetBlocks().end(); block++) {
+		magnification = { 4.0f, 0.5f, 4.0f };
+		size = {
+		(*block)->GetWorldTransform()->transform_.scale.x * magnification.x,
+		(*block)->GetWorldTransform()->transform_.scale.y * magnification.y,
+		(*block)->GetWorldTransform()->transform_.scale.z * magnification.z };
+		shadowManager_->ShadowAppearsObjListRegister((*block)->GetWorldTransform()->GetWorldPosition(), size);
+	}
+
+	// 影が出るか
+	shadowManager_->SeeShadow();
 
 }

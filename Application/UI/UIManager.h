@@ -71,7 +71,22 @@ private: // メンバ関数
 	/// <summary>
 	/// ミッションアップデート
 	/// </summary>
-	void MissionUpdate(uint32_t missionBlockCount);
+	void MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount);
+
+	/// <summary>
+	/// ブロック更新
+	/// </summary>
+	void BlockCountUpdate(uint32_t blockCount);
+
+	/// <summary>
+	/// ミッションブロック更新
+	/// </summary>
+	void MissionBlockCountUpdate(uint32_t missionBlockCount);
+
+	/// <summary>
+	/// 新しいミッション移動
+	/// </summary>
+	void NewMissionMove(float t);
 
 private: // メンバ変数
 
@@ -80,6 +95,9 @@ private: // メンバ変数
 
 	// UI
 	std::array<std::unique_ptr<UI>, UIIndex::kUIIndexOfCount> UIs_;
+
+	// UI位置
+	std::array<Vector2, UIIndex::kUIIndexOfCount> UIInitPositions_;
 
 	// ミッション更新中
 	bool missionBeenUpdate_;
