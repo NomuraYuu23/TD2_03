@@ -66,5 +66,8 @@ public:
 	void SetPosition(const Vector2& positon);
 	Vector2 GetPosition();
 
+	void SetSize(const Vector2& size);
+	Vector2 GetSize();
+
 };
 

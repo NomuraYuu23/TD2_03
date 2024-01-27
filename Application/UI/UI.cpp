@@ -117,3 +117,13 @@ Vector2 UI::GetPosition()
 {
 	return sprite_->GetPosition();
 }
+
+void UI::SetSize(const Vector2& size)
+{
+	sprite_->SetSize(size);
+}
+
+Vector2 UI::GetSize()
+{
+	return sprite_->GetSize();
+}

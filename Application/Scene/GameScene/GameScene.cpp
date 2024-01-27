@@ -733,6 +733,8 @@ void GameScene::TextureLoad()
 		TextureManager::Load("Resources/UI/ingame_frame.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/UI/ingame_mission_frame.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/UI/ingame_mission_text.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/UI/mission_number.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/UI/missionClear.png", dxCommon_,textureHandleManager_.get()),
 	};
 
 	shotUITextureHandle_[0] = TextureManager::Load("Resources/ingame_ui_RB.png", dxCommon_, textureHandleManager_.get());
