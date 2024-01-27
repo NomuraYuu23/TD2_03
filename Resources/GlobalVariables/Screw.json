@@ -1,7 +1,7 @@
 {
     "Screw": {
         "FirstScrewNum": 30,
-        "StuckLow": -2.75,
+        "StuckLow": -2.0,
         "StuckMax": 3600,
         "StuckTop": 2.0
     }
