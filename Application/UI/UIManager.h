@@ -83,6 +83,11 @@ private: // メンバ関数
 	/// </summary>
 	void MissionBlockCountUpdate(uint32_t missionBlockCount);
 
+	/// <summary>
+	/// 新しいミッション移動
+	/// </summary>
+	void NewMissionMove(float t);
+
 private: // メンバ変数
 
 	// テクスチャハンドル
@@ -90,6 +95,9 @@ private: // メンバ変数
 
 	// UI
 	std::array<std::unique_ptr<UI>, UIIndex::kUIIndexOfCount> UIs_;
+
+	// UI位置
+	std::array<Vector2, UIIndex::kUIIndexOfCount> UIInitPositions_;
 
 	// ミッション更新中
 	bool missionBeenUpdate_;

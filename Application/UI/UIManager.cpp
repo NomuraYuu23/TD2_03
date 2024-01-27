@@ -7,6 +7,7 @@
 #include "UIEnergy/UIEnergy.h"
 #include "UIMissionFrame/UIMissionFrame.h"
 #include "UIMissionText/UIMissionText.h"
+#include "../../Engine/Math/Ease.h"
 
 void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUITextureHandleIndexOfCount>& textureHandles)
 {
@@ -14,6 +15,10 @@ void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUIT
 	textureHandles_ = textureHandles;
 
 	UIInitialize();
+
+	for (uint32_t i = 0; i < UIIndex::kUIIndexOfCount; ++i) {
+		UIInitPositions_[i] = UIs_[i]->GetPosition();
+	}
 
 	missionBeenUpdate_ = false;
 
@@ -171,6 +176,9 @@ void UIManager::MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount)
 
 	Vector2 leftTop = { 0.0f, 0.0f };
 
+	// 持っているブロックの数更新
+	BlockCountUpdate(blockCount);
+
 	// クリア
 	if (!missionBeenUpdateFadeIn_) {
 		missionBeenUpdateColor_.w -= 0.05f;
@@ -180,7 +188,6 @@ void UIManager::MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount)
 			
 			// ミッションブロック更新
 			MissionBlockCountUpdate(missionBlockCount);
-
 			audioManager_->PlayWave(kGameAudioNameIndexMissionOccurrrence);
 		}
 	}
@@ -192,6 +199,9 @@ void UIManager::MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount)
 			missionBeenUpdateFadeIn_ = false;
 			missionBeenUpdate_ = false;
 		}
+
+		NewMissionMove(missionBeenUpdateColor_.w);
+
 	}
 
 	// ミッションフレーム
@@ -210,10 +220,6 @@ void UIManager::MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount)
 	UIs_[kUIIndexMissionNumeratorTensPlace]->SetColor(missionBeenUpdateColor_);
 	// ミッション分子1の位
 	UIs_[kUIIndexMissionNumeratorOnesPlace]->SetColor(missionBeenUpdateColor_);
-
-	// 持っているブロックの数更新
-	BlockCountUpdate(blockCount);
-
 
 }
 
@@ -285,5 +291,56 @@ void UIManager::MissionBlockCountUpdate(uint32_t missionBlockCount)
 			(UIs_[kUIIndexMissionDenominatorTensPlace]->GetPosition().y + UIs_[kUIIndexMissionDenominatorOnesPlace]->GetPosition().y) / 2.0f };
 		UIs_[kUIIndexMissionDenominatorOnesPlace]->SetPosition(pos);
 	}
+
+}
+
+void UIManager::NewMissionMove(float t)
+{
+
+	//ミッション位置
+	Vector2 start = { 0.0f,0.0f };
+	Vector2 end = { 0.0f,0.0f };
+	float addStart = 500.0f;
+
+	// ミッションフレーム
+	start = UIInitPositions_[kUIIndexMissionFrame];
+	end = UIInitPositions_[kUIIndexMissionFrame];
+	start.x += addStart;
+	UIs_[kUIIndexMissionFrame]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
+	// ミッションテキスト
+	start = UIInitPositions_[kUIIndexMissionText];
+	end = UIInitPositions_[kUIIndexMissionText];
+	start.x += addStart;
+	UIs_[kUIIndexMissionText]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
+	// ミッション番号10の位
+	start = UIInitPositions_[kUIIndexMissionNumTensPlace];
+	end = UIInitPositions_[kUIIndexMissionNumTensPlace];
+	start.x += addStart;
+	UIs_[kUIIndexMissionNumTensPlace]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
+	// ミッション番号1の位
+	start = UIInitPositions_[kUIIndexMissionNumOnesPlace];
+	end = UIInitPositions_[kUIIndexMissionNumOnesPlace];
+	start.x += addStart;
+	UIs_[kUIIndexMissionNumOnesPlace]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
+	// ミッション分母10の位
+	start = UIInitPositions_[kUIIndexMissionDenominatorTensPlace];
+	end = UIInitPositions_[kUIIndexMissionDenominatorTensPlace];
+	start.x += addStart;
+	UIs_[kUIIndexMissionDenominatorTensPlace]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
+	// ミッション分母1の位
+	start = UIInitPositions_[kUIIndexMissionDenominatorOnesPlace];
+	end = UIInitPositions_[kUIIndexMissionDenominatorOnesPlace];
+	start.x += addStart;
+	UIs_[kUIIndexMissionDenominatorOnesPlace]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
+	// ミッション分子10の位
+	start = UIInitPositions_[kUIIndexMissionNumeratorTensPlace];
+	end = UIInitPositions_[kUIIndexMissionNumeratorTensPlace];
+	start.x += addStart;
+	UIs_[kUIIndexMissionNumeratorTensPlace]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
+	// ミッション分子1の位
+	start = UIInitPositions_[kUIIndexMissionNumeratorOnesPlace];
+	end = UIInitPositions_[kUIIndexMissionNumeratorOnesPlace];
+	start.x += addStart;
+	UIs_[kUIIndexMissionNumeratorOnesPlace]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
 
 }
