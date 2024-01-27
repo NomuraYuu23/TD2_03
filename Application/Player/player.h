@@ -78,6 +78,8 @@ public:
 	// オーディオマネージャー
 	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
 
+	bool isOutGameArea();
+
 private:
 	WorldTransform worldTransform_;
 

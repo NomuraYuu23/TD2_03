@@ -127,7 +127,7 @@ void Player::Update(Block* block, size_t blockNum) {
 
 	}*/
 	worldTransform_.transform_.translate.y -= 0.3f;
-	if (worldTransform_.transform_.translate.y <= -20.0f) {
+	if (worldTransform_.transform_.translate.y <= -20.0f || isOutGameArea()) {
 		behaviorRequest_ = Behavior::kRoot;
 		worldTransform_.transform_.translate = {0.0f,4.0f,0.0f};
 	}
@@ -375,3 +375,10 @@ void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidio
 	}
 }
 
+bool Player::isOutGameArea() {
+	float length = std::sqrtf(std::powf(worldTransform_.GetWorldPosition().x,2) + std::powf(worldTransform_.GetWorldPosition().z, 2));
+	if (length >= 190.0f) {
+		return true;
+	}
+	return false;
+}
