@@ -67,42 +67,11 @@ void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t
 		// ミッションテキスト
 		UIs_[kUIIndexMissionText]->Update();
 		// ミッション番号10の位
-		leftTop.x = 128.0f * static_cast<float>(missionBlockCount / 10);
-		UIs_[kUIIndexMissionNumTensPlace]->Update(leftTop);
-		if (leftTop.x == 0.0f) {
-			UIs_[kUIIndexMissionNumTensPlace]->SetIsInvisible(true);
-		}
-		else {
-			UIs_[kUIIndexMissionNumTensPlace]->SetIsInvisible(false);
-		}
-		// ミッション番号1の位
-		leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
 		UIs_[kUIIndexMissionNumOnesPlace]->Update(leftTop);
-		if (UIs_[kUIIndexMissionNumTensPlace]->GetIsInvisible()) {
-			Vector2 pos = {
-				(UIs_[kUIIndexMissionNumTensPlace]->GetPosition().x + UIs_[kUIIndexMissionNumOnesPlace]->GetPosition().x) / 2.0f,
-				(UIs_[kUIIndexMissionNumTensPlace]->GetPosition().y + UIs_[kUIIndexMissionNumOnesPlace]->GetPosition().y) / 2.0f };
-			UIs_[kUIIndexMissionNumOnesPlace]->SetPosition(pos);
-		}
-
 		// ミッション分母10の位
-		leftTop.x = 128.0f * static_cast<float>(missionBlockCount / 10);
 		UIs_[kUIIndexMissionDenominatorTensPlace]->Update(leftTop);
-		if (leftTop.x == 0.0f) {
-			UIs_[kUIIndexMissionDenominatorTensPlace]->SetIsInvisible(true);
-		}
-		else {
-			UIs_[kUIIndexMissionDenominatorTensPlace]->SetIsInvisible(false);
-		}
 		// ミッション分母1の位
-		leftTop.x = 128.0f * static_cast<float>(missionBlockCount % 10);
 		UIs_[kUIIndexMissionDenominatorOnesPlace]->Update(leftTop);
-		if (UIs_[kUIIndexMissionDenominatorTensPlace]->GetIsInvisible()) {
-			Vector2 pos = {
-				(UIs_[kUIIndexMissionDenominatorTensPlace]->GetPosition().x + UIs_[kUIIndexMissionDenominatorOnesPlace]->GetPosition().x) / 2.0f,
-				(UIs_[kUIIndexMissionDenominatorTensPlace]->GetPosition().y + UIs_[kUIIndexMissionDenominatorOnesPlace]->GetPosition().y) / 2.0f };
-			UIs_[kUIIndexMissionDenominatorOnesPlace]->SetPosition(pos);
-		}
 
 		// 持っているブロックの数更新
 		BlockCountUpdate(blockCount);
