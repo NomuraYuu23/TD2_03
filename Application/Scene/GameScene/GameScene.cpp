@@ -30,14 +30,6 @@ void GameScene::Initialize() {
 	MaterialCreate();
 	TextureLoad();
 
-	// デバッグ描画
-	colliderDebugDraw_ = std::make_unique<ColliderDebugDraw>();
-	std::vector<Model*> colliderModels = { colliderSphereModel_.get(),colliderBoxModel_.get(),colliderBoxModel_.get() };
-	colliderDebugDraw_->Initialize(colliderModels, colliderMaterial_.get());
-
-	pause_ = std::make_unique<Pause>();
-	pause_->Initialize(pauseTextureHandles_);
-
 	// ビュープロジェクション
 	TransformStructure baseCameraTransform = {
 		1.0f, 1.0f, 1.0f,
@@ -57,118 +49,18 @@ void GameScene::Initialize() {
 	collisionManager_.reset(new CollisionManager);
 	collisionManager_->Initialize();
 
-	model_.reset(Model::Create("Resources/default/", "Ball.obj", dxCommon_, textureHandleManager_.get()));
-	material_.reset(Material::Create());
-	material_->Initialize();
-	TransformStructure uvTransform = {
-	{1.0f,1.0f,1.0f},
-	{0.0f,0.0f,0.0f},
-	{0.0f,0.0f,0.0f},
-	};
-	Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
-	material_->Update(uvTransform, color, PhongReflection, 100.0f);
-
-	worldTransform_.Initialize();
-
-	modelBlock_.reset(Model::Create("Resources/Model/Block/", "block.obj", dxCommon_, textureHandleManager_.get()));
 	blockManager_ = std::make_unique<BlockManager>();
 	blockManager_->Initialize(modelBlock_.get());
 
-	//std::unique_ptr<Block> block;
-	//block.reset(new Block);
-	//block->Initialize();
-	//block->SetIsCenter(true);
-	//block->SetIsConnect(true);
-	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	//colliderDebugDraw_->AddCollider(block->GetCollider());
-	//blocks_.push_back(std::move(block));
-	//
-	//block.reset(new Block);
-	//block->Initialize();
-	//block->SetWorldPosition({2.0f,0.0f,60.0f});
-	//block->SetVelocity({0.0f,0.0f,-0.1f});
-	//colliderDebugDraw_->AddCollider(block->GetCollider());
-	//blocks_.push_back(std::move(block));
-
-	//block.reset(new Block);
-	//block->Initialize();
-	//block->SetWorldPosition({ 2.0f,0.0f,90.0f });
-	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	//colliderDebugDraw_->AddCollider(block->GetCollider());
-	//blocks_.push_back(std::move(block));
-
-	//block.reset(new Block);
-	//block->Initialize();
-	//block->SetWorldPosition({ 60.0f,0.0f,20.0f });
-	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	//colliderDebugDraw_->AddCollider(block->GetCollider());
-	//blocks_.push_back(std::move(block));
-	//
-	//block.reset(new Block);
-	//block->Initialize();
-	//block->SetWorldPosition({ -10.0f,0.0f,150.0f });
-	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	//colliderDebugDraw_->AddCollider(block->GetCollider());
-	//blocks_.push_back(std::move(block));
-
-	//block.reset(new Block);
-	//block->Initialize();
-	//block->SetWorldPosition({ -30.0f,0.0f,200.0f });
-	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	//colliderDebugDraw_->AddCollider(block->GetCollider());
-	//blocks_.push_back(std::move(block));
-
-	////01/10仮追加分
-	//block.reset(new Block);
-	//block->Initialize();
-	//block->SetWorldPosition({ 2.0f,0.0f,250.0f });
-	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	//colliderDebugDraw_->AddCollider(block->GetCollider());
-	//blocks_.push_back(std::move(block));
-
-	//block.reset(new Block);
-	//block->Initialize();
-	//block->SetWorldPosition({ 2.0f,0.0f,300.0f });
-	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	//colliderDebugDraw_->AddCollider(block->GetCollider());
-	//blocks_.push_back(std::move(block));
-
-	//block.reset(new Block);
-	//block->Initialize();
-	//block->SetWorldPosition({ -20.0f,0.0f,310.0f });
-	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	//colliderDebugDraw_->AddCollider(block->GetCollider());
-	//blocks_.push_back(std::move(block));
-
-	//block.reset(new Block);
-	//block->Initialize();
-	//block->SetWorldPosition({ -10.0f,0.0f,350.0f });
-	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	//colliderDebugDraw_->AddCollider(block->GetCollider());
-	//blocks_.push_back(std::move(block));
-
-	//block.reset(new Block);
-	//block->Initialize();
-	//block->SetWorldPosition({ -30.0f,0.0f,450.0f });
-	//block->SetVelocity({ 0.0f,0.0f,-0.1f });
-	//colliderDebugDraw_->AddCollider(block->GetCollider());
-	//blocks_.push_back(std::move(block));
-
-
-
 	player_.reset(new Player);
 	player_->Initialize(playerModels_);
-	//modelPlayer_.reset(Model::Create("Resources/Model/Player/", "player.obj", dxCommon_, textureHandleManager_.get()));
-	colliderDebugDraw_->AddCollider(player_->GetCollider());
-	colliderDebugDraw_->AddCollider(player_->GetMagnet()->GetCollider());
-	
-	modelScrew_.reset(Model::Create("Resources/Model/nejimi2_model/", "nejimi2.obj", dxCommon_, textureHandleManager_.get()));
+
 	for (int index = 0; index < firstScrewNum_; index++) {
 		std::unique_ptr<Screw> screw;
 		screw.reset(new Screw);
 		screw->Initialize();
 		screw->SetPlayer(player_.get());
-		screw->SetSweatTextureHandle(TextureManager::Load("Resources/drops.png", dxCommon_, textureHandleManager_.get()));
+		screw->SetSweatTextureHandle(TextureManager::Load("Resources/Sprite/Game/drops.png", dxCommon_, textureHandleManager_.get()));
 		screws_.push_back(std::move(screw));
 	}
 
@@ -181,7 +73,6 @@ void GameScene::Initialize() {
 	followCamera_->SetTarget(player_->GetWorldTransform());
 	player_->SetViewProjection(*followCamera_.get());
 
-	modelCircle_.reset(Model::Create("Resources/Circle/", "Circle.obj", dxCommon_, textureHandleManager_.get()));
 	player_->SetCircle(modelCircle_.get());
 
 	blockManager_->SetPlayer(player_.get());
@@ -251,7 +142,6 @@ void GameScene::Initialize() {
 	clearMigration_ = std::make_unique<ClearMigration>();
 	clearMigration_->Initialize(clearMigrationTextureHandle_);
 
-	soilModel_.reset(Model::Create("Resources/Model/soil_model/", "soil.obj", dxCommon_, textureHandleManager_.get()));
 	audioManager_->PlayWave(kGameAudioNameIndexBGM);
 
 }
@@ -475,10 +365,7 @@ void GameScene::Update() {
 
 	// デバッグカメラ
 	DebugCameraUpdate();
-	
-	// デバッグ描画
-	colliderDebugDraw_->Update();
-	
+
 	//パーティクル
 	particleManager_->Update(camera_);
 
@@ -486,7 +373,6 @@ void GameScene::Update() {
 	outline_.Map();
 
 	// ポーズ機能
-	pause_->Update();
 
 	// タイトルへ行く
 	GoToTheTitle();
@@ -549,8 +435,6 @@ void GameScene::Draw() {
 	//光源
 	directionalLight_->Draw(dxCommon_->GetCommadList());
 	//3Dオブジェクトはここ
-
-	//model_->Draw(worldTransform_, camera_, material_.get());
 	
 	// スカイドーム
 	skydome_->Draw(camera_);
@@ -581,16 +465,6 @@ void GameScene::Draw() {
 
 	//ufo_->Draw(modelBlock_.get(), camera_);
 	//energy_->Draw(modelBlock_.get(), camera_);
-
-	// 惑星
-	//planet_->Draw(camera_);
-
-#ifdef _DEBUG
-
-	// デバッグ描画
-	colliderDebugDraw_->Draw(camera_);
-
-#endif // _DEBUG
 
 	Model::PostDraw();
 	
@@ -625,7 +499,7 @@ void GameScene::Draw() {
 
 	//背景
 	//前景スプライト描画
-	pause_->Draw();
+	//pause_->Draw();
 
 	// UIマネージャー
 	uiManager_->Draw();
@@ -691,25 +565,24 @@ void GameScene::DebugCameraUpdate()
 void GameScene::GoToTheTitle()
 {
 
-	if (pause_->GoToTheTitle()) {
-		sceneNo = kTitle;
-	}
+	//if (pause_->GoToTheTitle()) {
+	//	sceneNo = kTitle;
+	//}
 
 }
 
 void GameScene::ModelCreate()
 {
 
-	colliderSphereModel_.reset(Model::Create("Resources/TD2_November/collider/sphere/", "sphere.obj", dxCommon_,textureHandleManager_.get()));
-	colliderBoxModel_.reset(Model::Create("Resources/TD2_November/collider/box/", "box.obj", dxCommon_, textureHandleManager_.get()));
+	// パーティクル
 	particleUvcheckerModel_.reset(Model::Create("Resources/default/", "plane.obj", dxCommon_, textureHandleManager_.get()));
 	particleCircleModel_.reset(Model::Create("Resources/Particle/", "plane.obj", dxCommon_, textureHandleManager_.get()));
 
 	// スカイドーム
-	skydomeModel_.reset(Model::Create("Resources/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
+	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
 
 	// 惑星
-	planetModel_.reset(Model::Create("Resources/Planet/", "planet.obj", dxCommon_, textureHandleManager_.get()));
+	planetModel_.reset(Model::Create("Resources/Model/Planet/", "planet.obj", dxCommon_, textureHandleManager_.get()));
 
 	// プレイヤー
 	playerModels_[kPlayerPartIndexBody].reset(Model::Create("Resources/Model/Player/Body", "playerBody.obj", dxCommon_, textureHandleManager_.get()));
@@ -720,43 +593,47 @@ void GameScene::ModelCreate()
 	// 影
 	shadowModel_.reset(Model::Create("Resources/Model/shadow/", "shadow.obj", dxCommon_, textureHandleManager_.get()));
 
+	// 土
+	soilModel_.reset(Model::Create("Resources/Model/soil_model/", "soil.obj", dxCommon_, textureHandleManager_.get()));
+
+	// ねじ
+	modelScrew_.reset(Model::Create("Resources/Model/nejimi2_model/", "nejimi2.obj", dxCommon_, textureHandleManager_.get()));
+
+	// 円
+	modelCircle_.reset(Model::Create("Resources/Model/Circle/", "Circle.obj", dxCommon_, textureHandleManager_.get()));
+
+	// ブロック
+	modelBlock_.reset(Model::Create("Resources/Model/Block/", "block.obj", dxCommon_, textureHandleManager_.get()));
+
 }
 
 void GameScene::MaterialCreate()
 {
-
-	colliderMaterial_.reset(Material::Create());
 
 }
 
 void GameScene::TextureLoad()
 {
 
-	// ポーズ
-	pauseTextureHandles_ = {
-		TextureManager::Load("Resources/TD2_November/pause/pausing.png", dxCommon_,textureHandleManager_.get()),
-		TextureManager::Load("Resources/TD2_November/pause/goToTitle.png", dxCommon_,textureHandleManager_.get()),
-		TextureManager::Load("Resources/TD2_November/pause/returnToGame.png", dxCommon_,textureHandleManager_.get()),
-	};
-	cursorTextureHandle_ = TextureManager::Load("Resources/ingame_target.png", dxCommon_, textureHandleManager_.get());
+	cursorTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/UI/ingame_target.png", dxCommon_, textureHandleManager_.get());
 
 	uiTextureHandles_ = {
-		TextureManager::Load("Resources/UI/kugimi.png", dxCommon_,textureHandleManager_.get()),
-		TextureManager::Load("Resources/UI/number.png", dxCommon_,textureHandleManager_.get()),
-		TextureManager::Load("Resources/UI/ingame_ui_symbol.png", dxCommon_,textureHandleManager_.get()),
-		TextureManager::Load("Resources/UI/ingame_frame.png", dxCommon_,textureHandleManager_.get()),
-		TextureManager::Load("Resources/UI/ingame_mission_frame.png", dxCommon_,textureHandleManager_.get()),
-		TextureManager::Load("Resources/UI/ingame_mission_text.png", dxCommon_,textureHandleManager_.get()),
-		TextureManager::Load("Resources/UI/mission_number.png", dxCommon_,textureHandleManager_.get()),
-		TextureManager::Load("Resources/UI/missionClear.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/UI/kugimi.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Common/number.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/UI/ingame_ui_symbol.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/UI/ingame_frame.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/UI/ingame_mission_frame.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/UI/ingame_mission_text.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/UI/mission_number.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/UI/missionClear.png", dxCommon_,textureHandleManager_.get()),
 	};
 
-	shotUITextureHandle_[0] = TextureManager::Load("Resources/ingame_ui_RB.png", dxCommon_, textureHandleManager_.get());
-	shotUITextureHandle_[1] = TextureManager::Load("Resources/ingame_ui_RB_remove.png", dxCommon_, textureHandleManager_.get());
+	shotUITextureHandle_[0] = TextureManager::Load("Resources/Sprite/Game/UI/ingame_ui_RB.png", dxCommon_, textureHandleManager_.get());
+	shotUITextureHandle_[1] = TextureManager::Load("Resources/Sprite/Game/UI/ingame_ui_RB_remove.png", dxCommon_, textureHandleManager_.get());
 
 	whiteTextureHandle_= TextureManager::Load("Resources/default/white2x2.png", dxCommon_, textureHandleManager_.get());
 
-	clearMigrationTextureHandle_ = TextureManager::Load("Resources/ingameSprite/ingame_fnish.png", dxCommon_, textureHandleManager_.get());
+	clearMigrationTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/ingame_fnish.png", dxCommon_, textureHandleManager_.get());
 
 }
 

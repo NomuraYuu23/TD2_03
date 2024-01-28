@@ -2,6 +2,7 @@
 #include <cassert>
 #include "EmitterName.h"
 #include "Gravity/GravityEmitter.h"	
+#include "Spark/SparkEmitter.h"
 MakeEmitter* MakeEmitter::GetInstance()
 {
     return nullptr;
@@ -22,6 +23,10 @@ IEmitter* MakeEmitter::Run(const TransformStructure& transform, uint32_t instanc
 		break;
 	case kGravityEmitter:
 		emitter = new GravityEmitter();
+		emitter->Initialize(transform, instanceCount, frequency, lifeTime, particleModelNum, paeticleName);
+		break;
+	case kSparkEmitter:
+		emitter = new SparkEmitter();
 		emitter->Initialize(transform, instanceCount, frequency, lifeTime, particleModelNum, paeticleName);
 		break;
 	case kCountOfParticleName:

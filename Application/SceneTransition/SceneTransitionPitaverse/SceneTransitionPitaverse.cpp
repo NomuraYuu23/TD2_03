@@ -24,7 +24,7 @@ void SceneTransitionPitaverse::Initialize()
 	backgroundSprite_->SetSize(Vector2{ static_cast<float>(WinApp::kWindowWidth), static_cast<float>(WinApp::kWindowHeight) });
 
 	// ロード文字
-	loadTextureHandle_ = TextureManager::Load("Resources/Loading/loading_nowLoading.png", DirectXCommon::GetInstance(), textureHandleManager_.get());
+	loadTextureHandle_ = TextureManager::Load("Resources/Sprite/Loading/loading_nowLoading.png", DirectXCommon::GetInstance(), textureHandleManager_.get());
 	loadColor_ = { 1.0f,1.0f,1.0f,0.0f };
 	position = { 1100.0f, 540.0f };
 	loadSprite_.reset(Sprite::Create(loadTextureHandle_, position, loadColor_));
@@ -34,7 +34,7 @@ void SceneTransitionPitaverse::Initialize()
 	loadCount_ = 0;
 
 	// プレイヤーイラスト
-	playerTextureHandle_ = TextureManager::Load("Resources/Loading/loading_player1.png", DirectXCommon::GetInstance(), textureHandleManager_.get());
+	playerTextureHandle_ = TextureManager::Load("Resources/Sprite/Loading/loading_player1.png", DirectXCommon::GetInstance(), textureHandleManager_.get());
 	playerColor_ = { 1.0f,1.0f,1.0f,0.0f };
 	position = { 1100.0f, 520.0f };
 	playerSprite_.reset(Sprite::Create(playerTextureHandle_, position, playerColor_));

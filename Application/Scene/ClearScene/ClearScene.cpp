@@ -19,12 +19,12 @@ void ClearScene::Initialize()
 	TextureLoad();
 
 	titlePosition_ = { 320.0f, 240.0f };
-	titleTextureHandle_ = TextureManager::Load("Resources/UI/outgame_result.png", dxCommon_, textureHandleManager_.get());
+	titleTextureHandle_ = TextureManager::Load("Resources/Sprite/Result/outgame_result.png", dxCommon_, textureHandleManager_.get());
 	titleSprite_.reset(Sprite::Create(titleTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	titleSize_ = titleSprite_->GetSize();
 
 	buttonPosition_ = { 640.0f, 560.0f };
-	buttonTextureHandle_ = TextureManager::Load("Resources/Title/controler_UI_A.png", dxCommon_, textureHandleManager_.get());
+	buttonTextureHandle_ = TextureManager::Load("Resources/Sprite/Common/controler_UI_A.png", dxCommon_, textureHandleManager_.get());
 	buttonSprite_.reset(Sprite::Create(buttonTextureHandle_, buttonPosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	buttonSprite_->SetTextureSize(Vector2{ 384.0f, 384.0f });
 	buttonSprite_->SetSize(Vector2{ 128.0f, 128.0f });
@@ -62,20 +62,20 @@ void ClearScene::Initialize()
 	}
 
 	titlePosition_ = { 320.0f, 240.0f };
-	missionTextureHandle_ = TextureManager::Load("Resources/UI/outgame_mission_TEXT.png", dxCommon_, textureHandleManager_.get());
+	missionTextureHandle_ = TextureManager::Load("Resources/Sprite/Result/outgame_mission_TEXT.png", dxCommon_, textureHandleManager_.get());
 	missionSprite_.reset(Sprite::Create(missionTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 
-	numTextureHandle_ = TextureManager::Load("Resources/UI/number.png", dxCommon_, textureHandleManager_.get());
+	numTextureHandle_ = TextureManager::Load("Resources/Sprite/Common/number.png", dxCommon_, textureHandleManager_.get());
 	leftSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	rightSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	leftTenSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	rightTenSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 
-	frameTextureHandle_ = TextureManager::Load("Resources/UI/outgame_frame.png", dxCommon_, textureHandleManager_.get());
+	frameTextureHandle_ = TextureManager::Load("Resources/Sprite/Result/outgame_frame.png", dxCommon_, textureHandleManager_.get());
 	frameSprite_.reset(Sprite::Create(frameTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
-	toTitleTextureHandle_ = TextureManager::Load("Resources/UI/outgame_titleGO_UI.png", dxCommon_, textureHandleManager_.get());
+	toTitleTextureHandle_ = TextureManager::Load("Resources/Sprite/Result/outgame_titleGO_UI.png", dxCommon_, textureHandleManager_.get());
 	toTitleSprite_.reset(Sprite::Create(toTitleTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
-	lineTextureHandle_ = TextureManager::Load("Resources/UI/outgame_line_UI.png", dxCommon_, textureHandleManager_.get());
+	lineTextureHandle_ = TextureManager::Load("Resources/Sprite/Result/outgame_line_UI.png", dxCommon_, textureHandleManager_.get());
 	lineSprite_.reset(Sprite::Create(lineTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	line2Sprite_.reset(Sprite::Create(lineTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	line3Sprite_.reset(Sprite::Create(lineTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
@@ -83,7 +83,7 @@ void ClearScene::Initialize()
 	connectSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	connectTenSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	connectHandSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
-	connectTextSprite_.reset(Sprite::Create(TextureManager::Load("Resources/UI/outgame_blockNum_text.png", dxCommon_, textureHandleManager_.get()), titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	connectTextSprite_.reset(Sprite::Create(TextureManager::Load("Resources/Sprite/Result/outgame_blockNum_text.png", dxCommon_, textureHandleManager_.get()), titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	SpriteRegisteringGlobalVariables();
 
 	SpriteApplyGlobalVariables();
@@ -288,7 +288,7 @@ void ClearScene::ModelCreate()
 {
 
 	// スカイドーム
-	skydomeModel_.reset(Model::Create("Resources/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
+	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
 	// プレイヤー
 	playerModel_.reset(Model::Create("Resources/Model/Player/Original/", "player.obj", dxCommon_, textureHandleManager_.get()));
 	// ねじ
