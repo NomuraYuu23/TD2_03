@@ -117,6 +117,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Energy\Energy.cpp" />
     <ClCompile Include="Application\ForResult\ForResult.cpp" />
     <ClCompile Include="Application\Magnet\Magnet.cpp" />
+    <ClCompile Include="Application\MissionData\MissionData.cpp" />
     <ClCompile Include="Application\Particle\Gravity\GravityEmitter.cpp" />
     <ClCompile Include="Application\Particle\Gravity\GravityParticle.cpp" />
     <ClCompile Include="Application\Particle\Spark\SparkEmitter.cpp" />
