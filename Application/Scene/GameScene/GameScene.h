@@ -174,4 +174,9 @@ private:
 	uint32_t clearMigrationTextureHandle_;
 
 	std::unique_ptr<Model> soilModel_;
+
+	// ポーズ
+	std::unique_ptr<Pause> pause_;
+	std::array<uint32_t, Pause::PauseTextureIndex::kPausingTextureIndexOfCount> pauseTextureHandles_;
+
 };

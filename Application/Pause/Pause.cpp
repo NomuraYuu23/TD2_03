@@ -1,6 +1,6 @@
 #include "Pause.h"
 
-void Pause::Initialize(const std::array<uint32_t, PauseTextureNo::kCountOfPauseTextureNo>& textureHandles)
+void Pause::Initialize(const std::array<uint32_t, PauseTextureIndex::kPausingTextureIndexOfCount>& textureHandles)
 {
 
 	input_ = Input::GetInstance();
@@ -11,12 +11,52 @@ void Pause::Initialize(const std::array<uint32_t, PauseTextureNo::kCountOfPauseT
 
 	// スプライト
 	Vector4 color = {1.0f,1.0f,1.0f,1.0f};
-	Vector2 position = { 640.0f, 180.0f };
-	pausingSprite_.reset(Sprite::Create(textureHandles_[PauseTextureNo::kPausingTextureNo], position, color));
+	Vector2 position = { 640.0f, 360.0f };
+	Vector2 size = { 0.0f,0.0f };
+	
+	// フレーム
+	frameSprite_.reset(Sprite::Create(textureHandles_[PauseTextureIndex::kPausingTextureIndexFrame], position, color));
+	
+	// タイトルへ
+	position = { 640.0f, 280.0f };
+	goToTitleSprite_.reset(Sprite::Create(textureHandles_[PauseTextureIndex::kPausingTextureIndexGoToTitle], position, color));
+	size = goToTitleSprite_->GetSize();
+	size.x *= 0.8f;
+	size.y *= 0.8f;
+	goToTitleSprite_->SetSize(size);
+	goToTitlePositionY = position.y;
+
+	// ゲームへ
+	position = { 640.0f, 500.0f };
+	returnToGameSprite_.reset(Sprite::Create(textureHandles_[PauseTextureIndex::kPausingTextureIndexReturnToGame], position, color));
+	size = returnToGameSprite_->GetSize();
+	size.x *= 0.8f;
+	size.y *= 0.8f;
+	returnToGameSprite_->SetSize(size);
+	returnToGamePositionY = position.y;
+
+	// 矢印
+	position = { 360.0f, 500.0f };
+	arrowSprite_.reset(Sprite::Create(textureHandles_[PauseTextureIndex::kPausingTextureIndexArrow], position, color));
+	size = arrowSprite_->GetSize();
+	size.x *= 0.5f;
+	size.y *= 0.5f;
+	arrowSprite_->SetSize(size);
+
+	// 選択
+	position = { 640.0f, 500.0f };
+	choiceSprite_.reset(Sprite::Create(textureHandles_[PauseTextureIndex::kPausingTextureIndexChoice], position, color));
+	size = choiceSprite_->GetSize();
+	size.x *= 0.8f;
+	size.y *= 0.8f;
+	choiceSprite_->SetSize(size);
+
+	// 背景
 	position = { 640.0f, 360.0f };
-	goToTitleSprite_.reset(Sprite::Create(textureHandles_[PauseTextureNo::kGoToTitleTextureNo], position, color));
-	position = { 640.0f, 450.0f };
-	returnToGameSprite_.reset(Sprite::Create(textureHandles_[PauseTextureNo::kReturnToGameTextureNo], position, color));
+	color = { 0.0f,0.0f,0.0f,0.8f };
+	backGroundSprite_.reset(Sprite::Create(textureHandles_[PauseTextureIndex::kPausingTextureIndexBackGround], position, color));
+	size = {1280.0f, 720.0f};
+	backGroundSprite_->SetSize(size);
 
 }
 
@@ -35,9 +75,12 @@ void Pause::Draw()
 {
 
 	if (isPause_) {
-		pausingSprite_->Draw();
+		backGroundSprite_->Draw();
+		frameSprite_->Draw();
+		choiceSprite_->Draw();
 		goToTitleSprite_->Draw();
 		returnToGameSprite_->Draw();
+		arrowSprite_->Draw();
 	}
 
 }
@@ -93,29 +136,30 @@ void Pause::PauseMenuOperation()
 void Pause::PauseMenuGoToTitle()
 {
 
-	// 選択している部分を色変更(黒)
-	Vector4 black = { 0.0f,0.0f,0.0f,1.0f };
-	Vector4 white = { 1.0f,1.0f,1.0f,1.0f };
-
-	goToTitleSprite_->SetColor(black);
-	returnToGameSprite_->SetColor(white);
+	Vector2 position = choiceSprite_->GetPosition();
+	position.y = goToTitlePositionY;
+	choiceSprite_->SetPosition(position);
+	
+	position = arrowSprite_->GetPosition();
+	position.y = goToTitlePositionY;
+	arrowSprite_->SetPosition(position);
 
 	if (input_->TriggerKey(DIK_SPACE)) {
 		goToTheTitle_ = true;
 	}
-
 
 }
 
 void Pause::PauseMenuReturnToGame()
 {
 
-	// 選択している部分を色変更(黒)
-	Vector4 black = { 0.0f,0.0f,0.0f,1.0f };
-	Vector4 white = { 1.0f,1.0f,1.0f,1.0f };
+	Vector2 position = choiceSprite_->GetPosition();
+	position.y = returnToGamePositionY;
+	choiceSprite_->SetPosition(position);
 
-	returnToGameSprite_->SetColor(black);
-	goToTitleSprite_->SetColor(white);
+	position = arrowSprite_->GetPosition();
+	position.y = returnToGamePositionY;
+	arrowSprite_->SetPosition(position);
 
 	if (input_->TriggerKey(DIK_SPACE)) {
 		isPause_ = false;

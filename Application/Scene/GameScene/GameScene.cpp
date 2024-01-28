@@ -142,6 +142,10 @@ void GameScene::Initialize() {
 	clearMigration_ = std::make_unique<ClearMigration>();
 	clearMigration_->Initialize(clearMigrationTextureHandle_);
 
+	// ポーズ
+	pause_ = std::make_unique<Pause>();
+	pause_->Initialize(pauseTextureHandles_);
+
 	audioManager_->PlayWave(kGameAudioNameIndexBGM);
 
 }
@@ -162,6 +166,16 @@ void GameScene::Update() {
 		ParticleManager::GetInstance()->MakeEmitter(transform,3,0.005f,0.5f, ParticleModelIndex::kCircle,ParticleName::kGravityParticle,EmitterName::kGravityEmitter);
 	}
 #endif
+
+	// タイトルへ行く
+	GoToTheTitle();
+
+	// ポーズ機能
+	pause_->Update();
+	if (pause_->IsPause()) {
+		return;
+	}
+
 	//光源
 	DirectionalLightData directionalLightData;
 	directionalLightData.color = { 1.0f,1.0f,1.0f,1.0f };
@@ -372,11 +386,6 @@ void GameScene::Update() {
 	//アウトライン
 	outline_.Map();
 
-	// ポーズ機能
-
-	// タイトルへ行く
-	GoToTheTitle();
-
 	// クリア演出
 	clearMigration_->Update();
 	if (clearMigration_->GetIsEnd()) {
@@ -499,7 +508,6 @@ void GameScene::Draw() {
 
 	//背景
 	//前景スプライト描画
-	//pause_->Draw();
 
 	// UIマネージャー
 	uiManager_->Draw();
@@ -507,6 +515,8 @@ void GameScene::Draw() {
 	target_.SpriteDraw();
 
 	clearMigration_->Draw();
+
+	pause_->Draw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
@@ -634,6 +644,15 @@ void GameScene::TextureLoad()
 	whiteTextureHandle_= TextureManager::Load("Resources/default/white2x2.png", dxCommon_, textureHandleManager_.get());
 
 	clearMigrationTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/ingame_fnish.png", dxCommon_, textureHandleManager_.get());
+
+	pauseTextureHandles_ = {
+		TextureManager::Load("Resources/Sprite/Game/Pause/pause_flame.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/Pause/pause_text_title.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/Pause/pause_text_ingame.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/Pause/pause_arrow.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/Pause/pause_choiceBox.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/default/white2x2.png", dxCommon_,textureHandleManager_.get()),
+	};
 
 }
 

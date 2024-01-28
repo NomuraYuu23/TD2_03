@@ -19,11 +19,14 @@ public: // サブクラス
 	};
 
 	// ポーズで使うテクスチャ番号
-	enum PauseTextureNo{
-		kPausingTextureNo,              // ポーズ中
-		kGoToTitleTextureNo,			   // タイトルへ
-		kReturnToGameTextureNo,         // ゲームに戻る
-		kCountOfPauseTextureNo // 使用不可
+	enum PauseTextureIndex {
+		kPausingTextureIndexFrame, // ポーズ中
+		kPausingTextureIndexGoToTitle, // タイトルへ
+		kPausingTextureIndexReturnToGame, // ゲームに戻る
+		kPausingTextureIndexArrow, // 矢印
+		kPausingTextureIndexChoice, // 選択
+		kPausingTextureIndexBackGround, // 背景
+		kPausingTextureIndexOfCount // 使用不可
 	};
 
 public: // メンバ関数
@@ -31,7 +34,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(const std::array<uint32_t, PauseTextureNo::kCountOfPauseTextureNo>& textureHandles);
+	void Initialize(const std::array<uint32_t, PauseTextureIndex::kPausingTextureIndexOfCount>& textureHandles);
 
 	/// <summary>
 	/// 更新処理
@@ -85,16 +88,27 @@ private: // メンバ変数
 	bool goToTheTitle_;
 
 	// テクスチャハンドル
-	std::array<uint32_t, PauseTextureNo::kCountOfPauseTextureNo> textureHandles_;
+	std::array<uint32_t, PauseTextureIndex::kPausingTextureIndexOfCount> textureHandles_;
+
+	// タイトルへの位置
+	float goToTitlePositionY;
+	// ゲームへの位置
+	float returnToGamePositionY;
 
 private: // メンバ変数(スプライト)
 
 	// ポーズ中
-	std::unique_ptr<Sprite> pausingSprite_;
+	std::unique_ptr<Sprite> frameSprite_;
 	// タイトルへ
 	std::unique_ptr<Sprite> goToTitleSprite_;
 	// ゲームに戻る
 	std::unique_ptr<Sprite> returnToGameSprite_;
+	// 矢印
+	std::unique_ptr<Sprite> arrowSprite_;
+	// 選択
+	std::unique_ptr<Sprite> choiceSprite_;
+	// 背景
+	std::unique_ptr<Sprite> backGroundSprite_;
 
 };
 
