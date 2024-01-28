@@ -18,12 +18,10 @@ void TitleScene::Initialize()
 	TextureLoad();
 
 	titlePosition_ = { 320.0f, 240.0f };
-	titleTextureHandle_ = TextureManager::Load("Resources/Title/title.png", dxCommon_, textureHandleManager_.get());
 	titleSprite_.reset(Sprite::Create(titleTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	titleSize_ = titleSprite_->GetSize();
 
 	buttonPosition_ = { 640.0f, 560.0f };
-	buttonTextureHandle_ = TextureManager::Load("Resources/Title/controler_UI_A.png", dxCommon_, textureHandleManager_.get());
 	buttonSprite_.reset(Sprite::Create(buttonTextureHandle_, buttonPosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	buttonSprite_->SetTextureSize(Vector2{ 384.0f, 384.0f });
 	buttonSprite_->SetSize(Vector2{ 128.0f, 128.0f });
@@ -196,7 +194,7 @@ void TitleScene::ModelCreate()
 {
 
 	// スカイドーム
-	skydomeModel_.reset(Model::Create("Resources/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
+	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
 	// プレイヤー
 	playerModel_.reset(Model::Create("Resources/Model/Player/Original/", "player.obj", dxCommon_, textureHandleManager_.get()));
 	// ねじ
@@ -210,6 +208,10 @@ void TitleScene::MaterialCreate()
 
 void TitleScene::TextureLoad()
 {
+
+	buttonTextureHandle_ = TextureManager::Load("Resources/Sprite/Common/controler_UI_A.png", dxCommon_, textureHandleManager_.get());
+	titleTextureHandle_ = TextureManager::Load("Resources/Sprite/Title/title.png", dxCommon_, textureHandleManager_.get());
+
 }
 
 void TitleScene::LowerVolumeBGM()
