@@ -157,7 +157,7 @@ void GameScene::Update() {
 	ImguiDraw();
 #ifdef _DEBUG
 	if (Input::GetInstance()->TriggerJoystick(JoystickButton::kJoystickButtonSTART)) {
-		requestSceneNo = kTitle;
+		//requestSceneNo = kTitle;
 	}
 #endif
 #ifdef _DEBUG
@@ -171,8 +171,9 @@ void GameScene::Update() {
 	GoToTheTitle();
 
 	// ポーズ機能
-	pause_->Update();
+	pause_->PoseSwitching();
 	if (pause_->IsPause()) {
+		pause_->Update();
 		return;
 	}
 
@@ -575,9 +576,9 @@ void GameScene::DebugCameraUpdate()
 void GameScene::GoToTheTitle()
 {
 
-	//if (pause_->GoToTheTitle()) {
-	//	sceneNo = kTitle;
-	//}
+	if (pause_->GoToTheTitle()) {
+		requestSceneNo = kTitle;
+	}
 
 }
 
@@ -647,8 +648,9 @@ void GameScene::TextureLoad()
 
 	pauseTextureHandles_ = {
 		TextureManager::Load("Resources/Sprite/Game/Pause/pause_flame.png", dxCommon_,textureHandleManager_.get()),
-		TextureManager::Load("Resources/Sprite/Game/Pause/pause_text_title.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/Sprite/Game/Pause/pause_text_ingame.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/Pause/pause_text_restart.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/Pause/pause_text_title.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/Sprite/Game/Pause/pause_arrow.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/Sprite/Game/Pause/pause_choiceBox.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/default/white2x2.png", dxCommon_,textureHandleManager_.get()),

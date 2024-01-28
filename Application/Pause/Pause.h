@@ -13,16 +13,18 @@ public: // サブクラス
 
 	// ポーズメニュー
 	enum PauseMenu{
-		kGoToTitle,       // タイトルへ
-		kReturnToGame,    // ゲームに戻る
+		kPauseMenuReturnToGame,    // ゲームに戻る
+		kPauseMenuRestart,    // リスタート
+		kPauseMenuGoToTitle,       // タイトルへ
 		kCountOfPauseMenu // 使用不可
 	};
 
 	// ポーズで使うテクスチャ番号
 	enum PauseTextureIndex {
 		kPausingTextureIndexFrame, // ポーズ中
-		kPausingTextureIndexGoToTitle, // タイトルへ
 		kPausingTextureIndexReturnToGame, // ゲームに戻る
+		kPausingTextureIndexRestart, // リスタート
+		kPausingTextureIndexGoToTitle, // タイトルへ
 		kPausingTextureIndexArrow, // 矢印
 		kPausingTextureIndexChoice, // 選択
 		kPausingTextureIndexBackGround, // 背景
@@ -46,12 +48,12 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-private: // メンバ関数
-
 	/// <summary>
 	/// ポーズ画面の切り替え
 	/// </summary>
 	void PoseSwitching();
+
+private: // メンバ関数
 
 	/// <summary>
 	/// ポーズメニュー操作
@@ -67,6 +69,16 @@ private: // メンバ関数
 	/// ゲームに戻る
 	/// </summary>
 	void PauseMenuReturnToGame();
+
+	/// <summary>
+	/// リスタート
+	/// </summary>
+	void PauseMenuRestart();
+
+	/// <summary>
+	/// スティック入力
+	/// </summary>
+	void InputStick();
 
 public: // アクセッサ
 
@@ -91,9 +103,17 @@ private: // メンバ変数
 	std::array<uint32_t, PauseTextureIndex::kPausingTextureIndexOfCount> textureHandles_;
 
 	// タイトルへの位置
-	float goToTitlePositionY;
+	float goToTitlePositionY_;
 	// ゲームへの位置
-	float returnToGamePositionY;
+	float returnToGamePositionY_;
+	// リスタートの位置
+	float restartPositionY_;
+
+	// スティック
+	float stickY_;
+
+	// スティッククールタイム
+	float stickColltime_;
 
 private: // メンバ変数(スプライト)
 
@@ -103,6 +123,8 @@ private: // メンバ変数(スプライト)
 	std::unique_ptr<Sprite> goToTitleSprite_;
 	// ゲームに戻る
 	std::unique_ptr<Sprite> returnToGameSprite_;
+	// リスタート
+	std::unique_ptr<Sprite> restartSprite_;
 	// 矢印
 	std::unique_ptr<Sprite> arrowSprite_;
 	// 選択
