@@ -94,7 +94,7 @@ void ClearScene::Initialize()
 	outline_.Map();
 
 	missionClearCount_ = 0;
-	missionClearNum_ = MissionData::GetInstance()->GetMissionNum();
+	missionClearNum_ = MissionData::GetInstance()->GetClearCount();
 	missionMax_ = MissionData::GetInstance()->GetMax();
 	changeNumInterval_ = 30;
 	frameCount_ = 0;
