@@ -1,5 +1,6 @@
 #include "MakeParticle.h"
 #include "Gravity/GravityParticle.h"
+#include "Spark/SparkParticle.h"
 #include <cassert>
 
 MakeParticle* MakeParticle::GetInstance()
@@ -20,6 +21,10 @@ IParticle* MakeParticle::Run(uint32_t paeticleName, const Vector3& position, con
 		break;
 	case kGravityParticle:
 		particle = new GravityParticle();
+		particle->Initialize(position, size);
+		break;
+	case kSparkParticle:
+		particle = new SparkParticle();
 		particle->Initialize(position, size);
 		break;
 	case kCountOfParticleName:
