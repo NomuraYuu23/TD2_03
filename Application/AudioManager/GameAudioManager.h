@@ -12,6 +12,8 @@ enum GameAudioNameIndex {
 	kGameAudioNameIndexMissionClear, // ミッションクリア
 	kGameAudioNameIndexMissionOccurrrence, // ミッション更新
 	kGameAudioNameIndexPlayerGravity, // プレイヤー重力
+	kGameAudioNameIndexPauseChice, // ポーズメニュー選択
+	kGameAudioNameIndexPauseDesicion, // ポーズメニュー決定
 	kGameAudioNameIndexOfCount // 数
 };
 
@@ -57,6 +59,8 @@ private: // メンバ変数
 		"Soundeffect/Game/mission_clear.wav",
 		"Soundeffect/Game/mission_occurrence.wav",
 		"Soundeffect/Game/player_gravity.wav",
+		"Soundeffect/Common/desicion2.wav",
+		"Soundeffect/Common/desicion1.wav",
 	};
 
 };

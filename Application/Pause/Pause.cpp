@@ -105,6 +105,7 @@ void Pause::PoseSwitching()
 			goToTheTitle_ = false;
 			pauseMenuSelect_ = PauseMenu::kPauseMenuReturnToGame;
 		}
+		audioManager_->PlayWave(kGameAudioNameIndexPauseChice);
 	}
 
 }
@@ -118,6 +119,7 @@ void Pause::PauseMenuOperation()
 		if (pauseMenuSelect_ < 0) {
 			pauseMenuSelect_ = PauseMenu::kCountOfPauseMenu - 1;
 		}
+		audioManager_->PlayWave(kGameAudioNameIndexPauseChice);
 	}
 	// メニュー移動(下)
 	else if (stickY_ < 0.0f) {
@@ -125,6 +127,7 @@ void Pause::PauseMenuOperation()
 		if (pauseMenuSelect_ == PauseMenu::kCountOfPauseMenu) {
 			pauseMenuSelect_ = 0;
 		}
+		audioManager_->PlayWave(kGameAudioNameIndexPauseChice);
 	}
 
 	switch (pauseMenuSelect_)
@@ -157,6 +160,7 @@ void Pause::PauseMenuGoToTitle()
 
 	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
 		goToTheTitle_ = true;
+		audioManager_->PlayWave(kGameAudioNameIndexPauseDesicion);
 	}
 
 }
@@ -174,6 +178,7 @@ void Pause::PauseMenuReturnToGame()
 
 	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
 		isPause_ = false;
+		audioManager_->PlayWave(kGameAudioNameIndexPauseChice);
 	}
 
 }
@@ -188,6 +193,10 @@ void Pause::PauseMenuRestart()
 	position = arrowSprite_->GetPosition();
 	position.y = restartPositionY_;
 	arrowSprite_->SetPosition(position);
+
+	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
+		audioManager_->PlayWave(kGameAudioNameIndexPauseDesicion);
+	}
 
 }
 

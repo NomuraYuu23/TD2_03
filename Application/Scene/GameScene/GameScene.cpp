@@ -145,6 +145,7 @@ void GameScene::Initialize() {
 	// ポーズ
 	pause_ = std::make_unique<Pause>();
 	pause_->Initialize(pauseTextureHandles_);
+	pause_->SetAudioManager(audioManager_.get());
 
 	audioManager_->PlayWave(kGameAudioNameIndexBGM);
 
@@ -166,6 +167,14 @@ void GameScene::Update() {
 		ParticleManager::GetInstance()->MakeEmitter(transform,3,0.005f,0.5f, ParticleModelIndex::kCircle,ParticleName::kGravityParticle,EmitterName::kGravityEmitter);
 	}
 #endif
+
+	// BGM音量下げる
+	if (requestSceneNo == kClear || requestSceneNo == kTitle) {
+		if (isDecreasingVolume) {
+			LowerVolumeBGM();
+		}
+		return;
+	}
 
 	// タイトルへ行く
 	GoToTheTitle();
@@ -407,11 +416,6 @@ void GameScene::Update() {
 		}
 	}
 
-	// BGM音量下げる
-	if (requestSceneNo == kClear && isDecreasingVolume) {
-		LowerVolumeBGM();
-	}
-
 #ifdef _DEBUG
 
 	ImGui::Begin("TIMER");
@@ -578,6 +582,7 @@ void GameScene::GoToTheTitle()
 
 	if (pause_->GoToTheTitle()) {
 		requestSceneNo = kTitle;
+		isDecreasingVolume = true;
 	}
 
 }

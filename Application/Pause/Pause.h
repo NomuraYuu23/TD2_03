@@ -2,6 +2,7 @@
 #include "../../Engine/Input/Input.h"
 #include "../../Engine/2D/Sprite.h"
 #include <array>
+#include "../AudioManager/GameAudioManager.h"
 
 /// <summary>
 /// ポーズ
@@ -86,6 +87,8 @@ public: // アクセッサ
 
 	bool GoToTheTitle() { return goToTheTitle_; }
 
+	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
+
 private: // メンバ変数
 
 	// 入力
@@ -114,6 +117,9 @@ private: // メンバ変数
 
 	// スティッククールタイム
 	float stickColltime_;
+
+	// オーディオマネージャー
+	GameAudioManager* audioManager_;
 
 private: // メンバ変数(スプライト)
 
