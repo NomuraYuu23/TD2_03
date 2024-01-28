@@ -1,8 +1,11 @@
 #pragma once
 #include "../../Engine/3D/Model.h"
+#include "../../Engine/Camera/BaseCamera.h"
 #include "../../Engine/3D/Material.h"
 #include "../../Engine/3D/WorldTransform.h"
-
+#include "../../Engine/Collider/OBB/OBB.h"
+#include "../Collider/ColliderParentObject.h"
+#include "../../Engine/Collision/CollisionData.h"
 class Planet
 {
 
@@ -24,12 +27,16 @@ public:
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	void Draw(BaseCamera& camera);
-
+	void DrawFlag(BaseCamera& camera);
 	/// <summary>
 	/// ImGui描画
 	/// </summary>
 	void ImGuiDraw();
-
+	OBB* GetCollider() { return collider_.get(); };
+	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {};
+	void SetFlagModel(Model* m) { modelFlag_ = m; };
+	void SetPosition(const Vector3& pos) { position_ = pos; };
+	WorldTransform* GetWorldTransform() { return &worldTransform_; };
 private: // メンバ関数
 
 	/// <summary>
@@ -46,8 +53,10 @@ private:
 
 	// ワールド変換データ
 	WorldTransform worldTransform_;
+	WorldTransform worldTransformFlag_;
 	// モデル
 	Model* model_ = nullptr;
+	Model* modelFlag_;
 	//マテリアル
 	std::unique_ptr<Material> material_ = nullptr;
 
@@ -58,6 +67,6 @@ private:
 	Vector3 position_ = { 0.0f, 0.0f, 0.0f };
 
 	float size_ = 1.0f;
-
+	std::unique_ptr<OBB> collider_;
 };
 

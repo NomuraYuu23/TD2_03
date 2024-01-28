@@ -15,10 +15,14 @@ void Planet::Initialize(Model* model)
 
 	// ワールド変換データの初期化
 	worldTransform_.Initialize();
+	worldTransformFlag_.Initialize();
+	collider_.reset(new OBB);
+	collider_->Initialize(worldTransform_.transform_.translate, worldTransform_.rotateMatrix_, worldTransform_.transform_.scale, this);
+	//collider_->SetCollisionAttribute(kCollisionAttributeBlock);
 
 	RegisteringGlobalVariables();
 
-	ApplyGlobalVariables();
+	//ApplyGlobalVariables();
 
 }
 
@@ -27,16 +31,24 @@ void Planet::Update()
 
 #ifdef _DEBUG
 
-	ApplyGlobalVariables();
+	//ApplyGlobalVariables();
 
 #endif // _DEBUG
 
 
-	worldTransform_.transform_.scale = { size_, size_, size_ };
-	worldTransform_.transform_.rotate.y = fmodf(worldTransform_.transform_.rotate.y + rotateSpeed_, 6.24f);
+	//worldTransform_.transform_.scale = { size_, size_, size_ };
+	//worldTransform_.transform_.rotate.y = fmodf(worldTransform_.transform_.rotate.y + rotateSpeed_, 6.24f);
 	worldTransform_.transform_.translate = position_;
-
+	worldTransform_.transform_.translate.y =- collider_->size_.y + 0.5f;
+	worldTransformFlag_.transform_.translate = position_;
+	worldTransformFlag_.transform_.translate.y = 4.0f;
 	worldTransform_.UpdateMatrix();
+	worldTransformFlag_.UpdateMatrix();
+
+	collider_->center_ = worldTransform_.GetWorldPosition();
+	collider_->size_ = { worldTransform_.transform_.scale.x * 8.0f, worldTransform_.transform_.scale.y * 8.0f, worldTransform_.transform_.scale.z * 8.0f };
+	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
+	collider_->worldTransformUpdate();
 
 }
 
@@ -44,6 +56,13 @@ void Planet::Draw(BaseCamera& camera)
 {
 
 	model_->Draw(worldTransform_, camera, material_.get());
+
+}
+
+void Planet::DrawFlag(BaseCamera& camera)
+{
+
+	modelFlag_->Draw(worldTransformFlag_, camera, material_.get());
 
 }
 

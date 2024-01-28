@@ -38,6 +38,7 @@ public:
 	bool IsMissionBlockBeenUpdate() { return isBlockBeenUpdate_; };
 	bool IsMissionPointBeenUpdate() { return isPointBeenUpdate_; };
 	size_t GetClearCount() { return missionNumBlock_ + clearMissionPointNum_; };
+	std::vector<MissionToPoint>& GetMissionPointVector() { return missionPoint_; };
 private:
 	//size_t missionNum_;
 	size_t missionMax_;

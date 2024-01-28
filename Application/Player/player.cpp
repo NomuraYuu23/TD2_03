@@ -11,6 +11,7 @@
 #include "../Screw/Screw.h"
 #include "../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../Particle/EmitterName.h"
+#include "../Planet/Planet.h"
 //#include "GlobalVariables.h"
 
 //#include "CollisionManager.h"
@@ -373,6 +374,17 @@ void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidio
 		//std::get<Block*>(pairObject)->SetIsCenter(true);
 		//std::get<Block*>(pairObject)->SetIsConnect(true);
 	}
+	if (std::holds_alternative<Planet*>(pairObject)) {
+		
+		isFlooar_ = true;
+		float sizeY = std::get<Planet*>(pairObject)->GetCollider()->size_.y;
+		worldTransform_.transform_.translate.y = std::get<Planet*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + sizeY + worldTransform_.transform_.scale.y;
+		if (worldTransform_.parent_) {
+			worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(worldTransform_.worldMatrix_, worldTransform_.parent_->worldMatrix_);
+		}
+		
+	}
+
 }
 
 bool Player::isOutGameArea() {

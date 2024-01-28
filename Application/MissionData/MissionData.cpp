@@ -17,7 +17,7 @@ void MissionData::Initialize() {
 	missionBlock_.push_back(36);
 	missionBlock_.push_back(40);
 
-	missionPoint_.push_back({20.0f,0.0f,0.0f});
+	missionPoint_.push_back({20.0f,1.0f,0.0f});
 
 	missionMax_ = missionBlock_.size() + missionPoint_.size();
 	clearMissionPointNum_ = 0;

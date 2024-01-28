@@ -8,4 +8,5 @@ class Magnet;
 class UFO;
 class UFOAttract;
 class Energy;
-using ColliderParentObject = std::variant<Player*,Block*,Magnet*,Screw*,UFO*,UFOAttract*,Energy*>;
+class Planet;
+using ColliderParentObject = std::variant<Player*,Block*,Magnet*,Screw*,UFO*,UFOAttract*,Energy*,Planet*>;

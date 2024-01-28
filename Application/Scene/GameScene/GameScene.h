@@ -26,7 +26,6 @@
 #include "../../ShadowManager/ShadowManager.h"
 
 #include "../../ClearMigration/ClearMigration.h"
-
 class GameScene : public IScene
 {
 
@@ -152,8 +151,10 @@ private:
 	std::unique_ptr<Model> skydomeModel_;
 
 	// 惑星
-	std::unique_ptr<Planet> planet_;
+	//std::unique_ptr<Planet> planet_;
 	std::unique_ptr<Model> planetModel_;
+	std::unique_ptr<Model> planetFlagModel_;
+	std::vector<std::unique_ptr<Planet>> planets_;
 
 	//std::unique_ptr<UFO> ufo_;
 	std::vector<std::unique_ptr<UFO>> ufos_;

@@ -202,8 +202,8 @@ void GameScene::Initialize() {
 	skydome_->Initialize(skydomeModel_.get());
 
 	// 惑星
-	planet_ = std::make_unique<Planet>();
-	planet_->Initialize(planetModel_.get());
+	//planet_ = std::make_unique<Planet>();
+	//planet_->Initialize(planetModel_.get());
 
 	/*
 	std::unique_ptr<UFO> ufo_;
@@ -240,6 +240,15 @@ void GameScene::Initialize() {
 	mission_.push_back(40);
 	MissionData::GetInstance()->Initialize();
 	//MissionData::GetInstance()->SetMax(mission_.size());
+	std::vector<MissionData::MissionToPoint>& point = MissionData::GetInstance()->GetMissionPointVector();
+	for (size_t num = 0; num < point.size();num++) {
+		std::unique_ptr<Planet> planet;
+		planet.reset(new Planet);
+		planet->Initialize(planetModel_.get());
+		planet->SetFlagModel(planetFlagModel_.get());
+		planet->SetPosition(point[num].point);
+		planets_.push_back(std::move(planet));
+	}
 
 	sweatModel_.reset(Model::Create("Resources/default/", "plane.obj", dxCommon_, textureHandleManager_.get()));
 
@@ -389,6 +398,9 @@ void GameScene::Update() {
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		collisionManager_->ListRegister((*block)->GetCollider());
 	}
+	for (std::vector<std::unique_ptr<Planet>>::iterator ite = planets_.begin(); ite != planets_.end(); ite++) {
+		collisionManager_->ListRegister((*ite)->GetCollider());
+	}
 	collisionManager_->CheakAllCollision();
 	
 	/*if (center) {
@@ -459,7 +471,10 @@ void GameScene::Update() {
 	skydome_->Update();
 
 	// 惑星
-	planet_->Update();
+	//planet_->Update();
+	for (std::vector<std::unique_ptr<Planet>>::iterator ite = planets_.begin(); ite != planets_.end();ite++) {
+		(*ite)->Update();
+	}
 
 	camera_.Update();
 
@@ -586,7 +601,12 @@ void GameScene::Draw() {
 
 	// 惑星
 	//planet_->Draw(camera_);
-
+	for (std::vector<std::unique_ptr<Planet>>::iterator ite = planets_.begin(); ite != planets_.end(); ite++) {
+		(*ite)->Draw(camera_);
+	}
+	if (!MissionData::GetInstance()->GetMissionPointVector()[MissionData::GetInstance()->GetMissionNumPoint()].isClear_) {
+		planets_[MissionData::GetInstance()->GetMissionNumPoint()]->DrawFlag(camera_);
+	}
 #ifdef _DEBUG
 
 	// デバッグ描画
@@ -711,8 +731,8 @@ void GameScene::ModelCreate()
 	skydomeModel_.reset(Model::Create("Resources/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
 
 	// 惑星
-	planetModel_.reset(Model::Create("Resources/Planet/", "planet.obj", dxCommon_, textureHandleManager_.get()));
-
+	planetModel_.reset(Model::Create("Resources/Model/target_planet", "target_planet.obj", dxCommon_, textureHandleManager_.get()));
+	planetFlagModel_.reset(Model::Create("Resources/Model/target_flag", "flag.obj", dxCommon_, textureHandleManager_.get()));
 	// プレイヤー
 	playerModels_[kPlayerPartIndexBody].reset(Model::Create("Resources/Model/Player/Body", "playerBody.obj", dxCommon_, textureHandleManager_.get()));
 	playerModels_[kPlayerPartIndexLeftLeg].reset(Model::Create("Resources/Model/Player/LeftLeg/", "playerLeftLeg.obj", dxCommon_, textureHandleManager_.get()));
