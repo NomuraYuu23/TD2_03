@@ -29,11 +29,12 @@ void ClearMigration::Update()
 	}
 
 	if (!isCooltime_) {
-		float speed = 0.05f;
+		float speed = 0.02f;
 		Vector2 pos = { 0.0f,0.0f };
 		postionT_ += speed;
 		if (fromTheStart_) {
 			if (postionT_ >= 1.0f) {
+				postionT_ = 1.0f;
 				isCooltime_ = true;
 				fromTheStart_ = false;
 			}
