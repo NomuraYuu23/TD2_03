@@ -258,6 +258,12 @@ void PlayerAnimation::ScrewThrowingUpdate()
 		return;
 	}
 
+	// ブロックの位置をとる
+	if (workScrewThrowing_.phaseNum_ == ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexThrowing ||
+		workScrewThrowing_.phaseNum_ == ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexTurn) {
+		ScrewThrowingMagunetException();
+	}
+
 	float t = static_cast<float>(workScrewThrowing_.frameCount_) / static_cast<float>(workScrewThrowing_.frame_);
 
 	for (uint32_t i = 0; i < PlayerPartIndex::kPlayerPartIndexOfCount; ++i) {
@@ -284,12 +290,6 @@ void PlayerAnimation::ScrewThrowingUpdate()
 			workScrewThrowing_.nextTransforms_[i] = screwThrowingAnimationData_[workScrewThrowing_.phaseNum_].transforms_[i];
 		}
 		workScrewThrowing_.easeName_ = screwThrowingAnimationData_[workScrewThrowing_.phaseNum_].easeName_;
-
-		// 
-		if (workScrewThrowing_.phaseNum_ == ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexThrowing ||
-			workScrewThrowing_.phaseNum_ == ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexTurn) {
-			ScrewThrowingMagunetException();
-		}
 	}
 
 }

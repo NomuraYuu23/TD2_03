@@ -55,6 +55,9 @@ public:
 	bool GetIsDead() { return isDead_; };
 	void SetSweatTextureHandle(uint32_t handle) { sweatTextureHandle_ = handle; };
 	bool GetIsDrawSweat() { return isDrawSweat_; };
+
+	void SetTarget(void* target) { target_ = target; }
+
 private:
 	WorldTransform worldTransform_;
 	Vector3 startPosition_; //補間アニメーションの開始位置

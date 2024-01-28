@@ -299,7 +299,7 @@ void Player::BehaviorAttackUpdate()
 		audioManager_->PlayWave(kGameAudioNameIndexScrewShoot);
 		TransformStructure transform{ {1.0f,1.0f,1.0f},{0},{0.0f,0.0f,0.0f} };
 		transform.translate = holdScrew_->GetWorldTransform()->GetWorldPosition();
-		transform.translate.y -= 10.0f;
+		transform.translate.y -= 5.0f;
 		ParticleManager::GetInstance()->MakeEmitter(transform, 3, 0.002f, 0.2f, ParticleModelIndex::kCircle, ParticleName::kSparkParticle, EmitterName::kSparkEmitter);
 	}
 

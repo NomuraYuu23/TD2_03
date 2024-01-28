@@ -31,7 +31,10 @@ private:
 	Vector3 acceleration_;
 
 	// 色
-	Vector3 finishColor_ = { 236.0f / 255.0f, 63.0f / 255.0f, 49.0f / 255.0f };
+	Vector4 redColor_ = { 236.0f / 255.0f, 63.0f / 255.0f, 49.0f / 255.0f, 1.0f };
+
+	// 色
+	Vector4 yellowColor_ = { 250.0f / 255.0f, 198.0f / 255.0f, 30.0f / 255.0f, 1.0f };
 
 };
 

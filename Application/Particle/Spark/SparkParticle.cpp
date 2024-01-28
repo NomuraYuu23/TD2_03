@@ -17,7 +17,16 @@ void SparkParticle::Initialize(const Vector3& position, const Vector3& size)
 
 	worldMatrix_ = matrix4x4Calc->MakeIdentity4x4();
 
-	color_ = { 1.0f, 1.0f, 1.0f, 1.0f};
+	float colorJudgeMax = 1.0f;
+	float colorJudgeMin = -1.0f;
+	std::uniform_real_distribution<float> colorJudge(colorJudgeMin, colorJudgeMax);
+
+	if (colorJudge(randomEngine) >= 0.0f) {
+		color_ = yellowColor_;
+	}
+	else {
+		color_ = redColor_;
+	}
 
 	lifeTime_ = 0.2f;
 
@@ -32,7 +41,7 @@ void SparkParticle::Initialize(const Vector3& position, const Vector3& size)
 	isDead_ = false;
 
 	Vector3 velocityMax = { 1.0f, 1.0f, 1.0f };
-	Vector3 velocityMin = { -1.0f, -1.0f, -1.0f };
+	Vector3 velocityMin = { -1.0f, 0.0f, -1.0f };
 	std::uniform_real_distribution<float> velocityX(velocityMin.x, velocityMax.x);
 	std::uniform_real_distribution<float> velocityY(velocityMin.y, velocityMax.y);
 	std::uniform_real_distribution<float> velocityZ(velocityMin.z, velocityMax.z);
@@ -58,10 +67,6 @@ void SparkParticle::Update(const Matrix4x4& billBoardMatrix)
 
 	Vector3Calc* vector3Calc = Vector3Calc::GetInstance();
 	Matrix4x4Calc* matrix4x4Calc = Matrix4x4Calc::GetInstance();
-
-	// 色
-	Vector3 color = Ease::Easing(Ease::EaseName::EaseOutQuad, Vector3{ 1.0f, 1.0f, 1.0f }, finishColor_, currentTime_ / lifeTime_);
-	color_ = { color.x ,color.y, color.z, color_.w };
 
 	velocity_ = vector3Calc->Subtract(velocity_, acceleration_);
 	if (std::fabsf(velocity_.x) <= 0.1f) {
