@@ -36,6 +36,7 @@ enum UIIndex {
 	kUIIndexMissionNumeratorTensPlace, // ミッション分子10の位
 	kUIIndexMissionNumeratorOnesPlace, // ミッション分子1の位
 	kUIIndexMissionClear, // ミッションクリア
+	kUIIndexMission2Frame, // ミッション2フレーム
 	kUIIndexOfCount
 };
 

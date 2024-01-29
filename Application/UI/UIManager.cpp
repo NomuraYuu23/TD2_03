@@ -89,7 +89,11 @@ void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t
 
 		// 持っているブロックの数更新
 		BlockCountUpdate(blockCount);
+
 	}
+
+	// ミッション2フレーム
+	UIs_[kUIIndexMission2Frame]->Update();
 
 }
 
@@ -185,6 +189,11 @@ void UIManager::UIInitialize()
 	UIs_[kUIIndexMissionClear] = std::make_unique<UIMissionClear>();
 	UIs_[kUIIndexMissionClear]->Initialize(textureHandles_[kUITextureHandleIndexMissionClear], "UIMissionClear", missionClearSize, leftTop);
 	UIs_[kUIIndexMissionClear]->SetIsInvisible(true);
+
+	// ミッション2フレーム
+	UIs_[kUIIndexMission2Frame] = std::make_unique<UIMissionFrame>();
+	UIs_[kUIIndexMission2Frame]->Initialize(textureHandles_[kUITextureHandleIndexMissionFrame], "UIMission2Frame", missionFrameSize, leftTop);
+
 
 }
 
