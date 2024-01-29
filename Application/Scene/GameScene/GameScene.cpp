@@ -508,7 +508,7 @@ void GameScene::Draw() {
 #ifdef _DEBUG
 
 	// デバッグ描画
-	colliderDebugDraw_->Draw(camera_);
+	//colliderDebugDraw_->Draw(camera_);
 
 #endif // _DEBUG
 
