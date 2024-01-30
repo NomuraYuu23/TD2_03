@@ -47,6 +47,9 @@ public:
 	void SetReConnect(bool is) { reConnect_ = is; }; //再構成時に演出を出さない用
 	//void SetSoilModel(Model* model) { soilModel_ = model; };
 	void DrawSoil(Model* model, BaseCamera& camera);
+	void SetPinchCheckMode(bool is) { isPinchCheckMode_ = is; };
+	bool IsScrewPinch() { return anchorPoints_[0].screw->GetIsPinch(); };
+	bool IsPinch() { return isPinch_; };
 protected:
 
 	std::array<AnchorPoint, anchorNum> anchorPoints_;
@@ -68,4 +71,9 @@ protected:
 	std::unique_ptr <Material> mat2_;
 	Model* soilModel_;
 	WorldTransform worldTransformSoil_;
+	bool isPinch_;//外れかかっているか
+	int colorFrame_;
+	int colorLength_;
+	bool isPinchCheckMode_;//外れかかっているかを調査するモード
+	int colorDirection_;
 };

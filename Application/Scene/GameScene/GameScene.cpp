@@ -277,6 +277,44 @@ void GameScene::Update() {
 	for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
 			(*block)->SetReConnect(false);
 	}
+	//外れかかっているかの確認
+	for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
+		if (!(*block)->GetIsCenter()) {
+			(*block)->SetReConnect(true);
+			//(*block)->SetIsConnect(false);
+			(*block)->SetPinchCheckMode(true);
+		}
+	}
+	collisionManager_->ListClear();
+	int oldCount = 0;
+	int newCount = 0;
+	for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
+		if ((*block)->GetIsCenter() ) {
+				collisionManager_->ListRegister((*block)->GetCollider());
+		}
+		else if ((*block)->GetIsConnect() && (*block)->GetAnchorPointScrew(0)) {
+			if (!(*block)->GetAnchorPointScrew(0)->GetIsPinch()) {
+				//(*block)->SetIsConnect(false);
+				collisionManager_->ListRegister((*block)->GetCollider());
+			}
+		}
+	}
+	do {
+		oldCount = newCount;
+		newCount = 0;
+		collisionManager_->CheakAllCollision();
+		for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
+			if (!(*block)->IsPinch()) {
+				newCount++;
+			}
+		}
+	} while (oldCount != newCount);
+	for (std::vector<Block*>::iterator block = blockUFO.begin(); block != blockUFO.end(); block++) {
+		(*block)->SetPinchCheckMode(false);
+		(*block)->SetReConnect(false);
+	}
+	collisionManager_->ListClear();
+
 	target_.Update(&blockUFO, *followCamera_.get(), player_.get(),&screws_);
 	if (target_.IsTarget() && target_.IsLockedChange()) {
 		player_->SetTarget(target_.GetTargetBlock()->GetWorldTransform());

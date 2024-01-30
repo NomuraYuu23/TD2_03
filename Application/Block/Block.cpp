@@ -34,6 +34,11 @@ void Block::Initialize() {
 	mat2_->Update(t, { 0.8f,0.5f,1.5f,1.0f }, 0, 200);
 	worldTransformSoil_.Initialize();
 	worldTransformSoil_.parent_ = &worldTransform_;
+	isPinch_ = false;
+	isPinchCheckMode_ = false;
+	colorFrame_ = 0;
+	colorLength_ = 15;
+	colorDirection_ = 1;
 }
 void Block::Update() {
 	reConnect_ = false;
@@ -54,6 +59,28 @@ void Block::Update() {
 	}
 	if (isConnect_) {
 		mat2_->SetColor({1.0f,0.4f,0.4f,1.0f});
+		if (isPinch_) {
+			float t = float(colorFrame_) / float(colorLength_);
+			colorFrame_ += colorDirection_;
+			if (colorFrame_>colorLength_){
+				colorFrame_ = colorLength_;
+				colorDirection_ = -1;
+			}
+			if (colorFrame_<0) {
+				colorFrame_ = 0;
+				colorDirection_ = 1;
+			}
+			Vector4 color;
+			color.x = 1.0f;
+			color.y = (1.0f - t) * 0.4f + t * 1.0f;
+			color.z = (1.0f - t) * 0.4f + t * 1.0f;
+			color.w = 1.0f;
+			mat2_->SetColor(color);
+		}
+		else {
+			colorFrame_ = 0;
+			colorDirection_ = 1;
+		}
 		//bool isStack = false;
 		for (int index = 0; index < anchorNum; index++) {
 			if (anchorPoints_[index].screw != nullptr) {
@@ -95,6 +122,9 @@ void Block::Update() {
 
 	//isCenter_ = false;
 	isRidePlayer_ = false;
+	if (!isCenter_) {
+		isPinch_ = true;
+	}
 }
 void Block::Draw(Model* model, BaseCamera& camera) {
 	model->Draw(worldTransform_,camera,mat2_.get());
@@ -162,5 +192,12 @@ void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidion
 	}
 	if (std::holds_alternative<Player*>(pairObject)) {
 		isRidePlayer_ = true;
+	}
+	if (isPinchCheckMode_) {
+		if ((std::holds_alternative<Block*>(pairObject) || (std::holds_alternative<UFO*>(pairObject)))) {
+			if (!std::get<Block*>(pairObject)->IsPinch()) {
+				isPinch_ = false;
+			}
+		}
 	}
 }

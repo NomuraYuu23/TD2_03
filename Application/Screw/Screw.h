@@ -57,7 +57,7 @@ public:
 	bool GetIsDrawSweat() { return isDrawSweat_; };
 
 	void SetTarget(void* target) { target_ = target; }
-
+	bool GetIsPinch() { return isPinch_; };
 private:
 	WorldTransform worldTransform_;
 	Vector3 startPosition_; //補間アニメーションの開始位置
@@ -104,5 +104,5 @@ private:
 	static const int32_t sweatAnimationMax_ = 8;//アニメーションの枚数
 
 	static GameAudioManager* audioManager_;
-
+	bool isPinch_ = false;
 };
