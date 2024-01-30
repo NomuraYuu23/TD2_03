@@ -1,5 +1,6 @@
 #include "MissionData.h"
 #include "../../Engine/Math/RandomEngine.h"
+#include "../../Engine/GlobalVariables/GlobalVariables.h"
 void MissionData::Initialize() {
 	missionNumBlock_=0;
 	missionNumPoint_=0;
@@ -18,12 +19,30 @@ void MissionData::Initialize() {
 	missionBlock_.push_back(40);
 
 	missionPoint_.push_back({20.0f,1.0f,0.0f});
+	missionPoint_.push_back({ 20.0f,1.0f,-20.0f });
+	missionPoint_.push_back({ -80.0f,1.0f,0.0f });
+	missionPoint_.push_back({ 20.0f,1.0f,80.0f });
 
 	missionMax_ = missionBlock_.size() + missionPoint_.size();
 	clearMissionPointNum_ = 0;
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const std::string groupName = "Planet";
+
+	globalVariables->AddItem(groupName, "0Position", missionPoint_[0].point);
+	globalVariables->AddItem(groupName, "1Position", missionPoint_[1].point);
+	globalVariables->AddItem(groupName, "2Position", missionPoint_[2].point);
+	globalVariables->AddItem(groupName, "3Position", missionPoint_[3].point);
 }
 
 void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPosition) {
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const std::string groupName = "Planet";
+
+	missionPoint_[0].point = globalVariables->GetVector3Value(groupName, "0Position");
+	missionPoint_[1].point = globalVariables->GetVector3Value(groupName, "1Position");
+	missionPoint_[2].point = globalVariables->GetVector3Value(groupName, "2Position");
+	missionPoint_[3].point = globalVariables->GetVector3Value(groupName, "3Position");
+
 	isBlockBeenUpdate_ = false;
 	isPointBeenUpdate_ = false;
 	//ブロック数側の確認

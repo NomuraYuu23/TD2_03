@@ -204,6 +204,12 @@ void GameScene::Update() {
 
 	blockManager_->Update();
 
+	std::vector<MissionData::MissionToPoint>& point = MissionData::GetInstance()->GetMissionPointVector();
+	for (size_t num = 0; num < point.size(); num++) {
+		planets_[num]->SetPosition(point[num].point);
+		
+	}
+
 	//screws_.
 	screws_.remove_if([](std::unique_ptr<Screw>& bullet) {
 		if (bullet->GetIsDead()) {
