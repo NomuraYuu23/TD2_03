@@ -272,6 +272,12 @@ void GameScene::Update() {
 			(*block)->SetReConnect(false);
 	}
 	target_.Update(&blockUFO, *followCamera_.get(), player_.get(),&screws_);
+	if (target_.IsTarget() && target_.IsLockedChange()) {
+		player_->SetTarget(target_.GetTargetBlock()->GetWorldTransform());
+	}
+	else {
+		player_->SetTarget(nullptr);
+	}
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Update();

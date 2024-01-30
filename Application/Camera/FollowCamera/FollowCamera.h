@@ -25,6 +25,7 @@ public:
 
 	void SetDestinationAngle(const Vector3& destinationAngle) { destinationAngle_ = destinationAngle; }
 	void Shake();
+
 private: // メンバ関数
 
 	// 追従対象からのオフセットを計算する

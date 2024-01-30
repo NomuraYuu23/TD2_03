@@ -14,8 +14,10 @@ public:
 	void SpriteDraw();
 	
 	void ForchNearAnchor(std::vector<Block*>* blockList, BaseCamera& camera,Player* player, std::list<std::unique_ptr<Screw>>* screwList);
-
+	void ForchNearOneMore(std::vector<Block*>* blockList, BaseCamera& camera, Player* player, std::list<std::unique_ptr<Screw>>* screwList,int lr);
+	bool AliveCheck(std::vector<Block*>* blockList);//ターゲット固定時に指定のブロックが生きているかを確認する用
 	bool IsTarget() { return isTarget_; };
+	bool IsLockedChange() { return isLockedChane_; };
 	Block* GetTargetBlock() { return targetBlock_; };
 	size_t GetNumTargetAnchor() { return numTargetAnchor_; };
 private:
@@ -27,4 +29,6 @@ private:
 	int uiNum_=0;
 	uint32_t textureHandle_[2];
 	float targetRange_ = 100.0f;
+	bool isReleseButton_;//長押し制限用
+	bool isLockedChane_;//ターゲットが固定されているか
 };

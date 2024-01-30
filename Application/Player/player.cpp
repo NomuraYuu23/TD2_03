@@ -260,15 +260,16 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 			//worldTransform_.rotation_.y = newDirection.m[1][0] * newDirection.m[1][1] * newDirection.m[1][2];
 			direction_ = move;
 		}
-		if (target_) {
+		if (target_ != nullptr) {
 			//Vector3 toTarget = target_->GetWorldPosition() - worldTransform_.GetWorldPosition();
 			Vector3 toTarget = Vector3Calc::Subtract(target_->GetWorldPosition(), worldTransform_.GetWorldPosition());
 			toTarget.y = 0;
+			direction_ = toTarget;
 			directionMatrix_ = Matrix4x4Calc::DirectionToDirection(Vector3Calc::Normalize(Vector3{ 0.0f,0.0f,1.0f }), Vector3Calc::Normalize(toTarget));
 		}
-		//worldTransform_.transform_.translate += move;
-		worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate,move);
-
+		else {
+			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, move);
+		}
 		// アニメーション
 		if (Vector3Calc::Length(move) == 0.0f) {
 			playerAnimationNo_ = kPlayerAnimationIndexStand;
