@@ -26,6 +26,7 @@
 #include "../../ShadowManager/ShadowManager.h"
 
 #include "../../ClearMigration/ClearMigration.h"
+#include "../../MissionData/MissionData.h"
 class GameScene : public IScene
 {
 
@@ -179,5 +180,8 @@ private:
 	// ポーズ
 	std::unique_ptr<Pause> pause_;
 	std::array<uint32_t, Pause::PauseTextureIndex::kPausingTextureIndexOfCount> pauseTextureHandles_;
+
+	// ミッションデータ
+	MissionData* missionData_ = nullptr;
 
 };

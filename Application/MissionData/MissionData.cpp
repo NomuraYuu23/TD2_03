@@ -53,6 +53,7 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 		}
 		else {
 			isCompleteBlock_ = true;
+			isBlockBeenUpdate_ = true;
 		}
 	}
 
@@ -71,6 +72,10 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 				size_t nextTarget = point[size_t(RandomEngine::GetRandom(0.0f, float(point.size() - 1)))];
 				point.clear();
 				missionNumPoint_ = nextTarget;
+			}
+			else if(!isCompletePoint_){
+				isCompletePoint_ = true;
+				isPointBeenUpdate_ = true;
 			}
 			
 		}

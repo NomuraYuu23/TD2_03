@@ -11,9 +11,11 @@ enum UITextureHandleIndex {
 	kUITextureHandleIndexSymbol, // 記号
 	kUITextureHandleIndexFrame, // フレーム
 	kUITextureHandleIndexMissionFrame, // ミッションフレーム
-	kUITextureHandleIndexMissionText, // ミッションテキスト
+	kUITextureHandleIndexBlockMissionText, // ミッションテキスト
 	kUITextureHandleIndexMissionNum, // ミッション数字
 	kUITextureHandleIndexMissionClear,// ミッションクリア
+	kUITextureHandleIndexPointMissionText, // ポイントミッションテキスト
+	kUITextureHandleIndexFlagColor, // ミッションの旗色
 	kUITextureHandleIndexOfCount
 };
 
@@ -27,16 +29,39 @@ enum UIIndex {
 	kUIIndexTimerSecondsTensPlace, // タイマー秒10の位
 	kUIIndexTimerSecondsOnesPlace, // タイマー秒1の位
 	kUIIndexTimerColon, // タイマーコロン
-	kUIIndexMissionFrame, // ミッションフレーム
-	kUIIndexMissionText, // ミッションテキスト
+
+	kUIIndexMissionBlockFrame, // ブロックミッションフレーム
+	kUIIndexMissionBlockText, // ブロックミッションテキスト
 	kUIIndexMissionNumTensPlace, // ミッション番号10の位
 	kUIIndexMissionNumOnesPlace, // ミッション番号1の位
 	kUIIndexMissionDenominatorTensPlace, // ミッション分母10の位
 	kUIIndexMissionDenominatorOnesPlace, // ミッション分母1の位
 	kUIIndexMissionNumeratorTensPlace, // ミッション分子10の位
 	kUIIndexMissionNumeratorOnesPlace, // ミッション分子1の位
-	kUIIndexMissionClear, // ミッションクリア
+	kUIIndexMissionBlockClear, // ブロックミッションクリア
+
+	kUIIndexMissionPointFrame, // ポイントミッションフレーム
+	kUIIndexMissionPointText, // ポイントミッションテキスト
+	kUIindexMissionFlagColor, // ミッション旗色
+	kUIIndexMissionPointClear, // ポイントミッションクリア
 	kUIIndexOfCount
+};
+
+struct UIManagerUpdateDesc {
+
+	int timer; // 時間
+	uint32_t screwCount; // ねじ
+	
+	int32_t missionBlockCount;// ミッションブロックカウント
+	int blockCount; // ブロックカウント
+	bool missionBlockBeenUpdated; // ブロックミッション更新か
+
+	size_t missionNumPoint_;// ミッションポイントナンバー
+	bool missionPointBeenUpdated; // ポイントミッション更新か
+
+	bool isCompleteBlock; // ブロックのミッションがすべてクリアされたか
+	bool isCompletePoint; //指定位置のミッションがすべてクリアされたか
+
 };
 
 class UIManager
@@ -56,7 +81,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="screwCount">ねじの数</param>
 	/// <param name="energy">エナジー</param>
-	void Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t blockCount, bool missionBeenUpdated, int timer);
+	void Update(const UIManagerUpdateDesc& uiManagerUpdateDesc);
 
 	/// <summary>
 	/// 描画
@@ -74,7 +99,7 @@ private: // メンバ関数
 	/// <summary>
 	/// ミッションアップデート
 	/// </summary>
-	void MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount);
+	void BlockMissionUpdate(uint32_t missionBlockCount, uint32_t blockCount, bool isCompleteBlock);
 
 	/// <summary>
 	/// ブロック更新
@@ -89,18 +114,44 @@ private: // メンバ関数
 	/// <summary>
 	/// 新しいミッション移動
 	/// </summary>
-	void NewMissionMove(float t);
+	void BlockNewMissionMove(float t);
 
 	/// <summary>
 	/// クリアミッション移動
 	/// </summary>
 	/// <param name="t"></param>
-	void ClearMissionUpdate(float t);
+	void BlockClearMissionUpdate(float t);
 
 	/// <summary>
 	/// スタンプ
 	/// </summary>
-	void Stamp();
+	void BlockStamp();
+
+	/// <summary>
+	/// ミッションアップデート
+	/// </summary>
+	void PointMissionUpdate(bool isCompletePoint, size_t num);
+
+	/// <summary>
+	/// スタンプ
+	/// </summary>
+	void PointStamp();
+
+	/// <summary>
+	/// クリアミッション移動
+	/// </summary>
+	void PointClearMissionUpdate(float t);
+
+	/// <summary>
+	/// 新しいミッション移動
+	/// </summary>
+	void PointNewMissionMove(float t);
+
+	/// <summary>
+	/// ミッション旗色
+	/// </summary>
+	void MissionPointNumUpdate(size_t num);
+
 
 private: // メンバ変数
 
@@ -113,23 +164,33 @@ private: // メンバ変数
 	// UI位置
 	std::array<Vector2, UIIndex::kUIIndexOfCount> UIInitPositions_;
 
+	// ブロック
 	// ミッション更新中
-	bool missionBeenUpdate_;
-
+	bool blockMissionBeenUpdate_;
 	// ミッション更新中の色
-	Vector4 missionBeenUpdateColor_;
-
+	Vector4 blockMissionBeenUpdateColor_;
 	// ミッション
-	bool missionBeenUpdateFadeIn_;
-
+	bool blockMissionBeenUpdateFadeIn_;
 	// ハンコが押された
-	bool IsStamped_;
-
+	bool IsBlockStamped_;
 	// ハンコの媒介変数
-	float stampT_;
-
+	float blockStampT_;
 	// ハンコのクールタイム
-	float stampCooltime_;
+	float blockStampCooltime_;
+
+	// ポイント
+	// ミッション更新中
+	bool pointMissionBeenUpdate_;
+	// ミッション更新中の色
+	Vector4 pointMissionBeenUpdateColor_;
+	// ミッション
+	bool pointMissionBeenUpdateFadeIn_;
+	// ハンコが押された
+	bool IsPointStamped_;
+	// ハンコの媒介変数
+	float pointStampT_;
+	// ハンコのクールタイム
+	float pointStampCooltime_;
 
 	// オーディオマネージャー
 	GameAudioManager* audioManager_;

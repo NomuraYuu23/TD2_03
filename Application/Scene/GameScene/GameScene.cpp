@@ -7,7 +7,6 @@
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../Particle/EmitterName.h"
 #include "../../../Engine/Math/DeltaTime.h"
-#include "../../MissionData/MissionData.h"
 #include "../../ForResult/ForResult.h"
 /// <summary>
 /// 初期化
@@ -129,7 +128,8 @@ void GameScene::Initialize() {
 	mission_.push_back(32);
 	mission_.push_back(36);
 	mission_.push_back(40);
-	MissionData::GetInstance()->Initialize();
+	missionData_ = MissionData::GetInstance();
+	missionData_->Initialize();
 	//MissionData::GetInstance()->SetMax(mission_.size());
 	std::vector<MissionData::MissionToPoint>& point = MissionData::GetInstance()->GetMissionPointVector();
 	for (size_t num = 0; num < point.size();num++) {
@@ -390,20 +390,7 @@ void GameScene::Update() {
 		audioManager_->PlayWave(kGameAudioNameIndexUnion1);
 	}
 	// このフレームでミッションが更新されたか
-	bool missionBeenUpdated = false;
-	/*if (mission_[missionNum_] <= connectCount) {
-		if (mission_.size()-1> missionNum_) {
-			missionNum_++;
-			MissionData::GetInstance()->SetMissionNum(missionNum_);
-			missionBeenUpdated = true;
-		}
-		else {
-			requestSceneNo = kClear;
-			ForResult::GetInstance()->connectNum_ = connectCount;
-		}
-	}*/
-	MissionData::GetInstance()->Update(connectCount,player_->GetWorldTransform()->GetWorldPosition());
-	missionBeenUpdated = MissionData::GetInstance()->IsMissionBlockBeenUpdate();
+	missionData_->Update(connectCount,player_->GetWorldTransform()->GetWorldPosition());
 #ifdef _DEBUG
 
 	ImGui::Begin("MISSION");
@@ -452,7 +439,19 @@ void GameScene::Update() {
 			screwCount++;
 		}
 	}
-	uiManager_->Update(screwCount, mission_[missionNum_], connectCount, missionBeenUpdated, gameTimer_);
+
+	UIManagerUpdateDesc uiManagerUpdateDesc = {
+		gameTimer_,
+		screwCount,
+		missionData_->GetMissionBlockVector()[MissionData::GetInstance()->GetMissionNumBlock()],
+		connectCount,
+		missionData_->IsMissionBlockBeenUpdate(),
+		missionData_->GetMissionNumPoint(),
+		missionData_->IsMissionPointBeenUpdate(),
+		missionData_->IsCompleteBlock(),
+		missionData_->IsCompletePoint()
+	};
+	uiManager_->Update(uiManagerUpdateDesc);
 
 	// デバッグカメラ
 	DebugCameraUpdate();
@@ -724,6 +723,8 @@ void GameScene::TextureLoad()
 		TextureManager::Load("Resources/Sprite/Game/UI/ingame_mission_text.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/Sprite/Game/UI/mission_number.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/Sprite/Game/UI/missionClear.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/UI/ingame_mission_destination_text.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/UI/ingame_mission_destinationColor_text.png", dxCommon_,textureHandleManager_.get()),
 	};
 
 	shotUITextureHandle_[0] = TextureManager::Load("Resources/Sprite/Game/UI/ingame_ui_RB.png", dxCommon_, textureHandleManager_.get());
