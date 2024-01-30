@@ -559,7 +559,7 @@ void UIManager::PointMissionUpdate(bool isCompletePoint, size_t num)
 			IsPointStamped_ = false;
 
 			// ミッションクリア
-			UIs_[kUIIndexMissionBlockClear]->SetPosition(UIInitPositions_[kUIIndexMissionBlockClear]);
+			UIs_[kUIIndexMissionPointClear]->SetPosition(UIInitPositions_[kUIIndexMissionPointClear]);
 
 		}
 
