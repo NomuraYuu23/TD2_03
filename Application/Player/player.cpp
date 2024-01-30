@@ -200,6 +200,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 		Screw* anchorScrew = block_->GetAnchorPointScrew(blockNum);
 		//刺す
 		if (!anchorScrew ) {
+			bool isThrow=false;
 			for (std::list<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end();ite++) {
 				if ((*ite)->GetState() == Screw::FOLLOW) {
 					//(*ite)->Throw(worldTransform_.GetWorldPosition(), block_,blockNum);
@@ -208,10 +209,31 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 					holdScrew_ = (*ite).get();
 					blockNum_ = blockNum;
 					behaviorRequest_ = Behavior::kAttack;
+					isThrow = true;
 					break;
 				}
 			}
-			
+			//追従が一体もいなかったとき
+			if (!isThrow) {
+				Screw* screw=nullptr;
+				int length = -1;
+				for (std::list<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end(); ite++) {
+					if ((*ite)->GetState() == Screw::STUCK && (*ite)->GetStackLength()>length) {
+						length = (*ite)->GetStackLength();
+						screw = (*ite).get();
+					}
+				}
+				if (screw) {
+					//(*ite)->Throw(worldTransform_.GetWorldPosition(), block_,blockNum);
+					WorldTransform* magnetWorldTransform = &((*playerAnimation_->GetWorldTransforms())[PlayerPartIndex::kPlayerPartIndexMagnet]);
+					screw->GetTarget()->SetAnchorPointScrew(0, nullptr);
+					screw->Catch(magnetWorldTransform);
+					holdScrew_ = screw;
+					blockNum_ = blockNum;
+					behaviorRequest_ = Behavior::kAttack;
+					isThrow = true;
+				}
+			}
 		}
 	}
 

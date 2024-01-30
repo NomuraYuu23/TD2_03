@@ -242,6 +242,7 @@ void Screw::ToBlock() {
 	if (frameCount_<0) {
 		state_ = STUCK;
 		stuckTime_ = kStuckMax;
+		stuckLength_ = 0;
 	}
 }
 
@@ -280,6 +281,7 @@ void Screw::Stuck(){
 		worldTransform_.transform_.translate.y += 5.0f;
 		audioManager_->PlayWave(kGameAudioNameIndexScrewRemove);
 	}
+	stuckLength_++;
 	stuckTime_--;
 }
 

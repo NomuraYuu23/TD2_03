@@ -292,8 +292,8 @@ void GameScene::Update() {
 		if ((*block)->GetIsCenter() ) {
 				collisionManager_->ListRegister((*block)->GetCollider());
 		}
-		else if ((*block)->GetIsConnect() && (*block)->GetAnchorPointScrew(0)) {
-			if (!(*block)->GetAnchorPointScrew(0)->GetIsPinch()) {
+		else if ((*block)->GetIsConnect() && (*block)->GetAnchorPointScrew(0) ) {
+			if (!(*block)->GetAnchorPointScrew(0)->GetIsPinch() && !(*block)->GetAnchorPointScrew(0)->GetIsFirstStuck()) {
 				//(*block)->SetIsConnect(false);
 				collisionManager_->ListRegister((*block)->GetCollider());
 			}
@@ -321,6 +321,27 @@ void GameScene::Update() {
 	}
 	else {
 		player_->SetTarget(nullptr);
+	}
+
+	int followCount=0;
+	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+		(*block)->SetIsFirstStuck(false);
+		if ((*block)->GetState() == Screw::FOLLOW){
+			followCount++;
+		}
+	}
+	if (followCount == 0) {
+		Screw* screw = nullptr;
+		int length = -1;
+		for (std::list<std::unique_ptr<Screw>>::iterator ite = screws_.begin(); ite != screws_.end(); ite++) {
+			if ((*ite)->GetState() == Screw::STUCK && (*ite)->GetStackLength() > length) {
+				length = (*ite)->GetStackLength();
+				screw = (*ite).get();
+			}
+		}
+		if (screw) {
+			screw->SetIsFirstStuck(true);
+		}
 	}
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
