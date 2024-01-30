@@ -21,17 +21,30 @@ void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUIT
 		UIInitPositions_[i] = UIs_[i]->GetPosition();
 	}
 
-	missionBeenUpdate_ = false;
+	blockMissionBeenUpdate_ = false;
 
-	missionBeenUpdateColor_ = {1.0f,1.0f,1.0f,1.0f };
+	blockMissionBeenUpdateColor_ = {1.0f,1.0f,1.0f,1.0f };
 
-	missionBeenUpdateFadeIn_ = false;
+	blockMissionBeenUpdateFadeIn_ = false;
 
-	IsStamped_ = false;
+	IsBlockStamped_ = false;
 
-	stampT_ = 0.0f;
+	blockStampT_ = 0.0f;
 
-	stampCooltime_ = 0.0f;
+	blockStampCooltime_ = 0.0f;
+
+	// ミッション更新中
+	pointMissionBeenUpdate_ = false;
+	// ミッション更新中の色
+	pointMissionBeenUpdateColor_ = { 1.0f,1.0f,1.0f,1.0f };
+	// ミッション
+	pointMissionBeenUpdateFadeIn_ = false;
+	// ハンコが押された
+	IsPointStamped_ = false;
+	// ハンコの媒介変数
+	pointStampT_ = 0.0f;
+	// ハンコのクールタイム
+	pointStampCooltime_ = 0.0f;
 
 }
 
@@ -65,24 +78,25 @@ void UIManager::Update(const UIManagerUpdateDesc& uiManagerUpdateDesc)
 	UIs_[kUIIndexTimerColon]->Update();
 
 	// ミッションクリア
-	UIs_[kUIIndexMissionClear]->Update();
+	UIs_[kUIIndexMissionBlockClear]->Update();
 
+	// ブロックアップデート確認
 	if (uiManagerUpdateDesc.missionBlockBeenUpdated) {
-		missionBeenUpdate_ = true;
-		UIs_[kUIIndexMissionClear]->SetIsInvisible(false);
-		stampT_ = 0.0f;
+		blockMissionBeenUpdate_ = true;
+		UIs_[kUIIndexMissionBlockClear]->SetIsInvisible(false);
+		blockStampT_ = 0.0f;
 		audioManager_->PlayWave(kGameAudioNameIndexMissionClear);
 	}
 
-	//アップデート中
-	if (missionBeenUpdate_) {
-		MissionUpdate(uiManagerUpdateDesc.missionBlockCount, uiManagerUpdateDesc.blockCount, uiManagerUpdateDesc.isCompleteBlock);
+	//ブロックアップデート中
+	if (blockMissionBeenUpdate_) {
+		BlockMissionUpdate(uiManagerUpdateDesc.missionBlockCount, uiManagerUpdateDesc.blockCount, uiManagerUpdateDesc.isCompleteBlock);
 	}
 	else {
 		// ミッションフレーム
-		UIs_[kUIIndexMissionFrame]->Update();
+		UIs_[kUIIndexMissionBlockFrame]->Update();
 		// ミッションテキスト
-		UIs_[kUIIndexMissionText]->Update();
+		UIs_[kUIIndexMissionBlockText]->Update();
 
 		// ミッションブロック更新
 		MissionBlockCountUpdate(uiManagerUpdateDesc.missionBlockCount);
@@ -92,8 +106,27 @@ void UIManager::Update(const UIManagerUpdateDesc& uiManagerUpdateDesc)
 
 	}
 
-	// ミッション2フレーム
-	UIs_[kUIIndexMission2Frame]->Update();
+	// ポイントアップデート確認
+	if (uiManagerUpdateDesc.missionPointBeenUpdated) {
+		pointMissionBeenUpdate_ = true;
+		UIs_[kUIIndexMissionPointClear]->SetIsInvisible(false);
+		pointStampT_ = 0.0f;
+		audioManager_->PlayWave(kGameAudioNameIndexMissionClear);
+	}
+
+	//ぽいんとアップデート中
+	if (pointMissionBeenUpdate_) {
+		PointMissionUpdate(uiManagerUpdateDesc.isCompletePoint, uiManagerUpdateDesc.missionNumPoint_);
+	}
+	else {
+		// ミッション2フレーム
+		UIs_[kUIIndexMissionPointFrame]->Update();
+		// ミッションテキスト
+		UIs_[kUIIndexMissionPointText]->Update();
+
+		MissionPointNumUpdate(uiManagerUpdateDesc.missionNumPoint_);
+
+	}
 
 }
 
@@ -116,6 +149,7 @@ void UIManager::UIInitialize()
 	Vector2 missionFrameSize = { 1748.0f, 300.0f };
 	Vector2 missionTextSize = { 1748.0f, 300.0f};
 	Vector2 missionClearSize = {800.0f, 700.0f};
+	Vector2 missionFlagColorSize = {135.0f, 135.0f};
 
 	// フレーム
 	leftTop = { 0.0f, 0.0f };
@@ -156,13 +190,13 @@ void UIManager::UIInitialize()
 	UIs_[kUIIndexTimerColon] = std::make_unique<UISymbol>();
 	UIs_[kUIIndexTimerColon]->Initialize(textureHandles_[kUITextureHandleIndexSymbol], "UITimerColon", symbolSize, leftTop);
 
-	// ミッションフレーム
-	UIs_[kUIIndexMissionFrame] = std::make_unique<UIMissionFrame>();
-	UIs_[kUIIndexMissionFrame]->Initialize(textureHandles_[kUITextureHandleIndexMissionFrame], "UIMissionFrame", missionFrameSize, leftTop);
+	// ブロックミッションフレーム
+	UIs_[kUIIndexMissionBlockFrame] = std::make_unique<UIMissionFrame>();
+	UIs_[kUIIndexMissionBlockFrame]->Initialize(textureHandles_[kUITextureHandleIndexMissionFrame], "UIMissionFrame", missionFrameSize, leftTop);
 
 	// ミッションテキスト
-	UIs_[kUIIndexMissionText] = std::make_unique<UIMissionText>();
-	UIs_[kUIIndexMissionText]->Initialize(textureHandles_[kUITextureHandleIndexMissionText], "UIMissionText", missionTextSize, leftTop);
+	UIs_[kUIIndexMissionBlockText] = std::make_unique<UIMissionText>();
+	UIs_[kUIIndexMissionBlockText]->Initialize(textureHandles_[kUITextureHandleIndexBlockMissionText], "UIMissionText", missionTextSize, leftTop);
 
 	// ミッション番号1の位
 	UIs_[kUIIndexMissionNumTensPlace] = std::make_unique<UINumber>();
@@ -185,18 +219,31 @@ void UIManager::UIInitialize()
 	UIs_[kUIIndexMissionNumeratorOnesPlace] = std::make_unique<UINumber>();
 	UIs_[kUIIndexMissionNumeratorOnesPlace]->Initialize(textureHandles_[kUITextureHandleIndexMissionNum], "UIMissionNumeratorOnesPlace", numberSize, leftTop);
 
-	// ミッションクリア
-	UIs_[kUIIndexMissionClear] = std::make_unique<UIMissionClear>();
-	UIs_[kUIIndexMissionClear]->Initialize(textureHandles_[kUITextureHandleIndexMissionClear], "UIMissionClear", missionClearSize, leftTop);
-	UIs_[kUIIndexMissionClear]->SetIsInvisible(true);
+	// ブロックミッションクリア
+	UIs_[kUIIndexMissionBlockClear] = std::make_unique<UIMissionClear>();
+	UIs_[kUIIndexMissionBlockClear]->Initialize(textureHandles_[kUITextureHandleIndexMissionClear], "UIMissionClear", missionClearSize, leftTop);
+	UIs_[kUIIndexMissionBlockClear]->SetIsInvisible(true);
 
-	// ミッション2フレーム
-	UIs_[kUIIndexMission2Frame] = std::make_unique<UIMissionFrame>();
-	UIs_[kUIIndexMission2Frame]->Initialize(textureHandles_[kUITextureHandleIndexMissionFrame], "UIMission2Frame", missionFrameSize, leftTop);
+	// ポイントミッションフレーム
+	UIs_[kUIIndexMissionPointFrame] = std::make_unique<UIMissionFrame>();
+	UIs_[kUIIndexMissionPointFrame]->Initialize(textureHandles_[kUITextureHandleIndexMissionFrame], "UIMission2Frame", missionFrameSize, leftTop);
+
+	// ポイントミッションテキスト
+	UIs_[kUIIndexMissionPointText] = std::make_unique<UIMissionText>();
+	UIs_[kUIIndexMissionPointText]->Initialize(textureHandles_[kUITextureHandleIndexPointMissionText], "UIMission2Text", missionTextSize, leftTop);
+
+	// ミッション旗色
+	UIs_[kUIindexMissionFlagColor] = std::make_unique<UIMissionText>();
+	UIs_[kUIindexMissionFlagColor]->Initialize(textureHandles_[kUITextureHandleIndexFlagColor], "UIMissionFlagColor", missionFlagColorSize, leftTop);
+	
+	// ポイントミッションクリア
+	UIs_[kUIIndexMissionPointClear] = std::make_unique<UIMissionClear>();
+	UIs_[kUIIndexMissionPointClear]->Initialize(textureHandles_[kUITextureHandleIndexMissionClear], "UIMission2Clear", missionClearSize, leftTop);
+	UIs_[kUIIndexMissionPointClear]->SetIsInvisible(true);
 
 }
 
-void UIManager::MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount, bool isCompleteBlock)
+void UIManager::BlockMissionUpdate(uint32_t missionBlockCount, uint32_t blockCount, bool isCompleteBlock)
 {
 
 	Vector2 leftTop = { 0.0f, 0.0f };
@@ -205,65 +252,66 @@ void UIManager::MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount, b
 	BlockCountUpdate(blockCount);
 
 	// クリア
-	if (!missionBeenUpdateFadeIn_) {
+	if (!blockMissionBeenUpdateFadeIn_) {
 
-		if (!IsStamped_) {
+		if (!IsBlockStamped_) {
 			// ハンコ
-			Stamp();
+			BlockStamp();
 		}
 		else {
 			if (isCompleteBlock) {
-				missionBeenUpdate_ = false;
+				blockMissionBeenUpdate_ = false;
+				return;
 			}
-			missionBeenUpdateColor_.w -= 0.05f;
-			if (missionBeenUpdateColor_.w <= 0.0f) {
-				missionBeenUpdateColor_.w = 0.0f;
-				missionBeenUpdateFadeIn_ = true;
-				UIs_[kUIIndexMissionClear]->SetIsInvisible(true);
+			blockMissionBeenUpdateColor_.w -= 0.05f;
+			if (blockMissionBeenUpdateColor_.w <= 0.0f) {
+				blockMissionBeenUpdateColor_.w = 0.0f;
+				blockMissionBeenUpdateFadeIn_ = true;
+				UIs_[kUIIndexMissionBlockClear]->SetIsInvisible(true);
 				// ミッションブロック更新
 				MissionBlockCountUpdate(missionBlockCount);
 				audioManager_->PlayWave(kGameAudioNameIndexMissionOccurrrence);
 			}
 
-			ClearMissionUpdate((1.0f - missionBeenUpdateColor_.w));
+			BlockClearMissionUpdate((1.0f - blockMissionBeenUpdateColor_.w));
 		}
 
 	}
 	// 新しいものが飛んでくる
 	else {
-		missionBeenUpdateColor_.w += 0.05f;
-		if (missionBeenUpdateColor_.w >= 1.0f) {
-			missionBeenUpdateColor_.w = 1.0f;
-			missionBeenUpdateFadeIn_ = false;
-			missionBeenUpdate_ = false;
-			IsStamped_ = false;
+		blockMissionBeenUpdateColor_.w += 0.05f;
+		if (blockMissionBeenUpdateColor_.w >= 1.0f) {
+			blockMissionBeenUpdateColor_.w = 1.0f;
+			blockMissionBeenUpdateFadeIn_ = false;
+			blockMissionBeenUpdate_ = false;
+			IsBlockStamped_ = false;
 
 			// ミッションクリア
-			UIs_[kUIIndexMissionClear]->SetPosition(UIInitPositions_[kUIIndexMissionClear]);
+			UIs_[kUIIndexMissionBlockClear]->SetPosition(UIInitPositions_[kUIIndexMissionBlockClear]);
 
 		}
 
-		NewMissionMove(missionBeenUpdateColor_.w);
+		BlockNewMissionMove(blockMissionBeenUpdateColor_.w);
 
 	}
 
 	// ミッションフレーム
-	UIs_[kUIIndexMissionFrame]->SetColor(missionBeenUpdateColor_);
+	UIs_[kUIIndexMissionBlockFrame]->SetColor(blockMissionBeenUpdateColor_);
 	// ミッションテキスト
-	UIs_[kUIIndexMissionText]->SetColor(missionBeenUpdateColor_);
+	UIs_[kUIIndexMissionBlockText]->SetColor(blockMissionBeenUpdateColor_);
 
 	// ミッション番号10の位
-	UIs_[kUIIndexMissionNumTensPlace]->SetColor(missionBeenUpdateColor_);
+	UIs_[kUIIndexMissionNumTensPlace]->SetColor(blockMissionBeenUpdateColor_);
 	// ミッション番号1の位
-	UIs_[kUIIndexMissionNumOnesPlace]->SetColor(missionBeenUpdateColor_);
+	UIs_[kUIIndexMissionNumOnesPlace]->SetColor(blockMissionBeenUpdateColor_);
 	// ミッション分母10の位
-	UIs_[kUIIndexMissionDenominatorTensPlace]->SetColor(missionBeenUpdateColor_);
+	UIs_[kUIIndexMissionDenominatorTensPlace]->SetColor(blockMissionBeenUpdateColor_);
 	// ミッション分母1の位
-	UIs_[kUIIndexMissionDenominatorOnesPlace]->SetColor(missionBeenUpdateColor_);
+	UIs_[kUIIndexMissionDenominatorOnesPlace]->SetColor(blockMissionBeenUpdateColor_);
 	// ミッション分子10の位
-	UIs_[kUIIndexMissionNumeratorTensPlace]->SetColor(missionBeenUpdateColor_);
+	UIs_[kUIIndexMissionNumeratorTensPlace]->SetColor(blockMissionBeenUpdateColor_);
 	// ミッション分子1の位
-	UIs_[kUIIndexMissionNumeratorOnesPlace]->SetColor(missionBeenUpdateColor_);
+	UIs_[kUIIndexMissionNumeratorOnesPlace]->SetColor(blockMissionBeenUpdateColor_);
 
 }
 
@@ -338,7 +386,7 @@ void UIManager::MissionBlockCountUpdate(uint32_t missionBlockCount)
 
 }
 
-void UIManager::NewMissionMove(float t)
+void UIManager::BlockNewMissionMove(float t)
 {
 
 	//ミッション位置
@@ -347,15 +395,15 @@ void UIManager::NewMissionMove(float t)
 	float addStart = 520.0f;
 
 	// ミッションフレーム
-	start = UIInitPositions_[kUIIndexMissionFrame];
-	end = UIInitPositions_[kUIIndexMissionFrame];
+	start = UIInitPositions_[kUIIndexMissionBlockFrame];
+	end = UIInitPositions_[kUIIndexMissionBlockFrame];
 	start.x += addStart;
-	UIs_[kUIIndexMissionFrame]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
+	UIs_[kUIIndexMissionBlockFrame]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
 	// ミッションテキスト
-	start = UIInitPositions_[kUIIndexMissionText];
-	end = UIInitPositions_[kUIIndexMissionText];
+	start = UIInitPositions_[kUIIndexMissionBlockText];
+	end = UIInitPositions_[kUIIndexMissionBlockText];
 	start.x += addStart;
-	UIs_[kUIIndexMissionText]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
+	UIs_[kUIIndexMissionBlockText]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
 	// ミッション番号10の位
 	start = UIInitPositions_[kUIIndexMissionNumTensPlace];
 	end = UIInitPositions_[kUIIndexMissionNumTensPlace];
@@ -389,7 +437,7 @@ void UIManager::NewMissionMove(float t)
 
 }
 
-void UIManager::ClearMissionUpdate(float t)
+void UIManager::BlockClearMissionUpdate(float t)
 {
 
 	//ミッション位置
@@ -398,15 +446,15 @@ void UIManager::ClearMissionUpdate(float t)
 	float addEnd = 520.0f;
 
 	// ミッションフレーム
-	start = UIInitPositions_[kUIIndexMissionFrame];
-	end = UIInitPositions_[kUIIndexMissionFrame];
+	start = UIInitPositions_[kUIIndexMissionBlockFrame];
+	end = UIInitPositions_[kUIIndexMissionBlockFrame];
 	end.x += addEnd;
-	UIs_[kUIIndexMissionFrame]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
+	UIs_[kUIIndexMissionBlockFrame]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
 	// ミッションテキスト
-	start = UIInitPositions_[kUIIndexMissionText];
-	end = UIInitPositions_[kUIIndexMissionText];
+	start = UIInitPositions_[kUIIndexMissionBlockText];
+	end = UIInitPositions_[kUIIndexMissionBlockText];
 	end.x += addEnd;
-	UIs_[kUIIndexMissionText]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
+	UIs_[kUIIndexMissionBlockText]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
 	// ミッション番号10の位
 	start = UIInitPositions_[kUIIndexMissionNumTensPlace];
 	end = UIInitPositions_[kUIIndexMissionNumTensPlace];
@@ -439,33 +487,184 @@ void UIManager::ClearMissionUpdate(float t)
 	UIs_[kUIIndexMissionNumeratorOnesPlace]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
 
 	// ミッションクリア
-	start = UIInitPositions_[kUIIndexMissionClear];
-	end = UIInitPositions_[kUIIndexMissionClear];
+	start = UIInitPositions_[kUIIndexMissionBlockClear];
+	end = UIInitPositions_[kUIIndexMissionBlockClear];
 	end.x += addEnd;
-	UIs_[kUIIndexMissionClear]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
+	UIs_[kUIIndexMissionBlockClear]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
 
 }
 
-void UIManager::Stamp()
+void UIManager::BlockStamp()
 {
 
 	float speed = 0.05f;
 
-	stampT_ += speed;
-	if (stampT_ >= 1.0f) {
-		stampT_ = 1.0f;
-		if (stampCooltime_ >= 1.0f) {
-			stampCooltime_ = 0.0f;
-			IsStamped_ = true;
+	blockStampT_ += speed;
+	if (blockStampT_ >= 1.0f) {
+		blockStampT_ = 1.0f;
+		if (blockStampCooltime_ >= 1.0f) {
+			blockStampCooltime_ = 0.0f;
+			IsBlockStamped_ = true;
 		}
 		else {
-			stampCooltime_ += speed;
+			blockStampCooltime_ += speed;
 		}
 	}
 
 	// ミッションクリア
 	Vector2 start = { 120.0f, 105.0f };
 	Vector2 end = { 96.0f, 84.0f };
-	UIs_[kUIIndexMissionClear]->SetSize(Ease::Easing(Ease::EaseName::EaseInBack, start, end, stampT_));
+	UIs_[kUIIndexMissionBlockClear]->SetSize(Ease::Easing(Ease::EaseName::EaseInBack, start, end, blockStampT_));
+
+}
+
+void UIManager::PointMissionUpdate(bool isCompletePoint, size_t num)
+{
+
+	Vector2 leftTop = { 0.0f, 0.0f };
+
+	// クリア
+	if (!pointMissionBeenUpdateFadeIn_) {
+
+		if (!IsPointStamped_) {
+			// ハンコ
+			PointStamp();
+		}
+		else {
+			if (isCompletePoint) {
+				pointMissionBeenUpdate_ = false;
+				return;
+			}
+			pointMissionBeenUpdateColor_.w -= 0.05f;
+			if (pointMissionBeenUpdateColor_.w <= 0.0f) {
+				pointMissionBeenUpdateColor_.w = 0.0f;
+				pointMissionBeenUpdateFadeIn_ = true;
+				UIs_[kUIIndexMissionPointClear]->SetIsInvisible(true);
+
+				MissionPointNumUpdate(num);
+				audioManager_->PlayWave(kGameAudioNameIndexMissionOccurrrence);
+			}
+
+			PointClearMissionUpdate((1.0f - pointMissionBeenUpdateColor_.w));
+		}
+
+	}
+	// 新しいものが飛んでくる
+	else {
+		pointMissionBeenUpdateColor_.w += 0.05f;
+		if (pointMissionBeenUpdateColor_.w >= 1.0f) {
+			pointMissionBeenUpdateColor_.w = 1.0f;
+			pointMissionBeenUpdateFadeIn_ = false;
+			pointMissionBeenUpdate_ = false;
+			IsPointStamped_ = false;
+
+			// ミッションクリア
+			UIs_[kUIIndexMissionBlockClear]->SetPosition(UIInitPositions_[kUIIndexMissionBlockClear]);
+
+		}
+
+		PointNewMissionMove(blockMissionBeenUpdateColor_.w);
+
+	}
+
+	// ミッションフレーム
+	UIs_[kUIIndexMissionPointText]->SetColor(pointMissionBeenUpdateColor_);
+	// ミッションテキスト
+	UIs_[kUIIndexMissionPointText]->SetColor(pointMissionBeenUpdateColor_);
+	// ミッション旗色
+	UIs_[kUIindexMissionFlagColor]->SetColor(pointMissionBeenUpdateColor_);
+
+
+}
+
+void UIManager::PointStamp()
+{
+
+	float speed = 0.05f;
+
+	pointStampT_ += speed;
+	if (pointStampT_ >= 1.0f) {
+		pointStampT_ = 1.0f;
+		if (pointStampCooltime_ >= 1.0f) {
+			pointStampCooltime_ = 0.0f;
+			IsPointStamped_ = true;
+		}
+		else {
+			pointStampCooltime_ += speed;
+		}
+	}
+
+	// ミッションクリア
+	Vector2 start = { 120.0f, 105.0f };
+	Vector2 end = { 96.0f, 84.0f };
+	UIs_[kUIIndexMissionPointClear]->SetSize(Ease::Easing(Ease::EaseName::EaseInBack, start, end, pointStampT_));
+
+}
+
+void UIManager::PointClearMissionUpdate(float t)
+{
+
+	//ミッション位置
+	Vector2 start = { 0.0f,0.0f };
+	Vector2 end = { 0.0f,0.0f };
+	float addEnd = 520.0f;
+
+	// ミッションフレーム
+	start = UIInitPositions_[kUIIndexMissionPointFrame];
+	end = UIInitPositions_[kUIIndexMissionPointFrame];
+	end.x += addEnd;
+	UIs_[kUIIndexMissionPointFrame]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
+	// ミッションテキスト
+	start = UIInitPositions_[kUIIndexMissionPointText];
+	end = UIInitPositions_[kUIIndexMissionPointText];
+	end.x += addEnd;
+	UIs_[kUIIndexMissionPointText]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
+	// 旗色
+	start = UIInitPositions_[kUIindexMissionFlagColor];
+	end = UIInitPositions_[kUIindexMissionFlagColor];
+	end.x += addEnd;
+	UIs_[kUIindexMissionFlagColor]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
+	// クリア
+	start = UIInitPositions_[kUIIndexMissionPointClear];
+	end = UIInitPositions_[kUIIndexMissionPointClear];
+	end.x += addEnd;
+	UIs_[kUIIndexMissionPointClear]->SetPosition(Ease::Easing(Ease::EaseName::EaseOutCubic, start, end, t));
+
+}
+
+void UIManager::PointNewMissionMove(float t)
+{
+
+	//ミッション位置
+	Vector2 start = { 0.0f,0.0f };
+	Vector2 end = { 0.0f,0.0f };
+	float addStart = 520.0f;
+
+	// ミッションフレーム
+	start = UIInitPositions_[kUIIndexMissionPointFrame];
+	end = UIInitPositions_[kUIIndexMissionPointFrame];
+	start.x += addStart;
+	UIs_[kUIIndexMissionPointFrame]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
+	// ミッションテキスト
+	start = UIInitPositions_[kUIIndexMissionPointText];
+	end = UIInitPositions_[kUIIndexMissionPointText];
+	start.x += addStart;
+	UIs_[kUIIndexMissionPointText]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
+	// 旗色
+	start = UIInitPositions_[kUIindexMissionFlagColor];
+	end = UIInitPositions_[kUIindexMissionFlagColor];
+	start.x += addStart;
+	UIs_[kUIindexMissionFlagColor]->SetPosition(Ease::Easing(Ease::EaseName::EaseInCubic, start, end, t));
+
+}
+
+void UIManager::MissionPointNumUpdate(size_t num)
+{
+
+	Vector2 leftTop = { 0.0f,0.0f };
+
+	// ミッション番号1の位
+	leftTop.x = 135.0f * num;
+	UIs_[kUIindexMissionFlagColor]->Update(leftTop);
 
 }
