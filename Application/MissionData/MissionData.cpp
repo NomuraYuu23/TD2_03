@@ -8,14 +8,14 @@ void MissionData::Initialize() {
 
 	missionBlock_.push_back(2);
 	missionBlock_.push_back(6);
-	//missionBlock_.push_back(10);
-	//missionBlock_.push_back(14);
-	//missionBlock_.push_back(20);
-	//missionBlock_.push_back(24);
-	//missionBlock_.push_back(28);
-	//missionBlock_.push_back(32);
-	//missionBlock_.push_back(36);
-	//missionBlock_.push_back(40);
+	missionBlock_.push_back(10);
+	missionBlock_.push_back(14);
+	missionBlock_.push_back(20);
+	missionBlock_.push_back(24);
+	missionBlock_.push_back(28);
+	missionBlock_.push_back(32);
+	missionBlock_.push_back(36);
+	missionBlock_.push_back(40);
 
 	missionPoint_.push_back({20.0f,1.0f,0.0f});
 
