@@ -102,7 +102,7 @@ void Target::ForchNearAnchor(std::vector<Block*>* blockList, BaseCamera& camera,
 		}
 	}
 	if (!isFollow) {
-		return;
+		//return;
 	}
 
 	std::vector<Block*>::iterator ite = blockList->begin();
@@ -189,7 +189,7 @@ void Target::ForchNearOneMore(std::vector<Block*>* blockList, BaseCamera& camera
 		}
 	}
 	if (!isFollow) {
-		return;
+		//return;
 	}
 
 	std::vector<Block*>::iterator ite = blockList->begin();
