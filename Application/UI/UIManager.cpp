@@ -35,7 +35,7 @@ void UIManager::Initialize(const std::array<uint32_t, UITextureHandleIndex::kUIT
 
 }
 
-void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t blockCount, bool missionBeenUpdated, int timer)
+void UIManager::Update(const UIManagerUpdateDesc& uiManagerUpdateDesc)
 {
 
 	Vector2 leftTop = { 0.0f, 0.0f };
@@ -47,19 +47,19 @@ void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t
 	// 残りねじのx
 	UIs_[kUIIndexRemainingScrewsCross]->Update();
 	// 残りねじの数字10の位
-	leftTop.x = 128.0f * static_cast<float>(screwCount / 10);
+	leftTop.x = 128.0f * static_cast<float>(uiManagerUpdateDesc.screwCount / 10);
 	UIs_[kUIIndexRemainingScrewsTensPlace]->Update(leftTop);
 	// 残りねじの数字1の位
-	leftTop.x = 128.0f * static_cast<float>(screwCount % 10);
+	leftTop.x = 128.0f * static_cast<float>(uiManagerUpdateDesc.screwCount % 10);
 	UIs_[kUIIndexRemainingScrewsOnesPlace]->Update(leftTop);
 	// タイマー分
-	leftTop.x = 128.0f * static_cast<float>(timer / 60);
+	leftTop.x = 128.0f * static_cast<float>(uiManagerUpdateDesc.timer / 60);
 	UIs_[kUIIndexTimerMinutes]->Update(leftTop);
 	// タイマー秒10の位
-	leftTop.x = 128.0f * static_cast<float>((timer % 60) / 10);
+	leftTop.x = 128.0f * static_cast<float>((uiManagerUpdateDesc.timer % 60) / 10);
 	UIs_[kUIIndexTimerSecondsTensPlace]->Update(leftTop);
 	// タイマー秒1の位
-	leftTop.x = 128.0f * static_cast<float>((timer % 60) % 10);
+	leftTop.x = 128.0f * static_cast<float>((uiManagerUpdateDesc.timer % 60) % 10);
 	UIs_[kUIIndexTimerSecondsOnesPlace]->Update(leftTop);
 	// タイマーコロン
 	UIs_[kUIIndexTimerColon]->Update();
@@ -67,7 +67,7 @@ void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t
 	// ミッションクリア
 	UIs_[kUIIndexMissionClear]->Update();
 
-	if (missionBeenUpdated) {
+	if (uiManagerUpdateDesc.missionBlockBeenUpdated) {
 		missionBeenUpdate_ = true;
 		UIs_[kUIIndexMissionClear]->SetIsInvisible(false);
 		stampT_ = 0.0f;
@@ -76,7 +76,7 @@ void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t
 
 	//アップデート中
 	if (missionBeenUpdate_) {
-		MissionUpdate(missionBlockCount, blockCount);
+		MissionUpdate(uiManagerUpdateDesc.missionBlockCount, uiManagerUpdateDesc.blockCount, uiManagerUpdateDesc.isCompleteBlock);
 	}
 	else {
 		// ミッションフレーム
@@ -85,10 +85,10 @@ void UIManager::Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t
 		UIs_[kUIIndexMissionText]->Update();
 
 		// ミッションブロック更新
-		MissionBlockCountUpdate(missionBlockCount);
+		MissionBlockCountUpdate(uiManagerUpdateDesc.missionBlockCount);
 
 		// 持っているブロックの数更新
-		BlockCountUpdate(blockCount);
+		BlockCountUpdate(uiManagerUpdateDesc.blockCount);
 
 	}
 
@@ -194,10 +194,9 @@ void UIManager::UIInitialize()
 	UIs_[kUIIndexMission2Frame] = std::make_unique<UIMissionFrame>();
 	UIs_[kUIIndexMission2Frame]->Initialize(textureHandles_[kUITextureHandleIndexMissionFrame], "UIMission2Frame", missionFrameSize, leftTop);
 
-
 }
 
-void UIManager::MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount)
+void UIManager::MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount, bool isCompleteBlock)
 {
 
 	Vector2 leftTop = { 0.0f, 0.0f };
@@ -213,6 +212,9 @@ void UIManager::MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount)
 			Stamp();
 		}
 		else {
+			if (isCompleteBlock) {
+				missionBeenUpdate_ = false;
+			}
 			missionBeenUpdateColor_.w -= 0.05f;
 			if (missionBeenUpdateColor_.w <= 0.0f) {
 				missionBeenUpdateColor_.w = 0.0f;

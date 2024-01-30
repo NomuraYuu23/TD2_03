@@ -40,6 +40,23 @@ enum UIIndex {
 	kUIIndexOfCount
 };
 
+struct UIManagerUpdateDesc {
+
+	int timer; // 時間
+	uint32_t screwCount; // ねじ
+	
+	int32_t missionBlockCount;// ミッションブロックカウント
+	int blockCount; // ブロックカウント
+	bool missionBlockBeenUpdated; // ブロックミッション更新か
+
+	size_t missionNumPoint_;// ミッションポイントナンバー
+	bool missionPointBeenUpdated; // ポイントミッション更新か
+
+	bool isCompleteBlock; // ブロックのミッションがすべてクリアされたか
+	bool isCompletePoint; //指定位置のミッションがすべてクリアされたか
+
+};
+
 class UIManager
 {
 
@@ -57,7 +74,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="screwCount">ねじの数</param>
 	/// <param name="energy">エナジー</param>
-	void Update(uint32_t screwCount, uint32_t missionBlockCount, uint32_t blockCount, bool missionBeenUpdated, int timer);
+	void Update(const UIManagerUpdateDesc& uiManagerUpdateDesc);
 
 	/// <summary>
 	/// 描画
@@ -75,7 +92,7 @@ private: // メンバ関数
 	/// <summary>
 	/// ミッションアップデート
 	/// </summary>
-	void MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount);
+	void MissionUpdate(uint32_t missionBlockCount, uint32_t blockCount, bool isCompleteBlock);
 
 	/// <summary>
 	/// ブロック更新

@@ -34,6 +34,7 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 		}
 		else {
 			isCompleteBlock_ = true;
+			isBlockBeenUpdate_ = true;
 		}
 	}
 

@@ -42,6 +42,9 @@ public:
 
 	std::vector<int32_t>& GetMissionBlockVector() { return missionBlock_; }
 
+	bool IsCompleteBlock() { return isCompleteBlock_; }
+	bool IsCompletePoint() { return isCompletePoint_; }
+
 private:
 	//size_t missionNum_;
 	size_t missionMax_;
