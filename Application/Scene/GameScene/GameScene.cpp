@@ -227,7 +227,7 @@ void GameScene::Update() {
 			oldConnectCount++;
 		}
 	}
-	ufoManager_->Update();
+	//ufoManager_->Update();
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		(*block)->Update();
 		if ((*block)->GetIsDead()) {
