@@ -59,7 +59,7 @@ void GameScene::Initialize() {
 		screw.reset(new Screw);
 		screw->Initialize();
 		screw->SetPlayer(player_.get());
-		screw->SetSweatTextureHandle(TextureManager::Load("Resources/Sprite/Game/drops.png", dxCommon_, textureHandleManager_.get()));
+		screw->SetSweatTextureHandle(dropTextureHandle_);
 		screws_.push_back(std::move(screw));
 	}
 
@@ -347,6 +347,21 @@ void GameScene::Update() {
 		}
 	}
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
+	size_t addNum = 0;
+	if (missionData_->IsMissionBlockBeenUpdate()) {
+		addNum += missionData_->GetAddScrewNumBlock();
+	}
+	if (missionData_->IsMissionPointBeenUpdate()) {
+		addNum += missionData_->GetAddScrewNumPoint();
+	}
+	for (size_t t = 0; t < addNum;t++) {
+		std::unique_ptr<Screw> screw;
+		screw.reset(new Screw);
+		screw->Initialize();
+		screw->SetPlayer(player_.get());
+		screw->SetSweatTextureHandle(dropTextureHandle_);
+		screws_.push_back(std::move(screw));
+	}
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Update();
 	}
@@ -363,9 +378,9 @@ void GameScene::Update() {
 
 	collisionManager_->ListClear();
 	collisionManager_->ListRegister(player_->GetCollider());
-	//if (player_->GetIsRideConnectFlooar()) {
+	if (player_->GetIsRideConnectFlooar()) {
 		collisionManager_->ListRegister(player_->GetMagnet()->GetCollider());
-	//}
+	}
 	player_->SetIsRideConnectFlooar(false);
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		if (!(*block)->GetIsDead()) {
@@ -470,7 +485,7 @@ void GameScene::Update() {
 	UIManagerUpdateDesc uiManagerUpdateDesc = {
 		gameTimer_,
 		screwCount,
-		missionData_->GetMissionBlockVector()[MissionData::GetInstance()->GetMissionNumBlock()],
+		missionData_->GetMissionBlockVector()[MissionData::GetInstance()->GetMissionNumBlock()].num,
 		connectCount,
 		missionData_->IsMissionBlockBeenUpdate(),
 		missionData_->GetMissionNumPoint(),
@@ -770,7 +785,7 @@ void GameScene::TextureLoad()
 		TextureManager::Load("Resources/Sprite/Game/Pause/pause_choiceBox.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/default/white2x2.png", dxCommon_,textureHandleManager_.get()),
 	};
-
+	dropTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/drops.png", dxCommon_, textureHandleManager_.get());
 }
 
 void GameScene::LowerVolumeBGM()

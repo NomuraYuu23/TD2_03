@@ -183,5 +183,5 @@ private:
 
 	// ミッションデータ
 	MissionData* missionData_ = nullptr;
-
+	uint32_t dropTextureHandle_;
 };
