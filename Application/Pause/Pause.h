@@ -81,6 +81,11 @@ private: // メンバ関数
 	/// </summary>
 	void InputStick();
 
+	/// <summary>
+	/// アロー移動
+	/// </summary>
+	void ArrowUpdate();
+
 public: // アクセッサ
 
 	bool IsPause() { return isPause_; }
@@ -120,6 +125,14 @@ private: // メンバ変数
 
 	// オーディオマネージャー
 	GameAudioManager* audioManager_;
+
+	// 矢印
+	float arrowLeftPositionX_;
+	float arrowRightPositionX_;
+	float arrowMoveT_;
+	float arrowMoveSpeed_;
+	bool arrowMoveRight_;
+
 
 private: // メンバ変数(スプライト)
 

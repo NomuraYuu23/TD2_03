@@ -1,4 +1,5 @@
 #include "Pause.h"
+#include "../../Engine/Math/Ease.h"
 
 void Pause::Initialize(const std::array<uint32_t, PauseTextureIndex::kPausingTextureIndexOfCount>& textureHandles)
 {
@@ -8,6 +9,12 @@ void Pause::Initialize(const std::array<uint32_t, PauseTextureIndex::kPausingTex
 	pauseMenuSelect_ = PauseMenu::kPauseMenuReturnToGame;
 	goToTheTitle_ = false;
 	textureHandles_ = textureHandles;
+
+	arrowLeftPositionX_ = 350.0f;
+	arrowRightPositionX_ = 370.0f;
+	arrowMoveT_ = 0.0f;
+	arrowMoveSpeed_ = 0.05f;
+	arrowMoveRight_ = false;
 
 	// スプライト
 	Vector4 color = {1.0f,1.0f,1.0f,1.0f};
@@ -104,6 +111,8 @@ void Pause::PoseSwitching()
 			isPause_ = true;
 			goToTheTitle_ = false;
 			pauseMenuSelect_ = PauseMenu::kPauseMenuReturnToGame;
+			arrowMoveT_ = 0.0f;
+			arrowMoveRight_ = false;
 		}
 		audioManager_->PlayWave(kGameAudioNameIndexPauseChice);
 	}
@@ -144,6 +153,8 @@ void Pause::PauseMenuOperation()
 	default:
 		break;
 	}
+
+	ArrowUpdate();
 
 }
 
@@ -220,5 +231,26 @@ void Pause::InputStick()
 		//　クールタイム開始
 		stickColltime_ = 1.0f;
 	}
+
+}
+
+void Pause::ArrowUpdate()
+{
+	
+	Vector2 position = arrowSprite_->GetPosition();
+
+	arrowMoveT_ += arrowMoveSpeed_;
+	if (arrowMoveT_ >= 1.0f) {
+		arrowMoveT_ = 0.0f;
+		arrowMoveRight_ = !arrowMoveRight_;
+	}
+
+	if (arrowMoveRight_) {
+		position.x = Ease::Easing(Ease::EaseName::EaseInQuart, arrowLeftPositionX_, arrowRightPositionX_, arrowMoveT_);
+	}
+	else {
+		position.x = Ease::Easing(Ease::EaseName::Lerp, arrowRightPositionX_, arrowLeftPositionX_, arrowMoveT_);
+	}
+	arrowSprite_->SetPosition(position);
 
 }

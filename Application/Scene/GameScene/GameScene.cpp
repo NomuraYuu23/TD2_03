@@ -227,7 +227,7 @@ void GameScene::Update() {
 			oldConnectCount++;
 		}
 	}
-	ufoManager_->Update();
+	//ufoManager_->Update();
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		(*block)->Update();
 		if ((*block)->GetIsDead()) {
@@ -560,10 +560,6 @@ void GameScene::Draw() {
 		}
 	}
 
-	shadowManager_->Draw(camera_);
-
-	player_->Draw(modelPlayer_.get(), camera_);
-
 	//ufo_->Draw(modelBlock_.get(), camera_);
 	//energy_->Draw(modelBlock_.get(), camera_);
 
@@ -575,6 +571,12 @@ void GameScene::Draw() {
 	if (!MissionData::GetInstance()->GetMissionPointVector()[MissionData::GetInstance()->GetMissionNumPoint()].isClear_) {
 		planets_[MissionData::GetInstance()->GetMissionNumPoint()]->DrawFlag(camera_);
 	}
+
+	shadowManager_->Draw(camera_);
+
+	player_->Draw(modelPlayer_.get(), camera_);
+
+
 #ifdef _DEBUG
 
 	// デバッグ描画
@@ -827,6 +829,12 @@ void GameScene::ShadowUpdate()
 		(*block)->GetWorldTransform()->transform_.scale.y * magnification.y,
 		(*block)->GetWorldTransform()->transform_.scale.z * magnification.z };
 		shadowManager_->ShadowAppearsObjListRegister((*block)->GetWorldTransform()->GetWorldPosition(), size);
+	}
+
+	// プラネット
+	for (std::vector<std::unique_ptr<Planet>>::iterator ite = planets_.begin(); ite != planets_.end(); ite++) {
+		size = { 8.0f, 8.0f, 8.0f };
+		shadowManager_->ShadowAppearsObjListRegister((*ite)->GetWorldTransform()->GetWorldPosition(), size);
 	}
 
 	// 影が出るか
