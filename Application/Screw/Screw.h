@@ -105,4 +105,13 @@ private:
 
 	static GameAudioManager* audioManager_;
 	bool isPinch_ = false;
+
+	// 回転速度
+	Vector3 rotateSpeed_;
+	// 回転速度最大
+	static const float rotateSpeedMax_;
+	// 回転速度最小
+	static const float rotateSpeedMin_;
+
+
 };

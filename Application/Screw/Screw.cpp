@@ -11,6 +11,10 @@
 
 GameAudioManager* Screw::audioManager_ = nullptr;
 
+const float Screw::rotateSpeedMax_ = 0.01f;
+
+const float Screw::rotateSpeedMin_ = -0.01f;
+
 void(Screw::* Screw::stateTable[])() = {
 	&Screw::None,
 	& Screw::Follow,
@@ -73,6 +77,10 @@ void Screw::Initialize() {
 	transformSweatUV_.translate = {0};
 	matSweat_->Update(transformSweatUV_, { 1.0f,1.0f,1.0f,1.0f }, 0, 200);
 	worldTransformSweat_.Initialize();
+
+	std::uniform_real_distribution<float> distributionRotateSpeed(rotateSpeedMin_, rotateSpeedMax_);
+	rotateSpeed_ = { distributionRotateSpeed(randomEngine), distributionRotateSpeed(randomEngine), distributionRotateSpeed(randomEngine) };
+
 }
 void Screw::Update() {
 	isDrawSweat_ = false;
@@ -90,9 +98,9 @@ void Screw::Update() {
 	}
 
 	worldTransform_.usedDirection_ = false;
-	if (state_ == FOLLOW) {
-		worldTransform_.usedDirection_ = true;
-	}
+	//if (state_ == FOLLOW) {
+	//	worldTransform_.usedDirection_ = true;
+	//}
 	if (1|| state_ != STUCK) {
 		GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 		const std::string groupName = "Screw";
@@ -177,7 +185,7 @@ void Screw::Follow() {
 			Vector3 velocity = Vector3Calc::Multiply(kFollowSpeed*followSpeed_, Vector3Calc::Normalize(Vector3Calc::Subtract(Matrix4x4Calc::Transform(followPosition_,player_->GetWorldTransform()->worldMatrix_), worldTransform_.GetWorldPosition())));
 			velocity.y = 0;
 			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity);
-			worldTransform_.direction_ = Vector3Calc::Normalize(velocity);
+			//worldTransform_.direction_ = Vector3Calc::Normalize(velocity);
 		}
 		/*worldTransform_.transform_.translate.y -= 0.3f;
 		if (worldTransform_.transform_.translate.y <= -20.0f) {
@@ -190,6 +198,12 @@ void Screw::Follow() {
 		worldTransform_.transform_.translate = worldTransform_.GetWorldPosition();
 		worldTransform_.parent_ = nullptr;
 	}
+
+	// 回転
+	worldTransform_.transform_.rotate.x = std::fmodf(worldTransform_.transform_.rotate.x + rotateSpeed_.x, 6.28f);
+	worldTransform_.transform_.rotate.y = std::fmodf(worldTransform_.transform_.rotate.y + rotateSpeed_.y, 6.28f);
+	worldTransform_.transform_.rotate.z = std::fmodf(worldTransform_.transform_.rotate.z + rotateSpeed_.z, 6.28f);
+
 }
 
 void Screw::Reverse() {
