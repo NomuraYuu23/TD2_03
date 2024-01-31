@@ -360,7 +360,10 @@ void GameScene::Update() {
 
 	collisionManager_->ListClear();
 	collisionManager_->ListRegister(player_->GetCollider());
-	collisionManager_->ListRegister(player_->GetMagnet()->GetCollider());
+	if (player_->GetIsRideConnectFlooar()) {
+		collisionManager_->ListRegister(player_->GetMagnet()->GetCollider());
+	}
+	player_->SetIsRideConnectFlooar(false);
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		if (!(*block)->GetIsDead()) {
 			collisionManager_->ListRegister((*block)->GetCollider());

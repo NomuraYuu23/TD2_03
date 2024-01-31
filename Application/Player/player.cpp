@@ -182,6 +182,7 @@ void Player::Update(Block* block, size_t blockNum) {
 	worldTransformCircle_.UpdateMatrix();
 
 	isFlooar_ = false;
+	//isRideConnectFlooar_ = false;
 	//preJoyState_ = joyState_;
 }
 
@@ -392,6 +393,9 @@ void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidio
 			isFlooar_ = true;
 		}*/
 		isFlooar_ = true;
+		if (std::get<Block*>(pairObject)->GetIsConnect()) {
+			isRideConnectFlooar_ = true;
+		}
 		float sizeY = std::get<Block*>(pairObject)->GetCollider()->size_.y;
 		worldTransform_.transform_.translate.y = std::get<Block*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + sizeY + worldTransform_.transform_.scale.y;
 		//worldTransform_.UpdateMatrix();
