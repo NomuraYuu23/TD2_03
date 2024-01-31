@@ -37,6 +37,7 @@ public:
 	void SetFlagModel(Model* m) { modelFlag_ = m; };
 	void SetPosition(const Vector3& pos) { position_ = pos; };
 	WorldTransform* GetWorldTransform() { return &worldTransform_; };
+	void SetFlagTexturehandle(uint32_t handle) { flagTextureHandle_ = handle; };
 private: // メンバ関数
 
 	/// <summary>
@@ -68,5 +69,6 @@ private:
 
 	float size_ = 1.0f;
 	std::unique_ptr<OBB> collider_;
+	uint32_t flagTextureHandle_;
 };
 

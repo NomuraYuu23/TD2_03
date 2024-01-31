@@ -140,7 +140,10 @@ void GameScene::Initialize() {
 		planet->SetPosition(point[num].point);
 		planets_.push_back(std::move(planet));
 	}
-
+	planets_[0]->SetFlagTexturehandle(TextureManager::Load("Resources/Model/target_flag/target_flag.png", dxCommon_, textureHandleManager_.get()));
+	planets_[1]->SetFlagTexturehandle(TextureManager::Load("Resources/Model/target_flag/target_flag_blue.png", dxCommon_, textureHandleManager_.get()));
+	planets_[2]->SetFlagTexturehandle(TextureManager::Load("Resources/Model/target_flag/target_flag_yellow.png", dxCommon_, textureHandleManager_.get()));
+	planets_[3]->SetFlagTexturehandle(TextureManager::Load("Resources/Model/target_flag/target_flag_parple.png", dxCommon_, textureHandleManager_.get()));
 	sweatModel_.reset(Model::Create("Resources/default/", "plane.obj", dxCommon_, textureHandleManager_.get()));
 
 	//影
@@ -360,9 +363,9 @@ void GameScene::Update() {
 
 	collisionManager_->ListClear();
 	collisionManager_->ListRegister(player_->GetCollider());
-	if (player_->GetIsRideConnectFlooar()) {
+	//if (player_->GetIsRideConnectFlooar()) {
 		collisionManager_->ListRegister(player_->GetMagnet()->GetCollider());
-	}
+	//}
 	player_->SetIsRideConnectFlooar(false);
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		if (!(*block)->GetIsDead()) {
