@@ -111,4 +111,13 @@ private:
 	bool isPinch_ = false;
 	int stuckLength_;//投げてからの時間(刺さってるのだけカウント)
 	bool isFirstStuck_;//最初に刺さったやつか
+
+	// 回転速度
+	Vector3 rotateSpeed_;
+	// 回転速度最大
+	static const float rotateSpeedMax_;
+	// 回転速度最小
+	static const float rotateSpeedMin_;
+
+
 };
