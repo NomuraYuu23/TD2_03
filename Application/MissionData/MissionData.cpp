@@ -18,10 +18,10 @@ void MissionData::Initialize() {
 	missionBlock_.push_back({ 36 ,false,2 });
 	missionBlock_.push_back({ 40 ,false,2 });
 
-	missionPoint_.push_back({ { 20.0f,1.0f, 0.0f },false,2 });
-	missionPoint_.push_back({ { 20.0f,1.0f,20.0f },false,2 });
-	missionPoint_.push_back({ {-80.0f,1.0f, 0.0f },false,2 });
-	missionPoint_.push_back({ { 20.0f,1.0f,80.0f },false,2 });
+	missionPoint_.push_back({ { 20.0f,1.0f, 0.0f },false,4 });
+	missionPoint_.push_back({ { 20.0f,1.0f,20.0f },false,6 });
+	missionPoint_.push_back({ {-80.0f,1.0f, 0.0f },false,8 });
+	missionPoint_.push_back({ { 20.0f,1.0f,80.0f },false,10 });
 
 	missionMax_ = missionBlock_.size() + missionPoint_.size();
 	clearMissionPointNum_ = 0;
@@ -86,9 +86,10 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 				}
 			}
 			if (!point.empty()) {
-				size_t nextTarget = point[size_t(RandomEngine::GetRandom(0.0f, float(point.size() - 1)))];
+				//size_t nextTarget = point[size_t(RandomEngine::GetRandom(0.0f, float(point.size() - 1)))];
 				point.clear();
-				missionNumPoint_ = nextTarget;
+				//missionNumPoint_ = nextTarget;
+				missionNumPoint_++;
 				isPointBeenUpdate_ = true;
 				clearMissionPointNum_++;
 			}
