@@ -8,21 +8,35 @@ bool IsInnerCamera(const Vector3& vector) {
 	}
 	return false;
 }
-void Target::Initialize(uint32_t textureHandle, uint32_t textureHandle2[2]) {
+void Target::Initialize(uint32_t textureHandle, uint32_t textureHandle2[2], uint32_t arrowTextureHandle, uint32_t lockonTextureHandle) {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const std::string groupName = "Target";
 	globalVariables->AddItem(groupName, "Range", targetRange_);
-
+	globalVariables->AddItem(groupName, "ModePosition",modePosition_);
+	globalVariables->AddItem(groupName, "ModeSize", modeSize_);
 	anchor_.reset(Sprite::Create(textureHandle, { 0,0 }, {1.0f,1.0f,1.0f,1.0f}));
 	ui_.reset(Sprite::Create(textureHandle2[0], {0,0}, {1.0f,1.0f,1.0f,1.0f}));
 	textureHandle_[0] = textureHandle2[0];
 	textureHandle_[1] = textureHandle2[1];
 	isLockedChane_ = false;
+	leftArrow_.reset(Sprite::Create(arrowTextureHandle, { 0,0 }, { 1.0f,1.0f,1.0f,1.0f }));
+	Vector2 size = leftArrow_->GetSize();
+	size.x /= 2.0f;
+	size.y /= 2.0f;
+	leftArrow_->SetSize(size);
+	leftArrow_->SetIsFlipX(true);
+	rightArrow_.reset(Sprite::Create(arrowTextureHandle, { 0,0 }, { 1.0f,1.0f,1.0f,1.0f }));
+	rightArrow_->SetSize(size);
+	modeText_.reset(Sprite::Create(lockonTextureHandle, { 0,0 }, { 1.0f,1.0f,1.0f,1.0f }));
 }
 void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* player, std::list<std::unique_ptr<Screw>>* screwList) {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const std::string groupName = "Target";
 	targetRange_ = globalVariables->GetFloatValue(groupName, "Range");
+	modePosition_ = globalVariables->GetVector2Value(groupName, "ModePosition");
+	modeSize_ = globalVariables->GetVector2Value(groupName, "ModeSize");
+	modeText_->SetPosition(modePosition_);
+	modeText_->SetSize(modeSize_);
 	if (!isLockedChane_) {
 		ForchNearAnchor(blockList, camera, player, screwList);
 	}
@@ -37,11 +51,13 @@ void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* 
 					int lr;
 					if (Input::GetInstance()->GetLeftAnalogstick().x > 0.5f) {
 						lr = 1;
+						rightAnimation_ = 10.0f;
 						ForchNearOneMore(blockList, camera, player, screwList, lr);
 						isReleseButton_ = false;
 					}
 					else if(Input::GetInstance()->GetLeftAnalogstick().x < -0.5f){
 						lr = -1;
+						leftAnimation_ = -10.0f;
 						ForchNearOneMore(blockList, camera, player, screwList, lr);
 						isReleseButton_ = false;
 					}
@@ -68,9 +84,38 @@ void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* 
 	if (isTarget_) {
 		if (Input::GetInstance()->TriggerJoystick(JoystickButton::kJoystickButtonLB)) {
 			isLockedChane_ = !isLockedChane_;
+			modeAlpha_ = 1.0f;
+			alphaDirection_ = -1.0f;
 		}
 		
 	}
+	Vector2 position = anchor_->GetPosition();
+	position.x += -100.0f + leftAnimation_;
+	leftArrow_->SetPosition(position);
+	position = anchor_->GetPosition();
+	position.x += 100.0f + rightAnimation_;
+	rightArrow_->SetPosition(position);
+
+	leftAnimation_+=0.5f;
+	if (leftAnimation_>0) {
+		leftAnimation_ = 0;
+	}
+	rightAnimation_ -= 0.5f;
+	if (rightAnimation_ < 0) {
+		rightAnimation_ = 0;
+	}
+
+	modeAlpha_ += alphaDirection_ / 60.0f;
+	if (modeAlpha_<0) {
+		alphaDirection_ = 1.0f;
+		modeAlpha_ = 0;
+	}
+	if (modeAlpha_ > 1.0f) {
+		alphaDirection_ = -1.0f;
+		modeAlpha_ = 1.0f;
+	}
+	modeText_->SetColor({1.0f,1.0f,1.0f,modeAlpha_});
+
 	if (!isTarget_) {
 		targetBlock_ = nullptr;
 	}
@@ -243,5 +288,10 @@ void Target::SpriteDraw() {
 	if (isTarget_) {
 		anchor_->Draw();
 		ui_->Draw();
+		if (isLockedChane_) {
+			leftArrow_->Draw();
+			rightArrow_->Draw();
+			modeText_->Draw();
+		}
 	}
 }
