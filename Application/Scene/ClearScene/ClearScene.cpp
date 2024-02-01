@@ -7,6 +7,13 @@
 #include "../../ForResult/ForResult.h"
 ClearScene::~ClearScene()
 {
+
+	if (stopAudio_) {
+		for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
+			audioManager_->StopWave(i);
+		}
+	}
+
 }
 
 void ClearScene::Initialize()
