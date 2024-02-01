@@ -89,7 +89,7 @@ private: // ブロック生成
 	/// <summary>
 	/// ブロック生成
 	/// </summary>
-	void GenerationBlock(const Vector3& position, const Vector3& velocity);
+	void GenerationBlock(const Vector3& position, const Vector3& velocity, const Vector3& size);
 
 	/// <summary>
 	/// 中心ブロック生成
@@ -121,9 +121,26 @@ private: // メンバ関数
 	/// <returns></returns>
 	BlockGenerationDirection WhereComeFrom(const Vector3& position);
 
+	/// <summary>
+	/// 位置
+	/// </summary>
+	/// <param name="blockGenerationDirection"></param>
+	/// <param name="position"></param>
+	/// <returns></returns>
 	Vector3 CreatePosition(BlockGenerationDirection blockGenerationDirection, const Vector3& position);
-
+	
+	/// <summary>
+	/// 速度
+	/// </summary>
+	/// <param name="blockGenerationDirection"></param>
+	/// <returns></returns>
 	Vector3 CreateVelocity(BlockGenerationDirection blockGenerationDirection);
+
+	/// <summary>
+	/// サイズ
+	/// </summary>
+	/// <returns></returns>
+	Vector3 CreateSize();
 
 	/// <summary>
 	/// マテリアル初期化

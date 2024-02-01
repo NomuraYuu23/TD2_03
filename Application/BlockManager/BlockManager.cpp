@@ -62,34 +62,35 @@ void BlockManager::Initialize(Model* model)
 	GenerationCenterBlock();
 	Vector3 position = { 2.0f, 0.0f, 60.0f };
 	Vector3 velocity = { 0.1f, 0.0f, 0.0f };
-	GenerationBlock(position, velocity);
+	Vector3 size = { 2.0f, 2.0f, 2.0f };
+	GenerationBlock(position, velocity, size);
 
 	position = { -200.0f,0.0f,-30.0f };
-	GenerationBlock(position, velocity);
+	GenerationBlock(position, velocity, size);
 
 	position = { -230.0f,0.0f,-50.0f };
-	GenerationBlock(position, velocity);
+	GenerationBlock(position, velocity, size);
 
 	position = { -250.0f,0.0f,-30.0f };
-	GenerationBlock(position, velocity);
+	GenerationBlock(position, velocity, size);
 
 	position = { -300.0f,0.0f,-50.0f };
-	GenerationBlock(position, velocity);
+	GenerationBlock(position, velocity, size);
 
 	position = { -320.0f,0.0f,-30.0f };
-	GenerationBlock(position, velocity);
+	GenerationBlock(position, velocity, size);
 
 	position = { -340.0f,0.0f,-60.0f };
-	GenerationBlock(position, velocity);
+	GenerationBlock(position, velocity, size);
 
 	position = { -400.0f,0.0f,-80.0f };
-	GenerationBlock(position, velocity);
+	GenerationBlock(position, velocity, size);
 
 	position = { -420.0f,0.0f,-30.0f };
-	GenerationBlock(position, velocity);
+	GenerationBlock(position, velocity, size);
 
 	position = { -440.0f,0.0f,-70.0f };
-	GenerationBlock(position, velocity);
+	GenerationBlock(position, velocity, size);
 
 }
 
@@ -133,8 +134,11 @@ void BlockManager::Update()
 			// 速度は
 			Vector3 velocity = CreateVelocity(blockGenerationDirection_);
 
+			// 大きさは
+			Vector3 size = CreateSize();
+
 			// 生成
-			GenerationBlock(position, velocity);
+			GenerationBlock(position, velocity, size);
 
 		}
 	}
@@ -162,9 +166,14 @@ void BlockManager::RangeControl()
 
 	blocks_.remove_if([=](Block* block) {
 		
+		if (block->GetIsConnect()) {
+			return false;
+		}
+
 		// ブロックの位置取得
 		Vector3 blockPosition = block->GetAnchorPointWorldPosition(0);
 		
+
 		// ブロックが範囲を超えていたら削除
 		if (blockPosition.x > playerPosition.x + maxBlockPosition_.x ||
 			blockPosition.y > playerPosition.y + maxBlockPosition_.y ||
@@ -172,6 +181,11 @@ void BlockManager::RangeControl()
 			blockPosition.x < playerPosition.x + minBlockPosition_.x ||
 			blockPosition.y < playerPosition.y + minBlockPosition_.y ||
 			blockPosition.z < playerPosition.z + minBlockPosition_.z) {
+
+			if (block->GetAnchorPointScrew(0)) {
+				block->GetAnchorPointScrew(0)->SetState(Screw::State::NONE);
+				block->GetAnchorPointScrew(0)->SetTarget(nullptr);
+			}
 			delete block;
 			return true;
 		}
@@ -331,13 +345,37 @@ Vector3 BlockManager::CreateVelocity(BlockGenerationDirection blockGenerationDir
 
 }
 
-void BlockManager::GenerationBlock(const Vector3& position, const Vector3& velocity)
+Vector3 BlockManager::CreateSize()
+{
+
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());
+	Vector3 result = {};
+
+	Vector3 size = blockSize_[0];
+	std::uniform_real_distribution<float> distributionSpeed(0, 1.0f);
+	float SizeLottery = distributionSpeed(randomEngine);
+	if (SizeLottery < 0.33f) {
+		size = blockSize_[0];
+	}
+	else if (SizeLottery < 0.66f) {
+		size = blockSize_[1];
+	}
+	else {
+		size = blockSize_[2];
+	}
+
+	return size;
+}
+
+void BlockManager::GenerationBlock(const Vector3& position, const Vector3& velocity, const Vector3& size)
 {
 
 	Block* newBlock = new Block();
 	newBlock->Initialize();
 	newBlock->SetWorldPosition(position);
 	newBlock->SetVelocity(velocity);
+	newBlock->SetSize(size);
 	blocks_.push_back(newBlock);
 
 }
