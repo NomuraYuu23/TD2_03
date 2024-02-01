@@ -18,10 +18,10 @@ void MissionData::Initialize() {
 	missionBlock_.push_back({ 36 ,false,2 });
 	missionBlock_.push_back({ 40 ,false,2 });
 
-	missionPoint_.push_back({ { 20.0f,1.0f, 0.0f },false,2 });
-	missionPoint_.push_back({ { 20.0f,1.0f,20.0f },false,2 });
-	missionPoint_.push_back({ {-80.0f,1.0f, 0.0f },false,2 });
-	missionPoint_.push_back({ { 20.0f,1.0f,80.0f },false,2 });
+	missionPoint_.push_back({ { 20.0f,1.0f, 0.0f },false,4 });
+	missionPoint_.push_back({ { 20.0f,1.0f,20.0f },false,6 });
+	missionPoint_.push_back({ {-80.0f,1.0f, 0.0f },false,8 });
+	missionPoint_.push_back({ { 20.0f,1.0f,80.0f },false,10 });
 
 	missionMax_ = missionBlock_.size() + missionPoint_.size();
 	clearMissionPointNum_ = 0;
@@ -32,6 +32,14 @@ void MissionData::Initialize() {
 	globalVariables->AddItem(groupName, "1Position", missionPoint_[1].point);
 	globalVariables->AddItem(groupName, "2Position", missionPoint_[2].point);
 	globalVariables->AddItem(groupName, "3Position", missionPoint_[3].point);
+	globalVariables->AddItem(groupName, "0RotateY", 0.0f);
+	globalVariables->AddItem(groupName, "1RotateY", 0.0f);
+	globalVariables->AddItem(groupName, "2RotateY", 0.0f);
+	globalVariables->AddItem(groupName, "3RotateY", 0.0f);
+	isCompleteBlock_ = false;
+	isCompletePoint_ = false;
+	isBlockBeenUpdate_ = false;
+	isPointBeenUpdate_ = false;
 }
 
 void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPosition) {
@@ -42,6 +50,11 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 	missionPoint_[1].point = globalVariables->GetVector3Value(groupName, "1Position");
 	missionPoint_[2].point = globalVariables->GetVector3Value(groupName, "2Position");
 	missionPoint_[3].point = globalVariables->GetVector3Value(groupName, "3Position");
+	missionPoint_[0].rotateY = globalVariables->GetFloatValue(groupName, "0RotateY");
+	missionPoint_[1].rotateY = globalVariables->GetFloatValue(groupName, "1RotateY");
+	missionPoint_[2].rotateY = globalVariables->GetFloatValue(groupName, "2RotateY");
+	missionPoint_[3].rotateY = globalVariables->GetFloatValue(groupName, "3RotateY");
+
 	addScrewNumBlock_ = 0;
 	addScrewNumPoint_ = 0;
 	isBlockBeenUpdate_ = false;
@@ -73,14 +86,17 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 				}
 			}
 			if (!point.empty()) {
-				size_t nextTarget = point[size_t(RandomEngine::GetRandom(0.0f, float(point.size() - 1)))];
+				//size_t nextTarget = point[size_t(RandomEngine::GetRandom(0.0f, float(point.size() - 1)))];
 				point.clear();
-				missionNumPoint_ = nextTarget;
+				//missionNumPoint_ = nextTarget;
+				missionNumPoint_++;
 				isPointBeenUpdate_ = true;
+				clearMissionPointNum_++;
 			}
 			else if(!isCompletePoint_){
 				isCompletePoint_ = true;
 				isPointBeenUpdate_ = true;
+				clearMissionPointNum_++;
 			}
 			
 		}

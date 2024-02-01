@@ -235,7 +235,7 @@ void GameScene::Update() {
 	std::vector<MissionData::MissionToPoint>& point = MissionData::GetInstance()->GetMissionPointVector();
 	for (size_t num = 0; num < point.size(); num++) {
 		planets_[num]->SetPosition(point[num].point);
-		
+		planets_[num]->SetFlagRotateY(point[num].rotateY);
 	}
 
 	//screws_.
