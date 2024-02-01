@@ -29,7 +29,7 @@ void TitleScene::Initialize()
 
 	buttonPosition_ = { 640.0f, 560.0f };
 	buttonSprite_.reset(Sprite::Create(buttonTextureHandle_, buttonPosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
-	buttonSprite_->SetTextureSize(Vector2{ 384.0f, 384.0f });
+	buttonSprite_->SetTextureSize(Vector2{ 450.0f, 450.0f });
 	buttonSprite_->SetSize(Vector2{ 128.0f, 128.0f });
 	buttonSprite_->SetTextureLeftTop(Vector2{0.0f, 0.0f});
 	buttonSize_ = { 128.0f, 128.0f };
@@ -37,6 +37,8 @@ void TitleScene::Initialize()
 	buttonAlphaTSpeed_ = 0.01f;
 	buttonItIncreaseAlphaT_ = true;
 	buttonColor_ = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+	startSprite_.reset(Sprite::Create(startTextureHandle_, startPosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 
 	audioManager_ = std::make_unique<TitleAudioManager>();
 	audioManager_->StaticInitialize();
@@ -127,7 +129,7 @@ void TitleScene::Update()
 	}
 	buttonColor_.w = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 1.0f, buttonAlphaT_);
 	buttonSprite_->SetColor(buttonColor_);
-
+	startSprite_->SetColor({1.0f,1.0f,1.0f,buttonColor_.w});
 }
 
 void TitleScene::Draw()
@@ -177,7 +179,7 @@ void TitleScene::Draw()
 	//前景スプライト描画
 	titleSprite_->Draw();
 	buttonSprite_->Draw();
-
+	startSprite_->Draw();
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -217,7 +219,7 @@ void TitleScene::TextureLoad()
 
 	buttonTextureHandle_ = TextureManager::Load("Resources/Sprite/Common/controler_UI_A.png", dxCommon_, textureHandleManager_.get());
 	titleTextureHandle_ = TextureManager::Load("Resources/Sprite/Title/title.png", dxCommon_, textureHandleManager_.get());
-
+	startTextureHandle_ = TextureManager::Load("Resources/Sprite/Title/title_startUI.png", dxCommon_, textureHandleManager_.get());
 }
 
 void TitleScene::LowerVolumeBGM()
@@ -258,6 +260,10 @@ void TitleScene::SpriteRegisteringGlobalVariables()
 	globalVariables->AddItem(groupName, objName + "Position", buttonPosition_);
 	globalVariables->AddItem(groupName, objName + "Size", buttonSize_);
 
+	// 
+	objName = "StartSprite";
+	globalVariables->AddItem(groupName, objName + "Position", startPosition_);
+	globalVariables->AddItem(groupName, objName + "Size", startSize_);
 }
 
 void TitleScene::SpriteApplyGlobalVariables()
@@ -284,5 +290,14 @@ void TitleScene::SpriteApplyGlobalVariables()
 
 	buttonSize_ = globalVariables->GetVector2Value(groupName, objName + "Size");
 	buttonSprite_->SetSize(buttonSize_);
+
+	// 
+	objName = "StartSprite";
+
+	startPosition_ = globalVariables->GetVector2Value(groupName, objName + "Position");
+	startSprite_->SetPosition(startPosition_);
+
+	startSize_ = globalVariables->GetVector2Value(groupName, objName + "Size");
+	startSprite_->SetSize(startSize_);
 
 }
