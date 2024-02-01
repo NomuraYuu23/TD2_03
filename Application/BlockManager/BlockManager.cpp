@@ -58,39 +58,7 @@ void BlockManager::Initialize(Model* model)
 
 
 	// ブロック
-	
 	GenerationCenterBlock();
-	Vector3 position = { 2.0f, 0.0f, 60.0f };
-	Vector3 velocity = { 0.1f, 0.0f, 0.0f };
-	Vector3 size = { 2.0f, 2.0f, 2.0f };
-	GenerationBlock(position, velocity, size);
-
-	position = { -200.0f,0.0f,-30.0f };
-	GenerationBlock(position, velocity, size);
-
-	position = { -230.0f,0.0f,-50.0f };
-	GenerationBlock(position, velocity, size);
-
-	position = { -250.0f,0.0f,-30.0f };
-	GenerationBlock(position, velocity, size);
-
-	position = { -300.0f,0.0f,-50.0f };
-	GenerationBlock(position, velocity, size);
-
-	position = { -320.0f,0.0f,-30.0f };
-	GenerationBlock(position, velocity, size);
-
-	position = { -340.0f,0.0f,-60.0f };
-	GenerationBlock(position, velocity, size);
-
-	position = { -400.0f,0.0f,-80.0f };
-	GenerationBlock(position, velocity, size);
-
-	position = { -420.0f,0.0f,-30.0f };
-	GenerationBlock(position, velocity, size);
-
-	position = { -440.0f,0.0f,-70.0f };
-	GenerationBlock(position, velocity, size);
 
 }
 
