@@ -192,7 +192,13 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 {
 
 	// ブロック情報
+	if (block_) {
+		block_->SetPlayerHasBeenSeen(false);
+	}
 	block_ = block;
+	if (block_) {
+		block_->SetPlayerHasBeenSeen(true);
+	}
 
 	// ゲームパッドの状態をえる
 	input_ = Input::GetInstance();
