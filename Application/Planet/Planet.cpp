@@ -62,7 +62,7 @@ void Planet::Draw(BaseCamera& camera)
 void Planet::DrawFlag(BaseCamera& camera)
 {
 
-	modelFlag_->Draw(worldTransformFlag_, camera, material_.get());
+	modelFlag_->Draw(worldTransformFlag_, camera, material_.get(), flagTextureHandle_);
 
 }
 
