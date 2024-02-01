@@ -1,5 +1,6 @@
 {
     "Player": {
+        "CharacterSpeed": 0.30000001192092896,
         "GravityFrame": 30,
         "MagnetRadius": 24.0
     }

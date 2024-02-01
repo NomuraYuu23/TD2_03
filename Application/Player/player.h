@@ -147,4 +147,7 @@ private:
 	// オーディオマネージャー
 	GameAudioManager* audioManager_;
 
+	// 歩行速度
+	float characterSpeed_ = 0.3f;
+
 };
