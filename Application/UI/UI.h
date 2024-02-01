@@ -63,6 +63,18 @@ public:
 	/// </summary>
 	bool GetIsInvisible();
 
+	/// <summary>
+	/// テクスチャハンドル
+	/// </summary>
+	/// <param name="textureHandle"></param>
+	void SetTextureHandle(uint32_t textureHandle);
+
+	/// <summary>
+	/// 回転
+	/// </summary>
+	/// <param name="rotate"></param>
+	void SetRotate(float rotate);
+
 	void SetPosition(const Vector2& positon);
 	Vector2 GetPosition();
 
