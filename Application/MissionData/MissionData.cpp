@@ -36,6 +36,10 @@ void MissionData::Initialize() {
 	globalVariables->AddItem(groupName, "1RotateY", 0.0f);
 	globalVariables->AddItem(groupName, "2RotateY", 0.0f);
 	globalVariables->AddItem(groupName, "3RotateY", 0.0f);
+	isCompleteBlock_ = false;
+	isCompletePoint_ = false;
+	isBlockBeenUpdate_ = false;
+	isPointBeenUpdate_ = false;
 }
 
 void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPosition) {
@@ -86,10 +90,12 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 				point.clear();
 				missionNumPoint_ = nextTarget;
 				isPointBeenUpdate_ = true;
+				clearMissionPointNum_++;
 			}
 			else if(!isCompletePoint_){
 				isCompletePoint_ = true;
 				isPointBeenUpdate_ = true;
+				clearMissionPointNum_++;
 			}
 			
 		}
