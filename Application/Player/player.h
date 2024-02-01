@@ -79,7 +79,8 @@ public:
 	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
 
 	bool isOutGameArea();
-
+	bool GetIsRideConnectFlooar() { return isRideConnectFlooar_; };
+	void SetIsRideConnectFlooar(bool is) {isRideConnectFlooar_=is; };
 private:
 	WorldTransform worldTransform_;
 
@@ -94,6 +95,7 @@ private:
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
 	bool isFlooar_ = false;
+	bool isRideConnectFlooar_=false;
 
 	//調整用
 	uint32_t attackFrame_ = 55;

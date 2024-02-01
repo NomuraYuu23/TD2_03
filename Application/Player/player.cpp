@@ -182,6 +182,7 @@ void Player::Update(Block* block, size_t blockNum) {
 	worldTransformCircle_.UpdateMatrix();
 
 	isFlooar_ = false;
+	//isRideConnectFlooar_ = false;
 	//preJoyState_ = joyState_;
 }
 
@@ -200,6 +201,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 		Screw* anchorScrew = block_->GetAnchorPointScrew(blockNum);
 		//刺す
 		if (!anchorScrew ) {
+			bool isThrow=false;
 			for (std::list<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end();ite++) {
 				if ((*ite)->GetState() == Screw::FOLLOW) {
 					//(*ite)->Throw(worldTransform_.GetWorldPosition(), block_,blockNum);
@@ -208,10 +210,31 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 					holdScrew_ = (*ite).get();
 					blockNum_ = blockNum;
 					behaviorRequest_ = Behavior::kAttack;
+					isThrow = true;
 					break;
 				}
 			}
-			
+			//追従が一体もいなかったとき
+			if (!isThrow) {
+				Screw* screw=nullptr;
+				int length = -1;
+				for (std::list<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end(); ite++) {
+					if ((*ite)->GetState() == Screw::STUCK && (*ite)->GetStackLength()>length) {
+						length = (*ite)->GetStackLength();
+						screw = (*ite).get();
+					}
+				}
+				if (screw) {
+					//(*ite)->Throw(worldTransform_.GetWorldPosition(), block_,blockNum);
+					WorldTransform* magnetWorldTransform = &((*playerAnimation_->GetWorldTransforms())[PlayerPartIndex::kPlayerPartIndexMagnet]);
+					screw->GetTarget()->SetAnchorPointScrew(0, nullptr);
+					screw->Catch(magnetWorldTransform);
+					holdScrew_ = screw;
+					blockNum_ = blockNum;
+					behaviorRequest_ = Behavior::kAttack;
+					isThrow = true;
+				}
+			}
 		}
 	}
 
@@ -370,6 +393,9 @@ void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidio
 			isFlooar_ = true;
 		}*/
 		isFlooar_ = true;
+		if (std::get<Block*>(pairObject)->GetIsConnect()) {
+			isRideConnectFlooar_ = true;
+		}
 		float sizeY = std::get<Block*>(pairObject)->GetCollider()->size_.y;
 		worldTransform_.transform_.translate.y = std::get<Block*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + sizeY + worldTransform_.transform_.scale.y;
 		//worldTransform_.UpdateMatrix();

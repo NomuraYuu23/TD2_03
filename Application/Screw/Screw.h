@@ -58,6 +58,10 @@ public:
 
 	void SetTarget(void* target) { target_ = target; }
 	bool GetIsPinch() { return isPinch_; };
+	int GetStackLength() { return stuckLength_; };
+	void SetIsFirstStuck(bool is) { isFirstStuck_ = is; };
+	bool GetIsFirstStuck() { return isFirstStuck_; };
+	Block* GetTarget() {return static_cast<Block*>(target_); };
 private:
 	WorldTransform worldTransform_;
 	Vector3 startPosition_; //補間アニメーションの開始位置
@@ -105,6 +109,8 @@ private:
 
 	static GameAudioManager* audioManager_;
 	bool isPinch_ = false;
+	int stuckLength_;//投げてからの時間(刺さってるのだけカウント)
+	bool isFirstStuck_;//最初に刺さったやつか
 
 	// 回転速度
 	Vector3 rotateSpeed_;

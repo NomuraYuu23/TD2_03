@@ -9,10 +9,18 @@ public:
 		TOPOINT
 	};
 
+	struct MissionBlock
+	{
+		int32_t num;
+		bool isClear_ = false;
+		size_t addScrewNum_;
+	};
+
 	struct MissionToPoint
 	{
 		Vector3 point;
 		bool isClear_ = false;
+		size_t addScrewNum_;
 	};
 
 	static MissionData* GetInstance(){
@@ -40,16 +48,17 @@ public:
 	size_t GetClearCount() { return missionNumBlock_ + clearMissionPointNum_; };
 	std::vector<MissionToPoint>& GetMissionPointVector() { return missionPoint_; };
 
-	std::vector<int32_t>& GetMissionBlockVector() { return missionBlock_; }
+	std::vector<MissionBlock>& GetMissionBlockVector() { return missionBlock_; }
 
 	bool IsCompleteBlock() { return isCompleteBlock_; }
 	bool IsCompletePoint() { return isCompletePoint_; }
-
+	size_t GetAddScrewNumBlock() { return addScrewNumBlock_; };
+	size_t GetAddScrewNumPoint() { return addScrewNumPoint_; };
 private:
 	//size_t missionNum_;
 	size_t missionMax_;
 
-	std::vector<int32_t> missionBlock_;
+	std::vector<MissionBlock> missionBlock_;
 	std::vector<MissionToPoint> missionPoint_;
 	size_t missionNumBlock_;
 	size_t missionNumPoint_;
@@ -59,4 +68,6 @@ private:
 	bool isCompletePoint_;//指定位置のミッションがすべてクリアされたか
 
 	size_t clearMissionPointNum_;//クリアした位置ミッションの数
+	size_t addScrewNumBlock_=0;
+	size_t addScrewNumPoint_ = 0;
 };

@@ -59,7 +59,7 @@ void GameScene::Initialize() {
 		screw.reset(new Screw);
 		screw->Initialize();
 		screw->SetPlayer(player_.get());
-		screw->SetSweatTextureHandle(TextureManager::Load("Resources/Sprite/Game/drops.png", dxCommon_, textureHandleManager_.get()));
+		screw->SetSweatTextureHandle(dropTextureHandle_);
 		screws_.push_back(std::move(screw));
 	}
 
@@ -140,7 +140,10 @@ void GameScene::Initialize() {
 		planet->SetPosition(point[num].point);
 		planets_.push_back(std::move(planet));
 	}
-
+	planets_[0]->SetFlagTexturehandle(TextureManager::Load("Resources/Model/target_flag/target_flag.png", dxCommon_, textureHandleManager_.get()));
+	planets_[1]->SetFlagTexturehandle(TextureManager::Load("Resources/Model/target_flag/target_flag_blue.png", dxCommon_, textureHandleManager_.get()));
+	planets_[2]->SetFlagTexturehandle(TextureManager::Load("Resources/Model/target_flag/target_flag_yellow.png", dxCommon_, textureHandleManager_.get()));
+	planets_[3]->SetFlagTexturehandle(TextureManager::Load("Resources/Model/target_flag/target_flag_parple.png", dxCommon_, textureHandleManager_.get()));
 	sweatModel_.reset(Model::Create("Resources/default/", "plane.obj", dxCommon_, textureHandleManager_.get()));
 
 	//影
@@ -292,8 +295,8 @@ void GameScene::Update() {
 		if ((*block)->GetIsCenter() ) {
 				collisionManager_->ListRegister((*block)->GetCollider());
 		}
-		else if ((*block)->GetIsConnect() && (*block)->GetAnchorPointScrew(0)) {
-			if (!(*block)->GetAnchorPointScrew(0)->GetIsPinch()) {
+		else if ((*block)->GetIsConnect() && (*block)->GetAnchorPointScrew(0) ) {
+			if (!(*block)->GetAnchorPointScrew(0)->GetIsPinch() && !(*block)->GetAnchorPointScrew(0)->GetIsFirstStuck()) {
 				//(*block)->SetIsConnect(false);
 				collisionManager_->ListRegister((*block)->GetCollider());
 			}
@@ -322,7 +325,43 @@ void GameScene::Update() {
 	else {
 		player_->SetTarget(nullptr);
 	}
+
+	int followCount=0;
+	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+		(*block)->SetIsFirstStuck(false);
+		if ((*block)->GetState() == Screw::FOLLOW){
+			followCount++;
+		}
+	}
+	if (followCount == 0) {
+		Screw* screw = nullptr;
+		int length = -1;
+		for (std::list<std::unique_ptr<Screw>>::iterator ite = screws_.begin(); ite != screws_.end(); ite++) {
+			if ((*ite)->GetState() == Screw::STUCK && (*ite)->GetStackLength() > length) {
+				length = (*ite)->GetStackLength();
+				screw = (*ite).get();
+			}
+		}
+		if (screw) {
+			screw->SetIsFirstStuck(true);
+		}
+	}
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
+	size_t addNum = 0;
+	if (missionData_->IsMissionBlockBeenUpdate()) {
+		addNum += missionData_->GetAddScrewNumBlock();
+	}
+	if (missionData_->IsMissionPointBeenUpdate()) {
+		addNum += missionData_->GetAddScrewNumPoint();
+	}
+	for (size_t t = 0; t < addNum;t++) {
+		std::unique_ptr<Screw> screw;
+		screw.reset(new Screw);
+		screw->Initialize();
+		screw->SetPlayer(player_.get());
+		screw->SetSweatTextureHandle(dropTextureHandle_);
+		screws_.push_back(std::move(screw));
+	}
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 		(*block)->Update();
 	}
@@ -339,7 +378,10 @@ void GameScene::Update() {
 
 	collisionManager_->ListClear();
 	collisionManager_->ListRegister(player_->GetCollider());
-	collisionManager_->ListRegister(player_->GetMagnet()->GetCollider());
+	if (player_->GetIsRideConnectFlooar()) {
+		collisionManager_->ListRegister(player_->GetMagnet()->GetCollider());
+	}
+	player_->SetIsRideConnectFlooar(false);
 	for (std::vector<std::unique_ptr<UFO>>::iterator block = ufos_.begin(); block != ufos_.end(); block++) {
 		if (!(*block)->GetIsDead()) {
 			collisionManager_->ListRegister((*block)->GetCollider());
@@ -443,7 +485,7 @@ void GameScene::Update() {
 	UIManagerUpdateDesc uiManagerUpdateDesc = {
 		gameTimer_,
 		screwCount,
-		missionData_->GetMissionBlockVector()[MissionData::GetInstance()->GetMissionNumBlock()],
+		missionData_->GetMissionBlockVector()[MissionData::GetInstance()->GetMissionNumBlock()].num,
 		connectCount,
 		missionData_->IsMissionBlockBeenUpdate(),
 		missionData_->GetMissionNumPoint(),
@@ -745,7 +787,7 @@ void GameScene::TextureLoad()
 		TextureManager::Load("Resources/Sprite/Game/Pause/pause_choiceBox.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/default/white2x2.png", dxCommon_,textureHandleManager_.get()),
 	};
-
+	dropTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/drops.png", dxCommon_, textureHandleManager_.get());
 }
 
 void GameScene::LowerVolumeBGM()

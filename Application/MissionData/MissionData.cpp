@@ -7,21 +7,21 @@ void MissionData::Initialize() {
 	missionBlock_.clear();
 	missionPoint_.clear();
 
-	missionBlock_.push_back(2);
-	missionBlock_.push_back(6);
-	missionBlock_.push_back(10);
-	missionBlock_.push_back(14);
-	missionBlock_.push_back(20);
-	missionBlock_.push_back(24);
-	missionBlock_.push_back(28);
-	missionBlock_.push_back(32);
-	missionBlock_.push_back(36);
-	missionBlock_.push_back(40);
+	missionBlock_.push_back({  2 ,false,2 });
+	missionBlock_.push_back({  6 ,false,2 });
+	missionBlock_.push_back({ 10 ,false,2 });
+	missionBlock_.push_back({ 14 ,false,2 });
+	missionBlock_.push_back({ 20 ,false,2 });
+	missionBlock_.push_back({ 24 ,false,2 });
+	missionBlock_.push_back({ 28 ,false,2 });
+	missionBlock_.push_back({ 32 ,false,2 });
+	missionBlock_.push_back({ 36 ,false,2 });
+	missionBlock_.push_back({ 40 ,false,2 });
 
-	missionPoint_.push_back({20.0f,1.0f,0.0f});
-	missionPoint_.push_back({ 20.0f,1.0f,-20.0f });
-	missionPoint_.push_back({ -80.0f,1.0f,0.0f });
-	missionPoint_.push_back({ 20.0f,1.0f,80.0f });
+	missionPoint_.push_back({ { 20.0f,1.0f, 0.0f },false,2 });
+	missionPoint_.push_back({ { 20.0f,1.0f,20.0f },false,2 });
+	missionPoint_.push_back({ {-80.0f,1.0f, 0.0f },false,2 });
+	missionPoint_.push_back({ { 20.0f,1.0f,80.0f },false,2 });
 
 	missionMax_ = missionBlock_.size() + missionPoint_.size();
 	clearMissionPointNum_ = 0;
@@ -42,16 +42,19 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 	missionPoint_[1].point = globalVariables->GetVector3Value(groupName, "1Position");
 	missionPoint_[2].point = globalVariables->GetVector3Value(groupName, "2Position");
 	missionPoint_[3].point = globalVariables->GetVector3Value(groupName, "3Position");
-
+	addScrewNumBlock_ = 0;
+	addScrewNumPoint_ = 0;
 	isBlockBeenUpdate_ = false;
 	isPointBeenUpdate_ = false;
 	//ブロック数側の確認
-	if (missionBlock_[missionNumBlock_] <= connectCount) {
+	if (missionBlock_[missionNumBlock_].num <= connectCount) {
+		missionBlock_[missionNumBlock_].isClear_ = true;
+		addScrewNumBlock_ += missionBlock_[missionNumBlock_].addScrewNum_;
 		if (missionBlock_.size() - 1 > missionNumBlock_) {
 			missionNumBlock_++;
 			isBlockBeenUpdate_ = true;
 		}
-		else {
+		else  if (!isCompleteBlock_) {
 			isCompleteBlock_ = true;
 			isBlockBeenUpdate_ = true;
 		}
@@ -62,6 +65,7 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 		float length = Vector3Calc::Length(Vector3Calc::Subtract(missionPoint_[missionNumPoint_].point,playerWorldPosition));
 		if (length <= 2.0f) {
 			missionPoint_[missionNumPoint_].isClear_ = true;
+			addScrewNumPoint_ += missionPoint_[missionNumPoint_].addScrewNum_;
 			std::vector<size_t> point;
 			for (size_t num = 0; num < missionPoint_.size();num++) {
 				if (!missionPoint_[num].isClear_) {
