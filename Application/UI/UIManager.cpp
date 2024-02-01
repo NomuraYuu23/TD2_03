@@ -129,6 +129,18 @@ void UIManager::Update(const UIManagerUpdateDesc& uiManagerUpdateDesc)
 
 	}
 
+	if (uiManagerUpdateDesc.isCompleteBlock) {
+		UIs_[kUIIndexMissionBlockClear]->SetTextureHandle(textureHandles_[kUITextureHandleIndexMissionComplete]);
+		UIs_[kUIIndexMissionBlockClear]->SetSize(Vector2{ 144.0f, 84.0f });
+		UIs_[kUIIndexMissionBlockClear]->SetRotate(0.0f);
+	}
+
+	if (uiManagerUpdateDesc.isCompletePoint) {
+		UIs_[kUIIndexMissionPointClear]->SetTextureHandle(textureHandles_[kUITextureHandleIndexMissionComplete]);
+		UIs_[kUIIndexMissionPointClear]->SetSize(Vector2{ 144.0f, 84.0f });
+		UIs_[kUIIndexMissionPointClear]->SetRotate(0.0f);
+	}
+
 }
 
 void UIManager::Draw()

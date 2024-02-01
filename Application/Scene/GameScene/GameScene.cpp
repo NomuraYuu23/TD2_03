@@ -802,6 +802,7 @@ void GameScene::TextureLoad()
 		TextureManager::Load("Resources/Sprite/Game/UI/missionClear.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/Sprite/Game/UI/ingame_mission_destination_text.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/Sprite/Game/UI/ingame_mission_destinationColor_text.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/UI/missionComplete.png", dxCommon_,textureHandleManager_.get()),
 	};
 
 	shotUITextureHandle_[0] = TextureManager::Load("Resources/Sprite/Game/UI/ingame_ui_RB.png", dxCommon_, textureHandleManager_.get());

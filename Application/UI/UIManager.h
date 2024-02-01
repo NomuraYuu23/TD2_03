@@ -16,6 +16,7 @@ enum UITextureHandleIndex {
 	kUITextureHandleIndexMissionClear,// ミッションクリア
 	kUITextureHandleIndexPointMissionText, // ポイントミッションテキスト
 	kUITextureHandleIndexFlagColor, // ミッションの旗色
+	kUITextureHandleIndexMissionComplete, // ミッションコンプリート
 	kUITextureHandleIndexOfCount
 };
 

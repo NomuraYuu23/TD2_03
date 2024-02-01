@@ -106,6 +106,20 @@ bool UI::GetIsInvisible()
 	return sprite_->GetIsInvisible();
 }
 
+void UI::SetTextureHandle(uint32_t textureHandle)
+{
+
+	sprite_->SetTextureHandle(textureHandle);
+
+}
+
+void UI::SetRotate(float rotate)
+{
+
+	sprite_->SetRotate(rotate);
+
+}
+
 void UI::SetPosition(const Vector2& positon)
 {
 
