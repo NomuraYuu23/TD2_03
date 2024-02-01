@@ -67,7 +67,7 @@ void GameScene::Initialize() {
 	player_->SetScrew(&screws_);
 	//player_->SetViewProjection(camera_);
 
-	target_.Initialize(cursorTextureHandle_,shotUITextureHandle_,arrowTextureHandle_,lockonTextureHandle_);
+	target_.Initialize(cursorTextureHandle_,shotUITextureHandle_,arrowTextureHandle_,lockonTextureHandle_, stickeTextureHandle_);
 	followCamera_.reset(new FollowCamera);
 	followCamera_->Initialize();
 	followCamera_->SetTarget(player_->GetWorldTransform());
@@ -800,6 +800,9 @@ void GameScene::TextureLoad()
 	dropTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/drops.png", dxCommon_, textureHandleManager_.get());
 	arrowTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/Pause/pause_arrow.png", dxCommon_, textureHandleManager_.get());
 	lockonTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/UI/ingame_rockon_UI.png", dxCommon_, textureHandleManager_.get());
+
+	stickeTextureHandle_[0] = TextureManager::Load("Resources/Sprite/Game/UI/controler_UI_sticLeft.png", dxCommon_, textureHandleManager_.get());
+	stickeTextureHandle_[1] = TextureManager::Load("Resources/Sprite/Game/UI/controler_UI_sticRightt.png", dxCommon_, textureHandleManager_.get());
 }
 
 void GameScene::LowerVolumeBGM()

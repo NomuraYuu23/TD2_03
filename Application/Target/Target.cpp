@@ -8,7 +8,7 @@ bool IsInnerCamera(const Vector3& vector) {
 	}
 	return false;
 }
-void Target::Initialize(uint32_t textureHandle, uint32_t textureHandle2[2], uint32_t arrowTextureHandle, uint32_t lockonTextureHandle) {
+void Target::Initialize(uint32_t textureHandle, uint32_t textureHandle2[2], uint32_t arrowTextureHandle, uint32_t lockonTextureHandle, uint32_t stickTextureHandle[2]) {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const std::string groupName = "Target";
 	globalVariables->AddItem(groupName, "Range", targetRange_);
@@ -28,6 +28,16 @@ void Target::Initialize(uint32_t textureHandle, uint32_t textureHandle2[2], uint
 	rightArrow_.reset(Sprite::Create(arrowTextureHandle, { 0,0 }, { 1.0f,1.0f,1.0f,1.0f }));
 	rightArrow_->SetSize(size);
 	modeText_.reset(Sprite::Create(lockonTextureHandle, { 0,0 }, { 1.0f,1.0f,1.0f,1.0f }));
+	leftStick_.reset(Sprite::Create(stickTextureHandle[0], { 0,0 }, { 1.0f,1.0f,1.0f,1.0f }));
+	size = leftStick_->GetSize();
+	size.x /= 2.0f;
+	size.x /= 8.0f;
+	size.y /= 8.0f;
+	leftStick_->SetSize(size);
+	leftStick_->SetTextureSize({ 320,256 });
+	rightStick_.reset(Sprite::Create(stickTextureHandle[1], { 0,0 }, { 1.0f,1.0f,1.0f,1.0f }));
+	rightStick_->SetSize(size);
+	rightStick_->SetTextureSize({ 320,256 });
 }
 void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* player, std::list<std::unique_ptr<Screw>>* screwList) {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
@@ -115,6 +125,22 @@ void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* 
 		modeAlpha_ = 1.0f;
 	}
 	modeText_->SetColor({1.0f,1.0f,1.0f,modeAlpha_});
+
+	position = anchor_->GetPosition();
+	position.x += -85.0f + leftAnimation_;
+	position.y += 5.0f;
+	leftStick_->SetPosition(position);
+	leftStick_->SetTextureLeftTop({320*float(stickAnimation_),0});
+	position = anchor_->GetPosition();
+	position.x += 85.0f + rightAnimation_;
+	position.y += 5.0f;
+	rightStick_->SetPosition(position);
+	rightStick_->SetTextureLeftTop({ 320 * float(stickAnimation_),0 });
+	stickAnimationFrame_++;
+	if (stickAnimationFrame_ >= 20) {
+		stickAnimationFrame_ = 0;
+		stickAnimation_ = int(bool(!stickAnimation_));
+	}
 
 	if (!isTarget_) {
 		targetBlock_ = nullptr;
@@ -292,6 +318,8 @@ void Target::SpriteDraw() {
 			leftArrow_->Draw();
 			rightArrow_->Draw();
 			modeText_->Draw();
+			leftStick_->Draw();
+			rightStick_->Draw();
 		}
 	}
 }

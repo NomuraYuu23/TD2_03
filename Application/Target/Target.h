@@ -9,7 +9,7 @@
 class Target
 {
 public:
-	void Initialize(uint32_t textureHandle,uint32_t textureHandle2[2],uint32_t arrowTextureHandle,uint32_t lockonTextureHandle);
+	void Initialize(uint32_t textureHandle,uint32_t textureHandle2[2],uint32_t arrowTextureHandle,uint32_t lockonTextureHandle,uint32_t stickTextureHandle[2]);
 	void Update(std::vector<Block*>* blockList, BaseCamera& camera,Player* player, std::list<std::unique_ptr<Screw>>* screwList);
 	void SpriteDraw();
 	
@@ -29,6 +29,8 @@ private:
 	std::unique_ptr<Sprite> leftArrow_;
 	std::unique_ptr<Sprite> rightArrow_;
 	std::unique_ptr<Sprite> modeText_;
+	std::unique_ptr<Sprite> leftStick_;
+	std::unique_ptr<Sprite> rightStick_;
 	float leftAnimation_=0;
 	float rightAnimation_=0;
 	int uiNum_=0;
@@ -40,4 +42,6 @@ private:
 	float alphaDirection_=-1.0f;
 	Vector2 modePosition_ = {0};
 	Vector2 modeSize_ = {0};
+	int stickAnimation_=0;
+	int stickAnimationFrame_=0;
 };

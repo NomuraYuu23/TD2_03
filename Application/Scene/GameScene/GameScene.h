@@ -186,5 +186,5 @@ private:
 	uint32_t dropTextureHandle_;
 	uint32_t arrowTextureHandle_;
 	uint32_t lockonTextureHandle_;
-
+	uint32_t stickeTextureHandle_[2];
 };
