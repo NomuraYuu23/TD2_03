@@ -36,6 +36,7 @@ public:
 	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {};
 	void SetFlagModel(Model* m) { modelFlag_ = m; };
 	void SetPosition(const Vector3& pos) { position_ = pos; };
+	void SetFlagRotateY(float y) { worldTransformFlag_.transform_.rotate.y = y; };
 	WorldTransform* GetWorldTransform() { return &worldTransform_; };
 	void SetFlagTexturehandle(uint32_t handle) { flagTextureHandle_ = handle; };
 private: // メンバ関数
