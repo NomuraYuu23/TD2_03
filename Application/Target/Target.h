@@ -9,7 +9,7 @@
 class Target
 {
 public:
-	void Initialize(uint32_t textureHandle,uint32_t textureHandle2[2]);
+	void Initialize(uint32_t textureHandle,uint32_t textureHandle2[2],uint32_t arrowTextureHandle,uint32_t lockonTextureHandle,uint32_t stickTextureHandle[2]);
 	void Update(std::vector<Block*>* blockList, BaseCamera& camera,Player* player, std::list<std::unique_ptr<Screw>>* screwList);
 	void SpriteDraw();
 	
@@ -26,9 +26,22 @@ private:
 	size_t numTargetAnchor_;//対象ブロックのどこをターゲットしているか
 	std::unique_ptr<Sprite> anchor_;
 	std::unique_ptr<Sprite> ui_;
+	std::unique_ptr<Sprite> leftArrow_;
+	std::unique_ptr<Sprite> rightArrow_;
+	std::unique_ptr<Sprite> modeText_;
+	std::unique_ptr<Sprite> leftStick_;
+	std::unique_ptr<Sprite> rightStick_;
+	float leftAnimation_=0;
+	float rightAnimation_=0;
 	int uiNum_=0;
 	uint32_t textureHandle_[2];
 	float targetRange_ = 100.0f;
 	bool isReleseButton_;//長押し制限用
 	bool isLockedChane_;//ターゲットが固定されているか
+	float modeAlpha_=1.0f;
+	float alphaDirection_=-1.0f;
+	Vector2 modePosition_ = {0};
+	Vector2 modeSize_ = {0};
+	int stickAnimation_=0;
+	int stickAnimationFrame_=0;
 };

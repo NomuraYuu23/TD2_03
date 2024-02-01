@@ -4,5 +4,6 @@ enum EmitterName {
 	kDefaultEmitter,
 	kGravityEmitter,
 	kSparkEmitter,
+	kLinerEmitter,
 	kCountOfEmitterName,
 };

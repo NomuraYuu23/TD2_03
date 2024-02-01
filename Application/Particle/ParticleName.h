@@ -4,5 +4,6 @@ enum ParticleName {
 	kDefaultParticle,
 	kGravityParticle,
 	kSparkParticle,
+	kLinerParticle,
 	kCountOfParticleName,
 };

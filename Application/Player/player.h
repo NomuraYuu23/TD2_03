@@ -43,6 +43,7 @@ public:
 	void BehaviorRootUpdate(Block* block, size_t blockNum);
 	void BehaviorAttackUpdate();
 	void BehaviorDropUpdate();
+	Behavior GetBehavior() { return behavior_; };
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -81,6 +82,7 @@ public:
 	bool isOutGameArea();
 	bool GetIsRideConnectFlooar() { return isRideConnectFlooar_; };
 	void SetIsRideConnectFlooar(bool is) {isRideConnectFlooar_=is; };
+	PlayerAnimation* GetAnimation() { return playerAnimation_.get(); };
 private:
 	WorldTransform worldTransform_;
 

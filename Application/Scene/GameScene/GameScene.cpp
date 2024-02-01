@@ -8,6 +8,7 @@
 #include "../../Particle/EmitterName.h"
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../ForResult/ForResult.h"
+#include "../../Particle/Liner/ForLinerEmitterData.h"
 /// <summary>
 /// 初期化
 /// </summary>
@@ -66,7 +67,7 @@ void GameScene::Initialize() {
 	player_->SetScrew(&screws_);
 	//player_->SetViewProjection(camera_);
 
-	target_.Initialize(cursorTextureHandle_,shotUITextureHandle_);
+	target_.Initialize(cursorTextureHandle_,shotUITextureHandle_,arrowTextureHandle_,lockonTextureHandle_, stickeTextureHandle_);
 	followCamera_.reset(new FollowCamera);
 	followCamera_->Initialize();
 	followCamera_->SetTarget(player_->GetWorldTransform());
@@ -161,6 +162,9 @@ void GameScene::Initialize() {
 
 	audioManager_->PlayWave(kGameAudioNameIndexBGM);
 
+	ForLinerEmitterData::GetInstance()->SetIsDraw(false);
+	TransformStructure transform{ {1.0f,1.0f,1.0f},{0},{0.0f,3.0f,0.0f} };
+	ParticleManager::GetInstance()->MakeEmitter(transform, 300, 0.005f, 0.5f, ParticleModelIndex::kCircle, ParticleName::kLinerParticle, EmitterName::kLinerEmitter);
 }
 
 /// <summary>
@@ -342,6 +346,7 @@ void GameScene::Update() {
 			followCount++;
 		}
 	}
+	ForLinerEmitterData::GetInstance()->SetIsDraw(false);
 	if (followCount == 0) {
 		Screw* screw = nullptr;
 		int length = -1;
@@ -351,8 +356,15 @@ void GameScene::Update() {
 				screw = (*ite).get();
 			}
 		}
-		if (screw) {
+		ForLinerEmitterData::GetInstance()->SetIsDraw(false);
+		if (screw && player_->GetBehavior() == Player::Behavior::kRoot) {
 			screw->SetIsFirstStuck(true);
+			std::array<WorldTransform, PlayerPartIndex::kPlayerPartIndexOfCount>* transforms = player_->GetAnimation()->GetWorldTransforms();
+			Vector3 end = (*transforms)[PlayerPartIndex::kPlayerPartIndexMagnet].GetWorldPosition();
+			Vector3 start = screw->GetWorldTransform()->GetWorldPosition();
+			start.y += 2.0f;
+			ForLinerEmitterData::GetInstance()->SetData(start,end);
+			ForLinerEmitterData::GetInstance()->SetIsDraw(true);
 		}
 	}
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
@@ -797,6 +809,11 @@ void GameScene::TextureLoad()
 		TextureManager::Load("Resources/default/white2x2.png", dxCommon_,textureHandleManager_.get()),
 	};
 	dropTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/drops.png", dxCommon_, textureHandleManager_.get());
+	arrowTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/Pause/pause_arrow.png", dxCommon_, textureHandleManager_.get());
+	lockonTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/UI/ingame_rockon_UI.png", dxCommon_, textureHandleManager_.get());
+
+	stickeTextureHandle_[0] = TextureManager::Load("Resources/Sprite/Game/UI/controler_UI_sticLeft.png", dxCommon_, textureHandleManager_.get());
+	stickeTextureHandle_[1] = TextureManager::Load("Resources/Sprite/Game/UI/controler_UI_sticRightt.png", dxCommon_, textureHandleManager_.get());
 }
 
 void GameScene::LowerVolumeBGM()
