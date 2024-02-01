@@ -49,7 +49,8 @@ public:
 	void DrawSoil(Model* model, BaseCamera& camera);
 	void SetPinchCheckMode(bool is) { isPinchCheckMode_ = is; };
 	bool IsScrewPinch() { return anchorPoints_[0].screw->GetIsPinch(); };
-	bool IsPinch() { return isPinch_; };
+	bool IsPinch() { return isPinch_; }
+
 protected:
 
 	std::array<AnchorPoint, anchorNum> anchorPoints_;

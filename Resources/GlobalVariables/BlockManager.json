@@ -1,31 +1,35 @@
 {
     "BlockManager": {
         "blockSize Big": [
-            5.0,
-            5.0,
-            5.0
+            4.0,
+            2.0,
+            4.0
         ],
         "blockSize Middle": [
-            3.0,
-            3.0,
-            3.0
+            2.0,
+            2.0,
+            2.0
         ],
         "blockSize Small": [
             1.0,
-            1.0,
+            2.0,
             1.0
         ],
-        "generationBlockFrame": 999,
-        "maxBlock": 128,
+        "blockSpeed Fast": 0.20000000298023224,
+        "blockSpeed Middle": 0.10000000149011612,
+        "blockSpeed Slow": 0.05000000074505806,
+        "generatedWidth_": 75.0,
+        "generationBlockFrame": 180,
+        "maxBlock": 32,
         "maxBlockPosition": [
-            1000.0,
-            1000.0,
-            1000.0
+            150.0,
+            150.0,
+            150.0
         ],
         "minBlockPosition": [
-            -1000.0,
-            -1000.0,
-            -1000.0
+            -150.0,
+            -150.0,
+            -150.0
         ]
     }
 }

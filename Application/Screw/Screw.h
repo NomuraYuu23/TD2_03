@@ -62,6 +62,9 @@ public:
 	void SetIsFirstStuck(bool is) { isFirstStuck_ = is; };
 	bool GetIsFirstStuck() { return isFirstStuck_; };
 	Block* GetTarget() {return static_cast<Block*>(target_); };
+
+	void SetState(State state) { state_ = state; }
+
 private:
 	WorldTransform worldTransform_;
 	Vector3 startPosition_; //補間アニメーションの開始位置

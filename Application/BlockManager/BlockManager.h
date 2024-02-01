@@ -21,6 +21,14 @@ enum BlockSizeIndex {
 	kBlockSizeIndexOfCount,
 };
 
+// ブロックの速度
+enum BlockSpeedIndex {
+	kBlockSpeedIndexFast,
+	kBlockSpeedIndexMiddle,
+	kBlockSpeedIndexSlow,
+	kBlockSpeedIndexOfCount,
+};
+
 // ブロックのマテリアル
 enum BlockMaterialIndex {
 	kBlockMaterialIndexWhite, // 白
@@ -32,6 +40,13 @@ enum BlockMaterialIndex {
 enum BlockGenerationPatternName {
 	kBlockGenerationPatternNameSample,
 	kBlockGenerationPatternNameOfCount,
+};
+
+enum BlockGenerationDirection {
+	kBlockGenerationDirectionNorth,
+	kBlockGenerationDirectionSouth,
+	kBlockGenerationDirectionEast,
+	kBlockGenerationDirectionWest,
 };
 
 /// <summary>
@@ -69,15 +84,12 @@ public:
 	/// </summary>
 	void ImGuiDraw();
 
-	/// <summary>
-	/// ブロック生成
-	/// </summary>
-	void GenerationBlocks(uint32_t patternName);
+private: // ブロック生成
 
 	/// <summary>
 	/// ブロック生成
 	/// </summary>
-	void GenerationBlock(const Vector3& position, const Vector3& velocity);
+	void GenerationBlock(const Vector3& position, const Vector3& velocity, const Vector3& size);
 
 	/// <summary>
 	/// 中心ブロック生成
@@ -103,9 +115,32 @@ private: // メンバ関数
 	uint32_t NumberControl();
 
 	/// <summary>
-	///	状態切り替え
+	/// 方角決定
 	/// </summary>
-	void StateChange();
+	/// <param name="position"></param>
+	/// <returns></returns>
+	BlockGenerationDirection WhereComeFrom(const Vector3& position);
+
+	/// <summary>
+	/// 位置
+	/// </summary>
+	/// <param name="blockGenerationDirection"></param>
+	/// <param name="position"></param>
+	/// <returns></returns>
+	Vector3 CreatePosition(BlockGenerationDirection blockGenerationDirection, const Vector3& position);
+	
+	/// <summary>
+	/// 速度
+	/// </summary>
+	/// <param name="blockGenerationDirection"></param>
+	/// <returns></returns>
+	Vector3 CreateVelocity(BlockGenerationDirection blockGenerationDirection);
+
+	/// <summary>
+	/// サイズ
+	/// </summary>
+	/// <returns></returns>
+	Vector3 CreateSize();
 
 	/// <summary>
 	/// マテリアル初期化
@@ -162,43 +197,25 @@ private: // メンバ変数
 	// ブロック生成のクールタイム(フレーム)
 	uint32_t generationBlockFrame_;
 
-private: // ステート
+	// ブロック生成数
+	uint32_t generatedBlocksNum_;
+	// 一回のブロック最大生成数
+	uint32_t generatedBlocksNumMax_ = 2;
 
-	// ステート(ブロックの生成パターン)
-	std::unique_ptr<IBlockManagerState> blockManagerState_;
+	// 方角
+	BlockGenerationDirection blockGenerationDirection_;
 
-	// ステート切り替え(ファクトリー)
-	BlockManagerFactory* blockManagerFactory_;
+	// 生成幅
+	float generatedWidth_ = 75.0f;
 
-	// 現在のステート番号
-	uint32_t currentStateNo_;
-
-	// 前のステート番号
-	uint32_t prevStateNo_;
+	// 速度
+	std::array<float, kBlockSpeedIndexOfCount> blockSpped_;
 
 private: // モデルなど描画系
 
 	Model* model_ = nullptr;
 
 	std::array<std::unique_ptr<Material>, kBlockMaterialIndexOfCount> materials_;
-
-private: // パターン名
-
-	// ブロックパターンファイル
-	BlockGenerationPatternFile* blockPatternFile_;
-
-	//項目
-	using Item = std::vector<BlockGenerationPatternData>;
-	using Group = std::map<std::string, Item>; // パターン名
-
-	// データ
-	std::map<std::string, Group> blockPatternDatas_;
-
-	// パターン名
-	std::array<std::string, BlockGenerationPatternName::kBlockGenerationPatternNameOfCount> blockGenerationPatternNames_ =
-	{
-		"Sample",
-	};
 
 };
 

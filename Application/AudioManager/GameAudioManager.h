@@ -14,6 +14,7 @@ enum GameAudioNameIndex {
 	kGameAudioNameIndexPlayerGravity, // プレイヤー重力
 	kGameAudioNameIndexPauseChice, // ポーズメニュー選択
 	kGameAudioNameIndexPauseDesicion, // ポーズメニュー決定
+	kGameAudioNameIndexFlagGet, //旗入手
 	kGameAudioNameIndexOfCount // 数
 };
 
@@ -61,6 +62,7 @@ private: // メンバ変数
 		"Soundeffect/Game/player_gravity.wav",
 		"Soundeffect/Common/desicion2.wav",
 		"Soundeffect/Common/desicion1.wav",
+		"Soundeffect/Game/ingame_flag_remove.wav",
 	};
 
 };

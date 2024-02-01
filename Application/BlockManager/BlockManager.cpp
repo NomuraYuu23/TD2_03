@@ -3,6 +3,7 @@
 #include "../Player/player.h"
 #include "../../Engine/GlobalVariables/GlobalVariables.h"
 #include "BlockManagerState/BlockManagerStateInit/BlockManagerStateInit.h"
+#include <random>
 
 BlockManager::~BlockManager()
 {
@@ -30,7 +31,7 @@ void BlockManager::Initialize(Model* model)
 	minBlockPosition_ = { -1000.0f, -1000.0f, -1000.0f };
 
 	// ブロックの最大数
-	maxBlock_ = 128;
+	maxBlock_ = 64;
 
 	// ブロック生成のクールタイムカウント(フレーム)
 	generationBlockFrameCount_ = 0u;
@@ -42,19 +43,6 @@ void BlockManager::Initialize(Model* model)
 	blockSize_[kBlockSizeIndexSmall] = { 1.0f, 1.0f, 1.0f };
 	blockSize_[kBlockSizeIndexMiddle] = { 3.0f, 3.0f, 3.0f };
 	blockSize_[kBlockSizeIndexBig] = { 5.0f, 5.0f, 5.0f };
-
-	// ステート切り替え(ファクトリー)
-	blockManagerFactory_ = BlockManagerFactory::GetInstance();
-
-	// ステート(ブロックの生成パターン)
-	blockManagerState_.reset(blockManagerFactory_->CreateBlockManagerState(kBlockManagerStateInit));
-	static_cast<BlockManagerStateInit*>(blockManagerState_.get())->Initialize(this);
-
-	// 現在のステート番号
-	currentStateNo_ = kBlockManagerStateInit;
-
-	// 前のステート番号
-	prevStateNo_ = kBlockManagerStateInit;
 
 	// モデル
 	model_ = model;
@@ -68,23 +56,42 @@ void BlockManager::Initialize(Model* model)
 	// 外部変数適用
 	ApplyGlobalVariables();
 
-	// ブロックパターンファイル
-	blockPatternFile_ = BlockGenerationPatternFile::GetInstance();
-	blockPatternFile_->LoadFiles();
 
-	blockPatternFile_->CreateGroup("blockGenerationPattern");
-
-	std::vector<BlockGenerationPatternData> blockGenerationPatternDataInit;
-	blockGenerationPatternDataInit.push_back(BlockGenerationPatternData
-		{ 0.0f,0.0f,0.0f,0.0f,0.0f });
-
-	for (uint32_t i = 0; i < BlockGenerationPatternName::kBlockGenerationPatternNameOfCount; i++) {
-		blockPatternFile_->AddItem("blockGenerationPattern", blockGenerationPatternNames_[i], blockGenerationPatternDataInit);
-	}
+	// ブロック
 	
-	for (uint32_t i = 0; i < BlockGenerationPatternName::kBlockGenerationPatternNameOfCount; i++) {
-		blockPatternDatas_["blockGenerationPattern"][blockGenerationPatternNames_[i]] = blockPatternFile_->GetValue("blockGenerationPattern", blockGenerationPatternNames_[i]);
-	}
+	GenerationCenterBlock();
+	Vector3 position = { 2.0f, 0.0f, 60.0f };
+	Vector3 velocity = { 0.1f, 0.0f, 0.0f };
+	Vector3 size = { 2.0f, 2.0f, 2.0f };
+	GenerationBlock(position, velocity, size);
+
+	position = { -200.0f,0.0f,-30.0f };
+	GenerationBlock(position, velocity, size);
+
+	position = { -230.0f,0.0f,-50.0f };
+	GenerationBlock(position, velocity, size);
+
+	position = { -250.0f,0.0f,-30.0f };
+	GenerationBlock(position, velocity, size);
+
+	position = { -300.0f,0.0f,-50.0f };
+	GenerationBlock(position, velocity, size);
+
+	position = { -320.0f,0.0f,-30.0f };
+	GenerationBlock(position, velocity, size);
+
+	position = { -340.0f,0.0f,-60.0f };
+	GenerationBlock(position, velocity, size);
+
+	position = { -400.0f,0.0f,-80.0f };
+	GenerationBlock(position, velocity, size);
+
+	position = { -420.0f,0.0f,-30.0f };
+	GenerationBlock(position, velocity, size);
+
+	position = { -440.0f,0.0f,-70.0f };
+	GenerationBlock(position, velocity, size);
+
 }
 
 void BlockManager::Update()
@@ -95,38 +102,46 @@ void BlockManager::Update()
 	// 外部変数適用
 	ApplyGlobalVariables();
 
-	for (uint32_t i = 0; i < BlockGenerationPatternName::kBlockGenerationPatternNameOfCount; i++) {
-		blockPatternDatas_["blockGenerationPattern"][blockGenerationPatternNames_[i]] = blockPatternFile_->GetValue("blockGenerationPattern", blockGenerationPatternNames_[i]);
-	}
-
 #endif // _DEBUG
-
-
-	// 状態の変更
-	StateChange();
-
-	// 状態の更新
-	blockManagerState_->Update();
 
 	//ブロックの範囲制御
 	RangeControl();
+	
+	if (generationBlockFrameCount_++ >= generationBlockFrame_) {
+		generationBlockFrameCount_ = 0;
+		
+		// ブロックの数制御
+		uint32_t newBlockNum = NumberControl();
+		if (generatedBlocksNumMax_ > newBlockNum) {
+			generatedBlocksNum_ = newBlockNum;
+		}
+		else {
+			generatedBlocksNum_ = generatedBlocksNumMax_;
+		}
 
-	// ブロックの数制御
-	// ブロックの生成
-	if (generationBlockFrame_ <= ++generationBlockFrameCount_) {
-		uint32_t maxGenerationBlock = NumberControl();
-		blockManagerState_->GenerationBlock(maxGenerationBlock);
-		generationBlockFrameCount_ = 0u;
+		// プレイヤーの位置
+		Vector3 playerPosition = player_->GetWorldTransform()->GetWorldPosition();
+
+		// ブロック生成
+		for (uint32_t i = 0; i < generatedBlocksNum_; i++) {
+
+			// どこから来るか
+			blockGenerationDirection_ = WhereComeFrom(playerPosition);
+
+			// 座標は
+			Vector3 position = CreatePosition(blockGenerationDirection_, playerPosition);
+
+			// 速度は
+			Vector3 velocity = CreateVelocity(blockGenerationDirection_);
+
+			// 大きさは
+			Vector3 size = CreateSize();
+
+			// 生成
+			GenerationBlock(position, velocity, size);
+
+		}
 	}
-
-	// ブロックの更新
-	//for (Block* block : blocks_) {
-	//	// ブロックの更新
-	//	block->Update();
-	//}
-
-	// ブロックパターンファイル
-	blockPatternFile_->Update();
 
 }
 
@@ -144,22 +159,6 @@ void BlockManager::ImGuiDraw()
 {
 }
 
-void BlockManager::GenerationBlocks(uint32_t patternName)
-{
-
-	Item item;
-	item = blockPatternDatas_["blockGenerationPattern"][blockGenerationPatternNames_[patternName]];
-	item.shrink_to_fit();
-
-	for (Item::iterator value = item.begin();
-		value != item.end(); ++value) {
-	
-		GenerationBlock(value->position_,value->velocity_);
-
-	}
-
-}
-
 void BlockManager::RangeControl()
 {
 
@@ -167,9 +166,14 @@ void BlockManager::RangeControl()
 
 	blocks_.remove_if([=](Block* block) {
 		
+		if (block->GetIsConnect()) {
+			return false;
+		}
+
 		// ブロックの位置取得
 		Vector3 blockPosition = block->GetAnchorPointWorldPosition(0);
 		
+
 		// ブロックが範囲を超えていたら削除
 		if (blockPosition.x > playerPosition.x + maxBlockPosition_.x ||
 			blockPosition.y > playerPosition.y + maxBlockPosition_.y ||
@@ -177,6 +181,11 @@ void BlockManager::RangeControl()
 			blockPosition.x < playerPosition.x + minBlockPosition_.x ||
 			blockPosition.y < playerPosition.y + minBlockPosition_.y ||
 			blockPosition.z < playerPosition.z + minBlockPosition_.z) {
+
+			if (block->GetAnchorPointScrew(0)) {
+				block->GetAnchorPointScrew(0)->SetState(Screw::State::NONE);
+				block->GetAnchorPointScrew(0)->SetTarget(nullptr);
+			}
 			delete block;
 			return true;
 		}
@@ -200,29 +209,173 @@ uint32_t BlockManager::NumberControl()
 
 }
 
-void BlockManager::StateChange()
+BlockGenerationDirection BlockManager::WhereComeFrom(const Vector3& position)
 {
 
-	// ステートのチェック
-	prevStateNo_ = currentStateNo_;
-	currentStateNo_ = blockManagerState_->GetBlockManagerStateNo();
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());
 
-	// ステートが変わったか
-	if (prevStateNo_ != currentStateNo_) {
-		//ステート変更（初期化）
-		blockManagerState_.reset(blockManagerFactory_->CreateBlockManagerState(currentStateNo_));
-		blockManagerState_->Initialize();
+	// 横か
+	bool beside = false;
+
+	// 横か縦か
+	std::uniform_real_distribution<float> distributionDirection(-1.0f, 1.0f);
+	beside = distributionDirection(randomEngine) >= 0.0f;
+
+	// 確定ライン
+	float confirmedLine = 50.0f;
+	//x
+	if (beside) {
+		// 東か
+		if (position.x >= confirmedLine) {
+			return kBlockGenerationDirectionEast;
+		}
+		else if(position.x <= -confirmedLine){
+			return kBlockGenerationDirectionWest;
+		}
+		else {
+			std::uniform_real_distribution<float> distributionBeside(-1.0f, 1.0f);
+			if (distributionBeside(randomEngine) >= 0.0f) {
+				return kBlockGenerationDirectionEast;
+			}
+			else {
+				return kBlockGenerationDirectionWest;
+			}
+		}
+	}
+	else {
+		// 北か
+		if (position.y >= confirmedLine) {
+			return kBlockGenerationDirectionNorth;
+		}
+		else if (position.y <= -confirmedLine) {
+			return kBlockGenerationDirectionSouth;
+		}
+		else {
+			std::uniform_real_distribution<float> distributionVertical(-1.0f, 1.0f);
+			if (distributionVertical(randomEngine) >= 0.0f) {
+				return kBlockGenerationDirectionNorth;
+			}
+			else {
+				return kBlockGenerationDirectionSouth;
+			}
+		}
 	}
 
 }
 
-void BlockManager::GenerationBlock(const Vector3& position, const Vector3& velocity)
+Vector3 BlockManager::CreatePosition(BlockGenerationDirection blockGenerationDirection, const Vector3& position)
+{
+
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());
+	Vector3 result = {};
+
+	result.y = 0.0f;
+
+	// 幅
+	std::uniform_real_distribution<float> distributionPosition(-generatedWidth_, generatedWidth_);
+
+	switch (blockGenerationDirection)
+	{
+	case kBlockGenerationDirectionNorth:
+		result.x = position.x + distributionPosition(randomEngine);
+		result.z = position.z + generatedWidth_;
+		break;
+	case kBlockGenerationDirectionSouth:
+		result.x = position.x + distributionPosition(randomEngine);
+		result.z = position.z - generatedWidth_;
+		break;
+	case kBlockGenerationDirectionEast:
+		result.x = position.x + generatedWidth_;
+		result.z = position.z + distributionPosition(randomEngine);
+		break;
+	case kBlockGenerationDirectionWest:
+		result.x = position.x - generatedWidth_;
+		result.z = position.z + distributionPosition(randomEngine);
+		break;
+	default:
+		break;
+	}
+
+	return result;
+
+}
+
+Vector3 BlockManager::CreateVelocity(BlockGenerationDirection blockGenerationDirection)
+{
+
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());
+	Vector3 result = {};
+
+	// 速度
+	float speed = blockSpped_[0];
+	std::uniform_real_distribution<float> distributionSpeed(0, 1.0f);
+	float SpeedLottery = distributionSpeed(randomEngine);
+	if (SpeedLottery < 0.33f) {
+		speed = blockSpped_[0];
+	}
+	else if (SpeedLottery < 0.66f) {
+		speed = blockSpped_[1];
+	}
+	else {
+		speed = blockSpped_[2];
+	}
+
+	switch (blockGenerationDirection)
+	{
+	case kBlockGenerationDirectionNorth:
+		result.z = -speed;
+		break;
+	case kBlockGenerationDirectionSouth:
+		result.z = speed;
+		break;
+	case kBlockGenerationDirectionEast:
+		result.x = -speed;
+		break;
+	case kBlockGenerationDirectionWest:
+		result.x = speed;
+		break;
+	default:
+		break;
+	}
+
+	return result;
+
+}
+
+Vector3 BlockManager::CreateSize()
+{
+
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());
+	Vector3 result = {};
+
+	Vector3 size = blockSize_[0];
+	std::uniform_real_distribution<float> distributionSpeed(0, 1.0f);
+	float SizeLottery = distributionSpeed(randomEngine);
+	if (SizeLottery < 0.33f) {
+		size = blockSize_[0];
+	}
+	else if (SizeLottery < 0.66f) {
+		size = blockSize_[1];
+	}
+	else {
+		size = blockSize_[2];
+	}
+
+	return size;
+}
+
+void BlockManager::GenerationBlock(const Vector3& position, const Vector3& velocity, const Vector3& size)
 {
 
 	Block* newBlock = new Block();
 	newBlock->Initialize();
 	newBlock->SetWorldPosition(position);
 	newBlock->SetVelocity(velocity);
+	newBlock->SetSize(size);
 	blocks_.push_back(newBlock);
 
 }
@@ -294,6 +447,12 @@ void BlockManager::RegisteringGlobalVariables()
 
 	globalVariables->AddItem(groupName, "generationBlockFrame", generationBlockFrame_);
 
+	globalVariables->AddItem(groupName, "generatedWidth_", generatedWidth_);
+
+	globalVariables->AddItem(groupName, "blockSpeed Fast", blockSpped_[kBlockSpeedIndexFast]);
+	globalVariables->AddItem(groupName, "blockSpeed Middle", blockSpped_[kBlockSpeedIndexMiddle]);
+	globalVariables->AddItem(groupName, "blockSpeed Slow", blockSpped_[kBlockSpeedIndexSlow]);
+
 }
 
 void BlockManager::ApplyGlobalVariables()
@@ -311,5 +470,11 @@ void BlockManager::ApplyGlobalVariables()
 	blockSize_[kBlockSizeIndexBig] = globalVariables->GetVector3Value(groupName, "blockSize Big");
 
 	generationBlockFrame_ = globalVariables->GetUIntValue(groupName, "generationBlockFrame");
+
+	generatedWidth_ = globalVariables->GetFloatValue(groupName, "generatedWidth_");
+
+	blockSpped_[kBlockSpeedIndexFast] = globalVariables->GetFloatValue(groupName, "blockSpeed Fast");
+	blockSpped_[kBlockSpeedIndexMiddle] = globalVariables->GetFloatValue(groupName, "blockSpeed Middle");
+	blockSpped_[kBlockSpeedIndexSlow] = globalVariables->GetFloatValue(groupName, "blockSpeed Slow");
 
 }
