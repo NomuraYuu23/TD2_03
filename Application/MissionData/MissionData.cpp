@@ -32,6 +32,10 @@ void MissionData::Initialize() {
 	globalVariables->AddItem(groupName, "1Position", missionPoint_[1].point);
 	globalVariables->AddItem(groupName, "2Position", missionPoint_[2].point);
 	globalVariables->AddItem(groupName, "3Position", missionPoint_[3].point);
+	globalVariables->AddItem(groupName, "0RotateY", 0.0f);
+	globalVariables->AddItem(groupName, "1RotateY", 0.0f);
+	globalVariables->AddItem(groupName, "2RotateY", 0.0f);
+	globalVariables->AddItem(groupName, "3RotateY", 0.0f);
 }
 
 void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPosition) {
@@ -42,6 +46,11 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 	missionPoint_[1].point = globalVariables->GetVector3Value(groupName, "1Position");
 	missionPoint_[2].point = globalVariables->GetVector3Value(groupName, "2Position");
 	missionPoint_[3].point = globalVariables->GetVector3Value(groupName, "3Position");
+	missionPoint_[0].rotateY = globalVariables->GetFloatValue(groupName, "0RotateY");
+	missionPoint_[1].rotateY = globalVariables->GetFloatValue(groupName, "1RotateY");
+	missionPoint_[2].rotateY = globalVariables->GetFloatValue(groupName, "2RotateY");
+	missionPoint_[3].rotateY = globalVariables->GetFloatValue(groupName, "3RotateY");
+
 	addScrewNumBlock_ = 0;
 	addScrewNumPoint_ = 0;
 	isBlockBeenUpdate_ = false;

@@ -21,6 +21,7 @@ public:
 		Vector3 point;
 		bool isClear_ = false;
 		size_t addScrewNum_;
+		float rotateY;
 	};
 
 	static MissionData* GetInstance(){
