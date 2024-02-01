@@ -792,7 +792,7 @@ void GameScene::TextureLoad()
 	cursorTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/UI/ingame_target.png", dxCommon_, textureHandleManager_.get());
 
 	uiTextureHandles_ = {
-		TextureManager::Load("Resources/Sprite/Game/UI/kugimi.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/UI/nejimit.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/Sprite/Common/number.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/Sprite/Game/UI/ingame_ui_symbol.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/Sprite/Game/UI/ingame_frame.png", dxCommon_,textureHandleManager_.get()),
