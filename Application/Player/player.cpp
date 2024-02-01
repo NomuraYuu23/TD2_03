@@ -29,6 +29,7 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 
 	globalVariables->AddItem(groupName, "MagnetRadius", magnetRadius_);
 	globalVariables->AddItem(groupName, "GravityFrame", gravityFrame_);
+	globalVariables->AddItem(groupName, "CharacterSpeed", characterSpeed_);
 	
 	worldTransform_.Initialize();
 	worldTransform_.transform_.translate.y += 4.0f;
@@ -102,6 +103,7 @@ void Player::Update(Block* block, size_t blockNum) {
 	const std::string groupName = "Player";
 	magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetRadius");
 	gravityFrame_ = globalVariables->GetUIntValue(groupName, "GravityFrame");
+	characterSpeed_ = globalVariables->GetFloatValue(groupName, "CharacterSpeed");
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
 		attackFrameCount_ = 0;
@@ -246,15 +248,13 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 		ParticleManager::GetInstance()->MakeEmitter(transform, 3, 0.005f, 0.5f, ParticleModelIndex::kCircle, ParticleName::kGravityParticle, EmitterName::kGravityEmitter);
 	}
 
-	if (1) {
-
-		const float kCharacterSpeed = 0.3f;
+	if (isFlooar_) {
 
 		Vector3 move = {
 			float(input_->GetLeftAnalogstick().x) / (SHRT_MAX), 0,
 			float(-input_->GetLeftAnalogstick().y) / (SHRT_MAX) };
 		//Matrix4x4 newrotation = DirectionToDIrection({0,0.0f,1.0f}, {0, 0.0f, -1.0f});
-		move = Vector3Calc::Multiply(kCharacterSpeed, Vector3Calc::Normalize(move));;
+		move = Vector3Calc::Multiply(characterSpeed_, Vector3Calc::Normalize(move));;
 		//Vector3 cameraDirectionYcorection = {0.0f, viewProjection_->matView.m[1][0] * viewProjection_->matView.m[1][0]* viewProjection_->matView.m[1][2], 0.0f};
 		Matrix4x4 cameraRotateY = Matrix4x4Calc::Inverse(camera_->GetViewMatrix());
 		//cameraRotateY.m[0][0] = 1;
@@ -407,12 +407,14 @@ void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidio
 		//std::get<Block*>(pairObject)->SetIsConnect(true);
 	}
 	if (std::holds_alternative<Planet*>(pairObject)) {
-		
-		isFlooar_ = true;
-		float sizeY = std::get<Planet*>(pairObject)->GetCollider()->size_.y;
-		worldTransform_.transform_.translate.y = std::get<Planet*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + sizeY + worldTransform_.transform_.scale.y;
-		if (worldTransform_.parent_) {
-			worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(worldTransform_.worldMatrix_, worldTransform_.parent_->worldMatrix_);
+
+		if (worldTransform_.transform_.translate.y >= 0.0f) {
+			isFlooar_ = true;
+			float sizeY = std::get<Planet*>(pairObject)->GetCollider()->size_.y;
+			worldTransform_.transform_.translate.y = std::get<Planet*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + sizeY + worldTransform_.transform_.scale.y;
+			if (worldTransform_.parent_) {
+				worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(worldTransform_.worldMatrix_, worldTransform_.parent_->worldMatrix_);
+			}
 		}
 		
 	}
