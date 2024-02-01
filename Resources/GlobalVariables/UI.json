@@ -1,5 +1,23 @@
 {
     "UI": {
+        "UIGravityOperationSymbleposition": [
+            320.0,
+            145.0
+        ],
+        "UIGravityOperationSymblerotate": 0.0,
+        "UIGravityOperationSymblesize": [
+            45.0,
+            45.0
+        ],
+        "UIGravityOperationTextposition": [
+            320.0,
+            105.0
+        ],
+        "UIGravityOperationTextrotate": 0.0,
+        "UIGravityOperationTextsize": [
+            203.0,
+            44.79999923706055
+        ],
         "UIIndexEnergyPlateposition": [
             900.0,
             18.0
@@ -26,6 +44,24 @@
         "UIIndexFramesize": [
             1280.0,
             720.0
+        ],
+        "UILockOnOperationSymbleposition": [
+            180.0,
+            145.0
+        ],
+        "UILockOnOperationSymblerotate": 0.0,
+        "UILockOnOperationSymblesize": [
+            56.0,
+            39.599998474121094
+        ],
+        "UILockOnOperationTextposition": [
+            180.0,
+            105.0
+        ],
+        "UILockOnOperationTextrotate": 0.0,
+        "UILockOnOperationTextsize": [
+            203.0,
+            44.79999923706055
         ],
         "UIMission2Clearposition": [
             1215.0,
