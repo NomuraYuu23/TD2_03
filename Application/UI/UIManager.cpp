@@ -141,6 +141,12 @@ void UIManager::Update(const UIManagerUpdateDesc& uiManagerUpdateDesc)
 		UIs_[kUIIndexMissionPointClear]->SetRotate(0.0f);
 	}
 
+	// 操作
+	UIs_[kUIIndexLockOnOperationSymble]->Update();
+	UIs_[kUIIndexLockOnOperationText]->Update();
+	UIs_[kUIIndexGravityOperationSymble]->Update();
+	UIs_[kUIIndexGravityOperationText]->Update();
+
 }
 
 void UIManager::Draw()
@@ -253,6 +259,22 @@ void UIManager::UIInitialize()
 	UIs_[kUIIndexMissionPointClear] = std::make_unique<UIMissionClear>();
 	UIs_[kUIIndexMissionPointClear]->Initialize(textureHandles_[kUITextureHandleIndexMissionClear], "UIMission2Clear", missionClearSize, leftTop);
 	UIs_[kUIIndexMissionPointClear]->SetIsInvisible(true);
+
+	// 操作
+
+	Vector2 lockOnOperationSymbleSize = {};
+	Vector2 lockOnOperationTextSize = {};
+	Vector2 gravityOperationSymbleSize = {};
+	Vector2 gravityOperationTextSize = {};
+
+	UIs_[kUIIndexLockOnOperationSymble] = std::make_unique<UI>();
+	UIs_[kUIIndexLockOnOperationSymble]->Initialize(textureHandles_[kUITextureHandleIndexLockOnOperationSymble], "UILockOnOperationSymble", missionClearSize, leftTop);
+	UIs_[kUIIndexLockOnOperationText] = std::make_unique<UI>();
+	UIs_[kUIIndexLockOnOperationText]->Initialize(textureHandles_[kUITextureHandleIndexLockOnOperationText], "UILockOnOperationText", missionClearSize, leftTop);
+	UIs_[kUIIndexGravityOperationSymble] = std::make_unique<UI>();
+	UIs_[kUIIndexGravityOperationSymble]->Initialize(textureHandles_[kUITextureHandleIndexGravityOperationSymble], "UIGravityOperationSymble", missionClearSize, leftTop);
+	UIs_[kUIIndexGravityOperationText] = std::make_unique<UI>();
+	UIs_[kUIIndexGravityOperationText]->Initialize(textureHandles_[kUITextureHandleIndexGravityOperationText], "UIGravityOperationText", missionClearSize, leftTop);
 
 }
 

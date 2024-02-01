@@ -17,6 +17,12 @@ enum UITextureHandleIndex {
 	kUITextureHandleIndexPointMissionText, // ポイントミッションテキスト
 	kUITextureHandleIndexFlagColor, // ミッションの旗色
 	kUITextureHandleIndexMissionComplete, // ミッションコンプリート
+
+	kUITextureHandleIndexLockOnOperationSymble, // ロックオンシンボル
+	kUITextureHandleIndexLockOnOperationText, // ロックオンテキスト
+	kUITextureHandleIndexGravityOperationSymble, // 重力シンボル
+	kUITextureHandleIndexGravityOperationText, // 重力テキスト
+
 	kUITextureHandleIndexOfCount
 };
 
@@ -45,6 +51,12 @@ enum UIIndex {
 	kUIIndexMissionPointText, // ポイントミッションテキスト
 	kUIindexMissionFlagColor, // ミッション旗色
 	kUIIndexMissionPointClear, // ポイントミッションクリア
+
+	kUIIndexLockOnOperationSymble, // ロックオンシンボル
+	kUIIndexLockOnOperationText, // ロックオンテキスト
+	kUIIndexGravityOperationSymble, // 重力シンボル
+	kUIIndexGravityOperationText, // 重力テキスト
+
 	kUIIndexOfCount
 };
 
