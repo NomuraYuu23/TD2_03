@@ -252,9 +252,15 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::UploadTextureData(Microso
 /// <returns></returns>
 uint32_t TextureManager::LoadInternal(const std::string& fileName, DirectXCommon* dxCommon) {
 
+
+
 	//indexNextDescriptorHeap
 	uint32_t indexNextDescriptorHeap = 0u;
 	for (uint32_t i = 0; i < textures_.size(); i++) {
+		if (textures_[i].name == fileName) {
+			return i;
+		}
+
 		if (!textures_[i].used) {
 			indexNextDescriptorHeap = i;
 			textures_[i].used = true;
