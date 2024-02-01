@@ -15,17 +15,21 @@
             1.0,
             1.0
         ],
-        "generationBlockFrame": 999,
+        "blockSpeed Fast": 0.20000000298023224,
+        "blockSpeed Middle": 0.10000000149011612,
+        "blockSpeed Slow": 0.05000000074505806,
+        "generatedWidth_": 75.0,
+        "generationBlockFrame": 180,
         "maxBlock": 128,
         "maxBlockPosition": [
-            1000.0,
-            1000.0,
-            1000.0
+            400.0,
+            400.0,
+            400.0
         ],
         "minBlockPosition": [
-            -1000.0,
-            -1000.0,
-            -1000.0
+            -400.0,
+            -400.0,
+            -400.0
         ]
     }
 }
