@@ -1,11 +1,19 @@
 {
     "TilteSceneSprite": {
         "ButtonSpritePosition": [
-            637.1400146484375,
+            520.0,
             560.0
         ],
         "ButtonSpriteSize": [
             128.0,
+            128.0
+        ],
+        "StartSpritePosition": [
+            710.0,
+            560.0
+        ],
+        "StartSpriteSize": [
+            512.0,
             128.0
         ],
         "TilteSpritePosition": [

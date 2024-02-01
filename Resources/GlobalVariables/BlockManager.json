@@ -6,18 +6,18 @@
             4.0
         ],
         "blockSize Middle": [
+            3.0,
+            3.0,
+            3.0
+        ],
+        "blockSize Small": [
             2.0,
             2.0,
             2.0
         ],
-        "blockSize Small": [
-            1.0,
-            2.0,
-            1.0
-        ],
         "blockSpeed Fast": 0.20000000298023224,
-        "blockSpeed Middle": 0.10000000149011612,
-        "blockSpeed Slow": 0.05000000074505806,
+        "blockSpeed Middle": 0.15000000596046448,
+        "blockSpeed Slow": 0.10000000149011612,
         "generatedWidth_": 75.0,
         "generationBlockFrame": 180,
         "maxBlock": 32,

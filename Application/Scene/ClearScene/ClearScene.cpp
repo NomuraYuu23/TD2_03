@@ -33,7 +33,7 @@ void ClearScene::Initialize()
 	buttonPosition_ = { 640.0f, 560.0f };
 	buttonTextureHandle_ = TextureManager::Load("Resources/Sprite/Common/controler_UI_A.png", dxCommon_, textureHandleManager_.get());
 	buttonSprite_.reset(Sprite::Create(buttonTextureHandle_, buttonPosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
-	buttonSprite_->SetTextureSize(Vector2{ 384.0f, 384.0f });
+	buttonSprite_->SetTextureSize(Vector2{ 450.0f, 450.0f });
 	buttonSprite_->SetSize(Vector2{ 128.0f, 128.0f });
 	buttonSprite_->SetTextureLeftTop(Vector2{ 0.0f, 0.0f });
 	buttonSize_ = { 128.0f, 128.0f };

@@ -115,5 +115,10 @@ private: // メンバ変数
 
 	//アウトライン仮
 	OutLineData outline_;
+
+	std::unique_ptr<Sprite> startSprite_ = nullptr;
+	Vector2 startSize_ = {0};
+	Vector2 startPosition_ = {0};
+	uint32_t startTextureHandle_;
 };
 
