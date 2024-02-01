@@ -134,7 +134,7 @@ void BlockManager::RangeControl()
 
 	blocks_.remove_if([=](Block* block) {
 		
-		if (block->GetIsConnect()) {
+		if (block->GetIsConnect() || block->GetPlayerHasBeenSeen()) {
 			return false;
 		}
 

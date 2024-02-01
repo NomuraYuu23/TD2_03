@@ -51,6 +51,9 @@ public:
 	bool IsScrewPinch() { return anchorPoints_[0].screw->GetIsPinch(); };
 	bool IsPinch() { return isPinch_; }
 
+	bool GetPlayerHasBeenSeen() { return playerHasBeenSeen_; }
+	void SetPlayerHasBeenSeen(bool playerHasBeenSeen) { playerHasBeenSeen_ = playerHasBeenSeen; }
+
 protected:
 
 	std::array<AnchorPoint, anchorNum> anchorPoints_;
@@ -77,4 +80,6 @@ protected:
 	int colorLength_;
 	bool isPinchCheckMode_;//外れかかっているかを調査するモード
 	int colorDirection_;
+
+	bool playerHasBeenSeen_ = false;
 };
