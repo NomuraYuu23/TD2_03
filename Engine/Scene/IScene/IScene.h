@@ -73,6 +73,9 @@ public: // メンバ関数
 	// リクエストシーン番号のゲッター
 	int GetRequestSceneNo();
 
+	// シーンをリセットするか
+	bool GetResetScene() { return resetScene_; }
+
 protected:  // メンバ関数
 
 	/// <summary>
@@ -94,6 +97,12 @@ protected: // メンバ変数
 
 	// テクスチャハンドル管理
 	std::unique_ptr<ITextureHandleManager> textureHandleManager_ = nullptr;
+
+	// シーンをリセット
+	bool resetScene_ = false;
+
+	// リセット中
+	bool isBeingReset_ = false;
 
 };
 

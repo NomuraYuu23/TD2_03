@@ -8,6 +8,7 @@ void Pause::Initialize(const std::array<uint32_t, PauseTextureIndex::kPausingTex
 	isPause_ = false;
 	pauseMenuSelect_ = PauseMenu::kPauseMenuReturnToGame;
 	goToTheTitle_ = false;
+	restart_ = false;
 	textureHandles_ = textureHandles;
 
 	arrowLeftPositionX_ = 350.0f;
@@ -206,6 +207,7 @@ void Pause::PauseMenuRestart()
 	arrowSprite_->SetPosition(position);
 
 	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
+		restart_ = true;
 		audioManager_->PlayWave(kGameAudioNameIndexPauseDesicion);
 	}
 

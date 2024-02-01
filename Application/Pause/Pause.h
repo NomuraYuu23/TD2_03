@@ -92,6 +92,10 @@ public: // アクセッサ
 
 	bool GoToTheTitle() { return goToTheTitle_; }
 
+	bool Restart() { return restart_; }
+
+	void SetRestart(bool restart) { restart_ = restart; }
+
 	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
 
 private: // メンバ変数
@@ -106,6 +110,9 @@ private: // メンバ変数
 
 	// タイトルへ戻るか
 	bool goToTheTitle_;
+
+	// リスタートするか
+	bool restart_;
 
 	// テクスチャハンドル
 	std::array<uint32_t, PauseTextureIndex::kPausingTextureIndexOfCount> textureHandles_;

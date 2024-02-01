@@ -180,8 +180,10 @@ void GameScene::Update() {
 	}
 #endif
 
-	// BGM音量下げる
-	if (requestSceneNo == kClear || requestSceneNo == kTitle) {
+	if (requestSceneNo == kClear || requestSceneNo == kTitle || isBeingReset_) {
+		pause_->SetRestart(false);
+		resetScene_ = false;
+		// BGM音量下げる
 		if (isDecreasingVolume) {
 			LowerVolumeBGM();
 		}
@@ -190,6 +192,13 @@ void GameScene::Update() {
 
 	// タイトルへ行く
 	GoToTheTitle();
+
+	// リスタート
+	if (pause_->Restart()) {
+		resetScene_ = true;
+		isBeingReset_ = true;
+		isDecreasingVolume = true;
+	}
 
 	// ポーズ機能
 	pause_->PoseSwitching();
