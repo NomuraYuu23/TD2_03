@@ -64,7 +64,7 @@ void Screw::Initialize() {
 	followPosition_.z = distribution(randomEngine);
 	std::uniform_real_distribution<float> distribution2(-12.0f, 12.0f);
 	followPosition_.x = distribution2(randomEngine);
-	std::uniform_real_distribution<float> distribution3(3.0f, 5.0f);
+	std::uniform_real_distribution<float> distribution3(5.0f, 10.0f);
 	followPosition_.y = distribution3(randomEngine);
 	std::uniform_real_distribution<float> distribution4(0.5f, 1.2f);
 	followSpeed_ = distribution4(randomEngine);
@@ -85,10 +85,10 @@ void Screw::Initialize() {
 void Screw::Update() {
 	isDrawSweat_ = false;
 	if (worldTransform_.transform_.translate.y >= followPosition_.y) {
-		acceleration_.y = -0.001f;
+		acceleration_.y = -0.0005f;
 	}
 	else {
-		acceleration_.y = 0.001f;
+		acceleration_.y = 0.0005f;
 	}
 	velocity_.x += acceleration_.x;
 	velocity_.y += acceleration_.y;
@@ -185,13 +185,7 @@ void Screw::Follow() {
 			Vector3 velocity = Vector3Calc::Multiply(kFollowSpeed*followSpeed_, Vector3Calc::Normalize(Vector3Calc::Subtract(Matrix4x4Calc::Transform(followPosition_,player_->GetWorldTransform()->worldMatrix_), worldTransform_.GetWorldPosition())));
 			velocity.y = 0;
 			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, velocity);
-			//worldTransform_.direction_ = Vector3Calc::Normalize(velocity);
 		}
-		/*worldTransform_.transform_.translate.y -= 0.3f;
-		if (worldTransform_.transform_.translate.y <= -20.0f) {
-			worldTransform_.transform_.translate = player_->GetWorldTransform()->GetWorldPosition();
-			worldTransform_.transform_.translate.y = 4.0f;
-		}*/
 		worldTransform_.transform_.translate.y += velocity_.y;
 	}
 	if (!isRideBlock_ && worldTransform_.parent_) {
