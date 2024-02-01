@@ -44,6 +44,7 @@ void Screw::Initialize() {
 	worldTransform_.Initialize();
 	worldTransform_.transform_.scale = {0.8f,0.8f,0.8f};
 	worldTransform_.direction_ = {0,0,1.0f};
+	worldTransform_.transform_.translate = { 0.0f, 6.0f, 0.0f};
 	mat_.reset(Material::Create());
 	TransformStructure t{ 0 };
 	t.scale = { 1.0f,1.0f,1.0f };
@@ -64,7 +65,7 @@ void Screw::Initialize() {
 	followPosition_.z = distribution(randomEngine);
 	std::uniform_real_distribution<float> distribution2(-12.0f, 12.0f);
 	followPosition_.x = distribution2(randomEngine);
-	std::uniform_real_distribution<float> distribution3(5.0f, 10.0f);
+	std::uniform_real_distribution<float> distribution3(5.0f, 7.0f);
 	followPosition_.y = distribution3(randomEngine);
 	std::uniform_real_distribution<float> distribution4(0.5f, 1.2f);
 	followSpeed_ = distribution4(randomEngine);
@@ -85,10 +86,10 @@ void Screw::Initialize() {
 void Screw::Update() {
 	isDrawSweat_ = false;
 	if (worldTransform_.transform_.translate.y >= followPosition_.y) {
-		acceleration_.y = -0.0005f;
+		acceleration_.y = -0.001f;
 	}
 	else {
-		acceleration_.y = 0.0005f;
+		acceleration_.y = 0.001f;
 	}
 	velocity_.x += acceleration_.x;
 	velocity_.y += acceleration_.y;
