@@ -32,6 +32,8 @@ class GameScene : public IScene
 
 public:
 
+	~GameScene();
+
 	/// <summary>
 	/// 初期化
 	/// </summary>

@@ -9,6 +9,18 @@
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../ForResult/ForResult.h"
 #include "../../Particle/Liner/ForLinerEmitterData.h"
+
+GameScene::~GameScene()
+{
+
+	if (stopAudio_) {
+		for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
+			audioManager_->StopWave(i);
+		}
+	}
+
+}
+
 /// <summary>
 /// 初期化
 /// </summary>

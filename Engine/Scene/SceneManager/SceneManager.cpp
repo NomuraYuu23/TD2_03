@@ -70,6 +70,7 @@ void SceneManager::Update()
 		if (sceneTransition_->GetSwitchScene()) {
 			// シーン切り替え
 			currentSceneNo_ = requestSeneNo_;
+			scene_->SetStopAudio(true);
 			scene_.reset(sceneFacyory_->CreateScene(currentSceneNo_));
 			// シーンの初期化
 			sceneInitialize_ = std::thread(std::bind(&SceneManager::SceneInitializeThread, this));

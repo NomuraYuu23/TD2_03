@@ -76,6 +76,9 @@ public: // メンバ関数
 	// シーンをリセットするか
 	bool GetResetScene() { return resetScene_; }
 
+	// オーディオを止める
+	void SetStopAudio(bool stopAudio) { stopAudio_ = stopAudio; }
+
 protected:  // メンバ関数
 
 	/// <summary>
@@ -103,6 +106,9 @@ protected: // メンバ変数
 
 	// リセット中
 	bool isBeingReset_ = false;
+
+	// 削除された時オーディオ止める
+	bool stopAudio_ = false;
 
 };
 

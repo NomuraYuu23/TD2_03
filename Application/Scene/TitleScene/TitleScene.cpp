@@ -6,6 +6,12 @@
 
 TitleScene::~TitleScene()
 {
+	if (stopAudio_) {
+		for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
+			audioManager_->StopWave(i);
+		}
+	}
+
 }
 
 void TitleScene::Initialize()
