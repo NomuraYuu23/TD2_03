@@ -121,6 +121,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Particle\Gravity\GravityEmitter.cpp" />
     <ClCompile Include="Application\Particle\Gravity\GravityParticle.cpp" />
     <ClCompile Include="Application\Particle\Liner\LinerEmitter.cpp" />
+    <ClCompile Include="Application\Particle\Liner\LinerParticle.cpp" />
     <ClCompile Include="Application\Particle\Spark\SparkEmitter.cpp" />
     <ClCompile Include="Application\Particle\Spark\SparkParticle.cpp" />
     <ClCompile Include="Application\Planet\Planet.cpp" />
@@ -239,6 +240,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Particle\Gravity\GravityParticle.h" />
     <ClInclude Include="Application\Particle\Liner\ForLinerEmitterData.h" />
     <ClInclude Include="Application\Particle\Liner\LinerEmitter.h" />
+    <ClInclude Include="Application\Particle\Liner\LinerParticle.h" />
     <ClInclude Include="Application\Particle\Spark\SparkEmitter.h" />
     <ClInclude Include="Application\Particle\Spark\SparkParticle.h" />
     <ClInclude Include="Application\Planet\Planet.h" />

@@ -3,6 +3,7 @@
 #include "EmitterName.h"
 #include "Gravity/GravityEmitter.h"	
 #include "Spark/SparkEmitter.h"
+#include "Liner/LinerEmitter.h"
 MakeEmitter* MakeEmitter::GetInstance()
 {
     return nullptr;
@@ -27,6 +28,10 @@ IEmitter* MakeEmitter::Run(const TransformStructure& transform, uint32_t instanc
 		break;
 	case kSparkEmitter:
 		emitter = new SparkEmitter();
+		emitter->Initialize(transform, instanceCount, frequency, lifeTime, particleModelNum, paeticleName);
+		break;
+	case kLinerEmitter:
+		emitter = new LinerEmitter();
 		emitter->Initialize(transform, instanceCount, frequency, lifeTime, particleModelNum, paeticleName);
 		break;
 	case kCountOfParticleName:

@@ -8,6 +8,7 @@
 #include "../../Particle/EmitterName.h"
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../ForResult/ForResult.h"
+#include "../../Particle/Liner/ForLinerEmitterData.h"
 /// <summary>
 /// 初期化
 /// </summary>
@@ -161,6 +162,9 @@ void GameScene::Initialize() {
 
 	audioManager_->PlayWave(kGameAudioNameIndexBGM);
 
+	ForLinerEmitterData::GetInstance()->SetIsDraw(false);
+	TransformStructure transform{ {1.0f,1.0f,1.0f},{0},{0.0f,3.0f,0.0f} };
+	ParticleManager::GetInstance()->MakeEmitter(transform, 300, 0.005f, 0.5f, ParticleModelIndex::kCircle, ParticleName::kLinerParticle, EmitterName::kLinerEmitter);
 }
 
 /// <summary>
@@ -333,6 +337,7 @@ void GameScene::Update() {
 			followCount++;
 		}
 	}
+	ForLinerEmitterData::GetInstance()->SetIsDraw(false);
 	if (followCount == 0) {
 		Screw* screw = nullptr;
 		int length = -1;
@@ -342,8 +347,15 @@ void GameScene::Update() {
 				screw = (*ite).get();
 			}
 		}
-		if (screw) {
+		ForLinerEmitterData::GetInstance()->SetIsDraw(false);
+		if (screw && player_->GetBehavior() == Player::Behavior::kRoot) {
 			screw->SetIsFirstStuck(true);
+			std::array<WorldTransform, PlayerPartIndex::kPlayerPartIndexOfCount>* transforms = player_->GetAnimation()->GetWorldTransforms();
+			Vector3 end = (*transforms)[PlayerPartIndex::kPlayerPartIndexMagnet].GetWorldPosition();
+			Vector3 start = screw->GetWorldTransform()->GetWorldPosition();
+			start.y += 2.0f;
+			ForLinerEmitterData::GetInstance()->SetData(start,end);
+			ForLinerEmitterData::GetInstance()->SetIsDraw(true);
 		}
 	}
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
