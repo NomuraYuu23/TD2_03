@@ -112,6 +112,7 @@ void UIManager::Update(const UIManagerUpdateDesc& uiManagerUpdateDesc)
 		UIs_[kUIIndexMissionPointClear]->SetIsInvisible(false);
 		pointStampT_ = 0.0f;
 		audioManager_->PlayWave(kGameAudioNameIndexMissionClear);
+		audioManager_->PlayWave(kGameAudioNameIndexFlagGet);
 	}
 
 	//ぽいんとアップデート中
