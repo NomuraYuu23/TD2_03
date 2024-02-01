@@ -262,19 +262,19 @@ void UIManager::UIInitialize()
 
 	// 操作
 
-	Vector2 lockOnOperationSymbleSize = {};
-	Vector2 lockOnOperationTextSize = {};
-	Vector2 gravityOperationSymbleSize = {};
-	Vector2 gravityOperationTextSize = {};
+	Vector2 lockOnOperationSymbleSize = { 280.0f, 192.0f };
+	Vector2 lockOnOperationTextSize = { 580.0f, 128.0f };
+	Vector2 gravityOperationSymbleSize = {450.0f, 450.0f};
+	Vector2 gravityOperationTextSize = { 580.0f, 128.0f };
 
 	UIs_[kUIIndexLockOnOperationSymble] = std::make_unique<UI>();
-	UIs_[kUIIndexLockOnOperationSymble]->Initialize(textureHandles_[kUITextureHandleIndexLockOnOperationSymble], "UILockOnOperationSymble", missionClearSize, leftTop);
+	UIs_[kUIIndexLockOnOperationSymble]->Initialize(textureHandles_[kUITextureHandleIndexLockOnOperationSymble], "UILockOnOperationSymble", lockOnOperationSymbleSize, leftTop);
 	UIs_[kUIIndexLockOnOperationText] = std::make_unique<UI>();
-	UIs_[kUIIndexLockOnOperationText]->Initialize(textureHandles_[kUITextureHandleIndexLockOnOperationText], "UILockOnOperationText", missionClearSize, leftTop);
+	UIs_[kUIIndexLockOnOperationText]->Initialize(textureHandles_[kUITextureHandleIndexLockOnOperationText], "UILockOnOperationText", lockOnOperationTextSize, leftTop);
 	UIs_[kUIIndexGravityOperationSymble] = std::make_unique<UI>();
-	UIs_[kUIIndexGravityOperationSymble]->Initialize(textureHandles_[kUITextureHandleIndexGravityOperationSymble], "UIGravityOperationSymble", missionClearSize, leftTop);
+	UIs_[kUIIndexGravityOperationSymble]->Initialize(textureHandles_[kUITextureHandleIndexGravityOperationSymble], "UIGravityOperationSymble", gravityOperationSymbleSize, leftTop);
 	UIs_[kUIIndexGravityOperationText] = std::make_unique<UI>();
-	UIs_[kUIIndexGravityOperationText]->Initialize(textureHandles_[kUITextureHandleIndexGravityOperationText], "UIGravityOperationText", missionClearSize, leftTop);
+	UIs_[kUIIndexGravityOperationText]->Initialize(textureHandles_[kUITextureHandleIndexGravityOperationText], "UIGravityOperationText", gravityOperationTextSize, leftTop);
 
 }
 
