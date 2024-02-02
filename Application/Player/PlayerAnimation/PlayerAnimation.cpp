@@ -60,6 +60,9 @@ void PlayerAnimation::Update(PlayerAnimationIndex playerAnimationNo)
 		case kPlayerAnimationIndexScrewThrowing:
 			ScrewThrowingInitialize();
 			break;
+		case kPlayerAnimationIndexFalling:
+			FallingInitialize();
+			break;
 		case kPlayerAnimationIndexOfCount:
 			assert(0);
 			break;
@@ -82,6 +85,9 @@ void PlayerAnimation::Update(PlayerAnimationIndex playerAnimationNo)
 		break;
 	case kPlayerAnimationIndexScrewThrowing:
 		ScrewThrowingUpdate();
+		break;
+	case kPlayerAnimationIndexFalling:
+		FallingUpdate();
 		break;
 	case kPlayerAnimationIndexOfCount:
 		assert(0);
@@ -312,6 +318,25 @@ void PlayerAnimation::ScrewThrowingMagunetException()
 	Vector3 translate = Matrix4x4Calc::Transform(blockPosition, worldMatrixInverse);
 
 	workScrewThrowing_.nextTransforms_[PlayerPartIndex::kPlayerPartIndexMagnet].translate = translate;
+}
+
+void PlayerAnimation::FallingInitialize()
+{
+
+	TransformInitialize();
+
+	workFalling_.parameter_ = 0.0f;
+
+}
+
+void PlayerAnimation::FallingUpdate()
+{
+
+	workFalling_.parameter_ =  std::clamp(workFalling_.parameter_ + workFalling_.speed_, 0.0f, 1.0f);
+
+	worldTransforms_[kPlayerPartIndexBody].transform_.rotate = 
+		Ease::Easing(Ease::EaseName::Lerp, workFalling_.startRotate_, workFalling_.endRotate_, workFalling_.parameter_);
+
 }
 
 void PlayerAnimation::RegisteringGlobalVariables()

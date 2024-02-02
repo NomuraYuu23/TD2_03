@@ -19,6 +19,7 @@ enum PlayerAnimationIndex {
 	kPlayerAnimationIndexWalk, // 歩き状態
 	kPlayerAnimationIndexGravity, // 重力状態
 	kPlayerAnimationIndexScrewThrowing, // ねじ投擲状態
+	kPlayerAnimationIndexFalling, // 落下状態
 	kPlayerAnimationIndexOfCount // 数
 };
 
@@ -69,6 +70,14 @@ public: // サブクラス
 
 	};
 
+	// 落下状態
+	struct WorkFalling {
+		float speed_ = 0.02f;
+		float parameter_ = 0.0f;
+		Vector3 startRotate_ = { 0.0f,0.0f,0.0f };
+		Vector3 endRotate_ = { 3.14f,0.0f,0.0f };
+	};
+
 private: // 重力状態
 
 	enum GravityPhaseIndex {
@@ -106,6 +115,7 @@ private: // 文字列
 		"Walk",
 		"Gravity",
 		"ScrewThrowing",
+		"Falling",
 	};
 	
 	const std::array <std::string, GravityPhaseIndex::kGravityPhaseIndexOfCount> kGravityPhaseIndexNames_ = {
@@ -159,6 +169,10 @@ private:
 	// 磁石部分の例外
 	void ScrewThrowingMagunetException();
 
+	// 落下状態
+	void FallingInitialize();
+	void FallingUpdate();
+
 private: // メンバ関数
 
 	/// <summary>
@@ -196,6 +210,8 @@ private:
 	WorkGravity workGravity_;
 
 	WorkScrewThrowing workScrewThrowing_;
+
+	WorkFalling workFalling_;
 
 };
 

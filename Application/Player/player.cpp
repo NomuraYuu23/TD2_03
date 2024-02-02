@@ -313,7 +313,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 
 	}
 	else {
-		playerAnimationNo_ = kPlayerAnimationIndexStand;
+		playerAnimationNo_ = kPlayerAnimationIndexFalling;
 	}
 	if (!worldTransform_.parent_) {
 		//velocity_ = Vector3Calc::Add( velocity_,kGravity);
