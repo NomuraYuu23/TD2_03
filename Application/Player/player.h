@@ -15,6 +15,7 @@
 #include <vector>
 #include <optional>
 #include "../AudioManager/GameAudioManager.h"
+#include "../Rocket/Rocket.h"
 
 class Block;
 class Screw;
@@ -83,6 +84,10 @@ public:
 	bool GetIsRideConnectFlooar() { return isRideConnectFlooar_; };
 	void SetIsRideConnectFlooar(bool is) {isRideConnectFlooar_=is; };
 	PlayerAnimation* GetAnimation() { return playerAnimation_.get(); };
+
+	void CollisionWithRocket();
+	void SetRocket(Rocket* rocket) { rocket_ = rocket; }
+
 private:
 	WorldTransform worldTransform_;
 
@@ -149,5 +154,8 @@ private:
 
 	// 歩行速度
 	float characterSpeed_ = 0.3f;
+
+	// ロケット
+	Rocket* rocket_;
 
 };

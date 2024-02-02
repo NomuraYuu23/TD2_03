@@ -27,6 +27,7 @@
 
 #include "../../ClearMigration/ClearMigration.h"
 #include "../../MissionData/MissionData.h"
+#include "../../Rocket/Rocket.h"
 class GameScene : public IScene
 {
 
@@ -189,4 +190,9 @@ private:
 	uint32_t arrowTextureHandle_;
 	uint32_t lockonTextureHandle_;
 	uint32_t stickeTextureHandle_[2];
+
+	// ロケット
+	std::unique_ptr<Rocket> rocket_;
+	std::unique_ptr<Model> rocketModel_;
+
 };

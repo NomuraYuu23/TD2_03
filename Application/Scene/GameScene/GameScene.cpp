@@ -172,6 +172,11 @@ void GameScene::Initialize() {
 	pause_->Initialize(pauseTextureHandles_);
 	pause_->SetAudioManager(audioManager_.get());
 
+	// ロケット
+	rocket_ = std::make_unique<Rocket>();
+	rocket_->Initialize(rocketModel_.get());
+	player_->SetRocket(rocket_.get());
+
 	audioManager_->PlayWave(kGameAudioNameIndexBGM);
 
 	ForLinerEmitterData::GetInstance()->SetIsDraw(false);
@@ -496,6 +501,9 @@ void GameScene::Update() {
 	// スカイドーム
 	skydome_->Update();
 
+	// ロケット
+	rocket_->Update();
+
 	// 惑星
 	//planet_->Update();
 	for (std::vector<std::unique_ptr<Planet>>::iterator ite = planets_.begin(); ite != planets_.end();ite++) {
@@ -625,6 +633,8 @@ void GameScene::Draw() {
 	if (!MissionData::GetInstance()->GetMissionPointVector()[MissionData::GetInstance()->GetMissionNumPoint()].isClear_) {
 		planets_[MissionData::GetInstance()->GetMissionNumPoint()]->DrawFlag(camera_);
 	}
+
+	rocket_->Draw(camera_);
 
 	shadowManager_->Draw(camera_);
 
@@ -779,6 +789,9 @@ void GameScene::ModelCreate()
 	// ブロック
 	modelBlock_.reset(Model::Create("Resources/Model/Block/", "block.obj", dxCommon_, textureHandleManager_.get()));
 
+	// ロケット
+	rocketModel_.reset(Model::Create("Resources/Model/rocket/", "rocket.obj", dxCommon_, textureHandleManager_.get()));
+
 }
 
 void GameScene::MaterialCreate()
@@ -833,6 +846,7 @@ void GameScene::TextureLoad()
 
 	stickeTextureHandle_[0] = TextureManager::Load("Resources/Sprite/Game/UI/controler_UI_sticLeft.png", dxCommon_, textureHandleManager_.get());
 	stickeTextureHandle_[1] = TextureManager::Load("Resources/Sprite/Game/UI/controler_UI_sticRightt.png", dxCommon_, textureHandleManager_.get());
+
 }
 
 void GameScene::LowerVolumeBGM()

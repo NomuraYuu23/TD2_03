@@ -150,6 +150,9 @@ void Player::Update(Block* block, size_t blockNum) {
 		//ReStart();
 	}*/
 
+	// ロケット判定
+	CollisionWithRocket();
+
 	// 行列更新
 	//worldTransform_.UpdateMatrix();
 	worldTransform_.direction_ = direction_;
@@ -433,4 +436,36 @@ bool Player::isOutGameArea() {
 		return true;
 	}
 	return false;
+}
+
+void Player::CollisionWithRocket()
+{
+
+	Vector3Calc* v3Calc = Vector3Calc::GetInstance();
+
+	Vector3 playerPos = worldTransform_.GetWorldPosition();
+	float playerPosY = playerPos.y;
+	playerPos.y = 0.0f;
+
+	Vector3 rocketPos = rocket_->GetWorldTransform()->GetWorldPosition();
+	rocketPos.y = 0.0f;
+
+	Vector3 toPlayer = v3Calc->Subtract(playerPos, rocketPos);
+
+	float length = v3Calc->Length(toPlayer);
+
+	if (length < rocket_->GetToPlayerLength()) {
+		Vector3 dirction = {};
+		if (length == 0.0f) {
+			dirction = {0.0f,0.0f,-1.0f};
+		}
+		else {
+			dirction = v3Calc->Normalize(toPlayer);
+		}
+		Vector3 move = v3Calc->Multiply(rocket_->GetToPlayerLength() + 0.0001f, dirction);
+
+		worldTransform_.transform_.translate = v3Calc->Add(rocketPos, move);
+		worldTransform_.transform_.translate.y = playerPosY;
+	}
+
 }
