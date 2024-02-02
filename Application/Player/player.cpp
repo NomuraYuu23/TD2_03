@@ -298,6 +298,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 			toTarget.y = 0;
 			direction_ = toTarget;
 			directionMatrix_ = Matrix4x4Calc::DirectionToDirection(Vector3Calc::Normalize(Vector3{ 0.0f,0.0f,1.0f }), Vector3Calc::Normalize(toTarget));
+			move = { 0.0f , 0.0f , 0.0f };
 		}
 		else {
 			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, move);
@@ -310,6 +311,9 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 			playerAnimationNo_ = kPlayerAnimationIndexWalk;
 		}
 
+	}
+	else {
+		playerAnimationNo_ = kPlayerAnimationIndexStand;
 	}
 	if (!worldTransform_.parent_) {
 		//velocity_ = Vector3Calc::Add( velocity_,kGravity);
