@@ -205,7 +205,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 
 	// ゲームパッドの状態をえる
 	input_ = Input::GetInstance();
-	if (input_->TriggerJoystick(5) && block_)
+	if (input_->TriggerJoystick(5) && block_ && isFlooar_)
 	{
 		//behavior_ = Behavior::kAttack;
 		
