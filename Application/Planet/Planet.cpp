@@ -2,6 +2,7 @@
 #include <cassert>
 #include "../../Engine/2D/ImguiManager.h"
 #include "../../Engine/GlobalVariables/GlobalVariables.h"
+#include "../../Engine/Math/Ease.h"
 
 void Planet::Initialize(Model* model)
 {
@@ -20,6 +21,8 @@ void Planet::Initialize(Model* model)
 	collider_->Initialize(worldTransform_.transform_.translate, worldTransform_.rotateMatrix_, worldTransform_.transform_.scale, this);
 	//collider_->SetCollisionAttribute(kCollisionAttributeBlock);
 
+	flagLifeTime_ = 0;
+
 	RegisteringGlobalVariables();
 
 	//ApplyGlobalVariables();
@@ -35,13 +38,19 @@ void Planet::Update()
 
 #endif // _DEBUG
 
-
 	//worldTransform_.transform_.scale = { size_, size_, size_ };
 	//worldTransform_.transform_.rotate.y = fmodf(worldTransform_.transform_.rotate.y + rotateSpeed_, 6.24f);
 	worldTransform_.transform_.translate = position_;
 	worldTransform_.transform_.translate.y =- collider_->size_.y + 0.5f;
 	worldTransformFlag_.transform_.translate = position_;
 	worldTransformFlag_.transform_.translate.y = 4.0f;
+
+	if (flagLifeTime_ > 0) {
+		flagLifeTime_--;
+		float t = static_cast<float>(flagLifeTime_) / static_cast<float>(flagrRmainingLife);
+		worldTransformFlag_.transform_.translate.y = Ease::Easing(Ease::EaseName::Lerp, 16.0f, 4.0f, t);
+	}
+
 	worldTransform_.UpdateMatrix();
 	worldTransformFlag_.UpdateMatrix();
 
