@@ -475,6 +475,10 @@ void GameScene::Update() {
 	}
 	// このフレームでミッションが更新されたか
 	missionData_->Update(connectCount,player_->GetWorldTransform()->GetWorldPosition());
+	if (missionData_->IsMissionPointBeenUpdate()) {
+		planets_[missionData_->GetMissionNumPoint() - 1]->LifeExpectancyAnnounced();
+	}
+
 #ifdef _DEBUG
 
 	ImGui::Begin("MISSION");
@@ -642,6 +646,9 @@ void GameScene::Draw() {
 	//planet_->Draw(camera_);
 	for (std::vector<std::unique_ptr<Planet>>::iterator ite = planets_.begin(); ite != planets_.end(); ite++) {
 		(*ite)->Draw(camera_);
+		if ((*ite)->GetFlagLifeTime() != 0) {
+			(*ite)->DrawFlag(camera_);
+		}
 	}
 	if (!MissionData::GetInstance()->GetMissionPointVector()[MissionData::GetInstance()->GetMissionNumPoint()].isClear_) {
 		planets_[MissionData::GetInstance()->GetMissionNumPoint()]->DrawFlag(camera_);

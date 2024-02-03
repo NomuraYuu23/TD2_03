@@ -39,6 +39,10 @@ public:
 	void SetFlagRotateY(float y) { worldTransformFlag_.transform_.rotate.y = y; };
 	WorldTransform* GetWorldTransform() { return &worldTransform_; };
 	void SetFlagTexturehandle(uint32_t handle) { flagTextureHandle_ = handle; };
+
+	void LifeExpectancyAnnounced() { flagLifeTime_ = flagrRmainingLife; }
+	uint32_t GetFlagLifeTime() { return flagLifeTime_; }
+
 private: // メンバ関数
 
 	/// <summary>
@@ -71,5 +75,10 @@ private:
 	float size_ = 1.0f;
 	std::unique_ptr<OBB> collider_;
 	uint32_t flagTextureHandle_;
+
+	// フラッグの余命
+	uint32_t flagLifeTime_;
+	uint32_t flagrRmainingLife = 30;
+
 };
 

@@ -1,10 +1,10 @@
 #pragma once
 #include "../../../Engine/Particle/IEmitter.h"
-class SparkEmitter : public IEmitter
+class FlagClearEmitter : public IEmitter
 {
 
 public:
-	~SparkEmitter() override {};
+	~FlagClearEmitter() override {};
 
 	/// <summary>
 	/// 初期化

@@ -2,6 +2,7 @@
 #include "Gravity/GravityParticle.h"
 #include "Spark/SparkParticle.h"
 #include "Liner/LinerParticle.h"
+#include "FlagClear/FlagClearParticle.h"
 #include <cassert>
 
 MakeParticle* MakeParticle::GetInstance()
@@ -30,6 +31,10 @@ IParticle* MakeParticle::Run(uint32_t paeticleName, const Vector3& position, con
 		break;
 	case kLinerParticle:
 		particle = new LinerParticle();
+		particle->Initialize(position, size);
+		break;
+	case kFlagClearParticle:
+		particle = new FlagClearParticle();
 		particle->Initialize(position, size);
 		break;
 	case kCountOfParticleName:

@@ -118,6 +118,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\ForResult\ForResult.cpp" />
     <ClCompile Include="Application\Magnet\Magnet.cpp" />
     <ClCompile Include="Application\MissionData\MissionData.cpp" />
+    <ClCompile Include="Application\Particle\FlagClear\FlagClearEmitter.cpp" />
+    <ClCompile Include="Application\Particle\FlagClear\FlagClearParticle.cpp" />
     <ClCompile Include="Application\Particle\Gravity\GravityEmitter.cpp" />
     <ClCompile Include="Application\Particle\Gravity\GravityParticle.cpp" />
     <ClCompile Include="Application\Particle\Liner\LinerEmitter.cpp" />
@@ -238,6 +240,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\ForResult\ForResult.h" />
     <ClInclude Include="Application\Magnet\Magnet.h" />
     <ClInclude Include="Application\MissionData\MissionData.h" />
+    <ClInclude Include="Application\Particle\FlagClear\FlagClearEmitter.h" />
+    <ClInclude Include="Application\Particle\FlagClear\FlagClearParticle.h" />
     <ClInclude Include="Application\Particle\Gravity\GravityEmitter.h" />
     <ClInclude Include="Application\Particle\Gravity\GravityParticle.h" />
     <ClInclude Include="Application\Particle\Liner\ForLinerEmitterData.h" />
