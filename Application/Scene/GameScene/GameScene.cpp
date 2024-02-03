@@ -177,6 +177,10 @@ void GameScene::Initialize() {
 	rocket_->Initialize(rocketModel_.get(), soilModel_.get());
 	player_->SetRocket(rocket_.get());
 
+	// 警告表示
+	warningDraw_ = std::make_unique<WarningDraw>();
+	warningDraw_->Initialize(warningDrawTextureHandles_);
+
 	audioManager_->PlayWave(kGameAudioNameIndexBGM);
 
 	ForLinerEmitterData::GetInstance()->SetIsDraw(false);
@@ -515,6 +519,15 @@ void GameScene::Update() {
 	followCamera_->Update(connectCount);
 	camera_ = static_cast<BaseCamera>(*followCamera_.get());
 
+	// 警告表示
+	std::vector<Screw*> warningScrews;
+	for (std::list<std::unique_ptr<Screw>>::iterator screw = screws_.begin(); screw != screws_.end(); screw++) {
+		if ((*screw)->GetIsDrawSweat()) {
+			warningScrews.push_back((*screw).get());
+		}
+	}
+	warningDraw_->Update(camera_.GetViewProjectionMatrix(), warningScrews);
+
 	// UIマネージャー
 	uint32_t screwCount = 0u;
 	for (std::list<std::unique_ptr<Screw>>::iterator screw = screws_.begin(); screw != screws_.end(); screw++) {
@@ -685,6 +698,8 @@ void GameScene::Draw() {
 	// UIマネージャー
 	uiManager_->Draw();
 
+	warningDraw_->Draw();
+
 	target_.SpriteDraw();
 
 	clearMigration_->Draw();
@@ -846,6 +861,10 @@ void GameScene::TextureLoad()
 
 	stickeTextureHandle_[0] = TextureManager::Load("Resources/Sprite/Game/UI/controler_UI_sticLeft.png", dxCommon_, textureHandleManager_.get());
 	stickeTextureHandle_[1] = TextureManager::Load("Resources/Sprite/Game/UI/controler_UI_sticRightt.png", dxCommon_, textureHandleManager_.get());
+
+	warningDrawTextureHandles_ = {
+		TextureManager::Load("Resources/Sprite/Game/caveant.png", dxCommon_,textureHandleManager_.get()),
+	};
 
 }
 

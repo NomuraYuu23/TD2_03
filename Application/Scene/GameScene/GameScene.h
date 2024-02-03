@@ -28,6 +28,8 @@
 #include "../../ClearMigration/ClearMigration.h"
 #include "../../MissionData/MissionData.h"
 #include "../../Rocket/Rocket.h"
+#include "../../WarningDraw/WarningDraw.h"
+
 class GameScene : public IScene
 {
 
@@ -95,6 +97,8 @@ private:
 	/// 影更新
 	/// </summary>
 	void ShadowUpdate();
+
+	void WarningScrew();
 
 private:
 
@@ -194,5 +198,9 @@ private:
 	// ロケット
 	std::unique_ptr<Rocket> rocket_;
 	std::unique_ptr<Model> rocketModel_;
+
+	std::unique_ptr<WarningDraw> warningDraw_;
+	std::array<uint32_t, WarningDrawTextureHandleIndex::kWarningDrawTextureHandleIndexOfCount> warningDrawTextureHandles_;
+
 
 };

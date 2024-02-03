@@ -147,6 +147,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\UI\UINumber\UINumber.cpp" />
     <ClCompile Include="Application\UI\UIScrew\UIScrew.cpp" />
     <ClCompile Include="Application\UI\UISymbol\UISymbol.cpp" />
+    <ClCompile Include="Application\WarningDraw\WarningDraw.cpp" />
     <ClCompile Include="Engine\2D\ImGuiManager.cpp" />
     <ClCompile Include="Engine\3D\OutLineData.cpp" />
     <ClCompile Include="Engine\Animation\AnimationFile.cpp" />
@@ -268,6 +269,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\UI\UINumber\UINumber.h" />
     <ClInclude Include="Application\UI\UIScrew\UIScrew.h" />
     <ClInclude Include="Application\UI\UISymbol\UISymbol.h" />
+    <ClInclude Include="Application\WarningDraw\WarningDraw.h" />
     <ClInclude Include="Engine\2D\ImGuiManager.h" />
     <ClInclude Include="Engine\3D\OutLineData.h" />
     <ClInclude Include="Engine\Animation\AnimationFile.h" />
