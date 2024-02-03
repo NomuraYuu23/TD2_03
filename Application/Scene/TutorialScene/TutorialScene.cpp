@@ -522,6 +522,7 @@ void TutorialScene::Update() {
 			isClearMission_[6] = true;
 			isBeenMissionUpdate_[6] = true;
 			//kari
+			requestSceneNo = kGame;
 		}
 	}
 
