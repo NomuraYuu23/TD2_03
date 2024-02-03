@@ -57,8 +57,14 @@ void TitleScene::Initialize()
 	skydome_->Initialize(skydomeModel_.get());
 
 	// プレイヤー
-	player_ = std::make_unique<TitleObj>();
-	player_->Initialize(playerModel_.get(), "Player");
+	player_ = std::make_unique<TitlePlayer>();
+	std::array<Model*, PlayerPartIndex::kPlayerPartIndexOfCount> playerModels = {
+		playerModels_[kPlayerPartIndexBody].get(),
+		playerModels_[kPlayerPartIndexLeftLeg].get(),
+		playerModels_[kPlayerPartIndexRightLeg].get(),
+		playerModels_[kPlayerPartIndexMagnet].get(),
+	};
+	player_->Initialize(playerModels, "Player");
 
 	// ねじ
 	for (uint32_t i = 0; i < screws_.size(); ++i) {
@@ -204,7 +210,11 @@ void TitleScene::ModelCreate()
 	// スカイドーム
 	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
 	// プレイヤー
-	playerModel_.reset(Model::Create("Resources/Model/Player/Original/", "player.obj", dxCommon_, textureHandleManager_.get()));
+	playerModels_[kPlayerPartIndexBody].reset(Model::Create("Resources/Model/Player/Body", "playerBody.obj", dxCommon_, textureHandleManager_.get()));
+	playerModels_[kPlayerPartIndexLeftLeg].reset(Model::Create("Resources/Model/Player/LeftLeg/", "playerLeftLeg.obj", dxCommon_, textureHandleManager_.get()));
+	playerModels_[kPlayerPartIndexRightLeg].reset(Model::Create("Resources/Model/Player/RightLeg/", "playerRightLeg.obj", dxCommon_, textureHandleManager_.get()));
+	playerModels_[kPlayerPartIndexMagnet].reset(Model::Create("Resources/Model/Player/Magnet/", "playerMagnet.obj", dxCommon_, textureHandleManager_.get()));
+
 	// ねじ
 	screwModel_.reset(Model::Create("Resources/Model/nejimi2_model/", "nejimi2.obj", dxCommon_, textureHandleManager_.get()));
 

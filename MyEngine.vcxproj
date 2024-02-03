@@ -138,6 +138,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\ShadowManager\ShadowManager.cpp" />
     <ClCompile Include="Application\Target\Target.cpp" />
     <ClCompile Include="Application\TitleObj\TitleObj.cpp" />
+    <ClCompile Include="Application\TitleObj\TitlePlayer.cpp" />
     <ClCompile Include="Application\UFO\UFOManager.cpp" />
     <ClCompile Include="Application\UI\UIMissionClear\UIMissionClear.cpp" />
     <ClCompile Include="Application\UI\UI.cpp" />
@@ -262,6 +263,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\ShadowManager\ShadowManager.h" />
     <ClInclude Include="Application\Target\Target.h" />
     <ClInclude Include="Application\TitleObj\TitleObj.h" />
+    <ClInclude Include="Application\TitleObj\TitlePlayer.h" />
     <ClInclude Include="Application\UFO\UFOManager.h" />
     <ClInclude Include="Application\UI\UIMissionClear\UIMissionClear.h" />
     <ClInclude Include="Application\UI\UI.h" />
