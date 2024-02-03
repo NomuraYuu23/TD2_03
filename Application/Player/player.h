@@ -90,6 +90,7 @@ public:
 	int32_t GetControlLength() { return controlLength_; };
 	void SetIsCanShot(bool is) { isCanShot_ = is; };
 	void SetIsCanGravity(bool is) { isCanGravity_ = is; };
+	bool GetIsUsedGravity() { return isUsedGravity_; };
 private:
 	WorldTransform worldTransform_;
 
@@ -163,4 +164,5 @@ private:
 	int32_t controlLength_;
 	bool isCanShot_;//チュートリアル用ネジ撃ち出来るかどうか
 	bool isCanGravity_;
+	bool isUsedGravity_=false;
 };

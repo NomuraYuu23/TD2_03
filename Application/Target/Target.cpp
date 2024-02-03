@@ -40,6 +40,7 @@ void Target::Initialize(uint32_t textureHandle, uint32_t textureHandle2[2], uint
 	rightStick_->SetTextureSize({ 320,256 });
 	isDraw_ = true;
 	isCanLockOn_ = true;
+	isChangeTargetBlock_ = false;
 }
 void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* player, std::list<std::unique_ptr<Screw>>* screwList) {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
@@ -69,12 +70,14 @@ void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* 
 						rightAnimation_ = 10.0f;
 						ForchNearOneMore(blockList, camera, player, screwList, lr);
 						isReleseButton_ = false;
+						isChangeTargetBlock_ = true;
 					}
 					else if(Input::GetInstance()->GetLeftAnalogstick().x < -0.5f){
 						lr = -1;
 						leftAnimation_ = -10.0f;
 						ForchNearOneMore(blockList, camera, player, screwList, lr);
 						isReleseButton_ = false;
+						isChangeTargetBlock_ = true;
 					}
 					//ForchNearOneMore(blockList, camera, player, screwList, lr);
 					//isReleseButton_ = false;

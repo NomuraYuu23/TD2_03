@@ -64,6 +64,7 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 	controlLength_ = 0;
 	isCanShot_ = true;
 	isCanGravity_ = true;
+	isUsedGravity_ = false;
 }
 
 
@@ -253,6 +254,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 
 	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA) && isFlooar_ && isCanGravity_)
 	{
+		isUsedGravity_ = true;
 		behaviorRequest_ = Behavior::kDrop;
 		TransformStructure transform{ {1.0f,1.0f,1.0f},{0},{0.0f,3.0f,0.0f} };
 		transform.translate = worldTransformCircle_.GetWorldPosition();
