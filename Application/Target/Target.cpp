@@ -47,12 +47,12 @@ void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* 
 	modeSize_ = globalVariables->GetVector2Value(groupName, "ModeSize");
 	modeText_->SetPosition(modePosition_);
 	modeText_->SetSize(modeSize_);
-	if (!isLockedChane_) {
+	if (!isTarget_) {
 		ForchNearAnchor(blockList, camera, player, screwList);
 	}
 	else {
 		if (!AliveCheck(blockList) || targetBlock_->GetAnchorPointScrew(numTargetAnchor_)) {
-			isLockedChane_ = false;
+			//isLockedChane_ = false;
 			isTarget_ = false;
 		}
 		else {
@@ -86,18 +86,20 @@ void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* 
 			ui_->SetPosition({ pos.x,pos.y - 64.0f });
 			ui_->SetSize({ 135.0f,48.0f });
 			if (!IsInnerCamera(newvp)) {
-				isLockedChane_ = false;
+				//isLockedChane_ = false;
 				isTarget_ = false;
 			}
 		}
 	}
-	if (isTarget_) {
+	if (Input::GetInstance()->PushJoystick(JoystickButton::kJoystickButtonLB)) {
+		isLockedChane_ = true;
 		if (Input::GetInstance()->TriggerJoystick(JoystickButton::kJoystickButtonLB)) {
-			isLockedChane_ = !isLockedChane_;
 			modeAlpha_ = 1.0f;
 			alphaDirection_ = -1.0f;
 		}
-		
+	}
+	else {
+		isLockedChane_ = false;
 	}
 	Vector2 position = anchor_->GetPosition();
 	position.x += -100.0f + leftAnimation_;
@@ -317,9 +319,11 @@ void Target::SpriteDraw() {
 		if (isLockedChane_) {
 			leftArrow_->Draw();
 			rightArrow_->Draw();
-			modeText_->Draw();
 			leftStick_->Draw();
 			rightStick_->Draw();
 		}
+	}
+	if (isLockedChane_) {
+		modeText_->Draw();
 	}
 }
