@@ -157,5 +157,5 @@ private:
 
 	// ロケット
 	Rocket* rocket_;
-
+	int32_t controlLength_;
 };

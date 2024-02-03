@@ -61,7 +61,7 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 	playerAnimation_->Initialize(this);
 
 	playerAnimationNo_ = kPlayerAnimationIndexStand;
-
+	controlLength_ = 0;
 }
 
 
