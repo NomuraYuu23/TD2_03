@@ -449,6 +449,7 @@ void TutorialScene::Update() {
 	}
 	if (isClearMission_[0] && isClearMission_[1]) {
 		player_->SetIsCanShot(true);
+		target_.SetIsDraw(true);
 	}
 
 	// 影
