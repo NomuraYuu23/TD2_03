@@ -149,6 +149,15 @@ void TutorialScene::Initialize() {
 	ForLinerEmitterData::GetInstance()->SetIsDraw(false);
 	TransformStructure transform{ {1.0f,1.0f,1.0f},{0},{0.0f,3.0f,0.0f} };
 	ParticleManager::GetInstance()->MakeEmitter(transform, 300, 0.005f, 0.5f, ParticleModelIndex::kCircle, ParticleName::kLinerParticle, EmitterName::kLinerEmitter);
+
+	player_->SetIsCanShot(false);
+	player_->SetIsCanGravity(false);
+	target_.SetIsDraw(false);
+	target_.SetIsCanLockOn(false);
+	for (int i = 0; i < 7;i++) {
+		isBeenMissionUpdate_[i] = false;
+		isClearMission_[i] = 0;
+	}
 }
 
 /// <summary>
@@ -425,6 +434,22 @@ void TutorialScene::Update() {
 	}
 	energy_->Update();
 	*/
+
+	//各項目クリア判定
+	for (int i = 0; i < 7; i++) {
+		isBeenMissionUpdate_[i] = false;
+	}
+	if (!isClearMission_[0] && player_->GetControlLength()>120) {
+		isClearMission_[0] = true;
+		isBeenMissionUpdate_[0] = true;
+	}
+	if (!isClearMission_[1] && followCamera_->GetControlLength() > 30) {
+		isClearMission_[1] = true;
+		isBeenMissionUpdate_[1] = true;
+	}
+	if (isClearMission_[0] && isClearMission_[1]) {
+		player_->SetIsCanShot(true);
+	}
 
 	// 影
 	ShadowUpdate();

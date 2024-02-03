@@ -24,7 +24,7 @@ void FollowCamera::Initialize() {
 	globalVariables->AddItem(groupName, "moveRate", moveRate_);
 	globalVariables->AddItem(groupName, "rotateRate", rotateRate_);
 	globalVariables->AddItem(groupName, "offsetLength", offsetLength_);
-
+	controlLength_ = 0;
 }
 
 void FollowCamera::Update() {
@@ -41,10 +41,12 @@ void FollowCamera::Update() {
 	// スティック入力で角度を変更処理
 
 	const float RotateSpeed = 0.000001f;
-
+	Vector3 predestinationAngle = destinationAngle_;
 	destinationAngle_.y += input->GetRightAnalogstick().x * RotateSpeed;
 	destinationAngle_.x += input->GetRightAnalogstick().y * RotateSpeed;
-
+	if (!(predestinationAngle.x == destinationAngle_.x && predestinationAngle.y == destinationAngle_.y)) {
+		controlLength_++;
+	}
 	// xに制限
 	float limit = 3.14f / 4.0f;
 	destinationAngle_.x = std::clamp(destinationAngle_.x, 0.0f, limit);

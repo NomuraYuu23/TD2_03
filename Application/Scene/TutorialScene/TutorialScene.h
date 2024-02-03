@@ -189,4 +189,6 @@ private:
 	std::unique_ptr<Rocket> rocket_;
 	std::unique_ptr<Model> rocketModel_;
 
+	bool isBeenMissionUpdate_[7];
+	bool isClearMission_[7];
 };

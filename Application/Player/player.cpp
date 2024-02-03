@@ -62,6 +62,8 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 
 	playerAnimationNo_ = kPlayerAnimationIndexStand;
 	controlLength_ = 0;
+	isCanShot_ = true;
+	isCanGravity_ = true;
 }
 
 
@@ -211,7 +213,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 		
 		Screw* anchorScrew = block_->GetAnchorPointScrew(blockNum);
 		//刺す
-		if (!anchorScrew ) {
+		if (!anchorScrew && isCanShot_) {
 			bool isThrow=false;
 			for (std::list<std::unique_ptr<Screw>>::iterator ite = screws_->begin(); ite != screws_->end();ite++) {
 				if ((*ite)->GetState() == Screw::FOLLOW) {
@@ -249,7 +251,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 		}
 	}
 
-	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA) && isFlooar_)
+	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA) && isFlooar_ && isCanGravity_)
 	{
 		behaviorRequest_ = Behavior::kDrop;
 		TransformStructure transform{ {1.0f,1.0f,1.0f},{0},{0.0f,3.0f,0.0f} };
@@ -262,6 +264,9 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 		Vector3 move = {
 			float(input_->GetLeftAnalogstick().x) / (SHRT_MAX), 0,
 			float(-input_->GetLeftAnalogstick().y) / (SHRT_MAX) };
+		if (!(move.x==0 && move.z == 0)) {
+			controlLength_++;
+		}
 		//Matrix4x4 newrotation = DirectionToDIrection({0,0.0f,1.0f}, {0, 0.0f, -1.0f});
 		move = Vector3Calc::Multiply(characterSpeed_, Vector3Calc::Normalize(move));;
 		//Vector3 cameraDirectionYcorection = {0.0f, viewProjection_->matView.m[1][0] * viewProjection_->matView.m[1][0]* viewProjection_->matView.m[1][2], 0.0f};
