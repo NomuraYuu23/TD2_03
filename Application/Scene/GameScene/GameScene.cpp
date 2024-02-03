@@ -512,7 +512,7 @@ void GameScene::Update() {
 
 	camera_.Update();
 
-	followCamera_->Update();
+	followCamera_->Update(connectCount);
 	camera_ = static_cast<BaseCamera>(*followCamera_.get());
 
 	// UIマネージャー

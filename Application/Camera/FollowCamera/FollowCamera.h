@@ -18,6 +18,12 @@ public:
 	void Update() override;
 
 	/// <summary>
+	/// 更新＋カメラが引く
+	/// </summary>
+	/// <param name="connectCount"></param>
+	void Update(int connectCount);
+
+	/// <summary>
 	/// 追従対象セッター
 	/// </summary>
 	/// <param name="target"></param>
@@ -53,5 +59,15 @@ private:
 
 	bool isShake_;
 	float shakeSize_;
+
+	// オフセットの長さ 最小最大 作りの形的にマイナスで
+	float offsetLengthMin_ = -100.0f;
+	float offsetLengthMax_ = -200.0f;
+	 // オフセットの長さ 媒介変数
+	float offsetLengthT_ = 0.0f;
+	// 長さを決めるブロックの数
+	float offsetLengthConnectMax_ = 10.0f;
+	// オフセットの長さ 媒介変数速度
+	float offsetLengthTSpeed_ = 0.05f;
 };
 

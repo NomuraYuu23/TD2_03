@@ -23,7 +23,15 @@ void FollowCamera::Initialize() {
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
 	globalVariables->AddItem(groupName, "moveRate", moveRate_);
 	globalVariables->AddItem(groupName, "rotateRate", rotateRate_);
-	globalVariables->AddItem(groupName, "offsetLength", offsetLength_);
+	//globalVariables->AddItem(groupName, "offsetLength", offsetLength_);
+	globalVariables->AddItem(groupName, "offsetLengthMin", offsetLengthMin_);
+	globalVariables->AddItem(groupName, "offsetLengthMax", offsetLengthMax_);
+	globalVariables->AddItem(groupName, "offsetLengthConnectMax", offsetLengthConnectMax_);
+	globalVariables->AddItem(groupName, "offsetLengthTSpeed", offsetLengthTSpeed_);
+
+	ApplyGlobalVariables();
+
+	offsetLength_ = offsetLengthMin_;
 
 }
 
@@ -84,6 +92,19 @@ void FollowCamera::Update() {
 	BaseCamera::Update();
 }
 
+void FollowCamera::Update(int connectCount)
+{
+
+	float t = static_cast<float>(connectCount) / offsetLengthConnectMax_;
+
+	offsetLengthT_ =  std::clamp(Ease::Easing(Ease::EaseName::Lerp, offsetLengthT_, t, offsetLengthTSpeed_), 0.0f, 1.0f);
+
+	offsetLength_ = Ease::Easing(Ease::EaseName::Lerp, offsetLengthMin_, offsetLengthMax_, offsetLengthT_);
+
+	Update();
+
+}
+
 
 Vector3 FollowCamera::OffsetCalc() const
 {
@@ -119,7 +140,13 @@ void FollowCamera::ApplyGlobalVariables()
 
 	moveRate_ = globalVariables->GetFloatValue(groupName, "moveRate");
 	rotateRate_ = globalVariables->GetFloatValue(groupName, "rotateRate");
-	offsetLength_ = globalVariables->GetFloatValue(groupName, "offsetLength");
+	//offsetLength_ = globalVariables->GetFloatValue(groupName, "offsetLength");
+
+	offsetLengthMin_ = globalVariables->GetFloatValue(groupName, "offsetLengthMin");
+	offsetLengthMax_ = globalVariables->GetFloatValue(groupName, "offsetLengthMax");
+	offsetLengthConnectMax_ = globalVariables->GetFloatValue(groupName, "offsetLengthConnectMax");
+	offsetLengthTSpeed_ = globalVariables->GetFloatValue(groupName, "offsetLengthTSpeed");
+
 }
 
 void FollowCamera::Shake() {
