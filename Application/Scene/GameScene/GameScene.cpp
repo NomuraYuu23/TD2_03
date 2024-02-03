@@ -182,6 +182,9 @@ void GameScene::Initialize() {
 	ForLinerEmitterData::GetInstance()->SetIsDraw(false);
 	TransformStructure transform{ {1.0f,1.0f,1.0f},{0},{0.0f,3.0f,0.0f} };
 	ParticleManager::GetInstance()->MakeEmitter(transform, 300, 0.005f, 0.5f, ParticleModelIndex::kCircle, ParticleName::kLinerParticle, EmitterName::kLinerEmitter);
+
+	isDrawOutLineFollow_ = false;
+	isDrawOutLineStuck_ = true;
 }
 
 /// <summary>
@@ -200,6 +203,14 @@ void GameScene::Update() {
 		ParticleManager::GetInstance()->MakeEmitter(transform,3,0.005f,0.5f, ParticleModelIndex::kCircle,ParticleName::kGravityParticle,EmitterName::kGravityEmitter);
 	}
 #endif
+
+	if (Input::GetInstance()->TriggerKey(DIK_Q)) {
+		isDrawOutLineFollow_ = !isDrawOutLineFollow_;
+	}
+	if (Input::GetInstance()->TriggerKey(DIK_W)) {
+		isDrawOutLineStuck_ = !isDrawOutLineStuck_;
+	}
+
 
 	if (requestSceneNo == kClear || requestSceneNo == kTitle || isBeingReset_) {
 		pause_->SetRestart(false);
@@ -654,9 +665,11 @@ void GameScene::Draw() {
 	Model::PreDrawOutLine(dxCommon_->GetCommadList());
 	
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
-		(*block)->DrawOutLine(modelScrew_.get(), camera_,outline_);
+		if ((isDrawOutLineFollow_ && (*block)->GetState() == Screw::FOLLOW) ||
+			(isDrawOutLineStuck_ && (*block)->GetState() != Screw::FOLLOW)) {
+			(*block)->DrawOutLine(modelScrew_.get(), camera_, outline_);
+		}
 	}
-	
 	Model::PostDraw();
 
 #pragma endregion

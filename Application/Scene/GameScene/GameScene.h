@@ -194,5 +194,7 @@ private:
 	// ロケット
 	std::unique_ptr<Rocket> rocket_;
 	std::unique_ptr<Model> rocketModel_;
-
+	
+	bool isDrawOutLineStuck_;
+	bool isDrawOutLineFollow_;
 };
