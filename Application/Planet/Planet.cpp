@@ -54,7 +54,7 @@ void Planet::Update()
 			TransformStructure transformStructure = { 1.0f, 1.0f, 1.0f,
 				0.0f, 0.0f, 0.0f,
 				Vector3{worldTransformFlag_.transform_.translate} };
-			ParticleManager::GetInstance()->MakeEmitter(transformStructure, 10, 0.005f, 0.1f, kCircle, kFlagClearParticle, kFlagClearEmitter);
+			ParticleManager::GetInstance()->MakeEmitter(transformStructure, 10, 0.005f, 0.1f, kStar, kFlagClearParticle, kFlagClearEmitter);
 		}
 	}
 

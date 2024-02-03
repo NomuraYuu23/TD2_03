@@ -176,7 +176,7 @@ void PlayerAnimation::WalkInitialize()
 void PlayerAnimation::WalkUpdate()
 {
 
-	workWalk_.rotate_ = std::fmodf(workWalk_.rotate_ + workWalk_.speed_, 6.24f);
+	workWalk_.rotate_ = std::fmodf(workWalk_.rotate_ + workWalk_.speed_, 6.28f);
 	
 	float radian = static_cast<float>(workWalk_.angle_) * static_cast<float>(std::numbers::pi) / 180.0f;
 
@@ -185,6 +185,10 @@ void PlayerAnimation::WalkUpdate()
 
 	worldTransforms_[kPlayerPartIndexLeftLeg].transform_.rotate.x = leftRotate;
 	worldTransforms_[kPlayerPartIndexRightLeg].transform_.rotate.x = righttRotate;
+
+	//float height = -0.2f;
+
+	//worldTransforms_[kPlayerPartIndexBody].transform_.translate.y = std::fabsf(std::cosf(workWalk_.rotate_)) * height + 2.0f;
 
 }
 

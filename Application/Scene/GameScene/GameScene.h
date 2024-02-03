@@ -98,14 +98,13 @@ private:
 	/// </summary>
 	void ShadowUpdate();
 
-	void WarningScrew();
-
 private:
 
 	// パーティクルマネージャー
 	ParticleManager* particleManager_ = nullptr;
 	std::unique_ptr<Model> particleUvcheckerModel_ = nullptr;
 	std::unique_ptr<Model> particleCircleModel_ = nullptr;
+	std::unique_ptr<Model> particleStarModel_ = nullptr;
 
 	// ライト
 	Vector3 direction = { 1.0f, -1.0f, 0.0f};

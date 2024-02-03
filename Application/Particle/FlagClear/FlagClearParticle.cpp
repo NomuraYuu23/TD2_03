@@ -31,7 +31,7 @@ void FlagClearParticle::Initialize(const Vector3& position, const Vector3& size)
 
 	startPosition_ = position;
 
-	color_ = { 0.8f, 0.8f,0.0f,1.0f };
+	color_ = { 1.0f, 1.0f,1.0f,1.0f };
 	
 	float length = 10.0f;
 
