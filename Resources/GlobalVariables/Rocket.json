@@ -10,6 +10,21 @@
             1.5,
             1.5
         ],
+        "soilRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "soilScale": [
+            5.0,
+            5.0,
+            5.0
+        ],
+        "soilTranslate": [
+            0.0,
+            0.9399999976158142,
+            0.0
+        ],
         "toPlayerLength": 4.5,
         "translate": [
             0.0,

@@ -174,7 +174,7 @@ void GameScene::Initialize() {
 
 	// ロケット
 	rocket_ = std::make_unique<Rocket>();
-	rocket_->Initialize(rocketModel_.get());
+	rocket_->Initialize(rocketModel_.get(), soilModel_.get());
 	player_->SetRocket(rocket_.get());
 
 	audioManager_->PlayWave(kGameAudioNameIndexBGM);

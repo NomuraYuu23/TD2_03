@@ -7,7 +7,7 @@ class Rocket
 
 public:
 
-	void Initialize(Model* model);
+	void Initialize(Model* model, Model* soilModel);
 
 	void Update();
 
@@ -42,5 +42,11 @@ private:
 	// プレイヤーとの最短距離
 	float toPlayerLength_;
 
+	// 土
+	// ワールドトランスフォーム
+	WorldTransform soilWorldTransform_;
+
+	// モデル
+	Model* soilModel_;
 };
 
