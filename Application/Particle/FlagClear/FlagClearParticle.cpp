@@ -31,8 +31,12 @@ void FlagClearParticle::Initialize(const Vector3& position, const Vector3& size)
 
 	startPosition_ = position;
 
-	Vector3 endMax = { 10.0f, 10.0f, 10.0f };
-	Vector3 endMin = { -10.0f, -10.0f, -10.0f };
+	color_ = { 0.8f, 0.8f,0.0f,1.0f };
+	
+	float length = 10.0f;
+
+	Vector3 endMax = { startPosition_.x + length, startPosition_.y + length, startPosition_.z + length };
+	Vector3 endMin = { startPosition_.x - length, startPosition_.y - length, startPosition_.z - length };
 	std::uniform_real_distribution<float> endX(endMin.x, endMax.x);
 	std::uniform_real_distribution<float> endY(endMin.y, endMax.y);
 	std::uniform_real_distribution<float> endZ(endMin.z, endMax.z);
@@ -49,7 +53,7 @@ void FlagClearParticle::Update(const Matrix4x4& billBoardMatrix)
 
 	float t = currentTime_ / lifeTime_;
 
-	transform_.translate = Ease::Easing(Ease::EaseName::Lerp, startPosition_, endPosition_, t);
+	transform_.translate = Ease::Easing(Ease::EaseName::EaseOutCirc, startPosition_, endPosition_, t);
 
 	IParticle::Update(billBoardMatrix);
 

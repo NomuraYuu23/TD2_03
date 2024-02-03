@@ -4,6 +4,7 @@
 #include "Gravity/GravityEmitter.h"	
 #include "Spark/SparkEmitter.h"
 #include "Liner/LinerEmitter.h"
+#include "FlagClear/FlagClearEmitter.h"
 MakeEmitter* MakeEmitter::GetInstance()
 {
     return nullptr;
@@ -32,6 +33,10 @@ IEmitter* MakeEmitter::Run(const TransformStructure& transform, uint32_t instanc
 		break;
 	case kLinerEmitter:
 		emitter = new LinerEmitter();
+		emitter->Initialize(transform, instanceCount, frequency, lifeTime, particleModelNum, paeticleName);
+		break;
+	case kFlagClearEmitter:
+		emitter = new FlagClearEmitter();
 		emitter->Initialize(transform, instanceCount, frequency, lifeTime, particleModelNum, paeticleName);
 		break;
 	case kCountOfParticleName:

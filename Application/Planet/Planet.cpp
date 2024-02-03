@@ -3,6 +3,7 @@
 #include "../../Engine/2D/ImguiManager.h"
 #include "../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../Engine/Math/Ease.h"
+#include "../Particle/EmitterName.h"
 
 void Planet::Initialize(Model* model)
 {
@@ -48,7 +49,13 @@ void Planet::Update()
 	if (flagLifeTime_ > 0) {
 		flagLifeTime_--;
 		float t = static_cast<float>(flagLifeTime_) / static_cast<float>(flagrRmainingLife);
-		worldTransformFlag_.transform_.translate.y = Ease::Easing(Ease::EaseName::Lerp, 16.0f, 4.0f, t);
+		worldTransformFlag_.transform_.translate.y = Ease::Easing(Ease::EaseName::EaseOutCirc, 16.0f, 4.0f, t);
+		if (flagLifeTime_ == 0) {
+			TransformStructure transformStructure = { 1.0f, 1.0f, 1.0f,
+				0.0f, 0.0f, 0.0f,
+				Vector3{worldTransformFlag_.transform_.translate} };
+			ParticleManager::GetInstance()->MakeEmitter(transformStructure, 10, 0.005f, 0.1f, kCircle, kFlagClearParticle, kFlagClearEmitter);
+		}
 	}
 
 	worldTransform_.UpdateMatrix();

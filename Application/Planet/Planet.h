@@ -78,7 +78,7 @@ private:
 
 	// フラッグの余命
 	uint32_t flagLifeTime_;
-	uint32_t flagrRmainingLife = 60;
+	uint32_t flagrRmainingLife = 30;
 
 };
 
