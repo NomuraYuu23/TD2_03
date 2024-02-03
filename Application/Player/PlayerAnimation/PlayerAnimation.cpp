@@ -186,9 +186,9 @@ void PlayerAnimation::WalkUpdate()
 	worldTransforms_[kPlayerPartIndexLeftLeg].transform_.rotate.x = leftRotate;
 	worldTransforms_[kPlayerPartIndexRightLeg].transform_.rotate.x = righttRotate;
 
-	float height = -0.2f;
+	//float height = -0.2f;
 
-	worldTransforms_[kPlayerPartIndexBody].transform_.translate.y = std::fabsf(std::cosf(workWalk_.rotate_)) * height + 2.0f;
+	//worldTransforms_[kPlayerPartIndexBody].transform_.translate.y = std::fabsf(std::cosf(workWalk_.rotate_)) * height + 2.0f;
 
 }
 
