@@ -63,8 +63,8 @@ void WarningDraw::UIInitialize()
 	Vector4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	Vector2 size = { 512.0f , 512.0f };
-	size.x *= 0.3f;
-	size.y *= 0.3f;
+	size.x *= 0.15f;
+	size.y *= 0.15f;
 
 	position = { 0.0f + size.x, 360.0f };
 	UIs_[kWarningDrawUIIndexLeftWarning].reset(
