@@ -4,14 +4,19 @@
 #include "../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../Engine/Math/Ease.h"
 #include "../Particle/EmitterName.h"
+#include "../Block/Block.h"
 
-void Planet::Initialize(Model* model)
+void Planet::Initialize(Model* model, uint32_t textureHandle)
 {
 
 	// nullポインタチェック
 	assert(model);
 
 	model_ = model;
+
+	textureHandle_ = model_->GetTevtureHandle();
+
+	collisionTextureHandle_ = textureHandle;
 
 	material_.reset(Material::Create());
 
@@ -66,12 +71,21 @@ void Planet::Update()
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
 	collider_->worldTransformUpdate();
 
+	isConnect = false;
+
 }
 
 void Planet::Draw(BaseCamera& camera)
 {
 
-	model_->Draw(worldTransform_, camera, material_.get());
+	uint32_t textureHandle;
+	if (isConnect) {
+		textureHandle = collisionTextureHandle_;
+	}
+	else {
+		textureHandle = textureHandle_;
+	}
+	model_->Draw(worldTransform_, camera, material_.get(), textureHandle);
 
 }
 
@@ -90,6 +104,18 @@ void Planet::ImGuiDraw()
 	ImGui::DragFloat3("position", &position_.x, 0.1f);
 	ImGui::DragFloat("size", &size_, 0.001f);
 	ImGui::End();
+
+}
+
+void Planet::OnCollision(ColliderParentObject pairObject, CollisionData collidionData)
+{
+
+	if (std::holds_alternative<Block*>(pairObject)) {
+		Block* block = std::get<Block*>(pairObject);
+		if (block->GetIsConnect()) {
+			isConnect = true;
+		}
+	}
 
 }
 

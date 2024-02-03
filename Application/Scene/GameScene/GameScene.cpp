@@ -149,7 +149,7 @@ void GameScene::Initialize() {
 	for (size_t num = 0; num < point.size();num++) {
 		std::unique_ptr<Planet> planet;
 		planet.reset(new Planet);
-		planet->Initialize(planetModel_.get());
+		planet->Initialize(planetModel_.get(), planetTextureHandle_);
 		planet->SetFlagModel(planetFlagModel_.get());
 		planet->SetPosition(point[num].point);
 		planets_.push_back(std::move(planet));
@@ -418,6 +418,11 @@ void GameScene::Update() {
 		}
 	}*/
 
+	// 惑星
+	//planet_->Update();
+	for (std::vector<std::unique_ptr<Planet>>::iterator ite = planets_.begin(); ite != planets_.end(); ite++) {
+		(*ite)->Update();
+	}
 
 	collisionManager_->ListClear();
 	collisionManager_->ListRegister(player_->GetCollider());
@@ -512,12 +517,6 @@ void GameScene::Update() {
 
 	// ロケット
 	rocket_->Update();
-
-	// 惑星
-	//planet_->Update();
-	for (std::vector<std::unique_ptr<Planet>>::iterator ite = planets_.begin(); ite != planets_.end();ite++) {
-		(*ite)->Update();
-	}
 
 	camera_.Update();
 
@@ -875,6 +874,8 @@ void GameScene::TextureLoad()
 	warningDrawTextureHandles_ = {
 		TextureManager::Load("Resources/Sprite/Game/caveant.png", dxCommon_,textureHandleManager_.get()),
 	};
+
+	planetTextureHandle_ = TextureManager::Load("Resources/Model/target_planet/target_planet_clear.png", dxCommon_, textureHandleManager_.get());
 
 }
 

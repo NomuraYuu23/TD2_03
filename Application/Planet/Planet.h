@@ -15,7 +15,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="model">モデル</param>
-	void Initialize(Model* model);
+	void Initialize(Model* model, uint32_t textureHandle);
 
 	/// <summary>
 	/// 更新
@@ -33,7 +33,7 @@ public:
 	/// </summary>
 	void ImGuiDraw();
 	OBB* GetCollider() { return collider_.get(); };
-	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData) {};
+	void OnCollision(ColliderParentObject pairObject, CollisionData collidionData);
 	void SetFlagModel(Model* m) { modelFlag_ = m; };
 	void SetPosition(const Vector3& pos) { position_ = pos; };
 	void SetFlagRotateY(float y) { worldTransformFlag_.transform_.rotate.y = y; };
@@ -42,6 +42,8 @@ public:
 
 	void LifeExpectancyAnnounced() { flagLifeTime_ = flagrRmainingLife; }
 	uint32_t GetFlagLifeTime() { return flagLifeTime_; }
+
+	void SetCollisionTextureHandle(uint32_t handle) { collisionTextureHandle_ = handle; }
 
 private: // メンバ関数
 
@@ -79,6 +81,13 @@ private:
 	// フラッグの余命
 	uint32_t flagLifeTime_;
 	uint32_t flagrRmainingLife = 30;
+
+	// 惑星の色
+	uint32_t textureHandle_;
+	uint32_t collisionTextureHandle_;
+
+	// つながってるか
+	bool isConnect = false;
 
 };
 

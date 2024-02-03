@@ -147,6 +147,7 @@ private:
 	std::unique_ptr<Model> planetModel_;
 	std::unique_ptr<Model> planetFlagModel_;
 	std::vector<std::unique_ptr<Planet>> planets_;
+	uint32_t planetTextureHandle_;
 
 	//std::unique_ptr<UFO> ufo_;
 	std::vector<std::unique_ptr<UFO>> ufos_;
