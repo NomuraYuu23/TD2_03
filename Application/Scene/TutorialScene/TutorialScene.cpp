@@ -116,6 +116,11 @@ void TutorialScene::Initialize() {
 	block->SetWorldPosition({ 20.0f,0.0f,40.0f });
 	block->SetVelocity({ 0,0,0 });
 	blocks_.push_back(std::move(block));
+	block.reset(new Block);
+	block->Initialize();
+	block->SetWorldPosition({ 0.0f,0.0f,60.0f });
+	block->SetVelocity({ 0,0,0 });
+	blocks_.push_back(std::move(block));
 	ufos_.clear();
 	
 	energy_.reset(new Energy);
@@ -449,7 +454,7 @@ void TutorialScene::Update() {
 		isClearMission_[1] = true;
 		isBeenMissionUpdate_[1] = true;
 	}
-	if (isClearMission_[0] && isClearMission_[1]) {
+	if (isClearMission_[0] && isClearMission_[1] && !isClearMission_[3]) {
 		player_->SetIsCanShot(true);
 		target_.SetIsDraw(true);
 	}
@@ -477,6 +482,12 @@ void TutorialScene::Update() {
 		if (isConnect) {
 			isClearMission_[3] = true;
 			isBeenMissionUpdate_[3] = true;
+			std::unique_ptr<Screw> screw;
+			screw.reset(new Screw);
+			screw->Initialize();
+			screw->SetPlayer(player_.get());
+			screw->SetSweatTextureHandle(dropTextureHandle_);
+			screws_.push_back(std::move(screw));
 		}
 	}
 	if (isClearMission_[3]) {
@@ -491,6 +502,9 @@ void TutorialScene::Update() {
 	if (!isClearMission_[4] && target_.IsLockedChange()) {
 		isClearMission_[4] = true;
 		isBeenMissionUpdate_[4] = true;
+		//player_->SetIsCanShot(true);
+	}
+	if (isClearMission_[4] && target_.GetIsChangeTargetBlock()){
 		player_->SetIsCanShot(true);
 	}
 	//照準を切り替えて
@@ -507,6 +521,7 @@ void TutorialScene::Update() {
 		if (isReStuck) {
 			isClearMission_[6] = true;
 			isBeenMissionUpdate_[6] = true;
+			//kari
 		}
 	}
 
