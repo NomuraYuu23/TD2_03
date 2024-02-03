@@ -51,6 +51,9 @@ void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* 
 		ForchNearAnchor(blockList, camera, player, screwList);
 	}
 	else {
+		if (!isLockedChane_) {
+			ForchNearAnchor(blockList, camera, player, screwList);
+		}
 		if (!AliveCheck(blockList) || targetBlock_->GetAnchorPointScrew(numTargetAnchor_)) {
 			//isLockedChane_ = false;
 			isTarget_ = false;
@@ -220,13 +223,15 @@ void Target::ForchNearAnchor(std::vector<Block*>* blockList, BaseCamera& camera,
 			Vector3 newvp = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_), camera.GetViewProjectionMatrix());
 			//Vector3 oldpl = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_), vp);
 			//Vector3 newpl = Matrix4x4Calc::Transform(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_), vp);
-			bool lengthCheck/* = std::abs(newpl.x) <= std::abs(oldpl.x) && newpl.z > 0.0f*/;
-			lengthCheck = true;
+			float lengtho = sqrtf(powf(oldvp.x,2)+powf(oldvp.y,2));
+			float lengthn = sqrtf(powf(newvp.x, 2) + powf(newvp.y, 2));
+			bool lengthCheck = lengthn <= lengtho && newvp.z > 0.0f;
+			
 			//>= Vector3Calc::Length(Vector3Calc::Subtract((*ite)->GetAnchorPointArray()[index].position, camera.GetTransform()));
 			float dot = Vector3Calc::Dot(Vector3Calc::Normalize(Vector3Calc::Subtract(Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_),player->GetWorldTransform()->GetWorldPosition())),Vector3Calc::Normalize(player->GetDirection()));
-			float oldlength = Vector3Calc::Length(Vector3Calc::Subtract(player->GetWorldTransform()->GetWorldPosition(), Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_)));
+			//float oldlength = Vector3Calc::Length(Vector3Calc::Subtract(player->GetWorldTransform()->GetWorldPosition(), Matrix4x4Calc::Transform(block->GetAnchorPointArray()[num].position, block->GetWorldTransform()->worldMatrix_)));
 			float newlength = Vector3Calc::Length(Vector3Calc::Subtract(player->GetWorldTransform()->GetWorldPosition(), Matrix4x4Calc::Transform((*ite)->GetAnchorPointArray()[index].position, (*ite)->GetWorldTransform()->worldMatrix_)));
-			if ((lengthCheck) && dot>0.8f  && IsInnerCamera(newvp) && (!isTarget_ || /*std::cos(dot) < std::cos(oldDot)*/ newlength <= oldlength) && !(*ite)->GetAnchorPointScrew(index) && newlength <= targetRange_ && (*ite)->GetIsRidePlayer() == false) {
+			if ( IsInnerCamera(newvp) && (!isTarget_ || lengthCheck) && !(*ite)->GetAnchorPointScrew(index) && newlength <= targetRange_ && (*ite)->GetIsRidePlayer() == false) {
 				num = index;
 				block = *ite;
 				oldDot = dot;
