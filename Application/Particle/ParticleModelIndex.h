@@ -5,5 +5,6 @@
 enum ParticleModelIndex {
 	kUvChecker,
 	kCircle,
+	kStar,
 	kCountofParticleModelIndex
 };

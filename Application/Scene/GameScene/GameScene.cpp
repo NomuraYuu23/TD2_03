@@ -54,6 +54,7 @@ void GameScene::Initialize() {
 	std::array<Model*, ParticleModelIndex::kCountofParticleModelIndex> particleModel;
 	particleModel[ParticleModelIndex::kUvChecker] = particleUvcheckerModel_.get();
 	particleModel[ParticleModelIndex::kCircle] = particleCircleModel_.get();
+	particleModel[ParticleModelIndex::kStar] = particleStarModel_.get();
 	particleManager_->ModelCreate(particleModel);
 	
 	isDebugCameraActive_ = false;
@@ -783,6 +784,8 @@ void GameScene::ModelCreate()
 	// パーティクル
 	particleUvcheckerModel_.reset(Model::Create("Resources/default/", "plane.obj", dxCommon_, textureHandleManager_.get()));
 	particleCircleModel_.reset(Model::Create("Resources/Particle/", "plane.obj", dxCommon_, textureHandleManager_.get()));
+	particleStarModel_.reset(Model::Create("Resources/Particle/", "plane.obj", dxCommon_, textureHandleManager_.get()));
+	particleStarModel_->SetTextureHandle(TextureManager::Load("Resources/Particle/particle_star.png", dxCommon_, textureHandleManager_.get()));
 
 	// スカイドーム
 	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
