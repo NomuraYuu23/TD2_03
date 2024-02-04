@@ -1,5 +1,6 @@
 {
     "Tuturial": {
-        "FirstScrewNum": 1
+        "FirstScrewNum": 1,
+        "SkipFrame": 180
     }
 }

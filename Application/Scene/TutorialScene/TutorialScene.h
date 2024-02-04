@@ -191,4 +191,6 @@ private:
 
 	bool isBeenMissionUpdate_[7];
 	bool isClearMission_[7];
+	int skipFrame_;
+	int buttonContinueFrame_;//スキップボタンが押されているフレーム
 };
