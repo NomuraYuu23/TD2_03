@@ -31,7 +31,7 @@ public:
 
 	void SetDestinationAngle(const Vector3& destinationAngle) { destinationAngle_ = destinationAngle; }
 	void Shake();
-
+	int32_t GetControlLength() { return controlLength_; };
 private: // メンバ関数
 
 	// 追従対象からのオフセットを計算する
@@ -69,5 +69,8 @@ private:
 	float offsetLengthConnectMax_ = 10.0f;
 	// オフセットの長さ 媒介変数速度
 	float offsetLengthTSpeed_ = 0.05f;
+	//視点移動を押してる長さ(累計)
+	int32_t controlLength_;
+
 };
 

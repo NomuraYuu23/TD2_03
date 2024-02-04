@@ -3,7 +3,7 @@
 #include "../SelectScene/SelectScene.h"
 #include "../GameScene/GameScene.h"
 #include "../ClearScene/ClearScene.h"
-
+#include "../TutorialScene/TutorialScene.h"
 SceneFactory* SceneFactory::GetInstance()
 {
 	static SceneFactory instance;
@@ -29,6 +29,9 @@ IScene* SceneFactory::CreateScene(int sceneName)
 		break;
 	case kClear:  // クリア
 		newScene = new ClearScene();
+		break;
+	case kTutorial:  // チュートリアル
+		newScene = new TutorialScene();
 		break;
 	case kCountOfSceneName: // 使用不可
 		break;

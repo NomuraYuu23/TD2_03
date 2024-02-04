@@ -81,7 +81,7 @@ void Screw::Initialize() {
 
 	std::uniform_real_distribution<float> distributionRotateSpeed(rotateSpeedMin_, rotateSpeedMax_);
 	rotateSpeed_ = { distributionRotateSpeed(randomEngine), distributionRotateSpeed(randomEngine), distributionRotateSpeed(randomEngine) };
-
+	isReStuck_ = false;
 }
 void Screw::Update() {
 	isDrawSweat_ = false;
@@ -322,6 +322,7 @@ void Screw::TurnOver() {
 	}
 	else if (state_ == STUCK) {
 		stuckTime_ = kStuckMax;
+		isReStuck_ = true;
 	}
 }
 

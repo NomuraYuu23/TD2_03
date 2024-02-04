@@ -95,12 +95,12 @@ void TitleScene::Update()
 	if ((input_->TriggerKey(DIK_SPACE) || input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) &&
 		requestSceneNo == kTitle) {
 		// 行きたいシーンへ
-		requestSceneNo = kGame;
+		requestSceneNo = kTutorial;
 		audioManager_->PlayWave(kTitleAudioNameIndexDecision);
 	}
 
 	// BGM音量下げる
-	if (requestSceneNo == kGame && isDecreasingVolume) {
+	if (requestSceneNo == kTutorial && isDecreasingVolume) {
 		LowerVolumeBGM();
 	}
 	

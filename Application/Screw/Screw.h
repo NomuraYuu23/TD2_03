@@ -64,7 +64,7 @@ public:
 	Block* GetTarget() {return static_cast<Block*>(target_); };
 
 	void SetState(State state) { state_ = state; }
-
+	bool GetIsReStuck() { return isReStuck_; };
 private:
 	WorldTransform worldTransform_;
 	Vector3 startPosition_; //補間アニメーションの開始位置
@@ -122,5 +122,5 @@ private:
 	// 回転速度最小
 	static const float rotateSpeedMin_;
 
-
+	bool isReStuck_=false;//うめなおされたか
 };

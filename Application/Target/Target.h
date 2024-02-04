@@ -20,6 +20,9 @@ public:
 	bool IsLockedChange() { return isLockedChane_; };
 	Block* GetTargetBlock() { return targetBlock_; };
 	size_t GetNumTargetAnchor() { return numTargetAnchor_; };
+	void SetIsDraw(bool is) { isDraw_ = is; };
+	void SetIsCanLockOn(bool is) { isCanLockOn_ = is; };
+	bool GetIsChangeTargetBlock() { return isChangeTargetBlock_; };
 private:
 	bool isTarget_;//ターゲットしているか
 	Block* targetBlock_;//対象ブロックのポインタ
@@ -44,4 +47,7 @@ private:
 	Vector2 modeSize_ = {0};
 	int stickAnimation_=0;
 	int stickAnimationFrame_=0;
+	bool isDraw_=true;
+	bool isCanLockOn_=true;
+	bool isChangeTargetBlock_=false;//チュートリアル用、ロックオンモードで対象が切り替えられたか
 };
