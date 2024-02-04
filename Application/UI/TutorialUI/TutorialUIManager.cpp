@@ -138,6 +138,10 @@ void TutorialUIManager::UIInitialize()
 	UIs_[kTutorialUIIndexMissionClearLeft]->SetIsInvisible(true);
 	UIs_[kTutorialUIIndexMissionClearRight]->SetIsInvisible(true);
 
+	UIs_[kTutorialUIIndexButtonLB]->SetIsInvisible(true);
+	UIs_[kTutorialUIIndexButtonRB]->SetIsInvisible(true);
+	UIs_[kTutorialUIIndexButtonA]->SetIsInvisible(true);
+
 }
 
 void TutorialUIManager::NewMissionUpdate(float t)
@@ -394,13 +398,29 @@ void TutorialUIManager::MisiionTextChange(const std::array<bool, 7>& isClearMiss
 	if (isClearMission[5]) {
 		UIs_[kTutorialUIIndexMissionTextLeft]->SetTextureHandle(textureHandles_[kTutorialUITextureHandleIndexMissionTextGravity]);
 
-	}else if(isClearMission[3]){
+		UIs_[kTutorialUIIndexButtonLB]->SetIsInvisible(true);
+
+		UIs_[kTutorialUIIndexButtonA]->SetIsInvisible(false);
+
+	}
+	else if(isClearMission[3]){
 		UIs_[kTutorialUIIndexMissionTextLeft]->SetTextureHandle(textureHandles_[kTutorialUITextureHandleIndexMissionTextLockOn]);
 		UIs_[kTutorialUIIndexMissionTextRight]->SetTextureHandle(textureHandles_[kTutorialUITextureHandleIndexMissionTextShoot2]);
+	
+		UIs_[kTutorialUIIndexButtonRB]->SetIsInvisible(true);
+
+		UIs_[kTutorialUIIndexButtonLB]->SetIsInvisible(false);
+
 	}
 	else{
 		UIs_[kTutorialUIIndexMissionTextLeft]->SetTextureHandle(textureHandles_[kTutorialUITextureHandleIndexMissionTextShoot]);
 		UIs_[kTutorialUIIndexMissionTextRight]->SetTextureHandle(textureHandles_[kTutorialUITextureHandleIndexMissionTextApproach]);
+		
+		UIs_[kTutorialUIIndexStickL]->SetIsInvisible(true);
+		UIs_[kTutorialUIIndexStickR]->SetIsInvisible(true);
+
+		UIs_[kTutorialUIIndexButtonRB]->SetIsInvisible(false);
+
 	}
 
 }

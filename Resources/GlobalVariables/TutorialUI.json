@@ -1,31 +1,31 @@
 {
     "TutorialUI": {
         "ButtonAposition": [
-            0.0,
-            0.0
+            265.0,
+            555.0
         ],
         "ButtonArotate": 0.0,
         "ButtonAsize": [
-            450.0,
-            450.0
+            50.0,
+            50.0
         ],
         "ButtonLBposition": [
-            0.0,
-            0.0
+            260.0,
+            555.0
         ],
         "ButtonLBrotate": 0.0,
         "ButtonLBsize": [
-            280.0,
-            192.0
+            56.0,
+            38.400001525878906
         ],
         "ButtonRBposition": [
-            0.0,
-            0.0
+            280.0,
+            555.0
         ],
         "ButtonRBrotate": 0.0,
         "ButtonRBsize": [
-            280.0,
-            192.0
+            56.0,
+            38.400001525878906
         ],
         "ButtonYposition": [
             1225.0,
@@ -127,22 +127,22 @@
             50.0
         ],
         "StickLposition": [
-            0.0,
-            0.0
+            300.0,
+            550.0
         ],
         "StickLrotate": 0.0,
         "StickLsize": [
-            320.0,
-            256.0
+            50.0,
+            40.0
         ],
         "StickRposition": [
-            0.0,
-            0.0
+            750.0,
+            550.0
         ],
         "StickRrotate": 0.0,
         "StickRsize": [
-            320.0,
-            256.0
+            50.0,
+            40.0
         ]
     }
 }
