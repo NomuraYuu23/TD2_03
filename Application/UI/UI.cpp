@@ -1,7 +1,7 @@
 #include "UI.h"
 #include "../../Engine/GlobalVariables/GlobalVariables.h"
 
-void UI::Initialize(uint32_t textureHandle, const std::string& groupName)
+void UI::Initialize(uint32_t textureHandle, const std::string& groupName, const std::string& jsonName)
 {
 
 	Vector2 position = { 0.0f,0.0f };
@@ -16,7 +16,7 @@ void UI::Initialize(uint32_t textureHandle, const std::string& groupName)
 
 	size_ = sprite_->GetSize();
 
-	jsonName_ = "UI";
+	jsonName_ = jsonName;
 
 	groupName_ = groupName;
 
@@ -26,10 +26,10 @@ void UI::Initialize(uint32_t textureHandle, const std::string& groupName)
 
 }
 
-void UI::Initialize(uint32_t textureHandle, const std::string& groupName, const Vector2& size, const Vector2& leftTop)
+void UI::Initialize(uint32_t textureHandle, const std::string& groupName, const Vector2& size, const Vector2& leftTop, const std::string& jsonName)
 {
 
-	UI::Initialize(textureHandle, groupName);
+	UI::Initialize(textureHandle, groupName, jsonName);
 
 	sprite_->SetTextureSize(size);
 	sprite_->SetTextureLeftTop(leftTop);

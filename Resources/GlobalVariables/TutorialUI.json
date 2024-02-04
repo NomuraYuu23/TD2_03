@@ -1,0 +1,148 @@
+{
+    "TutorialUI": {
+        "ButtonAposition": [
+            0.0,
+            0.0
+        ],
+        "ButtonArotate": 0.0,
+        "ButtonAsize": [
+            450.0,
+            450.0
+        ],
+        "ButtonLBposition": [
+            0.0,
+            0.0
+        ],
+        "ButtonLBrotate": 0.0,
+        "ButtonLBsize": [
+            280.0,
+            192.0
+        ],
+        "ButtonRBposition": [
+            0.0,
+            0.0
+        ],
+        "ButtonRBrotate": 0.0,
+        "ButtonRBsize": [
+            280.0,
+            192.0
+        ],
+        "ButtonYposition": [
+            1225.0,
+            50.0
+        ],
+        "ButtonYrotate": 0.0,
+        "ButtonYsize": [
+            50.0,
+            50.0
+        ],
+        "Frameposition": [
+            640.0,
+            360.0
+        ],
+        "Framerotate": 0.0,
+        "Framesize": [
+            1280.0,
+            720.0
+        ],
+        "MissionClearLeftposition": [
+            565.0,
+            558.0
+        ],
+        "MissionClearLeftrotate": -0.47999998927116394,
+        "MissionClearLeftsize": [
+            96.0,
+            84.0
+        ],
+        "MissionClearRightposition": [
+            1045.0,
+            558.0
+        ],
+        "MissionClearRightrotate": -0.47999998927116394,
+        "MissionClearRightsize": [
+            96.0,
+            84.0
+        ],
+        "MissionFrameLeftposition": [
+            400.0,
+            550.0
+        ],
+        "MissionFrameLeftrotate": 0.0,
+        "MissionFrameLeftsize": [
+            437.0,
+            75.0
+        ],
+        "MissionFrameRightposition": [
+            880.0,
+            550.0
+        ],
+        "MissionFrameRightrotate": 0.0,
+        "MissionFrameRightsize": [
+            437.0,
+            75.0
+        ],
+        "MissionTextLeftposition": [
+            400.0,
+            550.0
+        ],
+        "MissionTextLeftrotate": 0.0,
+        "MissionTextLeftsize": [
+            437.0,
+            75.0
+        ],
+        "MissionTextRightposition": [
+            880.0,
+            550.0
+        ],
+        "MissionTextRightrotate": 0.0,
+        "MissionTextRightsize": [
+            437.0,
+            75.0
+        ],
+        "SkipGageFrameposition": [
+            1050.0,
+            100.0
+        ],
+        "SkipGageFramerotate": 0.0,
+        "SkipGageFramesize": [
+            360.0,
+            50.0
+        ],
+        "SkipGageposition": [
+            1050.0,
+            100.0
+        ],
+        "SkipGagerotate": 0.0,
+        "SkipGagesize": [
+            360.0,
+            50.0
+        ],
+        "SkipTextposition": [
+            1025.0,
+            50.0
+        ],
+        "SkipTextrotate": 0.0,
+        "SkipTextsize": [
+            360.0,
+            50.0
+        ],
+        "StickLposition": [
+            0.0,
+            0.0
+        ],
+        "StickLrotate": 0.0,
+        "StickLsize": [
+            320.0,
+            256.0
+        ],
+        "StickRposition": [
+            0.0,
+            0.0
+        ],
+        "StickRrotate": 0.0,
+        "StickRsize": [
+            320.0,
+            256.0
+        ]
+    }
+}

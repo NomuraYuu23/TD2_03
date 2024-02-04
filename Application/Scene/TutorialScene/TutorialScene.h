@@ -27,6 +27,9 @@
 
 #include "../../MissionData/MissionData.h"
 #include "../../Rocket/Rocket.h"
+
+#include "../../UI/TutorialUI/TutorialUIManager.h"
+
 class TutorialScene : public IScene
 {
 
@@ -191,4 +194,8 @@ private:
 
 	bool isBeenMissionUpdate_[7];
 	bool isClearMission_[7];
+
+	std::unique_ptr<TutorialUIManager> tutorialUIManager;
+	std::array<uint32_t, TutorialUITextureHandleIndex::kTutorialUITextureHandleIndexOfCount> tutorialUITextureHandles_;
+
 };

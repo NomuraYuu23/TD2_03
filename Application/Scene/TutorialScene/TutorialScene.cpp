@@ -166,6 +166,11 @@ void TutorialScene::Initialize() {
 		isBeenMissionUpdate_[i] = false;
 		isClearMission_[i] = 0;
 	}
+
+	tutorialUIManager = std::make_unique<TutorialUIManager>();
+	tutorialUIManager->Initialize(tutorialUITextureHandles_);
+	tutorialUIManager->SetAudioManager(audioManager_.get());
+
 }
 
 /// <summary>
@@ -569,6 +574,10 @@ void TutorialScene::Update() {
 	};
 	uiManager_->Update(uiManagerUpdateDesc);
 	*/
+
+	// UI 
+	tutorialUIManager->Update();
+
 	// デバッグカメラ
 	DebugCameraUpdate();
 
@@ -709,6 +718,7 @@ void TutorialScene::Draw() {
 
 	// UIマネージャー
 	//uiManager_->Draw();
+	tutorialUIManager->Draw();
 
 	target_.SpriteDraw();
 
@@ -868,6 +878,31 @@ void TutorialScene::TextureLoad()
 
 	stickeTextureHandle_[0] = TextureManager::Load("Resources/Sprite/Game/UI/controler_UI_rightStic_left.png", dxCommon_, textureHandleManager_.get());
 	stickeTextureHandle_[1] = TextureManager::Load("Resources/Sprite/Game/UI/controler_UI_rightStic_right.png", dxCommon_, textureHandleManager_.get());
+
+	tutorialUITextureHandles_ = {
+		TextureManager::Load("Resources/Sprite/Game/UI/ingame_frame.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/UI/ingame_mission_frame.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/UI/missionClear.png", dxCommon_,textureHandleManager_.get()),
+		
+		TextureManager::Load("Resources/Sprite/Tutorial/tuterial_move_text.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Tutorial/tuterial_cameraMove_text.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Tutorial/tuterial_screwShot_text.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Tutorial/tuterial_screwBlock_text.png", dxCommon_,textureHandleManager_.get()), 
+		TextureManager::Load("Resources/Sprite/Tutorial/tuterial_rockon_text.png", dxCommon_,textureHandleManager_.get()), 
+		TextureManager::Load("Resources/Sprite/Tutorial/tuterial_rockonChange_text.png", dxCommon_,textureHandleManager_.get()), 
+		TextureManager::Load("Resources/Sprite/Tutorial/tuterial_screwDown_text.png", dxCommon_,textureHandleManager_.get()), 
+		
+		TextureManager::Load("Resources/Sprite/Tutorial/tuterial_skip_text.png", dxCommon_,textureHandleManager_.get()), 
+		TextureManager::Load("Resources/Sprite/Tutorial/tuterial_skipGage.png", dxCommon_,textureHandleManager_.get()), 
+		TextureManager::Load("Resources/Sprite/Tutorial/tuterial_skipGageFrame.png", dxCommon_,textureHandleManager_.get()), 
+		
+		TextureManager::Load("Resources/Sprite/Common/controler_UI_leftStic1.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Common/controler_UI_rightStic1.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Common/ingame_ui_LB.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Common/ingame_ui_RB.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Common/controler_UI_A.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Common/controler_UI_Y.png", dxCommon_,textureHandleManager_.get()),
+	};
 
 }
 
