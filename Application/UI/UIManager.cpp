@@ -269,7 +269,7 @@ void UIManager::UIInitialize()
 	Vector2 gravityOperationSymbleSize = {450.0f, 450.0f};
 	Vector2 gravityOperationTextSize = { 580.0f, 128.0f };
 
-	Vector2 pauseOperationSymbleSize = { 384.0f, 384.0f };
+	Vector2 pauseOperationSymbleSize = { 450.0f, 450.0f };
 	Vector2 pauseOperationTextSize = { 580.0f, 128.0f };
 
 	UIs_[kUIIndexLockOnOperationSymble] = std::make_unique<UI>();
