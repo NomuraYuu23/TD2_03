@@ -95,7 +95,7 @@ void Player::BehaviorDropInitialize() {
 
 	velocity_ = { 0,2.0f,0 };
 	acceleration_ = {0,-0.15f,0};
-	isFlooar_ = false;
+	//isFlooar_ = false;
 	playerAnimationNo_ = kPlayerAnimationIndexGravity;
 	audioManager_->PlayWave(kGameAudioNameIndexPlayerGravity);
 
@@ -108,6 +108,14 @@ void Player::Update(Block* block, size_t blockNum) {
 	magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetRadius");
 	gravityFrame_ = globalVariables->GetUIntValue(groupName, "GravityFrame");
 	characterSpeed_ = globalVariables->GetFloatValue(groupName, "CharacterSpeed");
+	if (isRideConnectFlooar_) {
+		prePosition_ = worldTransform_.transform_.translate;
+	}
+	if (isLastBlockConnect_ && !isFlooar_) {
+		//playerAnimationNo_ = kPlayerAnimationIndexFalling;
+		worldTransform_.transform_.translate = prePosition_;
+		isFlooar_ = true;
+	}
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
 		attackFrameCount_ = 0;
@@ -191,7 +199,7 @@ void Player::Update(Block* block, size_t blockNum) {
 	worldTransformCircle_.UpdateMatrix();
 
 	isFlooar_ = false;
-	//isRideConnectFlooar_ = false;
+	isRideConnectFlooar_ = false;
 	//preJoyState_ = joyState_;
 }
 
@@ -209,7 +217,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 
 	// ゲームパッドの状態をえる
 	input_ = Input::GetInstance();
-	if (input_->TriggerJoystick(5) && block_ && isFlooar_)
+	if (input_->TriggerJoystick(5) && block_ && (isFlooar_ || isLastBlockConnect_))
 	{
 		//behavior_ = Behavior::kAttack;
 		
@@ -325,6 +333,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 	}
 	else {
 		playerAnimationNo_ = kPlayerAnimationIndexFalling;
+		//worldTransform_.transform_.translate = prePosition_;
 	}
 	if (!worldTransform_.parent_) {
 		//velocity_ = Vector3Calc::Add( velocity_,kGravity);
@@ -417,15 +426,17 @@ void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidio
 			isFlooar_ = true;
 		}*/
 		isFlooar_ = true;
+		isLastBlockConnect_ = std::get<Block*>(pairObject)->GetIsConnect();
 		if (std::get<Block*>(pairObject)->GetIsConnect()) {
 			isRideConnectFlooar_ = true;
 		}
 		float sizeY = std::get<Block*>(pairObject)->GetCollider()->size_.y;
 		worldTransform_.transform_.translate.y = std::get<Block*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + sizeY + worldTransform_.transform_.scale.y;
-		//worldTransform_.UpdateMatrix();
+		worldTransform_.transform_.translate.y -= 0.001f;
+		worldTransform_.UpdateMatrix();
 		// worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(Matrix4x4Calc::MakeScaleMatrix(worldTransform_.transform_.scale) , Matrix4x4Calc::Multiply( directionMatrix_ , Matrix4x4Calc::MakeTranslateMatrix(worldTransform_.transform_.translate)));
 		if (worldTransform_.parent_) {
-			worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(worldTransform_.worldMatrix_, worldTransform_.parent_->worldMatrix_);
+			//worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(worldTransform_.worldMatrix_, worldTransform_.parent_->worldMatrix_);
 		}
 		//std::get<Block*>(pairObject)->SetIsCenter(true);
 		//std::get<Block*>(pairObject)->SetIsConnect(true);

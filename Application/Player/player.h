@@ -168,4 +168,6 @@ private:
 	bool isUsedGravity_=false;
 	bool isCanLockOn_ = true;
 
+	Vector3 prePosition_;
+	bool isLastBlockConnect_=false;
 };
