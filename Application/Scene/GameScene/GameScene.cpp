@@ -846,6 +846,8 @@ void GameScene::TextureLoad()
 		TextureManager::Load("Resources/Sprite/Game/UI/ingame_ui_LB_text.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/Sprite/Common/controler_UI_A.png", dxCommon_,textureHandleManager_.get()),
 		TextureManager::Load("Resources/Sprite/Game/UI/ingame_ui_A_text.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Common/controler_UI_pose.png", dxCommon_,textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Game/UI/ingame_ui_pose_text.png", dxCommon_,textureHandleManager_.get()),
 	};
 
 	shotUITextureHandle_[0] = TextureManager::Load("Resources/Sprite/Game/UI/ingame_ui_RB.png", dxCommon_, textureHandleManager_.get());

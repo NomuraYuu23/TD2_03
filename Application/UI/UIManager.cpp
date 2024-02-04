@@ -146,6 +146,8 @@ void UIManager::Update(const UIManagerUpdateDesc& uiManagerUpdateDesc)
 	UIs_[kUIIndexLockOnOperationText]->Update();
 	UIs_[kUIIndexGravityOperationSymble]->Update();
 	UIs_[kUIIndexGravityOperationText]->Update();
+	UIs_[kUIIndexPauseOperationSymble]->Update();
+	UIs_[kUIIndexPauseOperationText]->Update();
 
 }
 
@@ -267,14 +269,24 @@ void UIManager::UIInitialize()
 	Vector2 gravityOperationSymbleSize = {450.0f, 450.0f};
 	Vector2 gravityOperationTextSize = { 580.0f, 128.0f };
 
+	Vector2 pauseOperationSymbleSize = { 384.0f, 384.0f };
+	Vector2 pauseOperationTextSize = { 580.0f, 128.0f };
+
 	UIs_[kUIIndexLockOnOperationSymble] = std::make_unique<UI>();
 	UIs_[kUIIndexLockOnOperationSymble]->Initialize(textureHandles_[kUITextureHandleIndexLockOnOperationSymble], "UILockOnOperationSymble", lockOnOperationSymbleSize, leftTop);
 	UIs_[kUIIndexLockOnOperationText] = std::make_unique<UI>();
 	UIs_[kUIIndexLockOnOperationText]->Initialize(textureHandles_[kUITextureHandleIndexLockOnOperationText], "UILockOnOperationText", lockOnOperationTextSize, leftTop);
+	
 	UIs_[kUIIndexGravityOperationSymble] = std::make_unique<UI>();
 	UIs_[kUIIndexGravityOperationSymble]->Initialize(textureHandles_[kUITextureHandleIndexGravityOperationSymble], "UIGravityOperationSymble", gravityOperationSymbleSize, leftTop);
 	UIs_[kUIIndexGravityOperationText] = std::make_unique<UI>();
 	UIs_[kUIIndexGravityOperationText]->Initialize(textureHandles_[kUITextureHandleIndexGravityOperationText], "UIGravityOperationText", gravityOperationTextSize, leftTop);
+
+
+	UIs_[kUIIndexPauseOperationSymble] = std::make_unique<UI>();
+	UIs_[kUIIndexPauseOperationSymble]->Initialize(textureHandles_[kUITextureHandleIndexPauseOperationSymble], "UIPauseOperationSymble", pauseOperationSymbleSize, leftTop);
+	UIs_[kUIIndexPauseOperationText] = std::make_unique<UI>();
+	UIs_[kUIIndexPauseOperationText]->Initialize(textureHandles_[kUITextureHandleIndexPauseOperationText], "UIPauseOperationText", pauseOperationTextSize, leftTop);
 
 }
 

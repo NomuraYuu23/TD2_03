@@ -22,6 +22,8 @@ enum UITextureHandleIndex {
 	kUITextureHandleIndexLockOnOperationText, // ロックオンテキスト
 	kUITextureHandleIndexGravityOperationSymble, // 重力シンボル
 	kUITextureHandleIndexGravityOperationText, // 重力テキスト
+	kUITextureHandleIndexPauseOperationSymble, // ポーズシンボル
+	kUITextureHandleIndexPauseOperationText, // ポーズテキスト
 
 	kUITextureHandleIndexOfCount
 };
@@ -56,6 +58,8 @@ enum UIIndex {
 	kUIIndexLockOnOperationText, // ロックオンテキスト
 	kUIIndexGravityOperationSymble, // 重力シンボル
 	kUIIndexGravityOperationText, // 重力テキスト
+	kUIIndexPauseOperationSymble, // ポーズシンボル
+	kUIIndexPauseOperationText, // ポーズテキスト
 
 	kUIIndexOfCount
 };
