@@ -39,9 +39,9 @@ void UI::Initialize(uint32_t textureHandle, const std::string& groupName, const 
 void UI::Update()
 {
 
-#ifdef _DEBUG
-	ApplyGlobalVariables();
-#endif // _DEBUG
+//#ifdef _DEBUG
+	//ApplyGlobalVariables();
+//#endif // _DEBUG
 
 }
 
