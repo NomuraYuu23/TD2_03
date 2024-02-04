@@ -866,8 +866,8 @@ void TutorialScene::TextureLoad()
 	arrowTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/Pause/pause_arrow.png", dxCommon_, textureHandleManager_.get());
 	lockonTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/UI/ingame_rockon_UI.png", dxCommon_, textureHandleManager_.get());
 
-	stickeTextureHandle_[0] = TextureManager::Load("Resources/Sprite/Game/UI/controler_UI_sticLeft.png", dxCommon_, textureHandleManager_.get());
-	stickeTextureHandle_[1] = TextureManager::Load("Resources/Sprite/Game/UI/controler_UI_sticRightt.png", dxCommon_, textureHandleManager_.get());
+	stickeTextureHandle_[0] = TextureManager::Load("Resources/Sprite/Game/UI/controler_UI_rightStic_left.png", dxCommon_, textureHandleManager_.get());
+	stickeTextureHandle_[1] = TextureManager::Load("Resources/Sprite/Game/UI/controler_UI_rightStic_right.png", dxCommon_, textureHandleManager_.get());
 
 }
 
