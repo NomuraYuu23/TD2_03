@@ -176,7 +176,7 @@ private:
 	std::unique_ptr<ShadowManager> shadowManager_;
 	std::unique_ptr<Model> shadowModel_;
 
-	
+
 	std::unique_ptr<Model> soilModel_;
 
 	// ポーズ
@@ -187,15 +187,18 @@ private:
 	uint32_t arrowTextureHandle_;
 	uint32_t lockonTextureHandle_;
 	uint32_t stickeTextureHandle_[2];
-	
+
 	// ロケット
 	std::unique_ptr<Rocket> rocket_;
 	std::unique_ptr<Model> rocketModel_;
 
-	std::array<bool,7> isBeenMissionUpdate_;
+	std::array<bool, 7> isBeenMissionUpdate_;
 	std::array<bool, 7> isClearMission_;
 
 	std::unique_ptr<TutorialUIManager> tutorialUIManager;
 	std::array<uint32_t, TutorialUITextureHandleIndex::kTutorialUITextureHandleIndexOfCount> tutorialUITextureHandles_;
+
+	int skipFrame_;
+	int buttonContinueFrame_;//スキップボタンが押されているフレーム
 
 };

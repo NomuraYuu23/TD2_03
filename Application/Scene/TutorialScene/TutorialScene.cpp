@@ -32,8 +32,10 @@ void TutorialScene::Initialize() {
 
 	globalVariables->AddItem(groupName, "FirstScrewNum", firstScrewNum_);
 	firstScrewNum_ = globalVariables->GetIntValue(groupName, "FirstScrewNum");
-
-	
+	skipFrame_ = 0;
+	globalVariables->AddItem(groupName, "SkipFrame", skipFrame_);
+	skipFrame_ = globalVariables->GetIntValue(groupName, "SkipFrame");
+	buttonContinueFrame_ = 0;
 	ModelCreate();
 	MaterialCreate();
 	TextureLoad();
@@ -532,11 +534,19 @@ void TutorialScene::Update() {
 			isClearMission_[6] = true;
 			isBeenMissionUpdate_[6] = true;
 			//kari
-			requestSceneNo = kGame;
+			//requestSceneNo = kGame;
 		}
 	}
-
-
+	if (Input::GetInstance()->PushJoystick(JoystickButton::kJoystickButtonY) || isClearMission_[6]) {
+		buttonContinueFrame_++;
+	}
+	else {
+		buttonContinueFrame_--;
+	}
+	buttonContinueFrame_ = std::clamp(buttonContinueFrame_,0,skipFrame_);
+	if (buttonContinueFrame_ >= skipFrame_) {
+		requestSceneNo = kGame;
+	}
 	// 影
 	ShadowUpdate();
 
