@@ -361,6 +361,10 @@ void TutorialUIManager::MissionUpdate(const std::array<bool, 7>& isClearMission)
 
 				// テクスチャハンドルの変更
 				MisiionTextChange(isClearMission);
+				
+				if (isClearMission[5]) {
+					LastMisiion();
+				}
 
 				audioManager_->PlayWave(kGameAudioNameIndexMissionOccurrrence);
 			}
@@ -426,6 +430,24 @@ void TutorialUIManager::MisiionTextChange(const std::array<bool, 7>& isClearMiss
 		UIs_[kTutorialUIIndexButtonRB]->SetIsInvisible(false);
 
 	}
+
+}
+
+void TutorialUIManager::LastMisiion()
+{
+
+	UIs_[kTutorialUIIndexMissionFrameRight]->SetIsInvisible(true);
+	UIs_[kTutorialUIIndexMissionClearRight]->SetIsInvisible(true);
+	UIs_[kTutorialUIIndexMissionTextRight]->SetIsInvisible(true);
+
+	Vector2 pos = {0.0f,0.0f};
+
+	pos = { 640.0f, 550.0f };
+	UIInitPositions_[kTutorialUIIndexMissionFrameLeft] = pos;
+	pos = { 805.0f, 558.0f };
+	UIInitPositions_[kTutorialUIIndexMissionClearLeft] = pos;
+	pos = { 640.0f, 550.0f };
+	UIInitPositions_[kTutorialUIIndexMissionTextLeft] = pos;
 
 }
 

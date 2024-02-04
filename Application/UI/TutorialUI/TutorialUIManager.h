@@ -141,6 +141,11 @@ private: // メンバ関数
 	/// </summary>
 	void MisiionTextChange(const std::array<bool, 7>& isClearMission);
 
+	/// <summary>
+	/// 最後のミッション
+	/// </summary>
+	void LastMisiion();
+
 private: // メンバ変数
 
 	// テクスチャハンドル

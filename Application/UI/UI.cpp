@@ -40,7 +40,7 @@ void UI::Update()
 {
 
 //#ifdef _DEBUG
-	ApplyGlobalVariables();
+	//ApplyGlobalVariables();
 //#endif // _DEBUG
 
 }
