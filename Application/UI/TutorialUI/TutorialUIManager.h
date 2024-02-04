@@ -56,6 +56,22 @@ enum TutorialUIIndex {
 	kTutorialUIIndexOfCount
 };
 
+struct TutorialMissionStamp {
+
+	// ハンコを押せ
+	bool pressStamp_;
+	// ハンコが押された
+	bool isStamped_;
+	// ハンコの媒介変数
+	float stampT_;
+	// ハンコのクールタイム
+	float stampCooltime_;
+	
+	// 初期化
+	void Initialize();
+
+};
+
 class TutorialUIManager
 {
 
@@ -70,7 +86,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update(const std::array<bool,7>& isBeenMissionUpdate, const std::array<bool, 7>& isClearMission);
 
 	/// <summary>
 	/// 描画
@@ -83,6 +99,47 @@ private: // メンバ関数
 	/// UIごとの初期化
 	/// </summary>
 	void UIInitialize();
+
+	/// <summary>
+	/// 新しいミッション移動
+	/// </summary>
+	void NewMissionUpdate(float t);
+
+	/// <summary>
+	/// クリアミッション移動
+	/// </summary>
+	/// <param name="t"></param>
+	void ClearMissionUpdate(float t);
+
+	/// <summary>
+	/// 左スタンプ
+	/// </summary>
+	void LeftStamp();
+
+	/// <summary>
+	/// 右スタンプ
+	/// </summary>
+	void RightStamp();
+
+	/// <summary>
+	/// 左のミッション更新
+	/// </summary>
+	void LeftMissionUpdate();
+
+	/// <summary>
+	/// 右のミッション更新
+	/// </summary>
+	void RightMissionUpdate();
+
+	/// <summary>
+	/// ミッション更新
+	/// </summary>
+	void MissionUpdate(const std::array<bool, 7>& isClearMission);
+
+	/// <summary>
+	/// ミッションテキスト変更
+	/// </summary>
+	void MisiionTextChange(const std::array<bool, 7>& isClearMission);
 
 private: // メンバ変数
 
@@ -97,6 +154,15 @@ private: // メンバ変数
 
 	// オーディオマネージャー
 	GameAudioManager* audioManager_;
+
+	// チュートリアルミッション
+	TutorialMissionStamp leftTutorialMissionStamp_;
+	TutorialMissionStamp rightTutorialMissionStamp_;
+
+	// ミッション更新中の色
+	Vector4 missionBeenUpdateColor_;
+	// ミッション
+	bool missionBeenUpdateFadeIn_;
 
 public:
 

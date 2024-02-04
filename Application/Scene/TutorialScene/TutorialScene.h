@@ -192,8 +192,8 @@ private:
 	std::unique_ptr<Rocket> rocket_;
 	std::unique_ptr<Model> rocketModel_;
 
-	bool isBeenMissionUpdate_[7];
-	bool isClearMission_[7];
+	std::array<bool,7> isBeenMissionUpdate_;
+	std::array<bool, 7> isClearMission_;
 
 	std::unique_ptr<TutorialUIManager> tutorialUIManager;
 	std::array<uint32_t, TutorialUITextureHandleIndex::kTutorialUITextureHandleIndexOfCount> tutorialUITextureHandles_;

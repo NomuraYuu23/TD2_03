@@ -576,7 +576,7 @@ void TutorialScene::Update() {
 	*/
 
 	// UI 
-	tutorialUIManager->Update();
+	tutorialUIManager->Update(isBeenMissionUpdate_, isClearMission_);
 
 	// デバッグカメラ
 	DebugCameraUpdate();
