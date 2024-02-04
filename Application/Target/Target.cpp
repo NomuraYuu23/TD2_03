@@ -38,6 +38,9 @@ void Target::Initialize(uint32_t textureHandle, uint32_t textureHandle2[2], uint
 	rightStick_.reset(Sprite::Create(stickTextureHandle[1], { 0,0 }, { 1.0f,1.0f,1.0f,1.0f }));
 	rightStick_->SetSize(size);
 	rightStick_->SetTextureSize({ 320,256 });
+	isDraw_ = true;
+	isCanLockOn_ = true;
+	isChangeTargetBlock_ = false;
 }
 void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* player, std::list<std::unique_ptr<Screw>>* screwList) {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
@@ -55,6 +58,9 @@ void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* 
 			//isLockedChane_ = false;
 			isTarget_ = false;
 		}
+		if (!isLockedChane_) {
+			ForchNearAnchor(blockList, camera, player, screwList);
+		}
 		else {
 			if (Input::GetInstance()->GetLeftAnalogstick().x != 0) {
 				if (isReleseButton_) {
@@ -64,12 +70,14 @@ void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* 
 						rightAnimation_ = 10.0f;
 						ForchNearOneMore(blockList, camera, player, screwList, lr);
 						isReleseButton_ = false;
+						isChangeTargetBlock_ = true;
 					}
 					else if(Input::GetInstance()->GetLeftAnalogstick().x < -0.5f){
 						lr = -1;
 						leftAnimation_ = -10.0f;
 						ForchNearOneMore(blockList, camera, player, screwList, lr);
 						isReleseButton_ = false;
+						isChangeTargetBlock_ = true;
 					}
 					//ForchNearOneMore(blockList, camera, player, screwList, lr);
 					//isReleseButton_ = false;
@@ -91,15 +99,13 @@ void Target::Update(std::vector<Block*>* blockList, BaseCamera& camera, Player* 
 			}
 		}
 	}
-	if (Input::GetInstance()->PushJoystick(JoystickButton::kJoystickButtonLB)) {
-		isLockedChane_ = true;
-		if (Input::GetInstance()->TriggerJoystick(JoystickButton::kJoystickButtonLB)) {
+	if (isTarget_) {
+		if (Input::GetInstance()->TriggerJoystick(JoystickButton::kJoystickButtonLB) && isCanLockOn_) {
+			isLockedChane_ = !isLockedChane_;
 			modeAlpha_ = 1.0f;
 			alphaDirection_ = -1.0f;
 		}
-	}
-	else {
-		isLockedChane_ = false;
+		
 	}
 	Vector2 position = anchor_->GetPosition();
 	position.x += -100.0f + leftAnimation_;
@@ -313,7 +319,7 @@ void Target::ForchNearOneMore(std::vector<Block*>* blockList, BaseCamera& camera
 }
 
 void Target::SpriteDraw() {
-	if (isTarget_) {
+	if (isTarget_ && isDraw_) {
 		anchor_->Draw();
 		ui_->Draw();
 		if (isLockedChane_) {
