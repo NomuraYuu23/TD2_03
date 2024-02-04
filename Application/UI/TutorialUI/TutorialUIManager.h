@@ -164,9 +164,14 @@ private: // メンバ変数
 	// ミッション
 	bool missionBeenUpdateFadeIn_;
 
+	// ミッションを止める
+	bool stopTheMission_ = false;
+
 public:
 
 	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
+
+	bool GetStopTheMission() { return stopTheMission_; }
 
 };
 

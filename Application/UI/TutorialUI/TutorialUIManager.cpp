@@ -53,6 +53,10 @@ void TutorialUIManager::Update(const std::array<bool, 7>& isBeenMissionUpdate, c
 	// 更新
 	MissionUpdate(isClearMission);
 
+	if (leftTutorialMissionStamp_.pressStamp_ && rightTutorialMissionStamp_.pressStamp_) {
+		stopTheMission_ = true;
+	}
+
 }
 
 void TutorialUIManager::Draw()
@@ -376,7 +380,7 @@ void TutorialUIManager::MissionUpdate(const std::array<bool, 7>& isClearMission)
 			// ミッションクリア
 			UIs_[kTutorialUIIndexMissionClearLeft]->SetPosition(UIInitPositions_[kTutorialUIIndexMissionClearLeft]);
 			UIs_[kTutorialUIIndexMissionClearRight]->SetPosition(UIInitPositions_[kTutorialUIIndexMissionClearRight]);
-
+			stopTheMission_ = false;
 		}
 
 		NewMissionUpdate(missionBeenUpdateColor_.w);

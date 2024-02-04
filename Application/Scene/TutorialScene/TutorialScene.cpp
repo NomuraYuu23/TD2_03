@@ -454,89 +454,96 @@ void TutorialScene::Update() {
 	for (int i = 0; i < 7; i++) {
 		isBeenMissionUpdate_[i] = false;
 	}
-	//移動してみよう
-	if (!isClearMission_[0] && player_->GetControlLength()>120) {
-		isClearMission_[0] = true;
-		isBeenMissionUpdate_[0] = true;
-	}
-	//カメラを動かしてみよう
-	if (!isClearMission_[1] && followCamera_->GetControlLength() > 30) {
-		isClearMission_[1] = true;
-		isBeenMissionUpdate_[1] = true;
-	}
-	if (isClearMission_[0] && isClearMission_[1] && !isClearMission_[3]) {
-		player_->SetIsCanShot(true);
-		target_.SetIsDraw(true);
-	}
 
-	//ネジを打ってみよう
-	if (!isClearMission_[2]) {
-		bool isStuck = false;
-		for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
-			if ((*block)->GetAnchorPointScrew(0)) {
-				isStuck = true;
-				break;
+	if (!tutorialUIManager->GetStopTheMission()) {
+
+		//移動してみよう
+		if (!isClearMission_[0] && player_->GetControlLength() > 120) {
+			isClearMission_[0] = true;
+			isBeenMissionUpdate_[0] = true;
+		}
+		//カメラを動かしてみよう
+		if (!isClearMission_[1] && followCamera_->GetControlLength() > 30) {
+			isClearMission_[1] = true;
+			isBeenMissionUpdate_[1] = true;
+		}
+		// 移動とカメラが終わり次のミッションが終わってない場合
+		if (isClearMission_[0] && isClearMission_[1] && !isClearMission_[3]) {
+			player_->SetIsCanShot(true);
+			target_.SetIsDraw(true);
+		}
+
+		//ネジを打ってみよう
+		if (!isClearMission_[2]) {
+			bool isStuck = false;
+			for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+				if ((*block)->GetAnchorPointScrew(0)) {
+					isStuck = true;
+					break;
+				}
+			}
+			if (isStuck) {
+				isClearMission_[2] = true;
+				isBeenMissionUpdate_[2] = true;
 			}
 		}
-		if (isStuck) {
-			isClearMission_[2] = true;
-			isBeenMissionUpdate_[2] = true;
+		//ブロックに近づいてみよう
+		if (!isClearMission_[3]) {
+			bool isConnect = false;
+			for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+				isConnect = isConnect || ((*block)->GetIsConnect() && !(*block)->GetIsCenter());
+			}
+			if (isConnect) {
+				isClearMission_[3] = true;
+				isBeenMissionUpdate_[3] = true;
+				std::unique_ptr<Screw> screw;
+				screw.reset(new Screw);
+				screw->Initialize();
+				screw->SetPlayer(player_.get());
+				screw->SetSweatTextureHandle(dropTextureHandle_);
+				screws_.push_back(std::move(screw));
+			}
 		}
-	}
-	//ブロックに近づいてみよう
-	if (!isClearMission_[3]) {
-		bool isConnect = false;
-		for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
-			isConnect = isConnect || ((*block)->GetIsConnect() && !(*block)->GetIsCenter());
+		if (isClearMission_[3]) {
+			target_.SetIsCanLockOn(true);
+			player_->SetIsCanLockOn(true);
+			followCamera_->SetIsCanLockOn(true);
 		}
-		if (isConnect) {
-			isClearMission_[3] = true;
-			isBeenMissionUpdate_[3] = true;
-			std::unique_ptr<Screw> screw;
-			screw.reset(new Screw);
-			screw->Initialize();
-			screw->SetPlayer(player_.get());
-			screw->SetSweatTextureHandle(dropTextureHandle_);
-			screws_.push_back(std::move(screw));
+		//一時的に撃つのを再封印
+		if (isClearMission_[3] && !isClearMission_[4]) {
+			player_->SetIsCanShot(false);
 		}
-	}
-	if (isClearMission_[3]) {
-		target_.SetIsCanLockOn(true);
-		player_->SetIsCanLockOn(true);
-		followCamera_->SetIsCanLockOn(true);
-	}
-	//一時的に撃つのを再封印
-	if (isClearMission_[3] && !isClearMission_[4]) {
-		player_->SetIsCanShot(false);
+
+		//ロックオンしてみよう
+		if (!isClearMission_[4] && target_.IsLockedChange()) {
+			isClearMission_[4] = true;
+			isBeenMissionUpdate_[4] = true;
+			//player_->SetIsCanShot(true);
+		}
+		if (isClearMission_[4] && target_.GetIsChangeTargetBlock()) {
+			player_->SetIsCanShot(true);
+		}
+		//照準を切り替えて
+		if (!isClearMission_[5] && target_.GetIsChangeTargetBlock()) {
+			isClearMission_[5] = true;
+			isBeenMissionUpdate_[5] = true;
+			player_->SetIsCanGravity(true);
+		}
+		if (!isClearMission_[6]) {
+			bool isReStuck = false;
+			for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+				isReStuck = isReStuck || (*block)->GetIsReStuck();
+			}
+			if (isReStuck) {
+				isClearMission_[6] = true;
+				isBeenMissionUpdate_[6] = true;
+				//kari
+				//requestSceneNo = kGame;
+			}
+		}
+
 	}
 
-	//ロックオンしてみよう
-	if (!isClearMission_[4] && target_.IsLockedChange()) {
-		isClearMission_[4] = true;
-		isBeenMissionUpdate_[4] = true;
-		//player_->SetIsCanShot(true);
-	}
-	if (isClearMission_[4] && target_.GetIsChangeTargetBlock()){
-		player_->SetIsCanShot(true);
-	}
-	//照準を切り替えて
-	if (!isClearMission_[5] && target_.GetIsChangeTargetBlock()) {
-		isClearMission_[5] = true;
-		isBeenMissionUpdate_[5] = true;
-		player_->SetIsCanGravity(true);
-	}
-	if (!isClearMission_[6]) {
-		bool isReStuck = false;
-		for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
-			isReStuck = isReStuck || (*block)->GetIsReStuck();
-		}
-		if (isReStuck) {
-			isClearMission_[6] = true;
-			isBeenMissionUpdate_[6] = true;
-			//kari
-			//requestSceneNo = kGame;
-		}
-	}
 	if (Input::GetInstance()->PushJoystick(JoystickButton::kJoystickButtonY) || isClearMission_[6]) {
 		buttonContinueFrame_++;
 	}
