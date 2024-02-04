@@ -593,7 +593,8 @@ void TutorialScene::Update() {
 	*/
 
 	// UI 
-	tutorialUIManager->Update(isBeenMissionUpdate_, isClearMission_);
+	float ratio = static_cast<float>(buttonContinueFrame_) / static_cast<float>(skipFrame_);
+	tutorialUIManager->Update(isBeenMissionUpdate_, isClearMission_, ratio);
 
 	// デバッグカメラ
 	DebugCameraUpdate();
@@ -910,7 +911,7 @@ void TutorialScene::TextureLoad()
 		TextureManager::Load("Resources/Sprite/Tutorial/tuterial_screwDown_text.png", dxCommon_,textureHandleManager_.get()), 
 		
 		TextureManager::Load("Resources/Sprite/Tutorial/tuterial_skip_text.png", dxCommon_,textureHandleManager_.get()), 
-		TextureManager::Load("Resources/Sprite/Tutorial/tuterial_skipGage.png", dxCommon_,textureHandleManager_.get()), 
+		TextureManager::Load("Resources/default/white2x2.png", dxCommon_,textureHandleManager_.get()), 
 		TextureManager::Load("Resources/Sprite/Tutorial/tuterial_skipGageFrame.png", dxCommon_,textureHandleManager_.get()), 
 		
 		TextureManager::Load("Resources/Sprite/Common/controler_UI_leftStic1.png", dxCommon_,textureHandleManager_.get()),

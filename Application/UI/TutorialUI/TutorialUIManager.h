@@ -86,7 +86,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update(const std::array<bool,7>& isBeenMissionUpdate, const std::array<bool, 7>& isClearMission);
+	void Update(const std::array<bool,7>& isBeenMissionUpdate, const std::array<bool, 7>& isClearMission, float ratio);
 
 	/// <summary>
 	/// 描画
@@ -146,6 +146,11 @@ private: // メンバ関数
 	/// </summary>
 	void LastMisiion();
 
+	/// <summary>
+	/// スキップゲージ更新
+	/// </summary>
+	void SkipGageUpde(float ratio);
+
 private: // メンバ変数
 
 	// テクスチャハンドル
@@ -171,6 +176,11 @@ private: // メンバ変数
 
 	// ミッションを止める
 	bool stopTheMission_ = false;
+
+	// スキップゲージサイズ
+	Vector2 skipGageSize_ = { 0.0f, 0.0f };
+	// スキップゲージサイズの更新を止める
+	bool skipGageSizeStopUpdate_ = false;
 
 public:
 

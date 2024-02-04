@@ -22,7 +22,7 @@ void TutorialUIManager::Initialize(const std::array<uint32_t, TutorialUITextureH
 
 }
 
-void TutorialUIManager::Update(const std::array<bool, 7>& isBeenMissionUpdate, const std::array<bool, 7>& isClearMission)
+void TutorialUIManager::Update(const std::array<bool, 7>& isBeenMissionUpdate, const std::array<bool, 7>& isClearMission, float ratio)
 {
 
 	for (uint32_t i = 0; i < TutorialUIIndex::kTutorialUIIndexOfCount; ++i) {
@@ -53,9 +53,13 @@ void TutorialUIManager::Update(const std::array<bool, 7>& isBeenMissionUpdate, c
 	// 更新
 	MissionUpdate(isClearMission);
 
+	// ミッションの更新を止める
 	if (leftTutorialMissionStamp_.pressStamp_ && rightTutorialMissionStamp_.pressStamp_) {
 		stopTheMission_ = true;
 	}
+
+	// スキップゲージ更新
+	SkipGageUpde(ratio);
 
 }
 
@@ -107,9 +111,11 @@ void TutorialUIManager::UIInitialize()
 	UIs_[kTutorialUIIndexSkipText] = std::make_unique<UI>();
 	UIs_[kTutorialUIIndexSkipText]->Initialize(textureHandles_[kTutorialUITextureHandleIndexSkipText], "SkipText", size, leftTop, jsonName);
 
-	size = { 900.0f, 125.0f };
+	size = { 2.0f, 2.0f };
 	UIs_[kTutorialUIIndexSkipGage] = std::make_unique<UI>();
 	UIs_[kTutorialUIIndexSkipGage]->Initialize(textureHandles_[kTutorialUITextureHandleIndexSkipGage], "SkipGage", size, leftTop, jsonName);
+	UIs_[kTutorialUIIndexSkipGage]->SetAnchorPoint(Vector2{ 0.0f,0.0f });
+	skipGageSize_ = UIs_[kTutorialUIIndexSkipGage]->GetSize();
 
 	size = { 900.0f, 125.0f };
 	UIs_[kTutorialUIIndexSkipGageFrame] = std::make_unique<UI>();
@@ -448,6 +454,23 @@ void TutorialUIManager::LastMisiion()
 	UIInitPositions_[kTutorialUIIndexMissionClearLeft] = pos;
 	pos = { 640.0f, 550.0f };
 	UIInitPositions_[kTutorialUIIndexMissionTextLeft] = pos;
+
+}
+
+void TutorialUIManager::SkipGageUpde(float ratio)
+{
+	
+	if (skipGageSizeStopUpdate_) {
+		return;
+	}
+
+	Vector2 size = { skipGageSize_.x * ratio, skipGageSize_.y };
+
+	UIs_[kTutorialUIIndexSkipGage]->SetSize(size);
+
+	if (ratio >= 1.0f) {
+		skipGageSizeStopUpdate_ = true;
+	}
 
 }
 

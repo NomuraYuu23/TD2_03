@@ -39,9 +39,9 @@ void UI::Initialize(uint32_t textureHandle, const std::string& groupName, const 
 void UI::Update()
 {
 
-//#ifdef _DEBUG
-	//ApplyGlobalVariables();
-//#endif // _DEBUG
+#ifdef _DEBUG
+	ApplyGlobalVariables();
+#endif // _DEBUG
 
 }
 
@@ -140,4 +140,11 @@ void UI::SetSize(const Vector2& size)
 Vector2 UI::GetSize()
 {
 	return sprite_->GetSize();
+}
+
+void UI::SetAnchorPoint(const Vector2& anchorPoint)
+{
+
+	sprite_->SetAnchorPoint(anchorPoint);
+
 }

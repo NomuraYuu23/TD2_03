@@ -81,5 +81,7 @@ public:
 	void SetSize(const Vector2& size);
 	Vector2 GetSize();
 
+	void SetAnchorPoint(const Vector2& anchorPoint);
+
 };
 
