@@ -65,6 +65,7 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 	isCanShot_ = true;
 	isCanGravity_ = true;
 	isUsedGravity_ = false;
+	isCanLockOn_ = true;
 }
 
 
@@ -307,7 +308,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 			directionMatrix_ = Matrix4x4Calc::DirectionToDirection(Vector3Calc::Normalize(Vector3{ 0.0f,0.0f,1.0f }), Vector3Calc::Normalize(toTarget));
 			move = { 0.0f , 0.0f , 0.0f };
 		}
-		else if (input_->PushJoystick(JoystickButton::kJoystickButtonLB)) {
+		else if (input_->PushJoystick(JoystickButton::kJoystickButtonLB) && isCanLockOn_) {
 			move = { 0.0f , 0.0f , 0.0f };
 		}
 		else {

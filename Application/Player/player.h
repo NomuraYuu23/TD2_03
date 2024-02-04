@@ -91,6 +91,7 @@ public:
 	void SetIsCanShot(bool is) { isCanShot_ = is; };
 	void SetIsCanGravity(bool is) { isCanGravity_ = is; };
 	bool GetIsUsedGravity() { return isUsedGravity_; };
+	void SetIsCanLockOn(bool is) { isCanLockOn_ = is; };
 private:
 	WorldTransform worldTransform_;
 
@@ -165,4 +166,6 @@ private:
 	bool isCanShot_;//チュートリアル用ネジ撃ち出来るかどうか
 	bool isCanGravity_;
 	bool isUsedGravity_=false;
+	bool isCanLockOn_ = true;
+
 };

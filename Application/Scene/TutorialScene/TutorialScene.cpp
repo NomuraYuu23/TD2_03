@@ -158,6 +158,8 @@ void TutorialScene::Initialize() {
 
 	player_->SetIsCanShot(false);
 	player_->SetIsCanGravity(false);
+	player_->SetIsCanLockOn(false);
+	followCamera_->SetIsCanLockOn(false);
 	target_.SetIsDraw(false);
 	target_.SetIsCanLockOn(false);
 	for (int i = 0; i < 7;i++) {
@@ -493,6 +495,8 @@ void TutorialScene::Update() {
 	}
 	if (isClearMission_[3]) {
 		target_.SetIsCanLockOn(true);
+		player_->SetIsCanLockOn(true);
+		followCamera_->SetIsCanLockOn(true);
 	}
 	//一時的に撃つのを再封印
 	if (isClearMission_[3] && !isClearMission_[4]) {

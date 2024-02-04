@@ -32,6 +32,7 @@ void FollowCamera::Initialize() {
 	ApplyGlobalVariables();
 
 	offsetLength_ = offsetLengthMin_;
+	isCanLockOn_ = true;
 
 }
 
@@ -48,7 +49,7 @@ void FollowCamera::Update() {
 
 	// スティック入力で角度を変更処理
 
-	if (!input->PushJoystick(JoystickButton::kJoystickButtonLB)) {
+	if (!(input->PushJoystick(JoystickButton::kJoystickButtonLB) && isCanLockOn_)) {
 		const float RotateSpeed = 0.000001f;
 		Vector3 predestinationAngle = destinationAngle_;
 		destinationAngle_.y += input->GetRightAnalogstick().x * RotateSpeed;
