@@ -71,5 +71,6 @@ private:
 	float offsetLengthTSpeed_ = 0.05f;
 	//視点移動を押してる長さ(累計)
 	int32_t controlLength_;
+
 };
 
