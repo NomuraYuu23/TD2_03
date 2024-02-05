@@ -25,6 +25,11 @@ void TutorialUIManager::Initialize(const std::array<uint32_t, TutorialUITextureH
 void TutorialUIManager::Update(const std::array<bool, 7>& isBeenMissionUpdate, const std::array<bool, 7>& isClearMission, float ratio)
 {
 
+	if (isClearMission[6]) {
+		skipGageSizeStopUpdate_ = true;
+		UIs_[kTutorialUIIndexSkipGage]->SetSize(Vector2{0.0f,0.0f});
+	}
+
 	for (uint32_t i = 0; i < TutorialUIIndex::kTutorialUIIndexOfCount; ++i) {
 		UIs_[i]->Update();
 	}
