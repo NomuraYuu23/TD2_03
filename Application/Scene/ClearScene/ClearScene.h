@@ -5,6 +5,7 @@
 
 #include "../../Skydome/Skydome.h"
 #include "../../TitleObj/titleObj.h"
+#include "../../ClearObj/ClearPlayer.h"
 
 class ClearScene : public IScene
 {
@@ -106,8 +107,10 @@ private: // メンバ変数
 	bool isDrawSkydome_ = true;
 
 	// プレイヤー
-	std::unique_ptr<TitleObj> player_;
-	std::unique_ptr<Model> playerModel_;
+	//std::unique_ptr<TitleObj> player_;
+	//std::unique_ptr<Model> playerModel_;
+	std::unique_ptr<ClearPlayer> player_;
+	std::array<std::unique_ptr<Model>, PlayerPartIndex::kPlayerPartIndexOfCount> playerModels_;
 
 	// ねじ
 	std::array<std::unique_ptr<TitleObj>, 3> screws_;
