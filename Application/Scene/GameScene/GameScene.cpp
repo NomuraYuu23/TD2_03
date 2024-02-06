@@ -385,8 +385,17 @@ void GameScene::Update() {
 			Vector3 end = (*transforms)[PlayerPartIndex::kPlayerPartIndexMagnet].GetWorldPosition();
 			Vector3 start = screw->GetWorldTransform()->GetWorldPosition();
 			start.y += 2.0f;
+			float t = float(linerLength_) / float(linerMax_);
+			linerLength_++;
+			if (linerLength_>linerMax_) {
+				linerLength_ = linerMax_;
+			}
+			end = Vector3Calc::Lerp(start,end,t);
 			ForLinerEmitterData::GetInstance()->SetData(start,end);
 			ForLinerEmitterData::GetInstance()->SetIsDraw(true);
+		}
+		else {
+			linerLength_ = 0;
 		}
 	}
 	player_->Update(target_.GetTargetBlock(), target_.GetNumTargetAnchor());
@@ -674,7 +683,7 @@ void GameScene::Draw() {
 	Model::PreDrawOutLine(dxCommon_->GetCommadList());
 	
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
-		(*block)->DrawOutLine(modelScrew_.get(), camera_,outline_);
+	//	(*block)->DrawOutLine(modelScrew_.get(), camera_,outline_);
 	}
 	
 	Model::PostDraw();

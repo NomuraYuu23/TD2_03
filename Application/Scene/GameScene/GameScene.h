@@ -202,5 +202,6 @@ private:
 	std::unique_ptr<WarningDraw> warningDraw_;
 	std::array<uint32_t, WarningDrawTextureHandleIndex::kWarningDrawTextureHandleIndexOfCount> warningDrawTextureHandles_;
 
-
+	int32_t linerLength_=0;
+	int32_t linerMax_=30;
 };
