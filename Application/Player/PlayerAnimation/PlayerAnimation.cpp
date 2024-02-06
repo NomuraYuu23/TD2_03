@@ -63,6 +63,9 @@ void PlayerAnimation::Update(PlayerAnimationIndex playerAnimationNo)
 		case kPlayerAnimationIndexFalling:
 			FallingInitialize();
 			break;
+		case kPlayerAnimationIndexLockOn:
+			LockOnInitialize();
+			break;
 		case kPlayerAnimationIndexOfCount:
 			assert(0);
 			break;
@@ -88,6 +91,9 @@ void PlayerAnimation::Update(PlayerAnimationIndex playerAnimationNo)
 		break;
 	case kPlayerAnimationIndexFalling:
 		FallingUpdate();
+		break;
+	case kPlayerAnimationIndexLockOn:
+		LockOnUpdate();
 		break;
 	case kPlayerAnimationIndexOfCount:
 		assert(0);
@@ -342,6 +348,22 @@ void PlayerAnimation::FallingUpdate()
 
 	worldTransforms_[kPlayerPartIndexBody].transform_.rotate = 
 		Ease::Easing(Ease::EaseName::Lerp, workFalling_.startRotate_, workFalling_.endRotate_, workFalling_.parameter_);
+
+}
+
+void PlayerAnimation::LockOnInitialize()
+{
+
+	TransformInitialize();
+
+	worldTransforms_[kPlayerPartIndexBody].transform_.rotate.x = workLockOn_.rotateX_;
+	worldTransforms_[kPlayerPartIndexLeftLeg].transform_.rotate.x = -workLockOn_.rotateX_;
+	worldTransforms_[kPlayerPartIndexRightLeg].transform_.rotate.x = -workLockOn_.rotateX_;
+
+}
+
+void PlayerAnimation::LockOnUpdate()
+{
 
 }
 
