@@ -3,6 +3,7 @@
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../player.h"
 #include "../../Block/Block.h"
+#include <random>
 
 std::array<PlayerAnimation::AnimationData, PlayerAnimation::GravityPhaseIndex::kGravityPhaseIndexOfCount> PlayerAnimation::gravityAnimationData_;
 
@@ -364,6 +365,20 @@ void PlayerAnimation::LockOnInitialize()
 
 void PlayerAnimation::LockOnUpdate()
 {
+
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());	
+	
+	float shakeMax = workLockOn_.shake_;
+	float shakeMin = -workLockOn_.shake_;
+	std::uniform_real_distribution<float> shake(shakeMin, shakeMax);
+
+	float rotateX = workLockOn_.rotateX_ + shake(randomEngine);
+
+	worldTransforms_[kPlayerPartIndexBody].transform_.rotate.x = rotateX;
+	worldTransforms_[kPlayerPartIndexLeftLeg].transform_.rotate.x = -rotateX;
+	worldTransforms_[kPlayerPartIndexRightLeg].transform_.rotate.x = -rotateX;
+
 
 }
 
