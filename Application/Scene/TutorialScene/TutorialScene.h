@@ -201,4 +201,6 @@ private:
 	int skipFrame_;
 	int buttonContinueFrame_;//スキップボタンが押されているフレーム
 
+	int32_t linerLength_ = 0;
+	int32_t linerMax_ = 30;
 };
