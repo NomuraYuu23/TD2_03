@@ -81,7 +81,7 @@ public: // サブクラス
 
 	// ロックオン
 	struct WorkLockOn{
-		float rotateX_ = -0.4f;
+		float rotateX_ = -0.7f;
 		float shake_ = 0.02f;
 	};
 
