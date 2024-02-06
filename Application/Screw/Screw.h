@@ -80,7 +80,7 @@ private:
 
 	float reverseT_;
 	int kReverseSpeed_ = 8;//反転の早さ(仮)
-	float kFollowSpeed = 0.2f;//追従速度(仮)
+	float kFollowSpeed = 0.5f;//追従速度(仮)
 
 	std::unique_ptr<OBB> collider_;
 
