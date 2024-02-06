@@ -30,7 +30,7 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 	globalVariables->AddItem(groupName, "MagnetRadius", magnetRadius_);
 	globalVariables->AddItem(groupName, "GravityFrame", gravityFrame_);
 	globalVariables->AddItem(groupName, "CharacterSpeed", characterSpeed_);
-	
+	globalVariables->AddItem(groupName, "NotFallLength", notFallLength_);
 	worldTransform_.Initialize();
 	worldTransform_.transform_.translate.y += 4.0f;
 
@@ -108,13 +108,17 @@ void Player::Update(Block* block, size_t blockNum) {
 	magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetRadius");
 	gravityFrame_ = globalVariables->GetUIntValue(groupName, "GravityFrame");
 	characterSpeed_ = globalVariables->GetFloatValue(groupName, "CharacterSpeed");
+	notFallLength_ = globalVariables->GetIntValue(groupName, "NotFallLength");
 	if (isRideConnectFlooar_) {
 		prePosition_ = worldTransform_.transform_.translate;
 	}
-	if (isLastBlockConnect_ && !isFlooar_) {
+	if (isLastBlockConnect_ && !isFlooar_ && notFallTime_>0) {
 		//playerAnimationNo_ = kPlayerAnimationIndexFalling;
 		worldTransform_.transform_.translate = prePosition_;
+		//worldTransform_.transform_.translate.z = prePosition_.z;
 		isFlooar_ = true;
+		isRideConnectFlooar_ = true;
+		notFallTime_--;
 	}
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
@@ -189,6 +193,7 @@ void Player::Update(Block* block, size_t blockNum) {
 	playerAnimation_->Update(playerAnimationNo_);
 
 	collider_->center_ = worldTransform_.GetWorldPosition();
+	collider_->center_.y -= 0.1f;
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
 	collider_->worldTransformUpdate();
 	magnet_->SetCenter(worldTransform_.GetWorldPosition());
@@ -199,7 +204,7 @@ void Player::Update(Block* block, size_t blockNum) {
 	worldTransformCircle_.UpdateMatrix();
 
 	isFlooar_ = false;
-	isRideConnectFlooar_ = false;
+	//isRideConnectFlooar_ = false;
 	//preJoyState_ = joyState_;
 }
 
@@ -429,10 +434,11 @@ void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidio
 		isLastBlockConnect_ = std::get<Block*>(pairObject)->GetIsConnect();
 		if (std::get<Block*>(pairObject)->GetIsConnect()) {
 			isRideConnectFlooar_ = true;
+			notFallTime_ = notFallLength_;
 		}
 		float sizeY = std::get<Block*>(pairObject)->GetCollider()->size_.y;
 		worldTransform_.transform_.translate.y = std::get<Block*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + sizeY + worldTransform_.transform_.scale.y;
-		worldTransform_.transform_.translate.y -= 0.001f;
+		//worldTransform_.transform_.translate.y -= 0.001f;
 		worldTransform_.UpdateMatrix();
 		// worldTransform_.worldMatrix_ = Matrix4x4Calc::Multiply(Matrix4x4Calc::MakeScaleMatrix(worldTransform_.transform_.scale) , Matrix4x4Calc::Multiply( directionMatrix_ , Matrix4x4Calc::MakeTranslateMatrix(worldTransform_.transform_.translate)));
 		if (worldTransform_.parent_) {
@@ -445,6 +451,7 @@ void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidio
 
 		if (worldTransform_.transform_.translate.y >= 0.0f) {
 			isFlooar_ = true;
+			isLastBlockConnect_ = false;
 			float sizeY = std::get<Planet*>(pairObject)->GetCollider()->size_.y;
 			worldTransform_.transform_.translate.y = std::get<Planet*>(pairObject)->GetWorldTransform()->GetWorldPosition().y + sizeY + worldTransform_.transform_.scale.y;
 			if (worldTransform_.parent_) {

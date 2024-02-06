@@ -47,7 +47,7 @@ void Planet::Update()
 	//worldTransform_.transform_.scale = { size_, size_, size_ };
 	//worldTransform_.transform_.rotate.y = fmodf(worldTransform_.transform_.rotate.y + rotateSpeed_, 6.24f);
 	worldTransform_.transform_.translate = position_;
-	worldTransform_.transform_.translate.y =- collider_->size_.y + 0.5f;
+	worldTransform_.transform_.translate.y =- collider_->size_.y + 1.0f;
 	worldTransformFlag_.transform_.translate = position_;
 	worldTransformFlag_.transform_.translate.y = 4.0f;
 
