@@ -168,4 +168,8 @@ private:
 	bool isUsedGravity_=false;
 	bool isCanLockOn_ = true;
 
+	Vector3 prePosition_;
+	bool isLastBlockConnect_=false;
+	int32_t notFallTime_;
+	int32_t notFallLength_=30;//端で落ちないように踏ん張る長さ
 };
