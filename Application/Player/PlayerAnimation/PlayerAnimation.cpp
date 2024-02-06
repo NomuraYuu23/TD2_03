@@ -9,6 +9,8 @@ std::array<PlayerAnimation::AnimationData, PlayerAnimation::GravityPhaseIndex::k
 
 std::array<PlayerAnimation::AnimationData, PlayerAnimation::ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexOfCount> PlayerAnimation::screwThrowingAnimationData_;
 
+std::array<PlayerAnimation::AnimationData, PlayerAnimation::LikelyToFallPhaseIndex::kLikelyToFallPhaseIndexOfCount> PlayerAnimation::likelyToFallAnimationData_;
+
 void PlayerAnimation::Initialize(Player* player)
 {
 
@@ -67,6 +69,9 @@ void PlayerAnimation::Update(PlayerAnimationIndex playerAnimationNo)
 		case kPlayerAnimationIndexLockOn:
 			LockOnInitialize();
 			break;
+		case kPlayerAnimationIndexLikelyToFall:
+			LikelyToFallInitialize();
+			break;
 		case kPlayerAnimationIndexOfCount:
 			assert(0);
 			break;
@@ -95,6 +100,9 @@ void PlayerAnimation::Update(PlayerAnimationIndex playerAnimationNo)
 		break;
 	case kPlayerAnimationIndexLockOn:
 		LockOnUpdate();
+		break;
+	case kPlayerAnimationIndexLikelyToFall:
+		LikelyToFallUpdate();
 		break;
 	case kPlayerAnimationIndexOfCount:
 		assert(0);
@@ -382,6 +390,58 @@ void PlayerAnimation::LockOnUpdate()
 
 }
 
+void PlayerAnimation::LikelyToFallInitialize()
+{
+
+	TransformInitialize();
+
+	workLikelyToFall_.frameCount_ = 0;
+	workLikelyToFall_.phaseNum_ = 0;
+
+	workLikelyToFall_.frame_ = likelyToFallAnimationData_[workLikelyToFall_.phaseNum_].frame_;
+	for (uint32_t i = 0; i < PlayerPartIndex::kPlayerPartIndexOfCount; ++i) {
+		workLikelyToFall_.currentTransforms_[i] = worldTransforms_[i].transform_;
+		workLikelyToFall_.nextTransforms_[i] = likelyToFallAnimationData_[workLikelyToFall_.phaseNum_].transforms_[i];
+	}
+	workLikelyToFall_.easeName_ = likelyToFallAnimationData_[workLikelyToFall_.phaseNum_].easeName_;
+
+}
+
+void PlayerAnimation::LikelyToFallUpdate()
+{
+
+	if (workLikelyToFall_.phaseNum_ == LikelyToFallPhaseIndex::kLikelyToFallPhaseIndexOfCount || workLikelyToFall_.frame_ == 0) {
+		return;
+	}
+
+	float t = static_cast<float>(workLikelyToFall_.frameCount_) / static_cast<float>(workLikelyToFall_.frame_);
+
+	for (uint32_t i = 0; i < LikelyToFallPhaseIndex::kLikelyToFallPhaseIndexOfCount; ++i) {
+		worldTransforms_[i].transform_.scale =
+			Ease::Easing(workLikelyToFall_.easeName_, workLikelyToFall_.currentTransforms_[i].scale, workLikelyToFall_.nextTransforms_[i].scale, t);
+		worldTransforms_[i].transform_.rotate =
+			Ease::Easing(workLikelyToFall_.easeName_, workLikelyToFall_.currentTransforms_[i].rotate, workLikelyToFall_.nextTransforms_[i].rotate, t);
+		worldTransforms_[i].transform_.translate =
+			Ease::Easing(workLikelyToFall_.easeName_, workLikelyToFall_.currentTransforms_[i].translate, workLikelyToFall_.nextTransforms_[i].translate, t);
+	}
+
+	if (workLikelyToFall_.frameCount_++ == workLikelyToFall_.frame_ && workLikelyToFall_.phaseNum_ < LikelyToFallPhaseIndex::kLikelyToFallPhaseIndexOfCount) {
+		workLikelyToFall_.phaseNum_++;
+		workLikelyToFall_.frameCount_ = 0;
+		if (workLikelyToFall_.phaseNum_ == LikelyToFallPhaseIndex::kLikelyToFallPhaseIndexOfCount) {
+			return;
+		}
+		workLikelyToFall_.frame_ = likelyToFallAnimationData_[workLikelyToFall_.phaseNum_].frame_;
+
+		for (uint32_t i = 0; i < PlayerPartIndex::kPlayerPartIndexOfCount; ++i) {
+			workLikelyToFall_.currentTransforms_[i] = worldTransforms_[i].transform_;
+			workLikelyToFall_.nextTransforms_[i] = likelyToFallAnimationData_[workLikelyToFall_.phaseNum_].transforms_[i];
+		}
+		workLikelyToFall_.easeName_ = likelyToFallAnimationData_[workLikelyToFall_.phaseNum_].easeName_;
+	}
+
+}
+
 void PlayerAnimation::RegisteringGlobalVariables()
 {
 
@@ -418,6 +478,19 @@ void PlayerAnimation::RegisteringGlobalVariables()
 		globalVariables->AddItem(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + "EaseName", static_cast<uint32_t>(screwThrowingAnimationData_[i].easeName_));
 	}
 	globalVariables->AddItem(groupName, "BlockAddPositionY", workScrewThrowing_.blockAddPositionY_);
+
+	// 落ちそう状態
+	groupName = "LikelyToFallPlayerAnimation";
+	for (uint32_t i = 0; i < LikelyToFallPhaseIndex::kLikelyToFallPhaseIndexOfCount; ++i) {
+
+		for (uint32_t j = 0; j < PlayerPartIndex::kPlayerPartIndexOfCount; ++j) {
+			globalVariables->AddItem(groupName, "LikelyToFallAnimationData" + kLikelyToFallPhaseIndexNames_[i] + kPlayerPartIndexNames_[j] + "Scale", likelyToFallAnimationData_[i].transforms_[j].scale);
+			globalVariables->AddItem(groupName, "LikelyToFallAnimationData" + kLikelyToFallPhaseIndexNames_[i] + kPlayerPartIndexNames_[j] + "Rotate", likelyToFallAnimationData_[i].transforms_[j].rotate);
+			globalVariables->AddItem(groupName, "LikelyToFallAnimationData" + kLikelyToFallPhaseIndexNames_[i] + kPlayerPartIndexNames_[j] + "Translate", likelyToFallAnimationData_[i].transforms_[j].translate);
+		}
+		globalVariables->AddItem(groupName, "LikelyToFallAnimationData" + kLikelyToFallPhaseIndexNames_[i] + "Frame", likelyToFallAnimationData_[i].frame_);
+		globalVariables->AddItem(groupName, "LikelyToFallAnimationData" + kLikelyToFallPhaseIndexNames_[i] + "EaseName", static_cast<uint32_t>(likelyToFallAnimationData_[i].easeName_));
+	}
 
 }
 
@@ -457,5 +530,18 @@ void PlayerAnimation::ApplyGlobalVariables()
 		screwThrowingAnimationData_[i].easeName_ = static_cast<Ease::EaseName>(globalVariables->GetUIntValue(groupName, "ScrewThrowingAnimationData" + kScrewThrowingPhaseIndexNames_[i] + "EaseName"));
 	}
 	workScrewThrowing_.blockAddPositionY_ = globalVariables->GetFloatValue(groupName, "BlockAddPositionY");
+
+	// 落ちそう状態
+	groupName = "LikelyToFallPlayerAnimation";
+	for (uint32_t i = 0; i < LikelyToFallPhaseIndex::kLikelyToFallPhaseIndexOfCount; ++i) {
+
+		for (uint32_t j = 0; j < PlayerPartIndex::kPlayerPartIndexOfCount; ++j) {
+			likelyToFallAnimationData_[i].transforms_[j].scale = globalVariables->GetVector3Value(groupName, "LikelyToFallAnimationData" + kLikelyToFallPhaseIndexNames_[i] + kPlayerPartIndexNames_[j] + "Scale");
+			likelyToFallAnimationData_[i].transforms_[j].rotate = globalVariables->GetVector3Value(groupName, "LikelyToFallAnimationData" + kLikelyToFallPhaseIndexNames_[i] + kPlayerPartIndexNames_[j] + "Rotate");
+			likelyToFallAnimationData_[i].transforms_[j].translate = globalVariables->GetVector3Value(groupName, "LikelyToFallAnimationData" + kLikelyToFallPhaseIndexNames_[i] + kPlayerPartIndexNames_[j] + "Translate");
+		}
+		likelyToFallAnimationData_[i].frame_ = globalVariables->GetUIntValue(groupName, "LikelyToFallAnimationData" + kLikelyToFallPhaseIndexNames_[i] + "Frame");
+		likelyToFallAnimationData_[i].easeName_ = static_cast<Ease::EaseName>(globalVariables->GetUIntValue(groupName, "LikelyToFallAnimationData" + kLikelyToFallPhaseIndexNames_[i] + "EaseName"));
+	}
 
 }
