@@ -129,7 +129,7 @@ void ClearScene::Initialize()
 		clearRank_ = 3;
 	}
 
-	//rankTextSprite_->SetIsInvisible(true);
+	rankTextSprite_->SetIsInvisible(true);
 
 }
 
@@ -144,7 +144,7 @@ void ClearScene::Update()
 	ImguiDraw();
 
 	if ((input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) &&
-		requestSceneNo == kClear && isEndCountUp_) {
+		requestSceneNo == kClear && isStamped_) {
 		// 行きたいシーンへ
 		requestSceneNo = kTitle;
 		audioManager_->PlayWave(kClearAudioNameIndexDecision);
@@ -224,6 +224,10 @@ void ClearScene::Update()
 	leftTop.x = 128.0f * static_cast<float>((ForResult::GetInstance()->connectNum_ % 10));
 	connectSprite_->SetTextureLeftTop(leftTop);
 	connectSprite_->SetTextureSize(size);
+
+	if (isEndCountUp_) {
+		RankStamp();
+	}
 	
 }
 
@@ -286,7 +290,7 @@ void ClearScene::Draw()
 	lineSprite_->Draw();
 	line2Sprite_->Draw();
 	line3Sprite_->Draw();
-	if (isEndCountUp_) {
+	if (isStamped_) {
 		buttonSprite_->Draw();
 		toTitleSprite_->Draw();
 	}
@@ -565,5 +569,30 @@ void ClearScene::SpriteApplyGlobalVariables()
 	rankTextSprite_->SetPosition(rankTextPosition_);
 	rankTextSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
 	rankTextSprite_->SetSize(rankTextSize_);
+
+}
+
+void ClearScene::RankStamp()
+{
+
+	float speed = 0.05f;
+
+	stampT_ += speed;
+	if (stampT_ >= 1.0f) {
+		stampT_ = 1.0f;
+		if (stampCooltime_ >= 1.0f) {
+			stampCooltime_ = 0.0f;
+			isStamped_ = true;
+		}
+		else {
+			stampCooltime_ += speed;
+		}
+	}
+
+	// ミッションクリア
+	Vector2 start = { 800.0f, 600.0f };
+	Vector2 end = { 480.0f, 360.0f };
+	rankTextSprite_->SetSize(Ease::Easing(Ease::EaseName::EaseInBack, start, end, stampT_));
+	rankTextSprite_->SetIsInvisible(false);
 
 }

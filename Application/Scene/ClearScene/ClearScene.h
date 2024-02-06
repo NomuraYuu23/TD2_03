@@ -68,6 +68,11 @@ private:
 	/// </summa
 	void SpriteApplyGlobalVariables();
 
+	/// <summary>
+	/// ランクスタンプ
+	/// </summary>
+	void RankStamp();
+
 private: // メンバ変数
 
 	// スプライト
@@ -188,5 +193,9 @@ private: // メンバ変数
 	Vector2 rankTextPosition_ = {};
 	Vector2 rankTextSize_ = {};
 	std::array<uint32_t, 4> rankTextureHandles_;
+	float stampT_ = 0.0f;
+	float stampCooltime_ = 0.0f;
+	bool isStamped_ = false;
+
 };
 
