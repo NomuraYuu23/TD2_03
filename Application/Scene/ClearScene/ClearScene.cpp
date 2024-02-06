@@ -112,6 +112,19 @@ void ClearScene::Initialize()
 	changeNumInterval_ = 30;
 	frameCount_ = 0;
 	isEndCountUp_ = false;
+	clearRank_ = 0;
+	if (missionClearNum_<=2) {
+		clearRank_ = 0;
+	}
+	else if(missionClearNum_ <= 8) {
+		clearRank_ = 1;
+	}
+	else if (missionClearNum_ <= 13) {
+		clearRank_ = 2;
+	}
+	else {
+		clearRank_ = 3;
+	}
 }
 
 void ClearScene::Update()

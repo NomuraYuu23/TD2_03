@@ -182,5 +182,6 @@ private: // メンバ変数
 	std::unique_ptr<Sprite> connectTextSprite_ = nullptr;
 	Vector2 connectTextPosition_ = {};
 	Vector2 connectTextSize_ = {};
+	uint32_t clearRank_;
 };
 
