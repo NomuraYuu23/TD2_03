@@ -137,6 +137,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Scene\TutorialScene\TutorialScene.cpp" />
     <ClCompile Include="Application\Screw\Screw.cpp" />
     <ClCompile Include="Application\ShadowManager\ShadowManager.cpp" />
+    <ClCompile Include="Application\StartMigration\StartMigration.cpp" />
     <ClCompile Include="Application\Target\Target.cpp" />
     <ClCompile Include="Application\TitleObj\TitleObj.cpp" />
     <ClCompile Include="Application\TitleObj\TitlePlayer.cpp" />
@@ -264,6 +265,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Scene\TutorialScene\TutorialScene.h" />
     <ClInclude Include="Application\Screw\Screw.h" />
     <ClInclude Include="Application\ShadowManager\ShadowManager.h" />
+    <ClInclude Include="Application\StartMigration\StartMigration.h" />
     <ClInclude Include="Application\Target\Target.h" />
     <ClInclude Include="Application\TitleObj\TitleObj.h" />
     <ClInclude Include="Application\TitleObj\TitlePlayer.h" />

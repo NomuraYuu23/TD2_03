@@ -26,6 +26,7 @@
 #include "../../ShadowManager/ShadowManager.h"
 
 #include "../../ClearMigration/ClearMigration.h"
+#include "../../StartMigration/StartMigration.h"
 #include "../../MissionData/MissionData.h"
 #include "../../Rocket/Rocket.h"
 #include "../../WarningDraw/WarningDraw.h"
@@ -181,6 +182,10 @@ private:
 	// クリア演出
 	std::unique_ptr<ClearMigration> clearMigration_;
 	uint32_t clearMigrationTextureHandle_;
+
+	// スタート演出
+	std::unique_ptr<StartMigration> startMigration_;
+	uint32_t startMigrationTextureHandle_;
 
 	std::unique_ptr<Model> soilModel_;
 

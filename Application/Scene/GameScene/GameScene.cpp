@@ -168,6 +168,10 @@ void GameScene::Initialize() {
 	clearMigration_ = std::make_unique<ClearMigration>();
 	clearMigration_->Initialize(clearMigrationTextureHandle_);
 
+	// スタート演出
+	startMigration_ = std::make_unique<StartMigration>();
+	startMigration_->Initialize(startMigrationTextureHandle_);
+
 	// ポーズ
 	pause_ = std::make_unique<Pause>();
 	pause_->Initialize(pauseTextureHandles_);
@@ -231,6 +235,15 @@ void GameScene::Update() {
 	if (pause_->IsPause()) {
 		pause_->Update();
 		return;
+	}
+
+	// スタートUI
+	startMigration_->Update();
+	if (!startMigration_->GetIsEnd() && startMigration_->GetIsStert()) {
+		return;
+	}
+	if (!startMigration_->GetIsStert()) {
+		startMigration_->Start();
 	}
 
 	//光源
@@ -710,6 +723,7 @@ void GameScene::Draw() {
 	target_.SpriteDraw();
 
 	clearMigration_->Draw();
+	startMigration_->Draw();
 
 	pause_->Draw();
 
@@ -856,6 +870,7 @@ void GameScene::TextureLoad()
 	whiteTextureHandle_= TextureManager::Load("Resources/default/white2x2.png", dxCommon_, textureHandleManager_.get());
 
 	clearMigrationTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/ingame_fnish.png", dxCommon_, textureHandleManager_.get());
+	startMigrationTextureHandle_ = TextureManager::Load("Resources/Sprite/Game/ingame_startUI.png", dxCommon_, textureHandleManager_.get());
 
 	pauseTextureHandles_ = {
 		TextureManager::Load("Resources/Sprite/Game/Pause/pause_flame.png", dxCommon_,textureHandleManager_.get()),
