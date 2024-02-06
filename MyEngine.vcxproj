@@ -114,6 +114,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Block\UFOAttract.cpp" />
     <ClCompile Include="Application\Camera\FollowCamera\FollowCamera.cpp" />
     <ClCompile Include="Application\ClearMigration\ClearMigration.cpp" />
+    <ClCompile Include="Application\ClearObj\ClearPlayer.cpp" />
     <ClCompile Include="Application\Energy\Energy.cpp" />
     <ClCompile Include="Application\ForResult\ForResult.cpp" />
     <ClCompile Include="Application\Magnet\Magnet.cpp" />
@@ -238,6 +239,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Block\UFOAttract.h" />
     <ClInclude Include="Application\Camera\FollowCamera\FollowCamera.h" />
     <ClInclude Include="Application\ClearMigration\ClearMigration.h" />
+    <ClInclude Include="Application\ClearObj\ClearPlayer.h" />
     <ClInclude Include="Application\Collider\ColliderParentObject.h" />
     <ClInclude Include="Application\Collider\CollisionConfig.h" />
     <ClInclude Include="Application\Energy\Energy.h" />

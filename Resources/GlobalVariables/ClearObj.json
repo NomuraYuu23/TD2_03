@@ -1,0 +1,16 @@
+{
+    "ClearObj": {
+        "PlayerPositon": [
+            8.579999923706055,
+            -4.25,
+            0.0
+        ],
+        "PlayerRotateMax": 1.0,
+        "PlayerRotateParameterSpeed": 0.10000000149011612,
+        "PlayerSize": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    }
+}
