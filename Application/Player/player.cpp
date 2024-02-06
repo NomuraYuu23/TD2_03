@@ -118,7 +118,9 @@ void Player::Update(Block* block, size_t blockNum) {
 		//worldTransform_.transform_.translate.z = prePosition_.z;
 		isFlooar_ = true;
 		isRideConnectFlooar_ = true;
-		notFallTime_--;
+		if (behavior_ == Behavior::kRoot) {
+			notFallTime_--;
+		}
 	}
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
@@ -222,7 +224,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 
 	// ゲームパッドの状態をえる
 	input_ = Input::GetInstance();
-	if (input_->TriggerJoystick(5) && block_ && (isFlooar_ || isLastBlockConnect_))
+	if (input_->TriggerJoystick(5) && block_ && isFlooar_)
 	{
 		//behavior_ = Behavior::kAttack;
 		

@@ -92,6 +92,10 @@ public:
 	void SetIsCanGravity(bool is) { isCanGravity_ = is; };
 	bool GetIsUsedGravity() { return isUsedGravity_; };
 	void SetIsCanLockOn(bool is) { isCanLockOn_ = is; };
+
+	int32_t GetNotFallTime() { return notFallTime_; }
+	int32_t GetNotFallLength() { return notFallLength_; }
+
 private:
 	WorldTransform worldTransform_;
 
