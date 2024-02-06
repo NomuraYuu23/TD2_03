@@ -173,10 +173,20 @@ void PlayerAnimation::StandInitialize()
 
 	TransformInitialize();
 
+	workStand_.parameter_ = 0.0f;
+
 }
 
 void PlayerAnimation::StandUpdate()
 {
+
+	workStand_.parameter_ = std::fmodf(workStand_.parameter_ + workStand_.parameterSpeed_, 6.28f);
+
+	float add = std::fabsf(std::sinf(workStand_.parameter_)) * workStand_.moveLimit_;
+
+	worldTransforms_[kPlayerPartIndexBody].transform_.translate = { 0.0f, 2.0f + add, 0.0f };
+	worldTransforms_[kPlayerPartIndexLeftLeg].transform_.translate = { -0.7f, -add, 0.0f };
+	worldTransforms_[kPlayerPartIndexRightLeg].transform_.translate = { 0.7f, -add, 0.0f };
 
 }
 

@@ -68,6 +68,21 @@ private:
 	/// </summa
 	void SpriteApplyGlobalVariables();
 
+	/// <summary>
+	/// ランクスタンプ
+	/// </summary>
+	void RankStamp();
+
+	/// <summary>
+	/// 外部変数登録
+	/// </summary>
+	void RankColorRegisteringGlobalVariables();
+
+	/// <summary>
+	/// 外部変数適用
+	/// </summa
+	void RankColorApplyGlobalVariables();
+
 private: // メンバ変数
 
 	// スプライト
@@ -182,6 +197,18 @@ private: // メンバ変数
 	std::unique_ptr<Sprite> connectTextSprite_ = nullptr;
 	Vector2 connectTextPosition_ = {};
 	Vector2 connectTextSize_ = {};
+
 	uint32_t clearRank_;
+	std::unique_ptr<Sprite> rankTextSprite_ = nullptr;
+	Vector2 rankTextPosition_ = {};
+	Vector2 rankTextSize_ = {};
+	std::array<uint32_t, 4> rankTextureHandles_;
+	float stampT_ = 0.0f;
+	float stampCooltime_ = 0.0f;
+	bool isStamped_ = false;
+
+	// 色
+	std::array<Vector3, 4> rankColors_;
+
 };
 

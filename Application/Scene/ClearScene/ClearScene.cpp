@@ -97,9 +97,14 @@ void ClearScene::Initialize()
 	connectTenSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	connectHandSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	connectTextSprite_.reset(Sprite::Create(TextureManager::Load("Resources/Sprite/Result/outgame_blockNum_text.png", dxCommon_, textureHandleManager_.get()), titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	
+	rankTextSprite_.reset(Sprite::Create(rankTextureHandles_[clearRank_], titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	
 	SpriteRegisteringGlobalVariables();
+	RankColorRegisteringGlobalVariables();
 
 	SpriteApplyGlobalVariables();
+	RankColorApplyGlobalVariables();
 
 	outline_.Initialize();
 	outline_.color_ = { 0.8f,0.4f,0.1f,1.0f };
@@ -125,6 +130,10 @@ void ClearScene::Initialize()
 	else {
 		clearRank_ = 3;
 	}
+
+	rankTextSprite_->SetTextureHandle(rankTextureHandles_[clearRank_]);
+	rankTextSprite_->SetIsInvisible(true);
+
 }
 
 void ClearScene::Update()
@@ -132,13 +141,14 @@ void ClearScene::Update()
 
 #ifdef _DEBUG
 	SpriteApplyGlobalVariables();
+	RankColorApplyGlobalVariables();
 #endif // _DEBUG
 
 
 	ImguiDraw();
 
 	if ((input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) &&
-		requestSceneNo == kClear && isEndCountUp_) {
+		requestSceneNo == kClear && isStamped_) {
 		// 行きたいシーンへ
 		requestSceneNo = kTitle;
 		audioManager_->PlayWave(kClearAudioNameIndexDecision);
@@ -218,6 +228,10 @@ void ClearScene::Update()
 	leftTop.x = 128.0f * static_cast<float>((ForResult::GetInstance()->connectNum_ % 10));
 	connectSprite_->SetTextureLeftTop(leftTop);
 	connectSprite_->SetTextureSize(size);
+
+	if (isEndCountUp_) {
+		RankStamp();
+	}
 	
 }
 
@@ -280,7 +294,7 @@ void ClearScene::Draw()
 	lineSprite_->Draw();
 	line2Sprite_->Draw();
 	line3Sprite_->Draw();
-	if (isEndCountUp_) {
+	if (isStamped_) {
 		buttonSprite_->Draw();
 		toTitleSprite_->Draw();
 	}
@@ -292,6 +306,8 @@ void ClearScene::Draw()
 		connectHandSprite_->Draw();
 	}
 	connectTextSprite_->Draw();
+	rankTextSprite_->Draw();
+	
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -332,6 +348,14 @@ void ClearScene::MaterialCreate()
 
 void ClearScene::TextureLoad()
 {
+
+	rankTextureHandles_ = {
+		TextureManager::Load("Resources/Sprite/Result/result_c.png", dxCommon_, textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Result/result_b.png", dxCommon_, textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Result/result_a.png", dxCommon_, textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Result/result_s.png", dxCommon_, textureHandleManager_.get()),
+	};
+
 }
 
 void ClearScene::LowerVolumeBGM()
@@ -424,6 +448,11 @@ void ClearScene::SpriteRegisteringGlobalVariables()
 	objName = "ConnectTextSprite";
 	globalVariables->AddItem(groupName2, objName + "Position", connectTextPosition_);
 	globalVariables->AddItem(groupName2, objName + "Size", connectTextSize_);
+
+	objName = "RankTextSprite";
+	globalVariables->AddItem(groupName2, objName + "Position", rankTextPosition_);
+	globalVariables->AddItem(groupName2, objName + "Size", rankTextSize_);
+
 }
 
 void ClearScene::SpriteApplyGlobalVariables()
@@ -538,4 +567,75 @@ void ClearScene::SpriteApplyGlobalVariables()
 	connectTextSprite_->SetPosition(connectTextPosition_);
 	connectTextSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
 	connectTextSprite_->SetSize(connectTextSize_);
+
+	objName = "RankTextSprite";
+	rankTextPosition_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	rankTextSprite_->SetPosition(rankTextPosition_);
+	rankTextSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	rankTextSprite_->SetSize(rankTextSize_);
+
+}
+
+void ClearScene::RankStamp()
+{
+
+	float speed = 0.05f;
+
+	stampT_ += speed;
+	if (stampT_ >= 1.0f) {
+		stampT_ = 1.0f;
+		if (stampCooltime_ >= 1.0f) {
+			stampCooltime_ = 0.0f;
+			isStamped_ = true;
+		}
+		else {
+			stampCooltime_ += speed;
+		}
+	}
+
+	// ミッションクリア
+	Vector2 start = { 800.0f, 600.0f };
+	Vector2 end = { 480.0f, 360.0f };
+	rankTextSprite_->SetSize(Ease::Easing(Ease::EaseName::EaseInBack, start, end, stampT_));
+	rankTextSprite_->SetIsInvisible(false);
+
+}
+
+void ClearScene::RankColorRegisteringGlobalVariables()
+{
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+
+	const std::string groupName = "RankColor";
+
+	std::string objName = "C";
+	globalVariables->AddItem(groupName, objName, rankColors_[0]);
+	objName = "B";
+	globalVariables->AddItem(groupName, objName, rankColors_[1]);
+	objName = "A";
+	globalVariables->AddItem(groupName, objName, rankColors_[2]);
+	objName = "S";
+	globalVariables->AddItem(groupName, objName, rankColors_[3]);
+
+}
+
+void ClearScene::RankColorApplyGlobalVariables()
+{
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+
+	const std::string groupName = "RankColor";
+
+	std::string objName = "C";
+	rankColors_[0] = globalVariables->GetVector3Value(groupName, objName);
+	objName = "B";
+	rankColors_[1] = globalVariables->GetVector3Value(groupName, objName);
+	objName = "A";
+	rankColors_[2] = globalVariables->GetVector3Value(groupName, objName);
+	objName = "S";
+	rankColors_[3] = globalVariables->GetVector3Value(groupName, objName);
+
+	Vector4 color = { rankColors_[clearRank_].x,rankColors_[clearRank_].y,rankColors_[clearRank_].z, 1.0f };
+	rankTextSprite_->SetColor(color);
+
 }
