@@ -120,10 +120,14 @@ void Player::Update(Block* block, size_t blockNum) {
 		isRideConnectFlooar_ = true;
 		if (behavior_ == Behavior::kRoot) {
 			notFallTime_--;
+			isNotFall = true;
 		}
 		else {
-			notFallTime_ = notFallLength_;
+			isNotFall = false;
 		}
+	}
+	else {
+		isNotFall = false;
 	}
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
@@ -337,7 +341,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, move);
 		}
 		// アニメーション
-		if (notFallTime_ != notFallLength_) {
+		if (isNotFall) {
 			playerAnimationNo_ = kPlayerAnimationIndexLikelyToFall;
 		}
 		else if (islockOn) {
