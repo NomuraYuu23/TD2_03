@@ -83,6 +83,8 @@ private:
 	/// </summa
 	void RankColorApplyGlobalVariables();
 
+	void RankSColorAnimation();
+
 private: // メンバ変数
 
 	// スプライト

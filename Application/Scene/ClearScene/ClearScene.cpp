@@ -130,7 +130,20 @@ void ClearScene::Initialize()
 	else {
 		clearRank_ = 3;
 	}
-
+#ifdef _DEBUG
+	if (input_->PushKey(DIK_0)) {
+		clearRank_ = 0;
+	}
+	if (input_->PushKey(DIK_1)) {
+		clearRank_ = 1;
+	}
+	if (input_->PushKey(DIK_2)) {
+		clearRank_ = 2;
+	}
+	if (input_->PushKey(DIK_3)) {
+		clearRank_ = 3;
+	}
+#endif // _DEBUG
 	rankTextSprite_->SetTextureHandle(rankTextureHandles_[clearRank_]);
 	rankTextSprite_->SetIsInvisible(true);
 
@@ -143,7 +156,7 @@ void ClearScene::Update()
 	SpriteApplyGlobalVariables();
 	RankColorApplyGlobalVariables();
 #endif // _DEBUG
-
+	RankSColorAnimation();
 
 	ImguiDraw();
 
@@ -638,4 +651,35 @@ void ClearScene::RankColorApplyGlobalVariables()
 	Vector4 color = { rankColors_[clearRank_].x,rankColors_[clearRank_].y,rankColors_[clearRank_].z, 1.0f };
 	rankTextSprite_->SetColor(color);
 
+}
+
+void ClearScene::RankSColorAnimation() {
+	static int colorPhase_ = 0;
+	static float color_ = 0.0f;
+	switch (colorPhase_)
+	{
+	case 0:
+		rankColors_[3] = Vector3{1.0f - color_,color_, 0.0f};
+		break;
+	case 1:
+		rankColors_[3] = Vector3{0.0f,1.0f-color_, color_ };
+		break;
+	case 2:
+		rankColors_[3] = Vector3{color_,0.0f, 1.0f-color_};
+		break;
+	default:
+		break;
+	}
+	rankColors_[3] = Vector3Calc::Multiply(0.5f, rankColors_[3]);
+	rankColors_[3] = Vector3Calc::Add(rankColors_[3],Vector3{0.5f,0.5f,0.5f});
+	color_ += 0.02f;
+	if (color_ > 1.0f) {
+		color_ = 0;
+		colorPhase_++;
+		if (colorPhase_ > 2) {
+			colorPhase_ = 0;
+		}
+	}
+	Vector4 color = { rankColors_[clearRank_].x,rankColors_[clearRank_].y,rankColors_[clearRank_].z, 1.0f };
+	rankTextSprite_->SetColor(color);
 }
