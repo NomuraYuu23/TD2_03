@@ -35,6 +35,12 @@ void ClearPlayer::Initialize(const std::array<Model*, PlayerPartIndex::kPlayerPa
 
 	position_ = { 0.0f,0.0f,0.0f };
 
+	leftLegRotate_[0] = { 0.0f,0.0f,-0.3925f };
+	leftLegRotate_[1] = { 0.0f,0.0f,0.0f };
+
+	rightLegRotate_[0] = { 0.0f,0.0f,0.3925f };
+	rightLegRotate_[1] = { 0.0f,0.0f,0.0f };
+
 	objName_ = objName;
 
 	RegisteringGlobalVariables();
@@ -59,7 +65,7 @@ void ClearPlayer::Update()
 	worldTransforms_[kPlayerPartIndexLeftLeg].transform_.rotate.x = -rotate_.x;
 	worldTransforms_[kPlayerPartIndexRightLeg].transform_.rotate.x = -rotate_.x;
 
-	worldTransforms_[kPlayerPartIndexBody].transform_.translate = position_;
+	Fluffy();
 
 	for (uint32_t i = 0; i < worldTransforms_.size(); i++) {
 		worldTransforms_[i].transform_.scale = size_;
@@ -77,6 +83,30 @@ void ClearPlayer::Draw(BaseCamera& camera)
 
 }
 
+void ClearPlayer::Fluffy()
+{
+
+	if (itIncreaseMoveT_) {
+		moveT_ += moveTSpeed_;
+		if (moveT_ >= 1.0f) {
+			moveT_ = 1.0f;
+			itIncreaseMoveT_ = false;
+		}
+	}
+	else {
+		moveT_ -= moveTSpeed_;
+		if (moveT_ <= 0.0f) {
+			moveT_ = 0.0f;
+			itIncreaseMoveT_ = true;
+		}
+	}
+
+	worldTransforms_[kPlayerPartIndexBody].transform_.translate = Ease::Easing(Ease::EaseName::EaseInOutQuad, position_[0], position_[1], moveT_);
+	worldTransforms_[kPlayerPartIndexLeftLeg].transform_.rotate.z = Ease::Easing(Ease::EaseName::EaseInOutQuad, leftLegRotate_[0].z, leftLegRotate_[1].z, moveT_);
+	worldTransforms_[kPlayerPartIndexRightLeg].transform_.rotate.z = Ease::Easing(Ease::EaseName::EaseInOutQuad, rightLegRotate_[0].z, rightLegRotate_[1].z, moveT_);
+
+}
+
 void ClearPlayer::RegisteringGlobalVariables()
 {
 
@@ -87,7 +117,10 @@ void ClearPlayer::RegisteringGlobalVariables()
 	globalVariables->AddItem(groupName, objName_ + "RotateParameterSpeed", rotateParameterSpeed_);
 	globalVariables->AddItem(groupName, objName_ + "RotateMax", rotateMax_);
 	globalVariables->AddItem(groupName, objName_ + "Size", size_);
-	globalVariables->AddItem(groupName, objName_ + "Positon", position_);
+	//globalVariables->AddItem(groupName, objName_ + "Positon", position_);
+	globalVariables->AddItem(groupName, objName_ + "Position0", position_[0]);
+	globalVariables->AddItem(groupName, objName_ + "Position1", position_[1]);
+	globalVariables->AddItem(groupName, objName_ + "MoveTSpeed", moveTSpeed_);
 
 }
 
@@ -101,6 +134,9 @@ void ClearPlayer::ApplyGlobalVariables()
 	rotateParameterSpeed_ = globalVariables->GetFloatValue(groupName, objName_ + "RotateParameterSpeed");
 	rotateMax_ = globalVariables->GetFloatValue(groupName, objName_ + "RotateMax");
 	size_ = globalVariables->GetVector3Value(groupName, objName_ + "Size");
-	position_ = globalVariables->GetVector3Value(groupName, objName_ + "Positon");
+	//position_ = globalVariables->GetVector3Value(groupName, objName_ + "Positon");
+	position_[0] = globalVariables->GetVector3Value(groupName, objName_ + "Position0");
+	position_[1] = globalVariables->GetVector3Value(groupName, objName_ + "Position1");
+	moveTSpeed_ = globalVariables->GetFloatValue(groupName, objName_ + "MoveTSpeed");
 
 }
