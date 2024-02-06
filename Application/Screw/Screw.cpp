@@ -291,7 +291,22 @@ void Screw::Stuck(){
 		audioManager_->PlayWave(kGameAudioNameIndexScrewRemove);
 	}
 	stuckLength_++;
-	stuckTime_--;
+	if (!isReStuckInGame_) {
+		stuckTime_--;
+	}
+	else {
+		if (reStuckAnimationFrame_ < reStuckAnimationLength_/3) {
+			stuckTime_ = kStuckMax  - (kStuckMax -reStuckTime_)*2/3;
+		}
+		else if (reStuckAnimationFrame_ < reStuckAnimationLength_*2 / 3) {
+			stuckTime_ = kStuckMax - (kStuckMax - reStuckTime_) * 1 / 3;
+		}
+		else {
+			stuckTime_ = kStuckMax;
+			isReStuckInGame_ = false;
+		}
+		reStuckAnimationFrame_++;
+	}
 }
 
 
@@ -321,8 +336,13 @@ void Screw::TurnOver() {
 		}
 	}
 	else if (state_ == STUCK) {
-		stuckTime_ = kStuckMax;
-		isReStuck_ = true;
+		if (!isReStuckInGame_) {
+			//stuckTime_ = kStuckMax;
+			reStuckTime_ = stuckTime_;
+			isReStuck_ = true;
+			isReStuckInGame_ = true;
+			reStuckAnimationFrame_ = 0;
+		}
 	}
 }
 

@@ -32,7 +32,7 @@ public:
 	void Draw(Model* model, BaseCamera& camera);
 	void DrawOutLine(Model* model, BaseCamera& camera, OutLineData& outLineData);
 	void DrawSweat(Model* model, BaseCamera& camera, Matrix4x4& billboard);
-	void Throw(const Vector3 position, void* block , size_t num);
+	void Throw(const Vector3 position, void* block, size_t num);
 	void Catch(WorldTransform* magnetWorldPosition);
 	void TurnOver();//ひっくり返す
 
@@ -61,7 +61,7 @@ public:
 	int GetStackLength() { return stuckLength_; };
 	void SetIsFirstStuck(bool is) { isFirstStuck_ = is; };
 	bool GetIsFirstStuck() { return isFirstStuck_; };
-	Block* GetTarget() {return static_cast<Block*>(target_); };
+	Block* GetTarget() { return static_cast<Block*>(target_); };
 
 	void SetState(State state) { state_ = state; }
 	bool GetIsReStuck() { return isReStuck_; };
@@ -91,7 +91,7 @@ private:
 	bool isAttract_;//ufoに吸引されているか
 
 	int32_t kStuckMax = 600;
-	int32_t stuckTime_=0;//刺さっている残り時間
+	int32_t stuckTime_ = 0;//刺さっている残り時間
 	bool isRideBlock_;
 	Vector3 followPosition_;
 	float followSpeed_;
@@ -122,5 +122,9 @@ private:
 	// 回転速度最小
 	static const float rotateSpeedMin_;
 
-	bool isReStuck_=false;//うめなおされたか
+	bool isReStuck_ = false;//うめなおされたか
+	bool isReStuckInGame_ = false;
+	int32_t reStuckTime_ = 0;//うめなおし時のフレーム
+	int32_t reStuckAnimationFrame_;
+	int32_t reStuckAnimationLength_=60;
 };
