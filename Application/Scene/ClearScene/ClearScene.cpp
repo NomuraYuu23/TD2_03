@@ -131,6 +131,7 @@ void ClearScene::Initialize()
 		clearRank_ = 3;
 	}
 
+	rankTextSprite_->SetTextureHandle(rankTextureHandles_[clearRank_]);
 	rankTextSprite_->SetIsInvisible(true);
 
 }
@@ -633,7 +634,6 @@ void ClearScene::RankColorApplyGlobalVariables()
 	rankColors_[2] = globalVariables->GetVector3Value(groupName, objName);
 	objName = "S";
 	rankColors_[3] = globalVariables->GetVector3Value(groupName, objName);
-
 
 	Vector4 color = { rankColors_[clearRank_].x,rankColors_[clearRank_].y,rankColors_[clearRank_].z, 1.0f };
 	rankTextSprite_->SetColor(color);
