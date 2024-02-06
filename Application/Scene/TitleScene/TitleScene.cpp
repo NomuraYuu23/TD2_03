@@ -92,7 +92,7 @@ void TitleScene::Update()
 
 	ImguiDraw();
 
-	if ((input_->TriggerKey(DIK_SPACE) || input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) &&
+	if ((input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) &&
 		requestSceneNo == kTitle) {
 		// 行きたいシーンへ
 		requestSceneNo = kTutorial;

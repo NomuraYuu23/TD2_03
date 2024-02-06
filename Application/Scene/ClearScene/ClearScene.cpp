@@ -124,7 +124,7 @@ void ClearScene::Update()
 
 	ImguiDraw();
 
-	if ((input_->TriggerKey(DIK_SPACE) || input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) &&
+	if ((input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) &&
 		requestSceneNo == kClear && isEndCountUp_) {
 		// 行きたいシーンへ
 		requestSceneNo = kTitle;
