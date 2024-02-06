@@ -97,6 +97,9 @@ void ClearScene::Initialize()
 	connectTenSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	connectHandSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	connectTextSprite_.reset(Sprite::Create(TextureManager::Load("Resources/Sprite/Result/outgame_blockNum_text.png", dxCommon_, textureHandleManager_.get()), titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	
+	rankTextSprite_.reset(Sprite::Create(rankTextureHandles_[clearRank_], titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	
 	SpriteRegisteringGlobalVariables();
 
 	SpriteApplyGlobalVariables();
@@ -125,6 +128,9 @@ void ClearScene::Initialize()
 	else {
 		clearRank_ = 3;
 	}
+
+	//rankTextSprite_->SetIsInvisible(true);
+
 }
 
 void ClearScene::Update()
@@ -292,6 +298,8 @@ void ClearScene::Draw()
 		connectHandSprite_->Draw();
 	}
 	connectTextSprite_->Draw();
+	rankTextSprite_->Draw();
+	
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -332,6 +340,14 @@ void ClearScene::MaterialCreate()
 
 void ClearScene::TextureLoad()
 {
+
+	rankTextureHandles_ = {
+		TextureManager::Load("Resources/Sprite/Result/result_c.png", dxCommon_, textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Result/result_b.png", dxCommon_, textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Result/result_a.png", dxCommon_, textureHandleManager_.get()),
+		TextureManager::Load("Resources/Sprite/Result/result_s.png", dxCommon_, textureHandleManager_.get()),
+	};
+
 }
 
 void ClearScene::LowerVolumeBGM()
@@ -424,6 +440,11 @@ void ClearScene::SpriteRegisteringGlobalVariables()
 	objName = "ConnectTextSprite";
 	globalVariables->AddItem(groupName2, objName + "Position", connectTextPosition_);
 	globalVariables->AddItem(groupName2, objName + "Size", connectTextSize_);
+
+	objName = "RankTextSprite";
+	globalVariables->AddItem(groupName2, objName + "Position", rankTextPosition_);
+	globalVariables->AddItem(groupName2, objName + "Size", rankTextSize_);
+
 }
 
 void ClearScene::SpriteApplyGlobalVariables()
@@ -538,4 +559,11 @@ void ClearScene::SpriteApplyGlobalVariables()
 	connectTextSprite_->SetPosition(connectTextPosition_);
 	connectTextSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
 	connectTextSprite_->SetSize(connectTextSize_);
+
+	objName = "RankTextSprite";
+	rankTextPosition_ = globalVariables->GetVector2Value(groupName2, objName + "Position");
+	rankTextSprite_->SetPosition(rankTextPosition_);
+	rankTextSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
+	rankTextSprite_->SetSize(rankTextSize_);
+
 }
