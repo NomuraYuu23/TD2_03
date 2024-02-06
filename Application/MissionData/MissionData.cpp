@@ -8,15 +8,15 @@ void MissionData::Initialize() {
 	missionPoint_.clear();
 
 	missionBlock_.push_back({  2 ,false,2 });
+	missionBlock_.push_back({  4 ,false,2 });
 	missionBlock_.push_back({  6 ,false,2 });
+	missionBlock_.push_back({  8 ,false,2 });
 	missionBlock_.push_back({ 10 ,false,2 });
+	missionBlock_.push_back({ 12 ,false,2 });
 	missionBlock_.push_back({ 14 ,false,2 });
+	missionBlock_.push_back({ 16 ,false,2 });
 	missionBlock_.push_back({ 20 ,false,2 });
 	missionBlock_.push_back({ 24 ,false,2 });
-	missionBlock_.push_back({ 28 ,false,2 });
-	missionBlock_.push_back({ 32 ,false,2 });
-	missionBlock_.push_back({ 36 ,false,2 });
-	missionBlock_.push_back({ 40 ,false,2 });
 
 	missionPoint_.push_back({ { 20.0f,1.0f, 0.0f },false,4 });
 	missionPoint_.push_back({ { 20.0f,1.0f,20.0f },false,6 });
