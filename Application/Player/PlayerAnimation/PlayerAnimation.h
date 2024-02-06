@@ -21,6 +21,7 @@ enum PlayerAnimationIndex {
 	kPlayerAnimationIndexScrewThrowing, // ねじ投擲状態
 	kPlayerAnimationIndexFalling, // 落下状態
 	kPlayerAnimationIndexLockOn, // ロックオン状態
+	kPlayerAnimationIndexLikelyToFall, // 落ちそうなアニメーション
 	kPlayerAnimationIndexOfCount // 数
 };
 
@@ -85,6 +86,16 @@ public: // サブクラス
 		float shake_ = 0.02f;
 	};
 
+	// 落ちそうなアニメーション
+	struct WorkLikelyToFall{
+		uint32_t frame_ = 30;
+		uint32_t frameCount_ = 0u;
+		uint32_t phaseNum_ = 0;
+		std::array<TransformStructure, PlayerPartIndex::kPlayerPartIndexOfCount> currentTransforms_ = {};
+		std::array<TransformStructure, PlayerPartIndex::kPlayerPartIndexOfCount> nextTransforms_ = {};
+		Ease::EaseName easeName_ = Ease::EaseName::Lerp;
+	};
+
 private: // 重力状態
 
 	enum GravityPhaseIndex {
@@ -108,6 +119,18 @@ private: // ねじ投擲状態
 	};
 	static std::array<AnimationData, ScrewThrowingPhaseIndex::kScrewThrowingPhaseIndexOfCount> screwThrowingAnimationData_;
 
+private: // 落ちそう状態
+
+	enum LikelyToFallPhaseIndex {
+		kScrewThrowingPhaseIndexTilt1, // 傾く1
+		kScrewThrowingPhaseIndexReturn1, // 戻る1
+		kScrewThrowingPhaseIndexTilt2, // 傾く2
+		kScrewThrowingPhaseIndexReturn2, // 戻る2
+		kLikelyToFallPhaseIndexOfCount // 数
+	};
+	static std::array<AnimationData, LikelyToFallPhaseIndex::kLikelyToFallPhaseIndexOfCount> likelyToFallAnimationData_;
+
+
 private: // 文字列
 
 	const std::array <std::string, PlayerPartIndex::kPlayerPartIndexOfCount> kPlayerPartIndexNames_ = {
@@ -124,6 +147,7 @@ private: // 文字列
 		"ScrewThrowing",
 		"Falling",
 		"LockOn",
+		"LikelyToFall",
 	};
 	
 	const std::array <std::string, GravityPhaseIndex::kGravityPhaseIndexOfCount> kGravityPhaseIndexNames_ = {
@@ -139,6 +163,13 @@ private: // 文字列
 		"Turn",
 		"Warp2",
 		"Return",
+	};
+
+	const std::array <std::string, LikelyToFallPhaseIndex::kLikelyToFallPhaseIndexOfCount> kLikelyToFallPhaseIndexNames_ = {
+		"Tilt1",
+		"Return1",
+		"Tilt2",
+		"Return2",
 	};
 
 public:
@@ -181,9 +212,13 @@ private:
 	void FallingInitialize();
 	void FallingUpdate();
 
-	// 落下状態
+	// ロックオン状態
 	void LockOnInitialize();
 	void LockOnUpdate();
+
+	// 落ちそう状態
+	void LikelyToFallInitialize();
+	void LikelyToFallUpdate();
 
 private: // メンバ関数
 
@@ -226,6 +261,8 @@ private:
 	WorkFalling workFalling_;
 
 	WorkLockOn workLockOn_;
+
+	WorkLikelyToFall workLikelyToFall_;
 
 };
 

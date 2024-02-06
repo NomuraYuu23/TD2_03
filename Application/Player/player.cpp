@@ -121,6 +121,9 @@ void Player::Update(Block* block, size_t blockNum) {
 		if (behavior_ == Behavior::kRoot) {
 			notFallTime_--;
 		}
+		else {
+			notFallTime_ = notFallLength_;
+		}
 	}
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
@@ -334,7 +337,10 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 			worldTransform_.transform_.translate = Vector3Calc::Add(worldTransform_.transform_.translate, move);
 		}
 		// アニメーション
-		if (islockOn) {
+		if (notFallTime_ != notFallLength_) {
+			playerAnimationNo_ = kPlayerAnimationIndexLikelyToFall;
+		}
+		else if (islockOn) {
 			playerAnimationNo_ = kPlayerAnimationIndexLockOn;
 		}
 		else if (Vector3Calc::Length(move) == 0.0f) {

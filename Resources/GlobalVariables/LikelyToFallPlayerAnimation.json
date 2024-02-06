@@ -1,0 +1,252 @@
+{
+    "LikelyToFallPlayerAnimation": {
+        "LikelyToFallAnimationDataReturn1BodyRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn1BodyScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn1BodyTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn1EaseName": 30,
+        "LikelyToFallAnimationDataReturn1Frame": 10,
+        "LikelyToFallAnimationDataReturn1LeftLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn1LeftLegScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn1LeftLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn1MagnetRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn1MagnetScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn1MagnetTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn1RightLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn1RightLegScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn1RightLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn2BodyRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn2BodyScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn2BodyTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn2EaseName": 30,
+        "LikelyToFallAnimationDataReturn2Frame": 10,
+        "LikelyToFallAnimationDataReturn2LeftLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn2LeftLegScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn2LeftLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn2MagnetRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn2MagnetScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn2MagnetTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn2RightLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn2RightLegScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataReturn2RightLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt1BodyRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt1BodyScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt1BodyTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt1EaseName": 30,
+        "LikelyToFallAnimationDataTilt1Frame": 10,
+        "LikelyToFallAnimationDataTilt1LeftLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt1LeftLegScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt1LeftLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt1MagnetRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt1MagnetScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt1MagnetTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt1RightLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt1RightLegScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt1RightLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt2BodyRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt2BodyScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt2BodyTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt2EaseName": 30,
+        "LikelyToFallAnimationDataTilt2Frame": 10,
+        "LikelyToFallAnimationDataTilt2LeftLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt2LeftLegScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt2LeftLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt2MagnetRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt2MagnetScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt2MagnetTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt2RightLegRotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt2RightLegScale": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "LikelyToFallAnimationDataTilt2RightLegTranslate": [
+            0.0,
+            0.0,
+            0.0
+        ]
+    }
+}
