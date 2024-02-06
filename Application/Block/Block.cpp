@@ -103,7 +103,7 @@ void Block::Update() {
 	worldTransformSoil_.transform_.scale = {3.0f,3.0f,3.0f};
 	worldTransformSoil_.UpdateMatrix();
 	collider_->center_ = worldTransform_.GetWorldPosition();
-	collider_->size_ = { worldTransform_.transform_.scale.x * 4.0f, worldTransform_.transform_.scale.y/2.0f, worldTransform_.transform_.scale.z * 4.0f };
+	collider_->size_ = { worldTransform_.transform_.scale.x * 3.8f, worldTransform_.transform_.scale.y/2.0f, worldTransform_.transform_.scale.z * 3.8f };
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
 	collider_->worldTransformUpdate();
 
