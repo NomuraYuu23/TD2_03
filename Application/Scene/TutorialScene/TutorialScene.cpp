@@ -721,7 +721,7 @@ void TutorialScene::Draw() {
 	Model::PreDrawOutLine(dxCommon_->GetCommadList());
 
 	for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
-		(*block)->DrawOutLine(modelScrew_.get(), camera_, outline_);
+		//(*block)->DrawOutLine(modelScrew_.get(), camera_, outline_);
 	}
 
 	Model::PostDraw();
