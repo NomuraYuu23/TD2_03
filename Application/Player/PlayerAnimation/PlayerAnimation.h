@@ -20,6 +20,7 @@ enum PlayerAnimationIndex {
 	kPlayerAnimationIndexGravity, // 重力状態
 	kPlayerAnimationIndexScrewThrowing, // ねじ投擲状態
 	kPlayerAnimationIndexFalling, // 落下状態
+	kPlayerAnimationIndexLockOn, // ロックオン状態
 	kPlayerAnimationIndexOfCount // 数
 };
 
@@ -78,6 +79,11 @@ public: // サブクラス
 		Vector3 endRotate_ = { 3.14f,0.0f,0.0f };
 	};
 
+	// ロックオン
+	struct WorkLockOn{
+		float rotateX_ = -0.3f;		
+	};
+
 private: // 重力状態
 
 	enum GravityPhaseIndex {
@@ -116,6 +122,7 @@ private: // 文字列
 		"Gravity",
 		"ScrewThrowing",
 		"Falling",
+		"LockOn",
 	};
 	
 	const std::array <std::string, GravityPhaseIndex::kGravityPhaseIndexOfCount> kGravityPhaseIndexNames_ = {
@@ -173,6 +180,10 @@ private:
 	void FallingInitialize();
 	void FallingUpdate();
 
+	// 落下状態
+	void LockOnInitialize();
+	void LockOnUpdate();
+
 private: // メンバ関数
 
 	/// <summary>
@@ -212,6 +223,8 @@ private:
 	WorkScrewThrowing workScrewThrowing_;
 
 	WorkFalling workFalling_;
+
+	WorkLockOn workLockOn_;
 
 };
 
