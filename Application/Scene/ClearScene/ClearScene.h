@@ -73,6 +73,16 @@ private:
 	/// </summary>
 	void RankStamp();
 
+	/// <summary>
+	/// 外部変数登録
+	/// </summary>
+	void RankColorRegisteringGlobalVariables();
+
+	/// <summary>
+	/// 外部変数適用
+	/// </summa
+	void RankColorApplyGlobalVariables();
+
 private: // メンバ変数
 
 	// スプライト
@@ -196,6 +206,9 @@ private: // メンバ変数
 	float stampT_ = 0.0f;
 	float stampCooltime_ = 0.0f;
 	bool isStamped_ = false;
+
+	// 色
+	std::array<Vector3, 4> rankColors_;
 
 };
 
