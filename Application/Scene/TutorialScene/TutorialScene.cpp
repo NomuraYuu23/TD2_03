@@ -472,12 +472,13 @@ void TutorialScene::Update() {
 			player_->SetIsCanShot(true);
 			target_.SetIsDraw(true);
 		}
-
+		static Screw* firstShotScrew_;
 		//ネジを打ってみよう
 		if (!isClearMission_[2]) {
 			bool isStuck = false;
 			for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
 				if ((*block)->GetAnchorPointScrew(0)) {
+					firstShotScrew_ = (*block)->GetAnchorPointScrew(0);
 					isStuck = true;
 					break;
 				}
@@ -525,9 +526,14 @@ void TutorialScene::Update() {
 		}
 		//照準を切り替えて
 		if (!isClearMission_[5] && target_.GetIsChangeTargetBlock()) {
-			isClearMission_[5] = true;
-			isBeenMissionUpdate_[5] = true;
-			player_->SetIsCanGravity(true);
+			for (std::vector<std::unique_ptr<Block>>::iterator block = blocks_.begin(); block != blocks_.end(); block++) {
+				if ((*block)->GetAnchorPointScrew(0) && (*block)->GetAnchorPointScrew(0) !=firstShotScrew_) {
+					isClearMission_[5] = true;
+					isBeenMissionUpdate_[5] = true;
+					player_->SetIsCanGravity(true);
+					break;
+				}
+			}
 		}
 		if (!isClearMission_[6]) {
 			bool isReStuck = false;
