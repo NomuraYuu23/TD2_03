@@ -101,8 +101,10 @@ void ClearScene::Initialize()
 	rankTextSprite_.reset(Sprite::Create(rankTextureHandles_[clearRank_], titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	
 	SpriteRegisteringGlobalVariables();
+	RankColorRegisteringGlobalVariables();
 
 	SpriteApplyGlobalVariables();
+	RankColorApplyGlobalVariables();
 
 	outline_.Initialize();
 	outline_.color_ = { 0.8f,0.4f,0.1f,1.0f };
@@ -138,6 +140,7 @@ void ClearScene::Update()
 
 #ifdef _DEBUG
 	SpriteApplyGlobalVariables();
+	RankColorApplyGlobalVariables();
 #endif // _DEBUG
 
 
@@ -594,5 +597,45 @@ void ClearScene::RankStamp()
 	Vector2 end = { 480.0f, 360.0f };
 	rankTextSprite_->SetSize(Ease::Easing(Ease::EaseName::EaseInBack, start, end, stampT_));
 	rankTextSprite_->SetIsInvisible(false);
+
+}
+
+void ClearScene::RankColorRegisteringGlobalVariables()
+{
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+
+	const std::string groupName = "RankColor";
+
+	std::string objName = "C";
+	globalVariables->AddItem(groupName, objName, rankColors_[0]);
+	objName = "B";
+	globalVariables->AddItem(groupName, objName, rankColors_[1]);
+	objName = "A";
+	globalVariables->AddItem(groupName, objName, rankColors_[2]);
+	objName = "S";
+	globalVariables->AddItem(groupName, objName, rankColors_[3]);
+
+}
+
+void ClearScene::RankColorApplyGlobalVariables()
+{
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+
+	const std::string groupName = "RankColor";
+
+	std::string objName = "C";
+	rankColors_[0] = globalVariables->GetVector3Value(groupName, objName);
+	objName = "B";
+	rankColors_[1] = globalVariables->GetVector3Value(groupName, objName);
+	objName = "A";
+	rankColors_[2] = globalVariables->GetVector3Value(groupName, objName);
+	objName = "S";
+	rankColors_[3] = globalVariables->GetVector3Value(groupName, objName);
+
+
+	Vector4 color = { rankColors_[clearRank_].x,rankColors_[clearRank_].y,rankColors_[clearRank_].z, 1.0f };
+	rankTextSprite_->SetColor(color);
 
 }
