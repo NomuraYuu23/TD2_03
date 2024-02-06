@@ -33,6 +33,11 @@ void TutorialUIManager::Update(const std::array<bool, 7>& isBeenMissionUpdate, c
 		skipGageSizeStopUpdate_ = true;
 		UIs_[kTutorialUIIndexSkipGage]->SetSize(Vector2{ 0.0f,0.0f });
 	}
+	if (isClearMission[5]) {
+		UIs_[kTutorialUIIndexMissionFrameLeft]->SetPosition(UIInitPositions_[kTutorialUIIndexMissionFrameLeft]);
+		UIs_[kTutorialUIIndexMissionClearLeft]->SetPosition(UIInitPositions_[kTutorialUIIndexMissionClearLeft]);
+		UIs_[kTutorialUIIndexMissionTextLeft]->SetPosition(UIInitPositions_[kTutorialUIIndexMissionTextLeft]);
+	}
 
 	// ミッションの更新が入ったか
 	for (size_t i = 0; i < isBeenMissionUpdate.size(); i++) {
