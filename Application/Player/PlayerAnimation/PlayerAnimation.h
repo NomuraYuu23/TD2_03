@@ -38,7 +38,9 @@ public: // サブクラス
 
 	// 立ち状態
 	struct WorkStand {
-
+		float parameter_ = 0.0f;
+		float parameterSpeed_ = 0.05f;
+		float moveLimit_ = 0.4f;
 	};
 
 	// 歩き状態
