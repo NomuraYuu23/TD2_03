@@ -19,6 +19,8 @@ GameScene::~GameScene()
 		}
 	}
 
+	particleManager_->Finalize();
+
 }
 
 /// <summary>

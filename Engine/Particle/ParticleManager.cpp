@@ -112,11 +112,19 @@ void ParticleManager::Finalize()
 			delete particle;
 			return true;
 			});
+		particleDatas_[i].startInstanceIdMap_->num = 0;
 	}
 	emitters_.remove_if([](IEmitter* emitter) {
 		delete emitter;
 		return true;
 	});
+
+	Matrix4x4Calc* matrix4x4Calc = Matrix4x4Calc::GetInstance();
+	for (size_t i = 0; i < kNumInstanceMax_; i++) {
+		particleForGPUMap_[i].World = matrix4x4Calc->MakeIdentity4x4();
+		particleForGPUMap_[i].WVP = matrix4x4Calc->MakeIdentity4x4();
+		particleForGPUMap_[i].color = { 1.0f,1.0f,1.0f,1.0f };
+	}
 
 }
 

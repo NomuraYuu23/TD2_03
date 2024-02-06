@@ -19,6 +19,8 @@ TutorialScene::~TutorialScene()
 		}
 	}
 
+	particleManager_->Finalize();
+
 }
 
 /// <summary>
