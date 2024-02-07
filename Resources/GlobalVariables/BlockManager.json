@@ -20,7 +20,7 @@
         "blockSpeed Slow": 0.10000000149011612,
         "generatedWidth_": 75.0,
         "generationBlockFrame": 180,
-        "maxBlock": 32,
+        "maxBlock": 64,
         "maxBlockPosition": [
             150.0,
             150.0,
