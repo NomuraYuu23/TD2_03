@@ -11,6 +11,7 @@
 #include "../Screw/Screw.h"
 #include "../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../Particle/EmitterName.h"
+#include "../Particle/Gravity/ForGravity.h"
 #include "../Planet/Planet.h"
 //#include "GlobalVariables.h"
 
@@ -311,6 +312,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 		behaviorRequest_ = Behavior::kDrop;
 		TransformStructure transform{ {1.0f,1.0f,1.0f},{0},{0.0f,3.0f,0.0f} };
 		transform.translate = worldTransformCircle_.GetWorldPosition();
+		ForGravity::GetInstance()->radius_ = magnetRadiusNow_;
 		ParticleManager::GetInstance()->MakeEmitter(transform, 3, 0.005f, 0.5f, ParticleModelIndex::kCircle, ParticleName::kGravityParticle, EmitterName::kGravityEmitter);
 	}
 

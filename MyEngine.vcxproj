@@ -250,6 +250,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\MissionData\MissionData.h" />
     <ClInclude Include="Application\Particle\FlagClear\FlagClearEmitter.h" />
     <ClInclude Include="Application\Particle\FlagClear\FlagClearParticle.h" />
+    <ClInclude Include="Application\Particle\Gravity\ForGravity.h" />
     <ClInclude Include="Application\Particle\Gravity\GravityEmitter.h" />
     <ClInclude Include="Application\Particle\Gravity\GravityParticle.h" />
     <ClInclude Include="Application\Particle\Liner\ForLinerEmitterData.h" />

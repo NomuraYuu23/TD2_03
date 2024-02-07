@@ -2,12 +2,14 @@
 #include "../MakeParticle.h"
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../../Engine/Math/RandomEngine.h"
+#include "ForGravity.h"
 void GravityEmitter::Initialize(const TransformStructure& transform, uint32_t instanceCount,
 	float frequency, float lifeTime, uint32_t particleModelNum, uint32_t paeticleName) {
 	IEmitter::Initialize(transform,instanceCount,frequency,lifeTime,particleModelNum,paeticleName);
-	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
-	const std::string groupName = "Player";
-	radius_ = globalVariables->GetFloatValue(groupName, "MagnetRadius");
+	//GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	//const std::string groupName = "Player";
+	//radius_ = globalVariables->GetFloatValue(groupName, "MagnetRadius");
+	radius_ = ForGravity::GetInstance()->radius_;
 }
 
 void GravityEmitter::Update() {
