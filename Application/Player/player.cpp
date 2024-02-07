@@ -588,6 +588,7 @@ void Player::RainbowColor() {
 void Player::StartUpdate()
 {
 
+	playerAnimationNo_ = kPlayerAnimationIndexStand;
 	playerAnimation_->Update(playerAnimationNo_);
 
 }
