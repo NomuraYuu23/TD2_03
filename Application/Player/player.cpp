@@ -485,6 +485,7 @@ void Player::OnCollision(ColliderParentObject pairObject, CollisionData collidio
 bool Player::isOutGameArea() {
 	float length = std::sqrtf(std::powf(worldTransform_.GetWorldPosition().x,2) + std::powf(worldTransform_.GetWorldPosition().z, 2));
 	if (length >= 190.0f) {
+		isLastBlockConnect_ = false;
 		return true;
 	}
 	return false;
