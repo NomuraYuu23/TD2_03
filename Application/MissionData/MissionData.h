@@ -72,4 +72,5 @@ private:
 	size_t clearMissionPointNum_;//クリアした位置ミッションの数
 	size_t addScrewNumBlock_=0;
 	size_t addScrewNumPoint_ = 0;
+
 };

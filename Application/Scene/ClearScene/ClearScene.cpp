@@ -230,15 +230,15 @@ void ClearScene::Update()
 	rightTenSprite_->SetTextureLeftTop(leftTop);
 	rightTenSprite_->SetTextureSize(size);
 
-	leftTop.x = 128.0f * static_cast<float>(ForResult::GetInstance()->connectNum_ / 100);
+	leftTop.x = 128.0f * static_cast<float>(ForResult::GetInstance()->connectMax_ / 100);
 	connectHandSprite_->SetTextureLeftTop(leftTop);
 	connectHandSprite_->SetTextureSize(size);
 
-	leftTop.x = 128.0f * static_cast<float>((ForResult::GetInstance()->connectNum_ % 100) / 10);
+	leftTop.x = 128.0f * static_cast<float>((ForResult::GetInstance()->connectMax_ % 100) / 10);
 	connectTenSprite_->SetTextureLeftTop(leftTop);
 	connectTenSprite_->SetTextureSize(size);
 
-	leftTop.x = 128.0f * static_cast<float>((ForResult::GetInstance()->connectNum_ % 10));
+	leftTop.x = 128.0f * static_cast<float>((ForResult::GetInstance()->connectMax_ % 10));
 	connectSprite_->SetTextureLeftTop(leftTop);
 	connectSprite_->SetTextureSize(size);
 
