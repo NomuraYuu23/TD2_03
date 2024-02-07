@@ -70,6 +70,7 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 	isUsedGravity_ = false;
 	isCanLockOn_ = true;
 	sizeUpTime_ = 0;
+	magnetRadiusNow_ = 24.0f;
 }
 
 
@@ -115,6 +116,17 @@ void Player::Update(Block* block, size_t blockNum) {
 		sizeUpTime_--;
 		//magnetRadius_ = 48.0f;
 		magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetBigRadius");
+	}
+	if (std::abs(magnetRadius_ - magnetRadiusNow_) > 2.1f) {
+		if (magnetRadius_ > magnetRadiusNow_) {
+			magnetRadiusNow_ += 2.0f;
+		}
+		else {
+			magnetRadiusNow_ -= 2.0f;
+		}
+	}
+	else {
+		magnetRadiusNow_ = magnetRadius_;
 	}
 	gravityFrame_ = globalVariables->GetUIntValue(groupName, "GravityFrame");
 	characterSpeed_ = globalVariables->GetFloatValue(groupName, "CharacterSpeed");
@@ -216,7 +228,7 @@ void Player::Update(Block* block, size_t blockNum) {
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
 	collider_->worldTransformUpdate();
 	magnet_->SetCenter(worldTransform_.GetWorldPosition());
-	magnet_->SetRadius(magnetRadius_);
+	magnet_->SetRadius(magnetRadiusNow_);
 	magnet_->Update();
 	worldTransformCircle_.transform_.scale = { magnet_->GetRadius(),0.5f,magnet_->GetRadius() };
 	worldTransformCircle_.transform_.translate = worldTransform_.GetWorldPosition();

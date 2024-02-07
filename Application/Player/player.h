@@ -179,5 +179,7 @@ private:
 	bool isNotFall = true;
 	int32_t sizeUpTime_;//サイズが大きくなってる時間
 	int32_t sizeUpLength_=0;//大きくなる時間の長さ
-	//float magnetBigRadius_;//大きい間のサイズ
+	float magnetBigRadius_;//大きい間のサイズ
+	float magnetMinRadius_;//小さい間のサイズ
+	float magnetRadiusNow_;//実際に表示しているサイズ
 };
