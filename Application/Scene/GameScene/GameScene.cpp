@@ -253,6 +253,8 @@ void GameScene::Update() {
 		for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
 			(*block)->Update();
 		}
+		// 影
+		ShadowUpdate();
 		return;
 	}
 	if (!startMigration_->GetIsStert()) {
