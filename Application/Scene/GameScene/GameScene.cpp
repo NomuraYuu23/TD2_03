@@ -190,6 +190,9 @@ void GameScene::Initialize() {
 	warningDraw_ = std::make_unique<WarningDraw>();
 	warningDraw_->Initialize(warningDrawTextureHandles_);
 
+	areaOut_ = std::make_unique<AreaOut>();
+	areaOut_->Initialize(areaOutModel_.get());
+
 	audioManager_->PlayWave(kGameAudioNameIndexBGM);
 
 	ForLinerEmitterData::GetInstance()->SetIsDraw(false);
@@ -547,6 +550,9 @@ void GameScene::Update() {
 	// ロケット
 	rocket_->Update();
 
+	// エリア外
+	areaOut_->Update(player_->GetWorldTransform()->GetWorldPosition());
+
 	camera_.Update();
 
 	followCamera_->Update(connectCount);
@@ -687,6 +693,8 @@ void GameScene::Draw() {
 	}
 
 	rocket_->Draw(camera_);
+
+	areaOut_->Draw(camera_);
 
 	shadowManager_->Draw(camera_);
 
@@ -848,6 +856,9 @@ void GameScene::ModelCreate()
 
 	// ロケット
 	rocketModel_.reset(Model::Create("Resources/Model/rocket/", "rocket.obj", dxCommon_, textureHandleManager_.get()));
+
+	// エリア外
+	areaOutModel_.reset(Model::Create("Resources/Model/AreaOut/", "AreaOut.obj", dxCommon_, textureHandleManager_.get()));
 
 }
 
