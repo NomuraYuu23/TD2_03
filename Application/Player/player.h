@@ -167,6 +167,7 @@ private:
 
 	// 歩行速度
 	float characterSpeed_ = 0.3f;
+	float characterFeverSpeed_ = 1.0f;
 
 	// ロケット
 	Rocket* rocket_;
