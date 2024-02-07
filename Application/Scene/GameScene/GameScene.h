@@ -30,6 +30,7 @@
 #include "../../MissionData/MissionData.h"
 #include "../../Rocket/Rocket.h"
 #include "../../WarningDraw/WarningDraw.h"
+#include "../../AreaOut/AreaOut.h"
 
 class GameScene : public IScene
 {
@@ -209,4 +210,9 @@ private:
 
 	int32_t linerLength_=0;
 	int32_t linerMax_=30;
+
+	// エリア外
+	std::unique_ptr<AreaOut> areaOut_;
+	std::unique_ptr<Model> areaOutModel_;
+
 };
