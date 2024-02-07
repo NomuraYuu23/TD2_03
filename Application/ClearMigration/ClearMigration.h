@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "../../Engine/2D/Sprite.h"
+#include "../AudioManager/GameAudioManager.h"
 
 class ClearMigration
 {
@@ -16,6 +17,8 @@ public:
 	void Draw();
 
 	bool GetIsEnd() { return isEnd_; }
+
+	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
 
 private:
 
@@ -43,6 +46,9 @@ private:
 	bool isStart_;
 	// エンド
 	bool isEnd_;
+
+	// オーディオ
+	GameAudioManager* audioManager_;
 
 };
 

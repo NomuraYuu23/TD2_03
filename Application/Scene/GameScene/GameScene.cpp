@@ -169,6 +169,7 @@ void GameScene::Initialize() {
 	// クリア演出
 	clearMigration_ = std::make_unique<ClearMigration>();
 	clearMigration_->Initialize(clearMigrationTextureHandle_);
+	clearMigration_->SetAudioManager(audioManager_.get());
 
 	// スタート演出
 	startMigration_ = std::make_unique<StartMigration>();
