@@ -710,8 +710,13 @@ void UIManager::MissionPointNumUpdate(size_t num)
 
 	Vector2 leftTop = { 0.0f,0.0f };
 
-	// ミッション番号1の位
-	leftTop.x = 135.0f * num;
+	if (num >= 4) {
+		leftTop.x = 135.0f * 3.0f;
+	}
+	else {
+		leftTop.x = 135.0f * num;
+	}
+
 	UIs_[kUIindexMissionFlagColor]->Update(leftTop);
 
 }
