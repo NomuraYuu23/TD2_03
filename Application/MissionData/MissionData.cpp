@@ -16,12 +16,12 @@ void MissionData::Initialize() {
 	missionBlock_.push_back({ 14 ,false,2 });
 	missionBlock_.push_back({ 16 ,false,2 });
 	missionBlock_.push_back({ 20 ,false,2 });
-	missionBlock_.push_back({ 24 ,false,2 });
+	missionBlock_.push_back({ 26 ,false,2 });
 
 	missionPoint_.push_back({ { 20.0f,1.0f, 0.0f },false,4 });
 	missionPoint_.push_back({ { 20.0f,1.0f,20.0f },false,4 });
-	missionPoint_.push_back({ {-80.0f,1.0f, 0.0f },false,4 });
-	missionPoint_.push_back({ { 20.0f,1.0f,80.0f },false,4 });
+	missionPoint_.push_back({ {-80.0f,1.0f, 0.0f },false,2 });
+	missionPoint_.push_back({ { 20.0f,1.0f,80.0f },false,2 });
 
 	missionMax_ = missionBlock_.size() + missionPoint_.size();
 	clearMissionBlockNum_ = 0;
