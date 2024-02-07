@@ -564,7 +564,10 @@ void GameScene::Update() {
 			screwCount++;
 		}
 	}
-
+	//磁力のサイズアップ
+	if (missionData_->IsMissionPointBeenUpdate()) {
+		player_->MagnetSizeUp();
+	}
 	UIManagerUpdateDesc uiManagerUpdateDesc = {
 		gameTimer_,
 		screwCount,

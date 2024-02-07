@@ -2,7 +2,9 @@
     "Player": {
         "CharacterSpeed": 0.30000001192092896,
         "GravityFrame": 30,
+        "MagnetBigRadius": 64.0,
         "MagnetRadius": 24.0,
-        "NotFallLength": 60
+        "NotFallLength": 60,
+        "SizeUpTime": 120
     }
 }
