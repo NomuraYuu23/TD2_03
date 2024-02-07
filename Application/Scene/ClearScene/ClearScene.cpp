@@ -304,7 +304,7 @@ void ClearScene::Draw()
 		rightTenSprite_->Draw();
 	}
 	missionSprite_->Draw();
-	lineSprite_->Draw();
+	//lineSprite_->Draw();
 	line2Sprite_->Draw();
 	line3Sprite_->Draw();
 	if (isStamped_) {

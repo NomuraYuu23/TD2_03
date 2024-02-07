@@ -1,7 +1,7 @@
 {
     "ClearSceneSprite": {
         "ButtonSpritePosition": [
-            430.0,
+            470.0,
             600.0
         ],
         "ButtonSpriteSize": [
@@ -113,12 +113,12 @@
             60.0
         ],
         "TilteSpritePosition": [
-            250.0,
+            290.0,
             159.0
         ],
         "TilteSpriteSize": [
-            450.0,
-            80.0
+            630.0,
+            112.0
         ],
         "ToTitleSpritePosition": [
             700.0,
