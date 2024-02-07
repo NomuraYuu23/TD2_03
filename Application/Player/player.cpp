@@ -31,6 +31,7 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 	globalVariables->AddItem(groupName, "MagnetRadius", magnetRadius_);
 	globalVariables->AddItem(groupName, "GravityFrame", gravityFrame_);
 	globalVariables->AddItem(groupName, "CharacterSpeed", characterSpeed_);
+	globalVariables->AddItem(groupName, "CharacterFeverSpeed", characterFeverSpeed_);
 	globalVariables->AddItem(groupName, "NotFallLength", notFallLength_);
 	globalVariables->AddItem(groupName, "SizeUpTime", sizeUpLength_);
 	globalVariables->AddItem(groupName, "MagnetBigRadius", magnetRadius_);
@@ -139,6 +140,7 @@ void Player::Update(Block* block, size_t blockNum) {
 	}
 	gravityFrame_ = globalVariables->GetUIntValue(groupName, "GravityFrame");
 	characterSpeed_ = globalVariables->GetFloatValue(groupName, "CharacterSpeed");
+	characterFeverSpeed_ = globalVariables->GetFloatValue(groupName, "CharacterFeverSpeed");
 	notFallLength_ = globalVariables->GetIntValue(groupName, "NotFallLength");
 	if (isRideConnectFlooar_) {
 		prePosition_ = worldTransform_.transform_.translate;
@@ -325,7 +327,13 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 			controlLength_++;
 		}
 		//Matrix4x4 newrotation = DirectionToDIrection({0,0.0f,1.0f}, {0, 0.0f, -1.0f});
-		move = Vector3Calc::Multiply(characterSpeed_, Vector3Calc::Normalize(move));;
+		if (sizeUpTime_ > 0) {
+			move = Vector3Calc::Multiply(characterFeverSpeed_, Vector3Calc::Normalize(move));
+		}
+		else {
+			move = Vector3Calc::Multiply(characterSpeed_, Vector3Calc::Normalize(move));
+		}
+
 		//Vector3 cameraDirectionYcorection = {0.0f, viewProjection_->matView.m[1][0] * viewProjection_->matView.m[1][0]* viewProjection_->matView.m[1][2], 0.0f};
 		Matrix4x4 cameraRotateY = Matrix4x4Calc::Inverse(camera_->GetViewMatrix());
 		//cameraRotateY.m[0][0] = 1;
