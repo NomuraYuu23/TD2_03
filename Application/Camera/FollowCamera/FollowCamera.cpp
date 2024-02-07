@@ -13,7 +13,8 @@ void FollowCamera::Initialize() {
 
 	//y固定
 	transform_.translate.y = 10.0f;
-	transform_.rotate.x = 0.1f;
+	transform_.rotate.x = 0.3925f;
+	destinationAngle_.x = 0.3925f;
 
 	BaseCamera::Update();
 
