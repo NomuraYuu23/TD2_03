@@ -173,6 +173,7 @@ void GameScene::Initialize() {
 	// スタート演出
 	startMigration_ = std::make_unique<StartMigration>();
 	startMigration_->Initialize(startMigrationTextureHandle_);
+	startMigration_->SetAudioManager(audioManager_.get());
 
 	// ポーズ
 	pause_ = std::make_unique<Pause>();

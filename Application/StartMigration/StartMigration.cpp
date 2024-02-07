@@ -42,6 +42,7 @@ void StartMigration::Update()
 				postionT_ = 1.0f;
 				isCooltime_ = true;
 				fromTheStart_ = false;
+				audioManager_->PlayWave(kGameAudioNameIndexStart);
 			}
 			pos = Ease::Easing(Ease::EaseName::EaseInCubic, startPositon_, middlePositon_, postionT_);
 		}
