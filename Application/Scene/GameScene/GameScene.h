@@ -214,5 +214,5 @@ private:
 	// エリア外
 	std::unique_ptr<AreaOut> areaOut_;
 	std::unique_ptr<Model> areaOutModel_;
-
+	bool isConnectMode_=true;//接続する状態か
 };

@@ -198,6 +198,8 @@ void GameScene::Initialize() {
 	ForLinerEmitterData::GetInstance()->SetIsDraw(false);
 	TransformStructure transform{ {1.0f,1.0f,1.0f},{0},{0.0f,3.0f,0.0f} };
 	ParticleManager::GetInstance()->MakeEmitter(transform, 300, 0.005f, 0.5f, ParticleModelIndex::kCircle, ParticleName::kLinerParticle, EmitterName::kLinerEmitter);
+
+	isConnectMode_ = true;
 }
 
 /// <summary>
@@ -275,11 +277,18 @@ void GameScene::Update() {
 		}
 		return false;
 		});
+
+	//接続モード切り替え
+	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonX)) {
+		isConnectMode_ = !isConnectMode_;
+	}
+
 	bool isRelese = false;
 	int oldConnectCount = 0;
 	for (std::list<Block*>::iterator block = blockManager_->GetBlocks().begin(); block != blockManager_->GetBlocks().end(); block++) {
 		(*block)->Update();
 		(*block)->SetWhiteTextureHandle(whiteTextureHandle_);
+		(*block)->SetIsConnectableMode(isConnectMode_);
 		isRelese = isRelese || (*block)->GetIsRelese();
 		if ((*block)->GetIsConnect() && !(*block)->GetIsCenter()) {
 			oldConnectCount++;

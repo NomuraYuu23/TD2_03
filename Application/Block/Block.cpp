@@ -182,11 +182,13 @@ void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidion
 			worldTransform_.transform_.translate.y = rocal.m[3][1];
 			worldTransform_.transform_.translate.z = rocal.m[3][2];
 			worldTransform_.p*/
-			isConnect_ = true;
-			if (!reConnect_) {
-				isConnectAnimation_ = true;
-				mat_->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
-				alpha_ = 1.0f;
+			if (reConnect_ || isConnectableMode_) {
+				isConnect_ = true;
+				if (!reConnect_) {
+					isConnectAnimation_ = true;
+					mat_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+					alpha_ = 1.0f;
+				}
 			}
 		}
 	}

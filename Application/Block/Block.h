@@ -53,7 +53,7 @@ public:
 
 	bool GetPlayerHasBeenSeen() { return playerHasBeenSeen_; }
 	void SetPlayerHasBeenSeen(bool playerHasBeenSeen) { playerHasBeenSeen_ = playerHasBeenSeen; }
-
+	void SetIsConnectableMode(bool is) { isConnectableMode_ = is; };
 protected:
 
 	std::array<AnchorPoint, anchorNum> anchorPoints_;
@@ -82,4 +82,5 @@ protected:
 	int colorDirection_;
 
 	bool playerHasBeenSeen_ = false;
+	bool isConnectableMode_ = true;//接続を行うモードか
 };
