@@ -114,7 +114,7 @@ void ClearScene::Initialize()
 	missionClearCount_ = 0;
 	missionClearNum_ = MissionData::GetInstance()->GetClearCount();
 	missionMax_ = MissionData::GetInstance()->GetMax();
-	changeNumInterval_ = 30;
+	//changeNumInterval_ = 30;
 	frameCount_ = 0;
 	isEndCountUp_ = false;
 	clearRank_ = 0;
@@ -466,6 +466,7 @@ void ClearScene::SpriteRegisteringGlobalVariables()
 	globalVariables->AddItem(groupName2, objName + "Position", rankTextPosition_);
 	globalVariables->AddItem(groupName2, objName + "Size", rankTextSize_);
 
+
 }
 
 void ClearScene::SpriteApplyGlobalVariables()
@@ -587,6 +588,9 @@ void ClearScene::SpriteApplyGlobalVariables()
 	rankTextSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
 	rankTextSprite_->SetSize(rankTextSize_);
 
+	const std::string groupName4 = "ClearScene";
+	globalVariables->AddItem(groupName4, "ChangeNumInterval", changeNumInterval_);
+	changeNumInterval_ = globalVariables->GetIntValue(groupName4, "ChangeNumInterval");
 }
 
 void ClearScene::RankStamp()
