@@ -408,6 +408,7 @@ void Player::BehaviorRootUpdate(Block* block, size_t blockNum)
 
 void Player::BehaviorAttackUpdate()
 {
+
 	if (attackFrameCount_ > attackFrame_) {
 		behaviorRequest_ = Behavior::kRoot;
 	}
@@ -423,6 +424,11 @@ void Player::BehaviorAttackUpdate()
 		transform.translate = holdScrew_->GetWorldTransform()->GetWorldPosition();
 		transform.translate.y -= 5.0f;
 		ParticleManager::GetInstance()->MakeEmitter(transform, 3, 0.002f, 0.2f, ParticleModelIndex::kCircle, ParticleName::kSparkParticle, EmitterName::kSparkEmitter);
+	}
+
+	if (sizeUpTime_ > 0) {
+		attackFrameCount_++;
+		playerAnimation_->Update(playerAnimationNo_);
 	}
 
 	attackFrameCount_++;
