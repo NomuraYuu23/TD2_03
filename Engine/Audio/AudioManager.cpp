@@ -16,7 +16,7 @@ Audio* AudioManager::audio_ = nullptr;
 void AudioManager::StaticInitialize()
 {
 	// マスター
-	masterVolume_ = 1.0f;
+	masterVolume_ = 0.1f;
 	// BGM
 	BGMVolume_ = 1.0f;
 	// SE
