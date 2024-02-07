@@ -249,6 +249,12 @@ void GameScene::Update() {
 	// スタートUI
 	startMigration_->Update();
 	if (!startMigration_->GetIsEnd() && startMigration_->GetIsStert()) {
+		player_->StartUpdate();
+		followCamera_->Update();
+		camera_ = static_cast<BaseCamera>(*followCamera_.get());
+		for (std::list<std::unique_ptr<Screw>>::iterator block = screws_.begin(); block != screws_.end(); block++) {
+			(*block)->Update();
+		}
 		return;
 	}
 	if (!startMigration_->GetIsStert()) {

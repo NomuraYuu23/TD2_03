@@ -97,6 +97,10 @@ public:
 	int32_t GetNotFallLength() { return notFallLength_; }
 	void MagnetSizeUp() { sizeUpTime_ = sizeUpLength_; };
 	void RainbowColor();
+
+
+	void StartUpdate();
+
 private:
 	WorldTransform worldTransform_;
 

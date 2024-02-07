@@ -584,3 +584,10 @@ void Player::RainbowColor() {
 	Vector4 colorv4 = { color.x,color.y,color.z, 0.5f };
 	materialCircle_->SetColor(colorv4);
 }
+
+void Player::StartUpdate()
+{
+
+	playerAnimation_->Update(playerAnimationNo_);
+
+}
