@@ -31,6 +31,11 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 	globalVariables->AddItem(groupName, "GravityFrame", gravityFrame_);
 	globalVariables->AddItem(groupName, "CharacterSpeed", characterSpeed_);
 	globalVariables->AddItem(groupName, "NotFallLength", notFallLength_);
+	globalVariables->AddItem(groupName, "SizeUpTime", sizeUpLength_);
+	globalVariables->AddItem(groupName, "MagnetBigRadius", magnetRadius_);
+	magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetRadius");
+	globalVariables->AddItem(groupName, "ColorChangeSpeed", colorChangeSpeed_);
+	globalVariables->AddItem(groupName, "WhiteWeight", clampdWhiteWait_);
 	worldTransform_.Initialize();
 	worldTransform_.transform_.translate.y += 4.0f;
 
@@ -66,6 +71,8 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 	isCanGravity_ = true;
 	isUsedGravity_ = false;
 	isCanLockOn_ = true;
+	sizeUpTime_ = 0;
+	magnetRadiusNow_ = 24.0f;
 }
 
 
@@ -106,6 +113,29 @@ void Player::Update(Block* block, size_t blockNum) {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const std::string groupName = "Player";
 	magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetRadius");
+	sizeUpLength_ = globalVariables->GetIntValue(groupName, "SizeUpTime");
+	colorChangeSpeed_ = globalVariables->GetFloatValue(groupName, "ColorChangeSpeed");
+	clampdWhiteWait_ = globalVariables->GetFloatValue(groupName, "WhiteWeight");
+	if (sizeUpTime_>0) {
+		RainbowColor();
+		sizeUpTime_--;
+		//magnetRadius_ = 48.0f;
+		magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetBigRadius");
+	}
+	else {
+		materialCircle_->SetColor({ 0.8f,0.8f,0.8f,0.5f });
+	}
+	if (std::abs(magnetRadius_ - magnetRadiusNow_) > 2.1f) {
+		if (magnetRadius_ > magnetRadiusNow_) {
+			magnetRadiusNow_ += 2.0f;
+		}
+		else {
+			magnetRadiusNow_ -= 2.0f;
+		}
+	}
+	else {
+		magnetRadiusNow_ = magnetRadius_;
+	}
 	gravityFrame_ = globalVariables->GetUIntValue(groupName, "GravityFrame");
 	characterSpeed_ = globalVariables->GetFloatValue(groupName, "CharacterSpeed");
 	notFallLength_ = globalVariables->GetIntValue(groupName, "NotFallLength");
@@ -206,7 +236,7 @@ void Player::Update(Block* block, size_t blockNum) {
 	collider_->SetOtientatuons(worldTransform_.rotateMatrix_);
 	collider_->worldTransformUpdate();
 	magnet_->SetCenter(worldTransform_.GetWorldPosition());
-	magnet_->SetRadius(magnetRadius_);
+	magnet_->SetRadius(magnetRadiusNow_);
 	magnet_->Update();
 	worldTransformCircle_.transform_.scale = { magnet_->GetRadius(),0.5f,magnet_->GetRadius() };
 	worldTransformCircle_.transform_.translate = worldTransform_.GetWorldPosition();
@@ -521,4 +551,36 @@ void Player::CollisionWithRocket()
 		worldTransform_.transform_.translate.y = playerPosY;
 	}
 
+}
+
+void Player::RainbowColor() {
+	static int colorPhase_ = 0;
+	static float color_ = 0.0f;
+	Vector3 color = {0};
+	switch (colorPhase_)
+	{
+	case 0:
+		color = Vector3{ 1.0f - color_,color_, 0.0f };
+		break;
+	case 1:
+		color = Vector3{ 0.0f,1.0f - color_, color_ };
+		break;
+	case 2:
+		color = Vector3{ color_,0.0f, 1.0f - color_ };
+		break;
+	default:
+		break;
+	}
+	color = Vector3Calc::Multiply(1.0f-clampdWhiteWait_, color);
+	color = Vector3Calc::Add(color, Vector3Calc::Multiply(clampdWhiteWait_,Vector3{ 1.0f,1.0f,1.0f }));
+	color_ += colorChangeSpeed_;
+	if (color_ > 1.0f) {
+		color_ = 0;
+		colorPhase_++;
+		if (colorPhase_ > 2) {
+			colorPhase_ = 0;
+		}
+	}
+	Vector4 colorv4 = { color.x,color.y,color.z, 0.5f };
+	materialCircle_->SetColor(colorv4);
 }

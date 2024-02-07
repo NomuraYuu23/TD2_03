@@ -1,8 +1,12 @@
 {
     "Player": {
         "CharacterSpeed": 0.30000001192092896,
+        "ColorChangeSpeed": 0.05000000074505806,
         "GravityFrame": 30,
+        "MagnetBigRadius": 64.0,
         "MagnetRadius": 24.0,
-        "NotFallLength": 60
+        "NotFallLength": 60,
+        "SizeUpTime": 540,
+        "WhiteWeight": 0.30000001192092896
     }
 }

@@ -95,7 +95,8 @@ public:
 
 	int32_t GetNotFallTime() { return notFallTime_; }
 	int32_t GetNotFallLength() { return notFallLength_; }
-
+	void MagnetSizeUp() { sizeUpTime_ = sizeUpLength_; };
+	void RainbowColor();
 private:
 	WorldTransform worldTransform_;
 
@@ -177,5 +178,13 @@ private:
 	int32_t notFallTime_;
 	int32_t notFallLength_=30;//端で落ちないように踏ん張る長さ
 	bool isNotFall = true;
+	int32_t sizeUpTime_;//サイズが大きくなってる時間
+	int32_t sizeUpLength_=0;//大きくなる時間の長さ
+	float magnetBigRadius_;//大きい間のサイズ
+	float magnetMinRadius_;//小さい間のサイズ
+	float magnetRadiusNow_;//実際に表示しているサイズ
 
+	//虹
+	float colorChangeSpeed_=0.1f;
+	float clampdWhiteWait_=0.0f;
 };

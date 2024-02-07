@@ -513,7 +513,10 @@ void GameScene::Update() {
 	if (missionData_->IsMissionPointBeenUpdate()) {
 		planets_[missionData_->GetMissionNumPoint() - 1]->LifeExpectancyAnnounced();
 	}
-
+	ForResult::GetInstance()->connectNum_ = connectCount;
+	if (ForResult::GetInstance()->connectMax_ < connectCount) {
+		ForResult::GetInstance()->connectMax_ = connectCount;
+	}
 #ifdef _DEBUG
 
 	ImGui::Begin("MISSION");
@@ -571,7 +574,10 @@ void GameScene::Update() {
 			screwCount++;
 		}
 	}
-
+	//磁力のサイズアップ
+	if (missionData_->IsMissionPointBeenUpdate()) {
+		player_->MagnetSizeUp();
+	}
 	UIManagerUpdateDesc uiManagerUpdateDesc = {
 		gameTimer_,
 		screwCount,

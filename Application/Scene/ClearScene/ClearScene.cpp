@@ -114,7 +114,7 @@ void ClearScene::Initialize()
 	missionClearCount_ = 0;
 	missionClearNum_ = MissionData::GetInstance()->GetClearCount();
 	missionMax_ = MissionData::GetInstance()->GetMax();
-	changeNumInterval_ = 30;
+	//changeNumInterval_ = 30;
 	frameCount_ = 0;
 	isEndCountUp_ = false;
 	clearRank_ = 0;
@@ -230,15 +230,15 @@ void ClearScene::Update()
 	rightTenSprite_->SetTextureLeftTop(leftTop);
 	rightTenSprite_->SetTextureSize(size);
 
-	leftTop.x = 128.0f * static_cast<float>(ForResult::GetInstance()->connectNum_ / 100);
+	leftTop.x = 128.0f * static_cast<float>(ForResult::GetInstance()->connectMax_ / 100);
 	connectHandSprite_->SetTextureLeftTop(leftTop);
 	connectHandSprite_->SetTextureSize(size);
 
-	leftTop.x = 128.0f * static_cast<float>((ForResult::GetInstance()->connectNum_ % 100) / 10);
+	leftTop.x = 128.0f * static_cast<float>((ForResult::GetInstance()->connectMax_ % 100) / 10);
 	connectTenSprite_->SetTextureLeftTop(leftTop);
 	connectTenSprite_->SetTextureSize(size);
 
-	leftTop.x = 128.0f * static_cast<float>((ForResult::GetInstance()->connectNum_ % 10));
+	leftTop.x = 128.0f * static_cast<float>((ForResult::GetInstance()->connectMax_ % 10));
 	connectSprite_->SetTextureLeftTop(leftTop);
 	connectSprite_->SetTextureSize(size);
 
@@ -466,6 +466,7 @@ void ClearScene::SpriteRegisteringGlobalVariables()
 	globalVariables->AddItem(groupName2, objName + "Position", rankTextPosition_);
 	globalVariables->AddItem(groupName2, objName + "Size", rankTextSize_);
 
+
 }
 
 void ClearScene::SpriteApplyGlobalVariables()
@@ -587,6 +588,9 @@ void ClearScene::SpriteApplyGlobalVariables()
 	rankTextSize_ = globalVariables->GetVector2Value(groupName2, objName + "Size");
 	rankTextSprite_->SetSize(rankTextSize_);
 
+	const std::string groupName4 = "ClearScene";
+	globalVariables->AddItem(groupName4, "ChangeNumInterval", changeNumInterval_);
+	changeNumInterval_ = globalVariables->GetIntValue(groupName4, "ChangeNumInterval");
 }
 
 void ClearScene::RankStamp()

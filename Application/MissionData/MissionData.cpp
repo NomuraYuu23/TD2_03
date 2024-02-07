@@ -16,14 +16,15 @@ void MissionData::Initialize() {
 	missionBlock_.push_back({ 14 ,false,2 });
 	missionBlock_.push_back({ 16 ,false,2 });
 	missionBlock_.push_back({ 20 ,false,2 });
-	missionBlock_.push_back({ 24 ,false,2 });
+	missionBlock_.push_back({ 26 ,false,2 });
 
 	missionPoint_.push_back({ { 20.0f,1.0f, 0.0f },false,4 });
-	missionPoint_.push_back({ { 20.0f,1.0f,20.0f },false,6 });
-	missionPoint_.push_back({ {-80.0f,1.0f, 0.0f },false,8 });
-	missionPoint_.push_back({ { 20.0f,1.0f,80.0f },false,10 });
+	missionPoint_.push_back({ { 20.0f,1.0f,20.0f },false,4 });
+	missionPoint_.push_back({ {-80.0f,1.0f, 0.0f },false,2 });
+	missionPoint_.push_back({ { 20.0f,1.0f,80.0f },false,2 });
 
 	missionMax_ = missionBlock_.size() + missionPoint_.size();
+	clearMissionBlockNum_ = 0;
 	clearMissionPointNum_ = 0;
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const std::string groupName = "Planet";
@@ -65,11 +66,13 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 		addScrewNumBlock_ += missionBlock_[missionNumBlock_].addScrewNum_;
 		if (missionBlock_.size() - 1 > missionNumBlock_) {
 			missionNumBlock_++;
+			clearMissionBlockNum_++;
 			isBlockBeenUpdate_ = true;
 		}
 		else  if (!isCompleteBlock_) {
 			isCompleteBlock_ = true;
 			isBlockBeenUpdate_ = true;
+			clearMissionBlockNum_++;
 		}
 	}
 
