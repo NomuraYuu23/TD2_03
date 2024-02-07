@@ -97,6 +97,10 @@ void Player::BehaviorAttackInitialize() {
 		direction_ = 
 			Vector3Calc::Normalize(Vector3Calc::Subtract(blockPosition, playerPosition));
 	}
+
+	if (sizeUpTime_ > 0) {
+		isScrewFever_ = true;
+	}
 	
 }
 
@@ -411,6 +415,7 @@ void Player::BehaviorAttackUpdate()
 
 	if (attackFrameCount_ > attackFrame_) {
 		behaviorRequest_ = Behavior::kRoot;
+		isScrewFever_ = false;
 	}
 
 	if (playerAnimation_->GetScrewThrowPhase() == 3 && holdScrew_) {
@@ -426,7 +431,7 @@ void Player::BehaviorAttackUpdate()
 		ParticleManager::GetInstance()->MakeEmitter(transform, 3, 0.002f, 0.2f, ParticleModelIndex::kCircle, ParticleName::kSparkParticle, EmitterName::kSparkEmitter);
 	}
 
-	if (sizeUpTime_ > 0) {
+	if (isScrewFever_) {
 		attackFrameCount_++;
 		playerAnimation_->Update(playerAnimationNo_);
 	}

@@ -192,4 +192,8 @@ private:
 	//虹
 	float colorChangeSpeed_=0.1f;
 	float clampdWhiteWait_=0.0f;
+
+	// 
+	bool isScrewFever_ = false;
+	
 };
