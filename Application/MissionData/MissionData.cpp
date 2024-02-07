@@ -24,6 +24,7 @@ void MissionData::Initialize() {
 	missionPoint_.push_back({ { 20.0f,1.0f,80.0f },false,10 });
 
 	missionMax_ = missionBlock_.size() + missionPoint_.size();
+	clearMissionBlockNum_ = 0;
 	clearMissionPointNum_ = 0;
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const std::string groupName = "Planet";
@@ -65,11 +66,13 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 		addScrewNumBlock_ += missionBlock_[missionNumBlock_].addScrewNum_;
 		if (missionBlock_.size() - 1 > missionNumBlock_) {
 			missionNumBlock_++;
+			clearMissionBlockNum_++;
 			isBlockBeenUpdate_ = true;
 		}
 		else  if (!isCompleteBlock_) {
 			isCompleteBlock_ = true;
 			isBlockBeenUpdate_ = true;
+			clearMissionBlockNum_++;
 		}
 	}
 
