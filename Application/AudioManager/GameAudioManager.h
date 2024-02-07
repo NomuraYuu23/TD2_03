@@ -16,6 +16,7 @@ enum GameAudioNameIndex {
 	kGameAudioNameIndexPauseDesicion, // ポーズメニュー決定
 	kGameAudioNameIndexFlagGet, //旗入手
 	kGameAudioNameIndexStart, //スタート
+	kGameAudioNameIndexEnd, //終了
 	kGameAudioNameIndexOfCount // 数
 };
 
@@ -65,6 +66,7 @@ private: // メンバ変数
 		"Soundeffect/Common/desicion1.wav",
 		"Soundeffect/Game/ingame_flag_remove.wav",
 		"Soundeffect/Game/ingame_start.wav",
+		"Soundeffect/Game/ingame_finish.wav",
 	};
 
 };
