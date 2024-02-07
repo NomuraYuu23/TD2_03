@@ -34,6 +34,8 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 	globalVariables->AddItem(groupName, "SizeUpTime", sizeUpLength_);
 	globalVariables->AddItem(groupName, "MagnetBigRadius", magnetRadius_);
 	magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetRadius");
+	globalVariables->AddItem(groupName, "ColorChangeSpeed", colorChangeSpeed_);
+	globalVariables->AddItem(groupName, "WhiteWeight", clampdWhiteWait_);
 	worldTransform_.Initialize();
 	worldTransform_.transform_.translate.y += 4.0f;
 
@@ -112,10 +114,16 @@ void Player::Update(Block* block, size_t blockNum) {
 	const std::string groupName = "Player";
 	magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetRadius");
 	sizeUpLength_ = globalVariables->GetIntValue(groupName, "SizeUpTime");
+	colorChangeSpeed_ = globalVariables->GetFloatValue(groupName, "ColorChangeSpeed");
+	clampdWhiteWait_ = globalVariables->GetFloatValue(groupName, "WhiteWeight");
 	if (sizeUpTime_>0) {
+		RainbowColor();
 		sizeUpTime_--;
 		//magnetRadius_ = 48.0f;
 		magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetBigRadius");
+	}
+	else {
+		materialCircle_->SetColor({ 0.8f,0.8f,0.8f,0.5f });
 	}
 	if (std::abs(magnetRadius_ - magnetRadiusNow_) > 2.1f) {
 		if (magnetRadius_ > magnetRadiusNow_) {
@@ -543,4 +551,36 @@ void Player::CollisionWithRocket()
 		worldTransform_.transform_.translate.y = playerPosY;
 	}
 
+}
+
+void Player::RainbowColor() {
+	static int colorPhase_ = 0;
+	static float color_ = 0.0f;
+	Vector3 color = {0};
+	switch (colorPhase_)
+	{
+	case 0:
+		color = Vector3{ 1.0f - color_,color_, 0.0f };
+		break;
+	case 1:
+		color = Vector3{ 0.0f,1.0f - color_, color_ };
+		break;
+	case 2:
+		color = Vector3{ color_,0.0f, 1.0f - color_ };
+		break;
+	default:
+		break;
+	}
+	color = Vector3Calc::Multiply(1.0f-clampdWhiteWait_, color);
+	color = Vector3Calc::Add(color, Vector3Calc::Multiply(clampdWhiteWait_,Vector3{ 1.0f,1.0f,1.0f }));
+	color_ += colorChangeSpeed_;
+	if (color_ > 1.0f) {
+		color_ = 0;
+		colorPhase_++;
+		if (colorPhase_ > 2) {
+			colorPhase_ = 0;
+		}
+	}
+	Vector4 colorv4 = { color.x,color.y,color.z, 0.5f };
+	materialCircle_->SetColor(colorv4);
 }
