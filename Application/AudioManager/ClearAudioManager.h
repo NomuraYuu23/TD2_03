@@ -5,6 +5,7 @@ enum ClearAudioNameIndex {
 	kClearAudioNameIndexBGM, // BGM
 	kClearAudioNameIndexDecision, // 決定
 	kClearAudioNameIndexDecision2, // 決定2
+	kClearAudioNameIndexStamp, // スタンプ
 	kClearAudioNameIndexOfCount // 数
 };
 
@@ -43,6 +44,7 @@ private: // メンバ変数
 		"BGM/result.wav",
 		"Soundeffect/Common/desicion1.wav",
 		"Soundeffect/Common/desicion2.wav",
+		"Soundeffect/Result/result_stamp.wav",
 	};
 
 

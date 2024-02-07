@@ -596,6 +596,10 @@ void ClearScene::SpriteApplyGlobalVariables()
 void ClearScene::RankStamp()
 {
 
+	if (isStamped_) {
+		return;
+	}
+
 	float speed = 0.05f;
 
 	stampT_ += speed;
@@ -606,6 +610,9 @@ void ClearScene::RankStamp()
 			isStamped_ = true;
 		}
 		else {
+			if (stampCooltime_ == 0.0f) {
+				audioManager_->PlayWave(kClearAudioNameIndexStamp);
+			}
 			stampCooltime_ += speed;
 		}
 	}
