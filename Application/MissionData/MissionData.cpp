@@ -97,6 +97,7 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 				clearMissionPointNum_++;
 			}
 			else if(!isCompletePoint_){
+				missionNumPoint_++;
 				isCompletePoint_ = true;
 				isPointBeenUpdate_ = true;
 				clearMissionPointNum_++;

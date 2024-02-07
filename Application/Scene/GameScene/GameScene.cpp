@@ -688,7 +688,8 @@ void GameScene::Draw() {
 			(*ite)->DrawFlag(camera_);
 		}
 	}
-	if (!MissionData::GetInstance()->GetMissionPointVector()[MissionData::GetInstance()->GetMissionNumPoint()].isClear_) {
+	if (MissionData::GetInstance()->GetMissionPointVector().size() > MissionData::GetInstance()->GetMissionNumPoint() && 
+		!MissionData::GetInstance()->GetMissionPointVector()[MissionData::GetInstance()->GetMissionNumPoint()].isClear_) {
 		planets_[MissionData::GetInstance()->GetMissionNumPoint()]->DrawFlag(camera_);
 	}
 
