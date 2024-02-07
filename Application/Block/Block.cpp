@@ -159,7 +159,7 @@ void Block::OnCollision(ColliderParentObject pairObject, CollisionData collidion
 				break;
 			}
 		}
-		if (isStack) {
+		if (isStack && isConnectableMode_) {
 			Vector3 toPlayer = Vector3Calc::Subtract(std::get<Magnet*>(pairObject)->GetCenter(), worldTransform_.GetWorldPosition());
 			toPlayer.y = 0;
 			toPlayer = Vector3Calc::Normalize(toPlayer);
