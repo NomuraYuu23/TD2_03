@@ -198,6 +198,8 @@ void GameScene::Initialize() {
 	ForLinerEmitterData::GetInstance()->SetIsDraw(false);
 	TransformStructure transform{ {1.0f,1.0f,1.0f},{0},{0.0f,3.0f,0.0f} };
 	ParticleManager::GetInstance()->MakeEmitter(transform, 300, 0.005f, 0.5f, ParticleModelIndex::kCircle, ParticleName::kLinerParticle, EmitterName::kLinerEmitter);
+	ForResult::GetInstance()->connectNum_ = 0;
+	ForResult::GetInstance()->connectMax_ = 0;
 }
 
 /// <summary>

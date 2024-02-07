@@ -96,7 +96,7 @@ void ClearScene::Initialize()
 	connectSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	connectTenSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	connectHandSprite_.reset(Sprite::Create(numTextureHandle_, titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
-	connectTextSprite_.reset(Sprite::Create(TextureManager::Load("Resources/Sprite/Result/outgame_blockNum_text.png", dxCommon_, textureHandleManager_.get()), titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
+	connectTextSprite_.reset(Sprite::Create(TextureManager::Load("Resources/Sprite/Result/outgame_blockNum_text2.png", dxCommon_, textureHandleManager_.get()), titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	
 	rankTextSprite_.reset(Sprite::Create(rankTextureHandles_[clearRank_], titlePosition_, Vector4{ 1.0f, 1.0f, 1.0f, 1.0f }));
 	
