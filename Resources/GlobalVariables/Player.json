@@ -5,6 +5,6 @@
         "MagnetBigRadius": 64.0,
         "MagnetRadius": 24.0,
         "NotFallLength": 60,
-        "SizeUpTime": 120
+        "SizeUpTime": 750
     }
 }
