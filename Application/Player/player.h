@@ -95,7 +95,7 @@ public:
 
 	int32_t GetNotFallTime() { return notFallTime_; }
 	int32_t GetNotFallLength() { return notFallLength_; }
-	void MagnetSizeUp() { sizeUpTime_ = 3600; };
+	void MagnetSizeUp() { sizeUpTime_ = sizeUpLength_; };
 private:
 	WorldTransform worldTransform_;
 
@@ -178,4 +178,6 @@ private:
 	int32_t notFallLength_=30;//端で落ちないように踏ん張る長さ
 	bool isNotFall = true;
 	int32_t sizeUpTime_;//サイズが大きくなってる時間
+	int32_t sizeUpLength_=0;//大きくなる時間の長さ
+	//float magnetBigRadius_;//大きい間のサイズ
 };

@@ -31,6 +31,8 @@ void Player::Initialize(const std::array<std::unique_ptr<Model>, PlayerPartIndex
 	globalVariables->AddItem(groupName, "GravityFrame", gravityFrame_);
 	globalVariables->AddItem(groupName, "CharacterSpeed", characterSpeed_);
 	globalVariables->AddItem(groupName, "NotFallLength", notFallLength_);
+	globalVariables->AddItem(groupName, "SizeUpTime", sizeUpLength_);
+	globalVariables->AddItem(groupName, "MagnetBigRadius", magnetRadius_);
 	magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetRadius");
 	worldTransform_.Initialize();
 	worldTransform_.transform_.translate.y += 4.0f;
@@ -108,9 +110,11 @@ void Player::Update(Block* block, size_t blockNum) {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const std::string groupName = "Player";
 	magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetRadius");
+	sizeUpLength_ = globalVariables->GetIntValue(groupName, "SizeUpTime");
 	if (sizeUpTime_>0) {
 		sizeUpTime_--;
-		magnetRadius_ = 48.0f;
+		//magnetRadius_ = 48.0f;
+		magnetRadius_ = globalVariables->GetFloatValue(groupName, "MagnetBigRadius");
 	}
 	gravityFrame_ = globalVariables->GetUIntValue(groupName, "GravityFrame");
 	characterSpeed_ = globalVariables->GetFloatValue(groupName, "CharacterSpeed");
