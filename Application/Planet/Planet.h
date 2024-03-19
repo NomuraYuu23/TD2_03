@@ -44,7 +44,7 @@ public:
 	uint32_t GetFlagLifeTime() { return flagLifeTime_; }
 
 	void SetCollisionTextureHandle(uint32_t handle) { collisionTextureHandle_ = handle; }
-
+	void SetTextureHandle(uint32_t handle) { textureHandle_ = handle; };
 private: // メンバ関数
 
 	/// <summary>

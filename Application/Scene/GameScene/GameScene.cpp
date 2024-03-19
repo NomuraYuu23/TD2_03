@@ -156,6 +156,10 @@ void GameScene::Initialize() {
 		planet->SetPosition(point[num].point);
 		planets_.push_back(std::move(planet));
 	}
+	planets_[0]->SetTextureHandle(TextureManager::Load("Resources/Model/Planet/target_planet_red.png", dxCommon_, textureHandleManager_.get()));
+	//planets_[1]->SetTextureHandle(TextureManager::Load("Resources/Model/Planet/planet.png", dxCommon_, textureHandleManager_.get()));
+	planets_[2]->SetTextureHandle(TextureManager::Load("Resources/Model/Planet/target_planet_yellow.png", dxCommon_, textureHandleManager_.get()));
+	planets_[3]->SetTextureHandle(TextureManager::Load("Resources/Model/Planet/target_planet_perple.png", dxCommon_, textureHandleManager_.get()));
 	planets_[0]->SetFlagTexturehandle(TextureManager::Load("Resources/Model/target_flag/target_flag.png", dxCommon_, textureHandleManager_.get()));
 	planets_[1]->SetFlagTexturehandle(TextureManager::Load("Resources/Model/target_flag/target_flag_blue.png", dxCommon_, textureHandleManager_.get()));
 	planets_[2]->SetFlagTexturehandle(TextureManager::Load("Resources/Model/target_flag/target_flag_yellow.png", dxCommon_, textureHandleManager_.get()));
