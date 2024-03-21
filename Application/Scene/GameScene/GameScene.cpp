@@ -145,6 +145,10 @@ void GameScene::Initialize() {
 	mission_.push_back(36);
 	mission_.push_back(40);
 	missionData_ = MissionData::GetInstance();
+	missionData_->SetFlagTextureHandle(TextureManager::Load("Resources/Sprite/Game/UI/flag_ui_red.png", dxCommon_, textureHandleManager_.get()), 0);
+	missionData_->SetFlagTextureHandle(TextureManager::Load("Resources/Sprite/Game/UI/flag_ui_brue.png", dxCommon_, textureHandleManager_.get()), 1);
+	missionData_->SetFlagTextureHandle(TextureManager::Load("Resources/Sprite/Game/UI/flag_ui_yellow.png", dxCommon_, textureHandleManager_.get()), 2);
+	missionData_->SetFlagTextureHandle(TextureManager::Load("Resources/Sprite/Game/UI/flag_ui_parple.png", dxCommon_, textureHandleManager_.get()), 3);
 	missionData_->Initialize();
 	//MissionData::GetInstance()->SetMax(mission_.size());
 	std::vector<MissionData::MissionToPoint>& point = MissionData::GetInstance()->GetMissionPointVector();
@@ -580,7 +584,7 @@ void GameScene::Update() {
 		}
 	}
 	warningDraw_->Update(camera_.GetViewProjectionMatrix(), warningScrews);
-
+	missionData_->FlagUIUpdate(camera_);
 	// UIマネージャー
 	uint32_t screwCount = 0u;
 	for (std::list<std::unique_ptr<Screw>>::iterator screw = screws_.begin(); screw != screws_.end(); screw++) {
@@ -761,7 +765,7 @@ void GameScene::Draw() {
 	uiManager_->Draw();
 
 	warningDraw_->Draw();
-
+	missionData_->DrawFlagUI();
 	target_.SpriteDraw();
 
 	clearMigration_->Draw();

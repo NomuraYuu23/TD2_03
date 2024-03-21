@@ -1,4 +1,6 @@
 #pragma once
+#include "../../Engine/2D/Sprite.h"
+#include "../../Engine/Camera/BaseCamera.h"
 #include "../../Engine/Math/Vector3.h"
 class MissionData
 {
@@ -55,6 +57,11 @@ public:
 	bool IsCompletePoint() { return isCompletePoint_; }
 	size_t GetAddScrewNumBlock() { return addScrewNumBlock_; };
 	size_t GetAddScrewNumPoint() { return addScrewNumPoint_; };
+	void FlagUIUpdate(BaseCamera& camera);
+	void DrawFlagUI();
+	void SetFlagTextureHandle(uint32_t handle,size_t num) {
+		flagTextureHandles_[num] = handle;
+	};
 private:
 	//size_t missionNum_;
 	size_t missionMax_;
@@ -73,4 +80,8 @@ private:
 	size_t addScrewNumBlock_=0;
 	size_t addScrewNumPoint_ = 0;
 
+
+	std::unique_ptr<Sprite> flagSprite_;
+	uint32_t flagTextureHandles_[4];
+	bool isDrawFlagUI_;
 };

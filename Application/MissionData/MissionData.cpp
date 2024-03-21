@@ -41,6 +41,14 @@ void MissionData::Initialize() {
 	isCompletePoint_ = false;
 	isBlockBeenUpdate_ = false;
 	isPointBeenUpdate_ = false;
+
+	flagSprite_.reset(
+		Sprite::Create(flagTextureHandles_[0],
+			{ 0,0 }, {1.0f,1.0f,1.0f,1.0f}));
+	Vector2 size = { 512.0f , 512.0f };
+	size.x *= 0.15f;
+	size.y *= 0.15f;
+	flagSprite_->SetSize(size);
 }
 
 void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPosition) {
@@ -76,8 +84,10 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 		}
 	}
 
+//	isDrawFlagUI_ = false;
 	//指定座標
 	if (clearMissionPointNum_ < missionPoint_.size()) {
+		//isDrawFlagUI_ = true;
 		float length = Vector3Calc::Length(Vector3Calc::Subtract(missionPoint_[missionNumPoint_].point,playerWorldPosition));
 		if (length <= 2.0f) {
 			missionPoint_[missionNumPoint_].isClear_ = true;
@@ -106,4 +116,27 @@ void MissionData::Update(int32_t connectCount, const Vector3& playerWorldPositio
 		}
 	}
 
+}
+
+void MissionData::FlagUIUpdate(BaseCamera& camera) {
+	isDrawFlagUI_ = false;
+	if (clearMissionPointNum_ < missionPoint_.size()) {
+		Matrix4x4 missionWorld = Matrix4x4Calc::MakeTranslateMatrix(missionPoint_[missionNumPoint_].point);
+		Vector3 pos = Matrix4x4Calc::Transform(missionPoint_[missionNumPoint_].point, camera.GetViewProjectionMatrix());
+		
+		flagSprite_->SetTextureHandle(flagTextureHandles_[missionNumPoint_]);
+		if (pos.x < -1.0f || (pos.y < -1.0f) || (pos.y > 1.0f) || pos.x > 1.0f || pos.z<0) {
+			isDrawFlagUI_ = true;
+			pos = Matrix4x4Calc::Transform(pos, Matrix4x4Calc::MakeViewportMatrix(0,0,1280.0f,720.0f,0.0f,1.0f));
+			pos.x = std::clamp(pos.x,64.0f,1280.0f-64.0f);
+			pos.y = std::clamp(pos.y, 64.0f, 720.0f - 64.0f);
+			flagSprite_->SetPosition({ pos.x,pos.y });
+		}
+	}
+}
+
+void MissionData::DrawFlagUI() {
+	if (isDrawFlagUI_) {
+		flagSprite_->Draw();
+	}
 }
